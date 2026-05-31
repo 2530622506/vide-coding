@@ -1,0 +1,50 @@
+{
+  "id": "TASK-001",
+  "title": "Initialize source registry project scaffold",
+  "type": "chore",
+  "phase": "source-registry",
+  "wave": 1,
+  "status": "completed",
+  "completed_at": "2026-05-31T23:18:00+08:00",
+  "depends_on": [],
+  "read_first": [
+    ".workflow/project.md",
+    ".workflow/roadmap.md",
+    ".workflow/specs/architecture-constraints.md",
+    "package.json",
+    "data/source-registry/README.md"
+  ],
+  "files": [
+    "package.json",
+    ".gitignore",
+    "data/source-registry/README.md",
+    "scripts/.gitkeep",
+    "docs/.gitkeep"
+  ],
+  "action": "Create the minimal repository scaffold needed for a dependency-free source registry and validation script.",
+  "implementation": [
+    "Create `package.json` with `type: module`, project name `gesp-classification-catalog`, and script `validate:sources` mapped to `node scripts/validate-source-registry.mjs`.",
+    "Create `.gitignore` for `node_modules/`, `.DS_Store`, `.env*`, and temporary logs.",
+    "Create `data/source-registry/README.md` explaining that registry files are metadata-first and not problem-statement storage.",
+    "Create placeholder files `scripts/.gitkeep` and `docs/.gitkeep` if their directories have no concrete files yet."
+  ],
+  "convergence": {
+    "criteria": [
+      "grep -q '\"name\": \"gesp-classification-catalog\"' package.json",
+      "grep -q '\"validate:sources\": \"node scripts/validate-source-registry.mjs\"' package.json",
+      "grep -q 'node_modules/' .gitignore",
+      "grep -q 'metadata-first' data/source-registry/README.md"
+    ]
+  },
+  "execution": {
+    "files_modified": [
+      "package.json",
+      ".gitignore",
+      "data/source-registry/README.md",
+      "scripts/.gitkeep",
+      "docs/.gitkeep"
+    ],
+    "tests_passed": "n/a",
+    "summary": "Created minimal Node project scaffold and source registry README."
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "session-archive/1.0",
+  "session_id": "20260531-execute-P1-source-registry",
+  "session_type": "execute",
+  "session_path": ".csv-wave/20260531-execute-P1-source-registry",
+  "lifecycle": {
+    "status": "sealed",
+    "sealed_at": "2026-05-31T23:18:00+08:00",
+    "archived_at": null,
+    "linked_milestone": "M1"
+  },
+  "content_refs": [
+    {
+      "type": "context",
+      "path": "context.md"
+    },
+    {
+      "type": "results",
+      "path": "results.csv"
+    }
+  ],
+  "extraction": {
+    "harvested": false,
+    "reason": "execute-session"
+  },
+  "pruned": null
+}

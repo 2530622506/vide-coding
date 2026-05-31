@@ -1,0 +1,58 @@
+{
+  "id": "PLN-20260601-P7-problem-type-and-knowledge-extraction",
+  "created_at": "2026-06-01T00:25:00+08:00",
+  "scope": "phase",
+  "milestone": "M3",
+  "phase_number": 7,
+  "phase_slug": "problem-type-and-knowledge-extraction",
+  "source": {
+    "roadmap": ".workflow/roadmap.md#phase-7-problem-type-and-knowledge-extraction",
+    "previous_execute": ".workflow/.csv-wave/20260531-execute-P6-level-and-domain-classification/context.md"
+  },
+  "summary": "在等级 / 算法范畴候选之上抽取题型和知识点候选，形成可供题型分类网站使用的 C++ 五级 taxonomy。",
+  "approach": [
+    "继续只处理 C++ canonical problem，不混入 Python、Scratch 或图形化编程。",
+    "题型和知识点只从官方题名、官方短证据、镜像题名和明确 seed rule 抽取。",
+    "每个标签都保存 source、evidence、confidence、syllabus_fit 和 review_status。",
+    "五级 DP 信号不能作为 exact/core 题型或知识点，必须进入复核流程。",
+    "输出先服务目录结构，不做全文题面存储。"
+  ],
+  "task_ids": [
+    "TASK-023",
+    "TASK-024",
+    "TASK-025"
+  ],
+  "waves": [
+    {
+      "wave": 1,
+      "phase_label": "extraction-script",
+      "tasks": [
+        "TASK-023"
+      ]
+    },
+    {
+      "wave": 2,
+      "phase_label": "taxonomy-output",
+      "tasks": [
+        "TASK-024"
+      ]
+    },
+    {
+      "wave": 3,
+      "phase_label": "validation-and-docs",
+      "tasks": [
+        "TASK-025"
+      ]
+    }
+  ],
+  "confidence": {
+    "overall": 0.72,
+    "readiness_gate": "pass",
+    "pressure_pass": "标签是候选层，并带证据、置信度和复核状态；不把 seed 结果当作最终事实。"
+  },
+  "notes": [
+    "Phase 7 不做冲突裁决，冲突和最终置信度进入 Phase 8。",
+    "前端可以先使用 taxonomy 表构建分类目录页面。",
+    "洛谷等登录态来源本阶段未使用，避免账号风险和爬取频率问题。"
+  ]
+}

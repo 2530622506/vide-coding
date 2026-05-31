@@ -1,0 +1,1673 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-31T16:31:25.700Z",
+  "generator": "scripts/build-conflict-confidence-model.mjs",
+  "source_model": "data/classification/conflict-confidence-model.json",
+  "summary": {
+    "total_count": 69,
+    "by_type": {
+      "source_conflict": 1,
+      "tag_conflict": 1,
+      "inferred_seed_rule": 5,
+      "low_confidence_tag": 6,
+      "no_knowledge_level5_problem": 6,
+      "untyped_level5_problem": 6,
+      "source_duplicate": 44
+    },
+    "by_priority": {
+      "high": 2,
+      "medium": 23,
+      "low": 44
+    }
+  },
+  "items": [
+    {
+      "id": "review:b869f8203de679de",
+      "type": "source_conflict",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-1:programming:02",
+      "title": "[GESP202412 三级] 数字替换",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "title_matches_but_session_or_level_differs",
+      "source_ref": {
+        "id": "conflict:39178c1bd2939a58",
+        "normalized_title": "数字替换",
+        "candidate_entry_id": "mirror:luogu-gesp-problem-search:luogu:B4066",
+        "candidate_title": "[GESP202412 三级] 数字替换",
+        "candidate_session": "2024-12",
+        "candidate_level": 3,
+        "candidate_url": "https://www.luogu.com.cn/problem/B4066",
+        "official_problem_ids": [
+          "official:2026-03:c++:level-1:programming:02"
+        ],
+        "official_sessions": [
+          "2026-03"
+        ],
+        "official_levels": [
+          1
+        ],
+        "conflict_basis": "title_matches_but_session_or_level_differs",
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:5a92f7afacb8316a",
+      "type": "tag_conflict",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-1:programming:02",
+      "title": "数字替换",
+      "tag_kind": "algorithm_domain",
+      "tag_value": "sort_simulation",
+      "final_confidence": 0.63,
+      "reason": "record_has_source_conflict",
+      "source_ref": null
+    },
+    {
+      "id": "review:ab2836bc07949483",
+      "type": "inferred_seed_rule",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:programming:01",
+      "title": "有限不循环小数",
+      "tag_kind": "knowledge_point",
+      "tag_value": "unique_factorization",
+      "final_confidence": 0.69,
+      "reason": "community_or_seed_inferred,below_candidate_threshold",
+      "source_ref": null
+    },
+    {
+      "id": "review:bb71464e378a4086",
+      "type": "inferred_seed_rule",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:programming:02",
+      "title": "找数",
+      "tag_kind": "problem_type",
+      "tag_value": "binary_answer_check",
+      "final_confidence": 0.71,
+      "reason": "community_or_seed_inferred",
+      "source_ref": null
+    },
+    {
+      "id": "review:2ebb929ea16218d0",
+      "type": "inferred_seed_rule",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:programming:02",
+      "title": "找数",
+      "tag_kind": "knowledge_point",
+      "tag_value": "lower_bound",
+      "final_confidence": 0.69,
+      "reason": "community_or_seed_inferred,below_candidate_threshold",
+      "source_ref": null
+    },
+    {
+      "id": "review:c62b566a04f1d19e",
+      "type": "inferred_seed_rule",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:programming:02",
+      "title": "找数",
+      "tag_kind": "knowledge_point",
+      "tag_value": "monotonic_check",
+      "final_confidence": 0.69,
+      "reason": "community_or_seed_inferred,below_candidate_threshold",
+      "source_ref": null
+    },
+    {
+      "id": "review:dabb069c7b19fcdf",
+      "type": "inferred_seed_rule",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-6:programming:02",
+      "title": "完全二叉树",
+      "tag_kind": "problem_type",
+      "tag_value": "grid_or_sequence_simulation",
+      "final_confidence": 0.71,
+      "reason": "community_or_seed_inferred",
+      "source_ref": null
+    },
+    {
+      "id": "review:5f932fd9c5101e84",
+      "type": "low_confidence_tag",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-1:programming:01",
+      "title": "交朋友",
+      "tag_kind": "algorithm_domain",
+      "tag_value": "sort_simulation",
+      "final_confidence": 0.67,
+      "reason": "below_candidate_threshold",
+      "source_ref": null
+    },
+    {
+      "id": "review:08477d2bdd21bab0",
+      "type": "low_confidence_tag",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-2:programming:01",
+      "title": "数数",
+      "tag_kind": "algorithm_domain",
+      "tag_value": "sort_simulation",
+      "final_confidence": 0.67,
+      "reason": "below_candidate_threshold",
+      "source_ref": null
+    },
+    {
+      "id": "review:51e2cf1847faf193",
+      "type": "low_confidence_tag",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:programming:02",
+      "title": "找数",
+      "tag_kind": "algorithm_domain",
+      "tag_value": "binary_search",
+      "final_confidence": 0.67,
+      "reason": "below_candidate_threshold",
+      "source_ref": null
+    },
+    {
+      "id": "review:8d011a3c959b3480",
+      "type": "low_confidence_tag",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-6:programming:01",
+      "title": "选数",
+      "tag_kind": "algorithm_domain",
+      "tag_value": "recursion",
+      "final_confidence": 0.67,
+      "reason": "below_candidate_threshold",
+      "source_ref": null
+    },
+    {
+      "id": "review:d7396bd9e6bc4b4c",
+      "type": "low_confidence_tag",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-7:programming:01",
+      "title": "拆分",
+      "tag_kind": "algorithm_domain",
+      "tag_value": "divide_conquer",
+      "final_confidence": 0.67,
+      "reason": "below_candidate_threshold",
+      "source_ref": null
+    },
+    {
+      "id": "review:83d72faf6a26db5c",
+      "type": "low_confidence_tag",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-7:programming:01",
+      "title": "拆分",
+      "tag_kind": "algorithm_domain",
+      "tag_value": "recursion",
+      "final_confidence": 0.67,
+      "reason": "below_candidate_threshold",
+      "source_ref": null
+    },
+    {
+      "id": "review:85f4dc286d27e5bb",
+      "type": "no_knowledge_level5_problem",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:05",
+      "title": "在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "level5_problem_has_no_knowledge_point_tag",
+      "source_ref": null
+    },
+    {
+      "id": "review:eef6b8d0c27ea811",
+      "type": "no_knowledge_level5_problem",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:07",
+      "title": "假设数",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "level5_problem_has_no_knowledge_point_tag",
+      "source_ref": null
+    },
+    {
+      "id": "review:778b7e157f1fa97b",
+      "type": "no_knowledge_level5_problem",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:08",
+      "title": "若一个问题满足最优子结构性质，则一定可以用贪心算法得到最优解。",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "level5_problem_has_no_knowledge_point_tag",
+      "source_ref": null
+    },
+    {
+      "id": "review:a9393c6e1e3ecd27",
+      "type": "no_knowledge_level5_problem",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:07",
+      "title": "下面程序的运行结果为。",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "level5_problem_has_no_knowledge_point_tag",
+      "source_ref": null
+    },
+    {
+      "id": "review:dd1c9a067747ce28",
+      "type": "no_knowledge_level5_problem",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:12",
+      "title": "游戏大赛决赛，两组选手分别按得分从小到大排好队，现在要把他们合并成一个有序排行榜。",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "level5_problem_has_no_knowledge_point_tag",
+      "source_ref": null
+    },
+    {
+      "id": "review:9eb24032c1409ea4",
+      "type": "no_knowledge_level5_problem",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:14",
+      "title": "下面关于排序算法的描述中，不正确的是。",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "level5_problem_has_no_knowledge_point_tag",
+      "source_ref": null
+    },
+    {
+      "id": "review:52775430bb3226c3",
+      "type": "untyped_level5_problem",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:02",
+      "title": "若数组 a 已按升序排列，则下面代码可以正确实现 “在 a 中查找第一个大于等于 x 的元素的位置”",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "level5_problem_has_no_problem_type_tag",
+      "source_ref": null
+    },
+    {
+      "id": "review:9cdea37fb74ca0d0",
+      "type": "untyped_level5_problem",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:05",
+      "title": "在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "level5_problem_has_no_problem_type_tag",
+      "source_ref": null
+    },
+    {
+      "id": "review:1a8a12f1b0f41989",
+      "type": "untyped_level5_problem",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:07",
+      "title": "假设数",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "level5_problem_has_no_problem_type_tag",
+      "source_ref": null
+    },
+    {
+      "id": "review:469f2e331d9908dc",
+      "type": "untyped_level5_problem",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:08",
+      "title": "若一个问题满足最优子结构性质，则一定可以用贪心算法得到最优解。",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "level5_problem_has_no_problem_type_tag",
+      "source_ref": null
+    },
+    {
+      "id": "review:f59e6b8474ea750f",
+      "type": "untyped_level5_problem",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:07",
+      "title": "下面程序的运行结果为。",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "level5_problem_has_no_problem_type_tag",
+      "source_ref": null
+    },
+    {
+      "id": "review:79f82bed9067eced",
+      "type": "untyped_level5_problem",
+      "priority": "medium",
+      "status": "open",
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:08",
+      "title": "在升序数组中查找第一个大于等于 x 的位置，下面循环中横线应填。",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "level5_problem_has_no_problem_type_tag",
+      "source_ref": null
+    },
+    {
+      "id": "review:ac3bac43a1d6c746",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 三级] 二进制回文串",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:c76572d19c11e950",
+        "normalized_title": "二进制回文串",
+        "title": "[GESP202603 三级] 二进制回文串",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B4499"
+        ],
+        "candidate_count": 1,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-3:programming:01"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:483a7cacedcb3fa3",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 一级] 交朋友",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:3576d1817f440cd4",
+        "normalized_title": "交朋友",
+        "title": "[GESP202603 一级] 交朋友",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B4495"
+        ],
+        "candidate_count": 1,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-1:programming:01"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:6449e565de5f383b",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 三级] 凯撒密码",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:4aee329b4644f01e",
+        "normalized_title": "凯撒密码",
+        "title": "[GESP202603 三级] 凯撒密码",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B4500"
+        ],
+        "candidate_count": 1,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-3:programming:02"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:3fb524e915a47afc",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 八级] 子图最短路",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:795aea98ee1c3e9c",
+        "normalized_title": "子图最短路",
+        "title": "[GESP202603 八级] 子图最短路",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P15805"
+        ],
+        "candidate_count": 1,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-8:programming:02"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:3c6e8f0a4e6a2a71",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 六级] 完全二叉树",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:c06f2226f8bd9dc9",
+        "normalized_title": "完全二叉树",
+        "title": "[GESP202603 六级] 完全二叉树",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P15801"
+        ],
+        "candidate_count": 1,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-6:programming:02"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:ee3194e11b0978ed",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 四级] 山之谷",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:a752646d319fb95b",
+        "normalized_title": "山之谷",
+        "title": "[GESP202603 四级] 山之谷",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B4501"
+        ],
+        "candidate_count": 1,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-4:programming:01"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:a3f1128ac4e87204",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 五级] 找数",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:aa013c82697fac25",
+        "normalized_title": "找数",
+        "title": "[GESP202603 五级] 找数",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P15799",
+          "mirror:zqiceberg-gesp-level5:luogu:P15799"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-5:programming:02"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:662f844a89940ad6",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 七级] 拆分",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:bc1b916ed82827a0",
+        "normalized_title": "拆分",
+        "title": "[GESP202603 七级] 拆分",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P15802"
+        ],
+        "candidate_count": 1,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-7:programming:01"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:0bda9bc525139fa4",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202412 三级] 数字替换",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:5dd1e64703b691b7",
+        "normalized_title": "数字替换",
+        "title": "[GESP202412 三级] 数字替换",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B4066",
+          "mirror:luogu-gesp-problem-search:luogu:B4496"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-1:programming:02"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:e742df76a3c6c4fe",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 二级] 数数",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:46143db348204ed5",
+        "normalized_title": "数数",
+        "title": "[GESP202603 二级] 数数",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B4497"
+        ],
+        "candidate_count": 1,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-2:programming:01"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:992c8e54573fa0d6",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 五级] 有限不循环小数",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:6c3934de64542bac",
+        "normalized_title": "有限不循环小数",
+        "title": "[GESP202603 五级] 有限不循环小数",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P15798",
+          "mirror:zqiceberg-gesp-level5:luogu:P15798"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-5:programming:01"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:3f171d62de5686c8",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 八级] 消息查找",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:f6c5db37d64fc816",
+        "normalized_title": "消息查找",
+        "title": "[GESP202603 八级] 消息查找",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P15804"
+        ],
+        "candidate_count": 1,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-8:programming:01"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:21e397cf3ee50fee",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 七级] 物流网络",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:531322e03d610e11",
+        "normalized_title": "物流网络",
+        "title": "[GESP202603 七级] 物流网络",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P15803"
+        ],
+        "candidate_count": 1,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-7:programming:02"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:bb071d814a62fd49",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 二级] 画画",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:e2dd2756c8a7cedf",
+        "normalized_title": "画画",
+        "title": "[GESP202603 二级] 画画",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B4498"
+        ],
+        "candidate_count": 1,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-2:programming:02"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:4fdcacd487906062",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 四级] 礼盒排序",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:9077743d1d4e5f04",
+        "normalized_title": "礼盒排序",
+        "title": "[GESP202603 四级] 礼盒排序",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B4502"
+        ],
+        "candidate_count": 1,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-4:programming:02"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:081798ff6317dc87",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202603 六级] 选数",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_matches_official_programming_problem",
+      "source_ref": {
+        "id": "duplicate:58387fcb89aa1a0d",
+        "normalized_title": "选数",
+        "title": "[GESP202603 六级] 选数",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P15800"
+        ],
+        "candidate_count": 1,
+        "official_problem_ids": [
+          "official:2026-03:c++:level-6:programming:01"
+        ],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_matches_official_programming_problem",
+        "confidence": 0.78,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:0273efa0005dfd65",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202403 五级] B-smooth 数",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:03a4c20e376d5756",
+        "normalized_title": "b-smooth 数",
+        "title": "[GESP202403 五级] B-smooth 数",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B3969",
+          "mirror:zqiceberg-gesp-level5:luogu:B3969"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:a428171e29614a2b",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202506 五级] 最大公因数",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:8c8ce30813b6f9f3",
+        "normalized_title": "最大公因数",
+        "title": "[GESP202506 五级] 最大公因数",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P13014",
+          "mirror:zqiceberg-gesp-level5:luogu:P13014"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:528f2ce508b19843",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202503 五级] 原根判断",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:249c4c577f263228",
+        "normalized_title": "原根判断",
+        "title": "[GESP202503 五级] 原根判断",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P11961",
+          "mirror:zqiceberg-gesp-level5:luogu:P11961"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:cf55bc57134e2c5a",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202309 五级] 因数分解",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:50f230443f9e9089",
+        "normalized_title": "因数分解",
+        "title": "[GESP202309 五级] 因数分解",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B3871",
+          "mirror:zqiceberg-gesp-level5:luogu:B3871"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:6072436c73fe2f28",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202412 五级] 奇妙数字",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:b24d8c011df70666",
+        "normalized_title": "奇妙数字",
+        "title": "[GESP202412 五级] 奇妙数字",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B4070",
+          "mirror:zqiceberg-gesp-level5:luogu:B4070"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:a97c58ed52c7351d",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202506 五级] 奖品兑换",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:5425668be96f86ed",
+        "normalized_title": "奖品兑换",
+        "title": "[GESP202506 五级] 奖品兑换",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P13013",
+          "mirror:zqiceberg-gesp-level5:luogu:P13013"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:44147d4444801746",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202506 六级] 学习小组",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:7a1fa20d34f0d717",
+        "normalized_title": "学习小组",
+        "title": "[GESP202506 六级] 学习小组",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P13015",
+          "mirror:luogu-gesp-problem-search:luogu:P14922"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:7e85a8abde79157e",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202312 五级] 小杨的幸运数",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:d82316d502b19cff",
+        "normalized_title": "小杨的幸运数",
+        "title": "[GESP202312 五级] 小杨的幸运数",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B3929",
+          "mirror:zqiceberg-gesp-level5:luogu:B3929"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:f3c2d880248aaa5e",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202406 五级] 小杨的幸运数字",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:d0a17a2ee0413ca5",
+        "normalized_title": "小杨的幸运数字",
+        "title": "[GESP202406 五级] 小杨的幸运数字",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P10720",
+          "mirror:zqiceberg-gesp-level5:luogu:P10720"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:35d719401e1a2108",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202409 五级] 小杨的武器",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:57ae40242da33e17",
+        "normalized_title": "小杨的武器",
+        "title": "[GESP202409 五级] 小杨的武器",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B4051",
+          "mirror:zqiceberg-gesp-level5:luogu:B4051"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:4b6490cb0b23d0e0",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP样题 五级] 小杨的锻炼",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:1ff74c9b6071d8ab",
+        "normalized_title": "小杨的锻炼",
+        "title": "[GESP样题 五级] 小杨的锻炼",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B3941",
+          "mirror:zqiceberg-gesp-level5:luogu:B3941"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:6f08b8e8d17c6941",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP样题 五级] 小杨的队列",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:292150b07706c4a2",
+        "normalized_title": "小杨的队列",
+        "title": "[GESP样题 五级] 小杨的队列",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B3951",
+          "mirror:zqiceberg-gesp-level5:luogu:B3951"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:e6c3c686994a7986",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202309 五级] 巧夺大奖",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:2f2ff1cefe92b716",
+        "normalized_title": "巧夺大奖",
+        "title": "[GESP202309 五级] 巧夺大奖",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B3872",
+          "mirror:zqiceberg-gesp-level5:luogu:B3872"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:c12a82fec37b72e5",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "6028: [GESP202503 五级] 平均分配",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:1850316d2ed97d29",
+        "normalized_title": "平均分配",
+        "title": "6028: [GESP202503 五级] 平均分配",
+        "candidate_entry_ids": [
+          "mirror:aijieoj-gesp-mirror:aijieoj:6028",
+          "mirror:luogu-gesp-problem-search:luogu:P11960",
+          "mirror:zqiceberg-gesp-level5:luogu:P11960"
+        ],
+        "candidate_count": 3,
+        "official_problem_ids": [],
+        "source_systems": [
+          "aijieoj",
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:24dad610a971fa47",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "2023 年 12 月认证 C++ 五级真题解析",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:bd4d952b7aa61a33",
+        "normalized_title": "年 12 月认证 c++ 真题解析",
+        "title": "2023 年 12 月认证 C++ 五级真题解析",
+        "candidate_entry_ids": [
+          "mirror:github-jonaslgtm-gesp-exam-questions:github:github-08713e4e89e0",
+          "mirror:github-jonaslgtm-gesp-exam-questions:github:github-8033a9052919",
+          "mirror:github-jonaslgtm-gesp-exam-questions:github:github-a95fa2ad8059",
+          "mirror:github-jonaslgtm-gesp-exam-questions:github:github-d55271e0ffe1"
+        ],
+        "candidate_count": 4,
+        "official_problem_ids": [],
+        "source_systems": [
+          "github"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:ed859282e4d95757",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "2023 年 6 月 GESP C++ 二级真题解析",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:599fba16baf368ec",
+        "normalized_title": "年 6 月 gesp c++ 真题解析",
+        "title": "2023 年 6 月 GESP C++ 二级真题解析",
+        "candidate_entry_ids": [
+          "mirror:github-jonaslgtm-gesp-exam-questions:github:github-3f6208013555",
+          "mirror:github-jonaslgtm-gesp-exam-questions:github:github-8ce76e584738",
+          "mirror:github-jonaslgtm-gesp-exam-questions:github:github-e56797ac791c",
+          "mirror:github-jonaslgtm-gesp-exam-questions:github:github-ebf0c1dc9358"
+        ],
+        "candidate_count": 4,
+        "official_problem_ids": [],
+        "source_systems": [
+          "github"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:92c2555790e4d80c",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "2023 年 9 月 GESP C++ 六级试卷解析",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:140b0b93891126ca",
+        "normalized_title": "年 9 月 gesp c++ 试卷解析",
+        "title": "2023 年 9 月 GESP C++ 六级试卷解析",
+        "candidate_entry_ids": [
+          "mirror:github-jonaslgtm-gesp-exam-questions:github:github-7192026bab49",
+          "mirror:github-jonaslgtm-gesp-exam-questions:github:github-e0b6b4dab078",
+          "mirror:github-jonaslgtm-gesp-exam-questions:github:github-e3e3b61df533",
+          "mirror:github-jonaslgtm-gesp-exam-questions:github:github-ec22d63082aa",
+          "mirror:github-jonaslgtm-gesp-exam-questions:github:github-f2e288a0e227"
+        ],
+        "candidate_count": 5,
+        "official_problem_ids": [],
+        "source_systems": [
+          "github"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:dec9e9ef21e70f91",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202403 五级] 成绩排序",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:cdcfb2540e7b1d37",
+        "normalized_title": "成绩排序",
+        "title": "[GESP202403 五级] 成绩排序",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B3968",
+          "mirror:zqiceberg-gesp-level5:luogu:B3968"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:5cdc98a684fc6c76",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202409 五级] 挑战怪物",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:0244051e161391b6",
+        "normalized_title": "挑战怪物",
+        "title": "[GESP202409 五级] 挑战怪物",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B4050",
+          "mirror:zqiceberg-gesp-level5:luogu:B4050"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:a76cb7975b189635",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202512 五级] 数字移动",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:25cd2bd6e028b17c",
+        "normalized_title": "数字移动",
+        "title": "[GESP202512 五级] 数字移动",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P14917",
+          "mirror:zqiceberg-gesp-level5:luogu:P14917"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:1e8d1182abeed16e",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202509 五级] 数字选取",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:3f78059d071be354",
+        "normalized_title": "数字选取",
+        "title": "[GESP202509 五级] 数字选取",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P14073",
+          "mirror:zqiceberg-gesp-level5:luogu:P14073"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:3853faed06c2795a",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202509 五级] 有趣的数字和",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:ef65d205ece03ee0",
+        "normalized_title": "有趣的数字和",
+        "title": "[GESP202509 五级] 有趣的数字和",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P14074",
+          "mirror:zqiceberg-gesp-level5:luogu:P14074"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:7a3836b5e1849da7",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202412 五级] 武器强化",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:37668d9770ee88d4",
+        "normalized_title": "武器强化",
+        "title": "[GESP202412 五级] 武器强化",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B4071",
+          "mirror:zqiceberg-gesp-level5:luogu:B4071"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:7c3adfdee4c7b606",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202312 五级] 烹饪问题",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:c221d2237fcb92e2",
+        "normalized_title": "烹饪问题",
+        "title": "[GESP202312 五级] 烹饪问题",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B3930",
+          "mirror:zqiceberg-gesp-level5:luogu:B3930"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:7857fee57deb6e23",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202512 五级] 相等序列",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:c02c59f81d156360",
+        "normalized_title": "相等序列",
+        "title": "[GESP202512 五级] 相等序列",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P14918",
+          "mirror:zqiceberg-gesp-level5:luogu:P14918"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:ecd5557d89a8bd12",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP样题 三级] 进制转换",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:4bdcf1d1ab88872c",
+        "normalized_title": "进制转换",
+        "title": "[GESP样题 三级] 进制转换",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B3849",
+          "mirror:luogu-gesp-problem-search:luogu:B3869"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:118a769dedbdfccd",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202406 四级] 黑白方块",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:9efef5801d759bb0",
+        "normalized_title": "黑白方块",
+        "title": "[GESP202406 四级] 黑白方块",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:B4005",
+          "mirror:luogu-gesp-problem-search:luogu:B4040"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    },
+    {
+      "id": "review:5d20be48a1a23632",
+      "type": "source_duplicate",
+      "priority": "low",
+      "status": "open",
+      "canonical_problem_id": null,
+      "title": "[GESP202406 五级] 黑白格",
+      "tag_kind": null,
+      "tag_value": null,
+      "final_confidence": null,
+      "reason": "normalized_title_shared_by_mirror_entries",
+      "source_ref": {
+        "id": "duplicate:93b59af8bc7533b5",
+        "normalized_title": "黑白格",
+        "title": "[GESP202406 五级] 黑白格",
+        "candidate_entry_ids": [
+          "mirror:luogu-gesp-problem-search:luogu:P10719",
+          "mirror:zqiceberg-gesp-level5:luogu:P10719"
+        ],
+        "candidate_count": 2,
+        "official_problem_ids": [],
+        "source_systems": [
+          "luogu"
+        ],
+        "match_basis": "normalized_title_shared_by_mirror_entries",
+        "confidence": 0.62,
+        "review_status": "needs_review"
+      }
+    }
+  ]
+}

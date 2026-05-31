@@ -1,0 +1,11 @@
+id,result_status,findings,score,evidence,error
+"1","completed","Official C++/Python level 5 excludes DP; simple DP is level 6 and complex DP is level 7. This must be shown as a query warning, not hidden.","","CCF standard PDF; official GESP site; 2026 revision notice",""
+"2","completed","Official true-question pages expose exam sessions and per-level PDF links. Third-party OJ mirrors are useful for problem IDs and solved examples but should not be canonical.","","Official true-question index; Luogu training list; zqiceberg GESP 5 list",""
+"3","completed","Best product form is an evidence-backed problem-type classification graph with source provenance and confidence per tag.","","User topic and source analysis",""
+"4","completed","Feasibility is strong for a narrow MVP; full automation should be iterative.","82","Official PDFs are public and parsable; classification still needs review",""
+"5","completed","Impact is high for GESP prep because current information is scattered across official PDFs, OJ pages, training lists, and blog analysis.","88","Observed multiple source types and inconsistent tag labels",""
+"6","completed","Risk is moderate-high around copyright, crawling terms, parser errors, and inferred tags.","64","Need source registry, attribution, cache, review queue",""
+"7","completed","Complexity is large: crawler/parser, classifier, search, admin validation, and UI are separate subsystems.","72","Subsystem count >= 3",""
+"8","completed","Alignment is very strong with the user's described query workflow.","91","Directly answers level+algorithm -> topic+problem+knowledge mapping",""
+"9","completed","Maintainability is acceptable if provenance and tag evidence are first-class models.","79","Versioned documents and reviewer overrides reduce drift",""
+"10","completed","Go with large-scope roadmap. MVP should start with official C++ level 5 sources, tag evidence, and a searchable UI.","","Synthesis of scores",""

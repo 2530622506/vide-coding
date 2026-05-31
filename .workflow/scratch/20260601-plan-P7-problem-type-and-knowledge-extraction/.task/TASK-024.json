@@ -1,0 +1,19 @@
+{
+  "id": "TASK-024",
+  "title": "Generate C++ level 5 taxonomy output",
+  "description": "Generate full C++ problem knowledge output and a level 5 taxonomy table for the frontend catalog.",
+  "files": [
+    "data/classification/problem-type-knowledge.json",
+    "data/classification/cxx-level5-taxonomy-table.json"
+  ],
+  "convergence_criteria": [
+    "record count matches level/domain classification",
+    "C++ level 5 taxonomy includes linked_list, number_theory and binary_search",
+    "level 5 DP is not exact problem type or knowledge point"
+  ],
+  "verification": [
+    "npm run extract:problem-knowledge",
+    "npm run validate:problem-knowledge"
+  ],
+  "status": "completed"
+}

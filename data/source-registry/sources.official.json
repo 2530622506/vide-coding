@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "official-gesp-home",
+      "name": "GESP 官方首页",
+      "url": "https://gesp.ccf.org.cn/101/index.html",
+      "source_type": "official_home",
+      "trust_level": "canonical",
+      "crawl_strategy": "html_index",
+      "license_status": "official_public",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++",
+        "Python",
+        "图形化编程"
+      ],
+      "level_scope": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "content_scope": [
+        "navigation",
+        "announcement"
+      ],
+      "notes": "Official entry point. Use for discovery only; canonical syllabus and problem metadata should come from linked official pages and PDFs."
+    },
+    {
+      "id": "official-gesp-syllabus",
+      "name": "GESP 认证标准与考试大纲",
+      "url": "https://gesp.ccf.org.cn/101/1008/10012.html",
+      "source_type": "official_syllabus",
+      "trust_level": "canonical",
+      "crawl_strategy": "html_index",
+      "license_status": "official_public",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++",
+        "Python",
+        "图形化编程"
+      ],
+      "level_scope": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "content_scope": [
+        "syllabus",
+        "level_standard",
+        "knowledge_points"
+      ],
+      "notes": "Canonical source for level and knowledge-point scope."
+    },
+    {
+      "id": "official-gesp-standard-pdf-2024",
+      "name": "GESP C++/Python 编程能力等级标准 PDF",
+      "url": "https://gesp.ccf.org.cn/101/attach/1725701770182688.pdf",
+      "source_type": "official_syllabus",
+      "trust_level": "canonical",
+      "crawl_strategy": "pdf_attachment",
+      "license_status": "official_public",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++",
+        "Python"
+      ],
+      "level_scope": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "content_scope": [
+        "syllabus_pdf",
+        "level_standard",
+        "knowledge_points"
+      ],
+      "notes": "Canonical PDF used to distinguish level-5 topics from level-6/7 DP topics."
+    },
+    {
+      "id": "official-gesp-true-questions",
+      "name": "GESP 官方真题解析",
+      "url": "https://gesp.ccf.org.cn/101/1010/index.html",
+      "source_type": "official_true_questions",
+      "trust_level": "canonical",
+      "crawl_strategy": "html_index",
+      "license_status": "official_public",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++",
+        "Python",
+        "图形化编程"
+      ],
+      "level_scope": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "content_scope": [
+        "exam_session",
+        "true_question_pdf",
+        "answer_pdf"
+      ],
+      "notes": "Canonical source for exam sessions and official true-question PDF attachments."
+    },
+    {
+      "id": "official-gesp-sample-questions",
+      "name": "GESP 官方样题",
+      "url": "https://gesp.ccf.org.cn/101/1010/10088.html",
+      "source_type": "official_sample_questions",
+      "trust_level": "canonical",
+      "crawl_strategy": "html_detail",
+      "license_status": "official_public",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++",
+        "Python",
+        "图形化编程"
+      ],
+      "level_scope": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "content_scope": [
+        "sample_question_pdf",
+        "sample_answer"
+      ],
+      "notes": "Canonical sample-question source; keep separate from true-question sessions."
+    }
+  ]
+}

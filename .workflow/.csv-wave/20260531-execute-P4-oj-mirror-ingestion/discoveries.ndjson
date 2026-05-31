@@ -1,0 +1,3 @@
+{"at":"2026-05-31T23:52:00+08:00","type":"source","message":"GitHub repository jonaslgtm/gesp-exam-questions exposes a recursive tree with C++ sample PDFs, C++ past-exam PDFs and C++ solution PDFs alongside Python and graphical content."}
+{"at":"2026-05-31T23:54:00+08:00","type":"parser_rule","message":"GitHub path titles use plus signs as separators; title cleanup must preserve C++ while replacing separator plus signs."}
+{"at":"2026-05-31T23:58:00+08:00","type":"verification","message":"OJ ingestion produced 345 entries including 106 GitHub C++ reference entries and 44 duplicate candidates after OJ-ID title normalization."}

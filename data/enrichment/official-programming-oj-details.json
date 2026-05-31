@@ -1,0 +1,2094 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-31T18:23:46.172Z",
+  "generator": "scripts/enrich-official-programming-oj-details.mjs",
+  "inputs": {
+    "canonical_alignment": "data/canonical-problems/canonical-problem-alignment.json",
+    "problem_details": "data/classification/problem-details.json"
+  },
+  "request": {
+    "limit": 16,
+    "delay_ms": 1500
+  },
+  "crawl_policy": {
+    "public_pages_only": true,
+    "login_used": false,
+    "credentials_used": false,
+    "low_frequency_delay_ms": 1500,
+    "source_terms_status": "needs_review",
+    "ai_fallback_policy": "未从公开来源抽取到答案、图片或讲解时，可以生成学习辅助内容，但必须标注 AI 生成并进入复核。"
+  },
+  "summary": {
+    "attempted_count": 16,
+    "extracted_count": 16,
+    "failed_count": 0,
+    "statement_extracted_count": 16,
+    "sample_extracted_count": 16,
+    "visual_asset_count": 1,
+    "visual_asset_source_extracted_count": 1,
+    "visual_asset_none_found_count": 15
+  },
+  "records": [
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-1:programming:01",
+      "title": "[GESP202603 一级] 交朋友",
+      "session": "2026-03",
+      "level": 1,
+      "oj_system": "luogu",
+      "oj_id": "B4495",
+      "source_url": "https://www.luogu.com.cn/problem/B4495",
+      "fetched_at": "2026-05-31T18:22:59.407Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 一级] 交朋友",
+        "source_url": "https://www.luogu.com.cn/problem/B4495",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1205>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "Alice 班上共有 4 个小朋友，身高分别为 $H_1$, $H_2$, $H_3$, $H_4$，其中 Alice 的身高为 $H_1$。Alice 想要和身高最接近她的人交朋友，如果有多个人符合条件，则 Alice 想和其中较矮的那一人做朋友，你能告诉她这个人的身高是多少吗？"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "输入共 4 行，第 $i$ 行包含一个整数 $H_i$，表示班上小朋友的身高。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出 1 行，包含一个整数 $h$，表示 Alice 想交的朋友的身高。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "### 样例解释\n\n样例 1 中，Alice 身高为 $150$，第 2、3 个小朋友与 Alice 身高差距为 $15$，同样最接近，Alice 选较矮的一个即第 $3$ 个身高为 $135$ 的小朋友交朋友。\n\n### 数据范围\n\n保证 $100 \\leq H_i \\leq 199$ 且 $H_i$ 互不相同。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "150\n165\n135\n133",
+            "output": "135"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/B4495",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-1:programming:02",
+      "title": "[GESP202603 一级] 数字替换",
+      "session": "2026-03",
+      "level": 1,
+      "oj_system": "luogu",
+      "oj_id": "B4496",
+      "source_url": "https://www.luogu.com.cn/problem/B4496",
+      "fetched_at": "2026-05-31T18:23:02.565Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 一级] 数字替换",
+        "source_url": "https://www.luogu.com.cn/problem/B4496",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1205>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "Alice 不喜欢数字 $4$，但觉得数字 $8$ 寓意好，她想把数中的 $4$ 全都替换成 $8$，若数中不含 $4$ 则无需修改，你能帮帮她吗？"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "输入一行，包含一个整数 $A$，表示替换前的数。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，包含一个整数 $B$，表示替换后的数。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "### 样例解释\n\n对于样例 $1$，输入 $8459045$ 中有两个 $4$，都将其替换为了 $8$，得到 $8859085$。\n\n对于样例 $2$，输入 $123$ 中不包含 $4$，无需修改输入数字，输出 $123$。\n\n\n### 数据范围\n\n保证 $0\\leq A\\leq 10^8$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "8459045",
+            "output": "8859085"
+          },
+          {
+            "input": "123",
+            "output": "123"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/B4496",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-2:programming:01",
+      "title": "[GESP202603 二级] 数数",
+      "session": "2026-03",
+      "level": 2,
+      "oj_system": "luogu",
+      "oj_id": "B4497",
+      "source_url": "https://www.luogu.com.cn/problem/B4497",
+      "fetched_at": "2026-05-31T18:23:05.773Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 二级] 数数",
+        "source_url": "https://www.luogu.com.cn/problem/B4497",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1206>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "对于正整数 $n$，如果 $n$ 的所有数位中包含恰好 $3$ 个 $2$，Alice 会认为这个正整数是美丽的。例如，正整数 $24122$ 中包含 $3$ 个 $2$，所以 $24122$ 是美丽的；正整数 $132$ 中包含 $1$ 个 $2$，所以 $132$ 不是美丽的；正整数 $212322$ 中包含 $4$ 个 $2$，所以 $212322$ 不是美丽的。\n\nAlice 想知道正整数 $L$ 到正整数 $R$（包括 $L$ 和 $R$）中有多少美丽的正整数，你能帮她数一数吗？"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "输入共 $2$ 行，第一行为正整数 $L$，第二行为正整数 $R$。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，包含一个整数 $C$，表示 $L$ 到 $R$ 中 $C$ 美丽数的数量。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "### 样例解释\n\n$2221$ 到 $2223$ 中，$2221$ 与 $2223$ 是美丽的，$2222$ 不是美丽的。\n\n### 数据范围\n\n保证 $1 \\leq L \\leq R \\leq 10^6$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "2221\n2223",
+            "output": "2"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/B4497",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-2:programming:02",
+      "title": "[GESP202603 二级] 画画",
+      "session": "2026-03",
+      "level": 2,
+      "oj_system": "luogu",
+      "oj_id": "B4498",
+      "source_url": "https://www.luogu.com.cn/problem/B4498",
+      "fetched_at": "2026-05-31T18:23:08.952Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 二级] 画画",
+        "source_url": "https://www.luogu.com.cn/problem/B4498",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1206>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "输入一个正整数 $n$，你需要绘制一个 $n$ 行 $n$ 列的正方形，绘制规则如下：\n\n- 正方形的四个顶点使用 `+` 绘制；\n- 除顶点外，第 $1$ 行与第 $n$ 行使用 `-` 绘制；\n- 除顶点外，第 $1$ 列与第 $n$ 列使用 `|` 绘制；\n- 正方形内部使用 `*` 绘制。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "一行，一个正整数 $n$。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出共 $n$ 行，表示对应的正方形。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "### 数据范围\n\n保证 $3 \\leq n \\leq 100$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "5",
+            "output": "+---+\n|***|\n|***|\n|***|\n+---+"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/B4498",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-3:programming:01",
+      "title": "[GESP202603 三级] 二进制回文串",
+      "session": "2026-03",
+      "level": 3,
+      "oj_system": "luogu",
+      "oj_id": "B4499",
+      "source_url": "https://www.luogu.com.cn/problem/B4499",
+      "fetched_at": "2026-05-31T18:23:12.224Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 三级] 二进制回文串",
+        "source_url": "https://www.luogu.com.cn/problem/B4499",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1207>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "对于一个正整数 $n$，我们将其转换为不含前导零的二进制表示，如果这个二进制序列从左向右读与从右向左读完全相同，则称该数为二进制回文数。例如，$9$ 的二进制表示为 $(1001)_2$，是二进制回文数；$12$ 的二进制表示为 $(1100)_2$，不是二进制回文数。\n\n你的任务是：给定一个正整数 $n$，计算在 $1$ 到 $n$ 的范围内二进制回文数的数量。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "输入一行，包含一个正整数 $n$。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，包含一个数，表示在 $1$ 到 $n$ 的范围内二进制回文数的数量。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "### 样例解释\n\n样例 1 中，$1$ 到 $15$ 范围内 $1$、$3$、$5$、$7$、$9$、$15$ 是二进制回文数。\n\n### 数据范围\n\n$1 \\leq n \\leq 10^5$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "15",
+            "output": "6"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/B4499",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-3:programming:02",
+      "title": "[GESP202603 三级] 凯撒密码",
+      "session": "2026-03",
+      "level": 3,
+      "oj_system": "luogu",
+      "oj_id": "B4500",
+      "source_url": "https://www.luogu.com.cn/problem/B4500",
+      "fetched_at": "2026-05-31T18:23:15.462Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 三级] 凯撒密码",
+        "source_url": "https://www.luogu.com.cn/problem/B4500",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1207>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "凯撒密码是一种替换加密技术，明文中的所有字母都在字母表上向后（或向前）按照一个固定数目进行偏移后被替换成密文。例如，当偏移量是 $3$ 的时候，所有的字母 $A$ 将被替换成 $D$，$B$ 被替换成 $E$，$C$ 被替换成 $F$，以此类推，$W$ 被替换成 $Z$，$X$ 被替换成 $A$，$Y$ 被替换成 $B$，$Z$ 被替换成 $C$。这个加密方法是以罗马共和时期凯撒的名字命名的，据称当年凯撒曾用此方法与其将军们进行联系。\n\n但是和所有的利用字母表进行替换的加密技术一样，凯撒密码非常容易被破解，而且在实际应用中也无法保证通信安全。\n\n现在给你一个已破解的凯撒密码明文与密文，与一个有相同偏移量的未破解凯撒密码密文，请你帮忙破解它。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "输入共三行：\n\n第一行包含一个字符串，表示已破解的凯撒密码明文；\n\n第二行包含一个字符串，表示有相同偏移量的未破解凯撒密码密文；\n\n第三行包含一个字符串，表示待破解的凯撒密码密文。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，包含一个字符串，表示待破解的凯撒密码对应的明文。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "### 样例解释\n\n样例 1 中，通过已破解的密码得出偏移量为 `'D' - 'A' = 3`，因此，对未破解部分进行逆向偏移：密文中的 `W` 对应明文中的 `T`（`'W' - 3 = 'T'`），密文中的 `K` 对应明文中的 `H`（`'K' - 3 = 'H'`），以此类推。\n\n### 数据范围\n\n保证密码长度均不超过 $1000$，所有字符串由大写字母组成。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "ABCDEFGVWXYZ\nDEFGHIJYZABC\nWKHTXLFNEURZQIRAMXPSVRYHUWKHODCBGRJ",
+            "output": "THEQUICKBROWNFOXJUMPSOVERTHELAZYDOG"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/B4500",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-4:programming:01",
+      "title": "[GESP202603 四级] 山之谷",
+      "session": "2026-03",
+      "level": 4,
+      "oj_system": "luogu",
+      "oj_id": "B4501",
+      "source_url": "https://www.luogu.com.cn/problem/B4501",
+      "fetched_at": "2026-05-31T18:23:18.265Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 四级] 山之谷",
+        "source_url": "https://www.luogu.com.cn/problem/B4501",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1208>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "现有一片山地，可以视为一个 $N$ 行 $M$ 列的网格图，第 $i$ 行 $j$ 列的海拔为 $h_{i,j}$。\n\n如果一个单元格的海拔不高于其所有相邻单元格（**相邻包括上、下、左、右、左上、右上、左下、右下，最多 $8$ 个方向**）的海拔，则称该单元格为山谷。\n\n请你数一数该片山地中有多少山谷。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行包含 $2$ 个整数 $N, M$，表示山地的大小。\n\n之后 $N$ 行，每行包含 $M$ 个整数 $h_{i,1}, h_{i,2}, \\cdots, h_{i,M}$，表示海拔。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出 $1$ 行，包含 $1$ 个整数 $C$，表示山谷的数量。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "### 样例解释\n\n样例 1 如图所示，绿色单元格代表山谷：\n\n:::align{center}\n\n![](https://cdn.luogu.com.cn/upload/image_hosting/1xp2gfel.png)\n\n:::\n\n### 数据范围\n\n保证 $1 \\leq N, M \\leq 100$，$1 \\leq h_{i,j} \\leq 10^5$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "3 5\n7 6 6 7 9\n6 5 6 7 6\n6 5 7 8 9",
+            "output": "3"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "source_extracted",
+        "assets": [
+          {
+            "id": "asset:canonical:2026-03:c++:level-4:programming:01:1",
+            "asset_url": "https://cdn.luogu.com.cn/upload/image_hosting/1xp2gfel.png",
+            "alt_text": "题面图片",
+            "source_url": "https://www.luogu.com.cn/problem/B4501",
+            "source_page": null,
+            "source_kind": "statement_image",
+            "origin": "source_extracted",
+            "storage_policy": "remote_link_until_asset_storage_ready"
+          }
+        ],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/B4501",
+          "source_page": null
+        },
+        "notes": [
+          "图片链接从公开 OJ 题面抽取，当前保存远程 URL；后续可下载入对象存储。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-4:programming:02",
+      "title": "[GESP202603 四级] 礼盒排序",
+      "session": "2026-03",
+      "level": 4,
+      "oj_system": "luogu",
+      "oj_id": "B4502",
+      "source_url": "https://www.luogu.com.cn/problem/B4502",
+      "fetched_at": "2026-05-31T18:23:21.295Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 四级] 礼盒排序",
+        "source_url": "https://www.luogu.com.cn/problem/B4502",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1208>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "商店推出了许多礼盒，每个礼盒中包含 $k$ 件商品，每件商品都有一个价格。\n\n现在需要对这些礼盒进行排序，排序规则如下：\n\n1. 先按**礼盒总价格从小到大**排序；\n2. 如果总价格相同，按礼盒中**最贵商品的价格从小到大**排序；\n3. 如果仍然相同，按礼盒中**最便宜商品的价格从小到大**排序；\n4. 如果仍然相同，按**礼盒编号从小到大**排序。\n\n请输出排序后的礼盒编号。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行包含两个整数 $n$ 和 $k$，分别表示礼盒数量和每个礼盒中商品的数量。\n\n接下来 $n$ 行，每行包含 $k$ 个整数，第 $i$ 行表示第 $i$ 个礼盒中各商品的价格。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，包含排序后的礼盒编号（编号从 $1$ 开始），用空格分隔。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "### 样例解释\n\n| 编号 | 商品价格 | 总价 | 最大值 | 最小值 |\n| :-: | :-: | :-: | :-: | :-: |\n| $1$ | $3\\ 5\\ 2$ | $10 $| $5$ | $2$ |\n| $2$ | $4\\ 1\\ 5$ | $10$ | $5$ | $1$ |\n| $3$ | $2\\ 2\\ 4$ | $8$ | $4$ | $2$ |\n| $4$ | $3\\ 4\\ 3$ | $10$ | $4$ | $3$ |\n\n排序过程:\n\n1. 按总价排序，$3$ 号礼盒总价最小；\n2. 其余总价均为 $10$，再按最大值排序，$4$ 号最大值更小；\n3. $1$ 号和 $2$ 号最大值相同，再按最小值排序，$2$ 号更小。\n\n最终顺序为：$3 \\ 4 \\ 2 \\ 1$\n\n### 数据范围\n\n保证 $1 \\leq n \\leq 10^3$，$1 \\leq k \\leq 10$，$1 \\leq$ 商品价格 $\\leq 10^4$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "4 3\n3 5 2\n4 1 5\n2 2 4\n3 4 3",
+            "output": "3 4 2 1"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/B4502",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:programming:01",
+      "title": "[GESP202603 五级] 有限不循环小数",
+      "session": "2026-03",
+      "level": 5,
+      "oj_system": "luogu",
+      "oj_id": "P15798",
+      "source_url": "https://www.luogu.com.cn/problem/P15798",
+      "fetched_at": "2026-05-31T18:23:24.232Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 五级] 有限不循环小数",
+        "source_url": "https://www.luogu.com.cn/problem/P15798",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1209>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "若 $\\frac{1}{a}$ 可化为一个有限的，不循环的小数，则称 $a$ 为**终止数**。\n\n请你求出在 $L$ 到 $R$ 中终止数的数量。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "输入一行，包含两个整数 $L,R$。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，包含一个整数，表示 $L$ 到 $R$ 中终止数的数量。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "### 样例解释\n\n在 $[2,11]$ 终止数有 $2$、$4$、$5$、$8$、$10$。\n\n### 数据范围\n\n\n保证 $1 \\le L \\le R \\le 10^6$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "2 11",
+            "output": "5"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P15798",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-5:programming:02",
+      "title": "[GESP202603 五级] 找数",
+      "session": "2026-03",
+      "level": 5,
+      "oj_system": "luogu",
+      "oj_id": "P15799",
+      "source_url": "https://www.luogu.com.cn/problem/P15799",
+      "fetched_at": "2026-05-31T18:23:27.477Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 五级] 找数",
+        "source_url": "https://www.luogu.com.cn/problem/P15799",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1209>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "给定一个包含 $n$ 个互不相同的正整数的数组 $A$ 与一个包含 $m$ 个互不相同的正整数的数组 $B$，请你帮忙计算有多少个数在数组 $A$ 与数组 $B$ 中均出现。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行包含两个整数 $n,m$。\n\n第二行包含 $n$ 个正整数 $a_1,a_2,\\cdots,a_n$ 表示数组 $A$。\n\n第三行包含 $m$ 个正整数 $b_1,b_2,\\cdots,b_m$ 表示数组 $B$。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一个整数，表示在数组 $A$ 与数组 $B$ 中均出现的数的个数。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "### 样例解释\n\n\n样例 1 中，$4$、$3$ 在数组 $A$ 与 $B$ 中均出现。\n\n\n### 数据范围\n\n对于 $40\\%$ 的数据，保证 $1 \\leq n,m \\leq 1000$。\n\n对于 $100\\%$ 的数据，保证 $1 \\leq n,m \\leq 10^5$，$1 \\leq a_i,b_i \\leq 10^9$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "3 5\n4 2 3\n3 1 5 4 6",
+            "output": "2"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P15799",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-6:programming:01",
+      "title": "[GESP202603 六级] 选数",
+      "session": "2026-03",
+      "level": 6,
+      "oj_system": "luogu",
+      "oj_id": "P15800",
+      "source_url": "https://www.luogu.com.cn/problem/P15800",
+      "fetched_at": "2026-05-31T18:23:30.492Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 六级] 选数",
+        "source_url": "https://www.luogu.com.cn/problem/P15800",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1210>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "给定两个包含 $n$ 个整数的数组 $a=[a_1,\\dots,a_n]$ 与 $b=[b_1,\\dots,b_n]$。你需要指定若干下标 $p_1\\lt \\cdots\\lt p_k$（$1\\leq k\\leq n$）使得以下条件成立：\n\n- $1\\leq p_i\\leq n$（$1\\leq i\\leq k$）；\n- $p_{i+1}\\geq p_i+b_{p_i}$（$1\\leq i< k$）。\n\n你需要在满足以上条件的前提下最大化 $\\sum_{i=1}^k a_{p_i}$，也即最大化数组 $a$ 对应下标的整数之和。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，一个正整数 $n$，表示数组长度。\n\n第二行，$n$ 个正整数 $a_1,a_2,\\dots,a_n$，表示数组 $a$。\n\n第三行，$n$ 个正整数 $b_1,b_2,\\dots,b_n$，表示数组 $b$。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "一行，一个整数，表示在满足下标条件的前提下，数组 $a$ 对应下标的整数之和的最大值。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "对于 $40\\%$ 的测试点，保证 $2\\leq n\\leq 10^3$。\n\n对于所有测试点，保证 $2\\leq n\\leq 10^5$，$0\\leq a_i\\leq 10^9$，$0\\leq b_i\\leq n$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "4\n1 2 3 4\n3 3 1 1",
+            "output": "7"
+          },
+          {
+            "input": "6\n1 1 4 5 1 4\n1 2 3 2 1 0",
+            "output": "11"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P15800",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-6:programming:02",
+      "title": "[GESP202603 六级] 完全二叉树",
+      "session": "2026-03",
+      "level": 6,
+      "oj_system": "luogu",
+      "oj_id": "P15801",
+      "source_url": "https://www.luogu.com.cn/problem/P15801",
+      "fetched_at": "2026-05-31T18:23:33.415Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 六级] 完全二叉树",
+        "source_url": "https://www.luogu.com.cn/problem/P15801",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1210>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "给定一棵包含 $n$ 个结点的**有根二叉树**，结点依次以 $1,2,\\dots,n$ 编号，根结点编号为 $1$。\n\n对于结点 $i$，其左儿子的编号记为 $l_i$，右儿子编号记为 $r_i$。特别地，如果左儿子不存在则 $l_i=0$，如果右儿子不存在则 $r_i=0$。\n\n树中每个结点都对应一棵以其为根的子树。请你求出给定有根树的所有 $n$ 棵子树中，有多少棵子树是完全二叉树。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，一个正整数 $n$，表示有根二叉树结点数量。\n\n接下来 $n$ 行，每行两个正整数 $l_i,r_i$，表示结点 $i$ 的左儿子编号和右儿子编号。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，一个整数，表示所有子树中完全二叉树的数量。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "对于 $40\\%$ 的测试点，保证 $1\\leq n\\leq 500$。\n\n对于所有测试点，保证 $1\\leq n\\leq 10^5$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "4\n2 3\n4 0\n0 0\n0 0",
+            "output": "4"
+          },
+          {
+            "input": "4\n2 3\n0 0\n4 0\n0 0",
+            "output": "3"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P15801",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-7:programming:01",
+      "title": "[GESP202603 七级] 拆分",
+      "session": "2026-03",
+      "level": 7,
+      "oj_system": "luogu",
+      "oj_id": "P15802",
+      "source_url": "https://www.luogu.com.cn/problem/P15802",
+      "fetched_at": "2026-05-31T18:23:36.962Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 七级] 拆分",
+        "source_url": "https://www.luogu.com.cn/problem/P15802",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1211>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小 A 想将正整数 $n$ 拆分成若干个正整数之和，并最大化拆分后的正整数之积。小 A 希望你帮他计算出拆分后正整数之积的最大值。由于答案可能很大，你只需要求出答案对 $10^9$ 取模的结果。\n\n形式化地，$n$ 的拆分是满足 $a_1+\\cdots+a_k=n$ 的若干个正整数 $a_1,\\dots,a_k$，其中 $1\\leq k\\leq n$。你需要求出 $n$ 的所有拆分中 $a_1\\times \\cdots\\times a_k$ 的最大值对 $10^9$ 取模的结果。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，一个正整数 $t$，表示数据组数。\n\n对于每组数据：一行，一个整数 $n$，表示给定的正整数。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "对于每组数据：输出一行，一个整数，表示 $n$ 拆分后正整数之积的最大值对 $10^9$ 取模的结果。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "对于 $40\\%$ 的测试点，保证 $n\\leq 50$。\n\n对于所有测试点，保证 $1\\leq t\\leq 10^4$，$1\\leq n\\leq 10^6$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "3\n5\n8\n100",
+            "output": "6\n18\n755407364"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P15802",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-7:programming:02",
+      "title": "[GESP202603 七级] 物流网络",
+      "session": "2026-03",
+      "level": 7,
+      "oj_system": "luogu",
+      "oj_id": "P15803",
+      "source_url": "https://www.luogu.com.cn/problem/P15803",
+      "fetched_at": "2026-05-31T18:23:39.803Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 七级] 物流网络",
+        "source_url": "https://www.luogu.com.cn/problem/P15803",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1211>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "一个物流网络由 $n$ 个城市和 $m$ 条双向公路组成。每条公路都有两个属性：\n\n- 运输费用 $w_i$\n- 景观评分 $b_i$\n\n当一辆运输车从城市 $1$ 运送货物到城市 $n$ 时，需要支付经过道路的运输费用之和。\n\n为了推广旅游线路，物流公司推出了一项优惠政策：在运输路径上，可以**免除景观评分最高**的那条公路的运输费用。如果有多条公路的景观评分同为最大值，则只免除其中 **一条** 的费用。\n\n请你计算，从城市 $1$ 到城市 $n$ 的最小运输费用。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行两个整数 $n,m$，分别表示城市数量和公路数量。\n\n接下来 $m$ 行，每行四个整数 $u,v,w,b$，表示存在一条连接城市 $u$ 和城市 $v$ 的双向公路，其中 $w$ 为运输费用，$b$ 为景观评分。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一个整数，表示从城市 $1$ 到城市 $n$ 的最小费用。\n\n如果无法到达，输出 `-1`。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "### 样例解释\n\n路径 $1\\to 2\\to 3$：费用 $10+20$，最大美丽值 $6$（边 $2-3$）。免除 $20$，总花费 $10$。\n\n路径 $1\\to 3$：费用 $100$，最大美丽值 $1$（边 $1-3$）。免除 $100$，总花费 $0$。\n\n### 数据范围\n\n$1\\leq n\\leq 5000$，$1\\leq m\\leq 5000$，$1\\leq w,b\\leq 10^9$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "3 3\n1 2 10 5\n2 3 20 6\n1 3 100 1",
+            "output": "0"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P15803",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-8:programming:01",
+      "title": "[GESP202603 八级] 消息查找",
+      "session": "2026-03",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P15804",
+      "source_url": "https://www.luogu.com.cn/problem/P15804",
+      "fetched_at": "2026-05-31T18:23:43.124Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 八级] 消息查找",
+        "source_url": "https://www.luogu.com.cn/problem/P15804",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1212>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小 A 的消息记录中有 $n$ 条消息，依次以 $1, 2, \\dots, n$ 编号。编号小的消息发送时间早于编号大的消息。\n\n一条消息可以引用一条编号小于它的消息，也可以不引用消息。小 A 注意到消息记录里有引用的消息数量不会非常多。消息记录的一个例子是：\n\n- 【消息 1】小 A：有人做了今天的第一题吗？\n- 【消息 2】小 A：我第一题 WA 了，可能是什么原因？\n- 【消息 3：引用消息 1】小 B：我我我\n- 【消息 4：引用消息 2】小 C：我也 WA 了\n- 【消息 5：引用消息 2】小 B：是不是没开 long long？\n- 【消息 6：引用消息 5】小 A：改了就 AC 了，太厉害了！\n\n对于消息 $i$ ($1 \\le i \\le n$)，小 A 以 $r_i$ 标记消息 $i$ 是否有引用，以及所引用的消息编号。如果 $r_i > 0$，则消息 $i$ 为引用了消息 $r_i$；如果 $r_i = 0$，则消息 $i$ 没有引用消息。\n\n消息记录里有非常多条消息。为了快速查找所需要的消息，小 A 准备实现一个简单的消息查找工具。消息查找工具任意时刻只能定位恰好一条消息，如果当前位于消息 $i$ ($1 < i \\le n$)，那么接下来可以选择以下两种操作之一：\n\n- 定位到消息 $i - 1$；\n- 如果消息 $i$ 引用了消息 $r_i$，定位到消息 $r_i$。\n\n以上操作可以执行任意次（包括零次）。\n\n小 A 有 $q$ 次询问。在第 $k$ ($1 \\le k \\le q$) 次询问中，小 A 给出消息编号 $x_k, y_k$ ($y_k < x_k$)。小 A 想知道，如果当前消息查找工具位于 $x_k$，至少需要多少次操作才能定位到消息 $y_k$。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，两个正整数 $n, q$，分别表示消息条数与询问次数。\n\n第二行，$n$ 个非负整数 $r_1, r_2, \\dots, r_n$，表示消息的引用关系，具体含义见题目描述。\n\n接下来 $q$ 行中的第 $k$ 行 ($1 \\le k \\le q$) 包含两个正整数 $x_k, y_k$，表示一次询问。\n\n保证至多只有 1000 条引用消息。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出 $q$ 行，每行一个整数，表示将界面从消息 $x_k$ 切换到消息 $y_k$ 所需的最少操作次数。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "### 数据范围\n\n\n对于 $40\\%$ 的测试点，保证 $1 \\le n \\le 2000$，$1 \\le q \\le 2000$。\n\n对于所有测试点，保证 $1 \\le n \\le 10^5$，$1 \\le q \\le 10^5$，$0 \\le r_i < i$，$1 \\le y_k < x_k \\le n$，保证至多有 1000 条引用消息。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "6 3\n0 0 1 2 2 5\n4 1\n6 2\n6 3",
+            "output": "2\n2\n3"
+          },
+          {
+            "input": "5 5\n0 0 0 1 3\n4 1\n4 2\n5 1\n5 2\n5 3",
+            "output": "1\n2\n2\n2\n1"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P15804",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "canonical:2026-03:c++:level-8:programming:02",
+      "title": "[GESP202603 八级] 子图最短路",
+      "session": "2026-03",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P15805",
+      "source_url": "https://www.luogu.com.cn/problem/P15805",
+      "fetched_at": "2026-05-31T18:23:46.172Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202603 八级] 子图最短路",
+        "source_url": "https://www.luogu.com.cn/problem/P15805",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1212>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "给定包含 $n$ 个结点 $m$ 条边的**带权无向图** $G$，结点依次以 $1, 2, \\dots, n$ 编号。第 $i$ ($1 \\le i \\le m$) 条边连接编号为 $u_i$ 与 $v_i$ 的两个结点，权值为 $w_i$。\n\n对于指定的 $1 \\le \\ell \\le r \\le n$，按以下方式构造图 $G$ 的子图 $G(\\ell, r)$：\n\n- 保留 $G$ 中编号在区间 $[\\ell, r]$ 中的结点。删去其它编号不在 $[\\ell, r]$ 中的结点以及与之相连的边。剩余的结点和边构成子图 $G(\\ell, r)$。\n\n对于 $G(\\ell, r)$ 中的任意结点 $u, v$ 应有 $\\ell \\le u, v \\le r$。记 $u, v$ 在子图 $G(\\ell, r)$ 上的最短距离为 $d(\\ell, r, u, v)$。特殊地，若 $u, v$ 在子图 $G(\\ell, r)$ 上不连通，则认为 $d(\\ell, r, u, v) = 0$。\n\n你需要求出 $\\sum_{\\ell=1}^{n} \\sum_{r=\\ell}^{n} \\sum_{u=\\ell}^{r} \\sum_{v=u}^{r} d(\\ell, r, u, v)$ 对 $10^9$ 取模的结果。\n\n- 题目中的英文字母 $l$ 使用了特殊写法 $\\ell$，以避免英文字母 $l$ 与数字 $1$ 混淆。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，两个正整数 $n, m$，表示结点数与边数。\n\n接下来 $m$ 行，第 $i$ ($1 \\le i \\le m$) 行包含三个正整数 $u_i, v_i, w_i$，表示一条连接结点 $u_i, v_i$ 的权值为 $w_i$ 的边。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，一个整数，表示 $\\sum_{\\ell=1}^{n} \\sum_{r=\\ell}^{n} \\sum_{u=\\ell}^{r} \\sum_{v=u}^{r} d(\\ell, r, u, v)$ 对 $10^9$ 取模的结果。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "对于 $40\\%$ 的测试点，保证 $2 \\le n \\le 20$。\n\n对于所有测试点，保证 $2 \\le n \\le 100$，$2 \\le m \\le \\frac{n(n-1)}{2}$，$1 \\le u_i, v_i \\le n$，$1 \\le w_i \\le 10^6$。图中可能存在重边。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "3 2\n1 2 1\n2 3 2",
+            "output": "9"
+          },
+          {
+            "input": "4 6\n1 2 100\n2 3 100\n3 4 100\n1 3 10\n2 4 10\n1 4 1",
+            "output": "784"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P15805",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "session-archive/1.0",
+  "session_id": "20260531-analyze-gesp-algorithm-taxonomy",
+  "session_type": "analyze",
+  "session_path": ".csv-wave/20260531-analyze-gesp-algorithm-taxonomy",
+  "lifecycle": {
+    "status": "sealed",
+    "sealed_at": "2026-05-31T22:45:00+08:00",
+    "archived_at": null,
+    "linked_milestone": null
+  },
+  "content_refs": [
+    {
+      "type": "context-package",
+      "path": "context-package.json"
+    },
+    {
+      "type": "conclusions",
+      "path": "conclusions.json"
+    },
+    {
+      "type": "analysis",
+      "path": "analysis.md"
+    }
+  ],
+  "extraction": {
+    "harvested": false,
+    "reason": "project-init-incomplete"
+  },
+  "pruned": null
+}

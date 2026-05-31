@@ -1,0 +1,32 @@
+{
+  "id": "TASK-009",
+  "title": "Generate official source index",
+  "type": "data",
+  "phase": "official-source-ingestion",
+  "wave": 2,
+  "status": "completed",
+  "completed_at": "2026-05-31T23:42:00+08:00",
+  "depends_on": [
+    "TASK-008"
+  ],
+  "read_first": [
+    "scripts/ingest-official-sources.mjs",
+    "data/source-registry/sources.official.json"
+  ],
+  "files": [
+    "data/official-ingestion/official-source-index.json"
+  ],
+  "action": "Run official source ingestion and write discovered metadata.",
+  "implementation": [
+    "Run `npm run ingest:official` with network access.",
+    "Write `data/official-ingestion/official-source-index.json`.",
+    "Include discovered true-question sessions and sample attachments."
+  ],
+  "convergence": {
+    "criteria": [
+      "grep -q '\"document_count\": 180' data/official-ingestion/official-source-index.json",
+      "grep -q '\"true_question_session_count\": 10' data/official-ingestion/official-source-index.json",
+      "grep -q '\"sample_attachment_count\": 15' data/official-ingestion/official-source-index.json"
+    ]
+  }
+}

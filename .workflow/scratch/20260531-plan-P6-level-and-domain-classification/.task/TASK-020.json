@@ -1,0 +1,19 @@
+{
+  "id": "TASK-020",
+  "title": "Create level/domain classifier",
+  "description": "Create a deterministic seed-based classifier for official level labels and candidate algorithm domains.",
+  "files": [
+    "scripts/classify-level-domains.mjs",
+    "package.json"
+  ],
+  "convergence_criteria": [
+    "level labels come from official PDF",
+    "domain seed includes required broad domains",
+    "labels contain evidence, confidence, syllabus_fit and review_status"
+  ],
+  "verification": [
+    "node --check scripts/classify-level-domains.mjs",
+    "npm run classify:level-domain"
+  ],
+  "status": "completed"
+}

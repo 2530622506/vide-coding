@@ -1,0 +1,543 @@
+{
+  "version": "3.1",
+  "project_name": "GESP 题型分类与知识点对齐网站",
+  "status": "in_progress",
+  "current_milestone": "M4",
+  "current_task_id": null,
+  "milestones": [
+    {
+      "id": "M1",
+      "name": "Source Foundation",
+      "type": "standard",
+      "status": "completed",
+      "phases": [
+        "source-registry",
+        "official-source-ingestion"
+      ],
+      "phase_slugs": {
+        "1": "source-registry",
+        "2": "official-source-ingestion"
+      },
+      "roadmap_ref": ".workflow/roadmap.md#milestone-1-source-foundation",
+      "created_at": "2026-05-31T22:58:12+08:00"
+    },
+    {
+      "id": "M2",
+      "name": "Problem Ingestion",
+      "type": "standard",
+      "status": "completed",
+      "phases": [
+        "pdf-parser",
+        "oj-mirror-ingestion",
+        "canonical-problem-alignment"
+      ],
+      "phase_slugs": {
+        "3": "pdf-parser",
+        "4": "oj-mirror-ingestion",
+        "5": "canonical-problem-alignment"
+      },
+      "roadmap_ref": ".workflow/roadmap.md#milestone-2-problem-ingestion",
+      "created_at": "2026-05-31T22:58:12+08:00"
+    },
+    {
+      "id": "M3",
+      "name": "Classification Engine",
+      "type": "standard",
+      "status": "completed",
+      "phases": [
+        "level-and-domain-classification",
+        "problem-type-and-knowledge-extraction",
+        "conflict-and-confidence-model"
+      ],
+      "phase_slugs": {
+        "6": "level-and-domain-classification",
+        "7": "problem-type-and-knowledge-extraction",
+        "8": "conflict-and-confidence-model"
+      },
+      "roadmap_ref": ".workflow/roadmap.md#milestone-3-classification-engine",
+      "created_at": "2026-05-31T22:58:12+08:00"
+    },
+    {
+      "id": "M4",
+      "name": "Classified Catalog UI",
+      "type": "standard",
+      "status": "active",
+      "phases": [
+        "catalog-information-architecture",
+        "problem-detail-and-source-alignment",
+        "level-5-catalog-release"
+      ],
+      "phase_slugs": {
+        "9": "catalog-information-architecture",
+        "10": "problem-detail-and-source-alignment",
+        "11": "level-5-catalog-release"
+      },
+      "roadmap_ref": ".workflow/roadmap.md#milestone-4-classified-catalog-ui",
+      "created_at": "2026-05-31T22:58:12+08:00"
+    },
+    {
+      "id": "M5",
+      "name": "Review Workflow",
+      "type": "standard",
+      "status": "pending",
+      "phases": [
+        "review-queue",
+        "audit-and-export"
+      ],
+      "phase_slugs": {
+        "12": "review-queue",
+        "13": "audit-and-export"
+      },
+      "roadmap_ref": ".workflow/roadmap.md#milestone-5-review-workflow",
+      "created_at": "2026-05-31T22:58:12+08:00"
+    },
+    {
+      "id": "M6",
+      "name": "Expansion",
+      "type": "standard",
+      "status": "pending",
+      "phases": [
+        "multi-level-expansion",
+        "python-and-learning-paths"
+      ],
+      "phase_slugs": {
+        "14": "multi-level-expansion",
+        "15": "python-and-learning-paths"
+      },
+      "roadmap_ref": ".workflow/roadmap.md#milestone-6-expansion",
+      "created_at": "2026-05-31T22:58:12+08:00"
+    }
+  ],
+  "_milestone_schema": "{ id, name, type: 'standard'|'adhoc', status, phases[], phase_slugs{}, roadmap_ref, created_at }",
+  "artifacts": [
+    {
+      "id": "ANL-20260531-gesp-algorithm-taxonomy",
+      "type": "analyze",
+      "path": ".workflow/.csv-wave/20260531-analyze-gesp-algorithm-taxonomy/context-package.json",
+      "context_package": ".workflow/.csv-wave/20260531-analyze-gesp-algorithm-taxonomy/context-package.json",
+      "created_at": "2026-05-31T22:45:00+08:00"
+    },
+    {
+      "id": "RDM-20260531-gesp-classification",
+      "type": "roadmap",
+      "path": ".workflow/roadmap.md",
+      "context_package": ".workflow/.csv-wave/20260531-roadmap-gesp-classification/context.md",
+      "created_at": "2026-05-31T22:58:12+08:00"
+    },
+    {
+      "id": "PLN-20260531-P1-source-registry",
+      "type": "plan",
+      "scope": "phase",
+      "milestone": "M1",
+      "phase": "source-registry",
+      "phase_number": 1,
+      "path": ".workflow/scratch/20260531-plan-P1-source-registry/plan.json",
+      "task_dir": ".workflow/scratch/20260531-plan-P1-source-registry/.task",
+      "context_package": ".workflow/.csv-wave/20260531-plan-P1-source-registry/context.md",
+      "depends_on": [
+        "RDM-20260531-gesp-classification"
+      ],
+      "created_at": "2026-05-31T23:05:00+08:00"
+    },
+    {
+      "id": "EXC-20260531-P1-source-registry",
+      "type": "execute",
+      "scope": "phase",
+      "milestone": "M1",
+      "phase": "source-registry",
+      "phase_number": 1,
+      "path": ".workflow/.csv-wave/20260531-execute-P1-source-registry/context.md",
+      "results": ".workflow/.csv-wave/20260531-execute-P1-source-registry/results.csv",
+      "plan": ".workflow/scratch/20260531-plan-P1-source-registry/plan.json",
+      "created_at": "2026-05-31T23:18:00+08:00"
+    },
+    {
+      "id": "PLN-20260531-P2-official-source-ingestion",
+      "type": "plan",
+      "scope": "phase",
+      "milestone": "M1",
+      "phase": "official-source-ingestion",
+      "phase_number": 2,
+      "path": ".workflow/scratch/20260531-plan-P2-official-source-ingestion/plan.json",
+      "task_dir": ".workflow/scratch/20260531-plan-P2-official-source-ingestion/.task",
+      "context_package": ".workflow/.csv-wave/20260531-plan-P2-official-source-ingestion/context.md",
+      "depends_on": [
+        "EXC-20260531-P1-source-registry"
+      ],
+      "created_at": "2026-05-31T23:42:00+08:00"
+    },
+    {
+      "id": "EXC-20260531-P2-official-source-ingestion",
+      "type": "execute",
+      "scope": "phase",
+      "milestone": "M1",
+      "phase": "official-source-ingestion",
+      "phase_number": 2,
+      "path": ".workflow/.csv-wave/20260531-execute-P2-official-source-ingestion/context.md",
+      "results": ".workflow/.csv-wave/20260531-execute-P2-official-source-ingestion/results.csv",
+      "plan": ".workflow/scratch/20260531-plan-P2-official-source-ingestion/plan.json",
+      "created_at": "2026-05-31T23:43:00+08:00"
+    },
+    {
+      "id": "PLN-20260531-P3-pdf-parser",
+      "type": "plan",
+      "scope": "phase",
+      "milestone": "M2",
+      "phase": "pdf-parser",
+      "phase_number": 3,
+      "path": ".workflow/scratch/20260531-plan-P3-pdf-parser/plan.json",
+      "task_dir": ".workflow/scratch/20260531-plan-P3-pdf-parser/.task",
+      "context_package": ".workflow/.csv-wave/20260531-plan-P3-pdf-parser/context.md",
+      "depends_on": [
+        "EXC-20260531-P2-official-source-ingestion"
+      ],
+      "created_at": "2026-05-31T23:55:00+08:00"
+    },
+    {
+      "id": "EXC-20260531-P3-pdf-parser",
+      "type": "execute",
+      "scope": "phase",
+      "milestone": "M2",
+      "phase": "pdf-parser",
+      "phase_number": 3,
+      "path": ".workflow/.csv-wave/20260531-execute-P3-pdf-parser/context.md",
+      "results": ".workflow/.csv-wave/20260531-execute-P3-pdf-parser/results.csv",
+      "plan": ".workflow/scratch/20260531-plan-P3-pdf-parser/plan.json",
+      "created_at": "2026-05-31T23:59:00+08:00"
+    },
+    {
+      "id": "PLN-20260531-P4-oj-mirror-ingestion",
+      "type": "plan",
+      "scope": "phase",
+      "milestone": "M2",
+      "phase": "oj-mirror-ingestion",
+      "phase_number": 4,
+      "path": ".workflow/scratch/20260531-plan-P4-oj-mirror-ingestion/plan.json",
+      "task_dir": ".workflow/scratch/20260531-plan-P4-oj-mirror-ingestion/.task",
+      "context_package": ".workflow/.csv-wave/20260531-plan-P4-oj-mirror-ingestion/context.md",
+      "depends_on": [
+        "EXC-20260531-P3-pdf-parser"
+      ],
+      "created_at": "2026-05-31T23:59:10+08:00"
+    },
+    {
+      "id": "EXC-20260531-P4-oj-mirror-ingestion",
+      "type": "execute",
+      "scope": "phase",
+      "milestone": "M2",
+      "phase": "oj-mirror-ingestion",
+      "phase_number": 4,
+      "path": ".workflow/.csv-wave/20260531-execute-P4-oj-mirror-ingestion/context.md",
+      "results": ".workflow/.csv-wave/20260531-execute-P4-oj-mirror-ingestion/results.csv",
+      "plan": ".workflow/scratch/20260531-plan-P4-oj-mirror-ingestion/plan.json",
+      "created_at": "2026-05-31T23:59:30+08:00"
+    },
+    {
+      "id": "PLN-20260531-P5-canonical-problem-alignment",
+      "type": "plan",
+      "scope": "phase",
+      "milestone": "M2",
+      "phase": "canonical-problem-alignment",
+      "phase_number": 5,
+      "path": ".workflow/scratch/20260531-plan-P5-canonical-problem-alignment/plan.json",
+      "task_dir": ".workflow/scratch/20260531-plan-P5-canonical-problem-alignment/.task",
+      "context_package": ".workflow/.csv-wave/20260531-plan-P5-canonical-problem-alignment/context.md",
+      "depends_on": [
+        "EXC-20260531-P4-oj-mirror-ingestion"
+      ],
+      "created_at": "2026-05-31T23:59:40+08:00"
+    },
+    {
+      "id": "EXC-20260531-P5-canonical-problem-alignment",
+      "type": "execute",
+      "scope": "phase",
+      "milestone": "M2",
+      "phase": "canonical-problem-alignment",
+      "phase_number": 5,
+      "path": ".workflow/.csv-wave/20260531-execute-P5-canonical-problem-alignment/context.md",
+      "results": ".workflow/.csv-wave/20260531-execute-P5-canonical-problem-alignment/results.csv",
+      "plan": ".workflow/scratch/20260531-plan-P5-canonical-problem-alignment/plan.json",
+      "created_at": "2026-05-31T23:59:55+08:00"
+    },
+    {
+      "id": "PLN-20260531-P6-level-and-domain-classification",
+      "type": "plan",
+      "scope": "phase",
+      "milestone": "M3",
+      "phase": "level-and-domain-classification",
+      "phase_number": 6,
+      "path": ".workflow/scratch/20260531-plan-P6-level-and-domain-classification/plan.json",
+      "task_dir": ".workflow/scratch/20260531-plan-P6-level-and-domain-classification/.task",
+      "context_package": ".workflow/.csv-wave/20260531-plan-P6-level-and-domain-classification/context.md",
+      "depends_on": [
+        "EXC-20260531-P5-canonical-problem-alignment"
+      ],
+      "created_at": "2026-05-31T23:59:56+08:00"
+    },
+    {
+      "id": "EXC-20260531-P6-level-and-domain-classification",
+      "type": "execute",
+      "scope": "phase",
+      "milestone": "M3",
+      "phase": "level-and-domain-classification",
+      "phase_number": 6,
+      "path": ".workflow/.csv-wave/20260531-execute-P6-level-and-domain-classification/context.md",
+      "results": ".workflow/.csv-wave/20260531-execute-P6-level-and-domain-classification/results.csv",
+      "plan": ".workflow/scratch/20260531-plan-P6-level-and-domain-classification/plan.json",
+      "created_at": "2026-05-31T23:59:59+08:00"
+    },
+    {
+      "id": "PLN-20260601-P7-problem-type-and-knowledge-extraction",
+      "type": "plan",
+      "scope": "phase",
+      "milestone": "M3",
+      "phase": "problem-type-and-knowledge-extraction",
+      "phase_number": 7,
+      "path": ".workflow/scratch/20260601-plan-P7-problem-type-and-knowledge-extraction/plan.json",
+      "task_dir": ".workflow/scratch/20260601-plan-P7-problem-type-and-knowledge-extraction/.task",
+      "context_package": ".workflow/.csv-wave/20260601-plan-P7-problem-type-and-knowledge-extraction/context.md",
+      "depends_on": [
+        "EXC-20260531-P6-level-and-domain-classification"
+      ],
+      "created_at": "2026-06-01T00:25:00+08:00"
+    },
+    {
+      "id": "EXC-20260601-P7-problem-type-and-knowledge-extraction",
+      "type": "execute",
+      "scope": "phase",
+      "milestone": "M3",
+      "phase": "problem-type-and-knowledge-extraction",
+      "phase_number": 7,
+      "path": ".workflow/.csv-wave/20260601-execute-P7-problem-type-and-knowledge-extraction/context.md",
+      "results": ".workflow/.csv-wave/20260601-execute-P7-problem-type-and-knowledge-extraction/results.csv",
+      "plan": ".workflow/scratch/20260601-plan-P7-problem-type-and-knowledge-extraction/plan.json",
+      "created_at": "2026-06-01T00:34:00+08:00"
+    },
+    {
+      "id": "PLN-20260601-P8-conflict-and-confidence-model",
+      "type": "plan",
+      "scope": "phase",
+      "milestone": "M3",
+      "phase": "conflict-and-confidence-model",
+      "phase_number": 8,
+      "path": ".workflow/scratch/20260601-plan-P8-conflict-and-confidence-model/plan.json",
+      "task_dir": ".workflow/scratch/20260601-plan-P8-conflict-and-confidence-model/.task",
+      "context_package": ".workflow/.csv-wave/20260601-plan-P8-conflict-and-confidence-model/context.md",
+      "depends_on": [
+        "EXC-20260601-P7-problem-type-and-knowledge-extraction"
+      ],
+      "created_at": "2026-06-01T00:40:00+08:00"
+    },
+    {
+      "id": "EXC-20260601-P8-conflict-and-confidence-model",
+      "type": "execute",
+      "scope": "phase",
+      "milestone": "M3",
+      "phase": "conflict-and-confidence-model",
+      "phase_number": 8,
+      "path": ".workflow/.csv-wave/20260601-execute-P8-conflict-and-confidence-model/context.md",
+      "results": ".workflow/.csv-wave/20260601-execute-P8-conflict-and-confidence-model/results.csv",
+      "plan": ".workflow/scratch/20260601-plan-P8-conflict-and-confidence-model/plan.json",
+      "created_at": "2026-06-01T00:49:00+08:00"
+    }
+  ],
+  "last_updated": "2026-06-01T04:25:00+08:00",
+  "accumulated_context": {
+    "key_decisions": [
+      "分类目录优先，不做搜索页优先。",
+      "官方来源决定等级和官方知识点范围。",
+      "MVP 先聚焦 C++ 五级。",
+      "动态规划不属于 GESP 五级核心分类。",
+      "Phase 1 source registry is metadata-first and stores no full problem statements.",
+      "Phase 2 official source ingestion stores metadata-only official HTML/PDF discovery results and no full HTML or PDF bodies.",
+      "Official ingestion currently discovers 180 official documents, including 165 PDFs, 10 true-question sessions, and 15 sample attachments.",
+      "后端服务、数据库、队列、检索服务和离线解析依赖可以使用 Docker 容器。",
+      "后续页面前端使用 React；后端服务优先使用 Nest；数据库使用 MySQL。",
+      "Phase 3 official PDF parser stores structured metadata and short evidence snippets only; full PDF text is not persisted.",
+      "Latest official true-question PDF parsing produced 216 C++ problem records across 8 C++ PDFs, including 27 C++ level 5 records.",
+      "Phase 4 OJ mirror ingestion now includes Luogu CCF GESP C++ level training lists 551-558 and produces 545 secondary entries, including 432 Luogu entries, 24 zqiceberg entries, 7 selected mirror entries, 106 GitHub C++ reference entries, and 199 duplicate candidates after OJ-ID title normalization.",
+      "GitHub jonaslgtm/gesp-exam-questions is an auxiliary题库参考源 only; only C++ metadata is consumed and Python/Scratch/图形化 paths are excluded.",
+      "Phase 5 canonical alignment produced 216 C++ canonical problem records, 18 secondary source versions, 44 duplicate candidates, 1 conflict candidate, and a 27-row C++ level 5 canonical table.",
+      "Official PDF parser is now official-pdf-parser-v2; it fixes programming title extraction when PDF text order places previous reference code before the next title.",
+      "Phase 6 level/domain classification produced 216 C++ classification records, all 27 C++ level-5 records have official level labels, 24 level-5 records have domain candidates, and 16/16 programming records have domain candidates.",
+      "Level-5 DP remains disallowed as an exact/core domain; Phase 6 validation asserts zero exact DP level-5 domain labels.",
+      "Phase 7 problem type and knowledge extraction produced 216 C++ records, 21/27 C++ level-5 problems with problem type candidates, 21/27 with knowledge point candidates, 54 problem type tags, 80 knowledge point tags, and a 10-domain C++ level-5 taxonomy.",
+      "Phase 7 extraction uses original source text and explicit title overrides only; it does not use derived algorithm-domain labels to infer problem types or knowledge points.",
+      "Phase 8 conflict/confidence model produced 216 display records, 258 scored tags, 1 source conflict, 44 source duplicate candidates, and 69 review queue items.",
+      "M3 Classification Engine is completed; M4 Classified Catalog UI is active and should build React catalog routes on top of the generated classification data.",
+      "M4 catalog app now uses React + Nest + MySQL Docker; API reads MySQL first and falls back to JSON only when MySQL is unavailable.",
+      "Problem answer guidance has 216 records: 120 official selection answers, 16 official programming AI sample-verified answers marked needs_review, and 80 judgment answers marked needs_review; every record includes Chinese understanding examples and comments.",
+      "Problem detail model has 216 records and MySQL problem_details support; the React detail panel shows answers, knowledge explanations, option status, visual asset status, programming-solution status, and source links.",
+      "Official PDF option extraction now uses cross-page question blocks; 97/120 selection problems have source-extracted A/B/C/D options and the remaining 23 keep A/B/C/D needs_review slots, so no official selection detail has an empty option array.",
+      "Official PDF visual asset extraction now stores cropped PDF image/code regions only, not full pages: 218 official PDF visual assets cover 100 problems; combined official details have 101 source-extracted visual-asset records and 219 assets after including the existing public OJ image, with 115 records marked none_found and 0 pending visual asset collection.",
+      "Official programming enrichment now uses public Luogu pages for the 16 official C++ programming problems; all 16 have source-extracted statements and samples, and 1 statement image was detected.",
+      "Official programming AI reference solution enrichment now adds 16 ai_generated_sample_verified C++ solutions with Chinese comments; all passed current public samples and remain needs_review with visible AI-generated甄别提示。",
+      "Official programming classification refinement now updates 16 official programming records based on source-extracted OJ statements plus sample-verified AI C++ solutions; tags remain needs_review and level-5 exact DP remains zero.",
+      "Supplemental C++ problem bank now has 195 deduplicated public OJ single-problem records and 400 supplemental source versions after excluding one official-title duplicate and adding Luogu CCF GESP C++ level training lists; all supplemental learning aids remain ai_generated_learning_aid and needs_review.",
+      "Public OJ detail enrichment now has a low-frequency no-login crawler; current batches extracted 88 Luogu statements and 88 sample groups across level 5, level 1, level 2, and the first level-3 batch, with 2 source-extracted OJ images and source_terms_status needs_review.",
+      "AI-generated C++ reference solutions are allowed only with explicit ai_generated_sample_verified origin, Chinese comments, sample verification, visible AI-generated甄别提示, and needs_review answer status; current batches add 104 such solutions across official and supplemental records.",
+      "If answers, images, explanations, or other detail assets cannot be collected from public official/OJ/reference sources, AI-generated fallback content is allowed only when clearly marked as AI-generated, needs_review, and requiring user甄别; it must not be presented as official source material.",
+      "Supplemental classification refinement now updates 88 source-extracted problems using public statements plus sample-verified AI C++ solutions; refined tags remain needs_review and use source_extracted_statement_ai_solution_review. Current level-1 and level-2 coverage is complete for the collected supplemental records, and the first 10 level-3 records are refined.",
+      "After current app/data tasks are complete, expand the GESP C++ problem bank by crawling/collecting more sources and importing them into MySQL."
+    ],
+    "blockers": [],
+    "deferred": [
+      "完整题面存储需要版权或来源条款确认。",
+      "是否首版支持 Python 五级留到扩展里程碑。",
+      "是否开放教师后台需要在 Review Workflow 里进一步确认。",
+      "当前 M4 收尾完成后再执行 GESP C++ 题库扩充采集，不在本轮启动爬虫或登录洛谷。",
+      "持续优化题库分类时，需要优先补齐选择题选项、题目图片资产、编程题 C++ 参考解和低置信度标签复核。"
+    ]
+  },
+  "transition_history": [
+    {
+      "at": "2026-05-31T22:58:12+08:00",
+      "action": "roadmap_created",
+      "artifact": "RDM-20260531-gesp-classification"
+    },
+    {
+      "at": "2026-05-31T23:05:00+08:00",
+      "action": "plan_created",
+      "artifact": "PLN-20260531-P1-source-registry"
+    },
+    {
+      "at": "2026-05-31T23:18:00+08:00",
+      "action": "execute_completed",
+      "artifact": "EXC-20260531-P1-source-registry"
+    },
+    {
+      "at": "2026-05-31T23:42:00+08:00",
+      "action": "plan_created",
+      "artifact": "PLN-20260531-P2-official-source-ingestion"
+    },
+    {
+      "at": "2026-05-31T23:43:00+08:00",
+      "action": "execute_completed",
+      "artifact": "EXC-20260531-P2-official-source-ingestion"
+    },
+    {
+      "at": "2026-05-31T23:43:00+08:00",
+      "action": "milestone_completed",
+      "artifact": "M1"
+    },
+    {
+      "at": "2026-05-31T23:43:00+08:00",
+      "action": "milestone_activated",
+      "artifact": "M2"
+    },
+    {
+      "at": "2026-05-31T23:55:00+08:00",
+      "action": "plan_created",
+      "artifact": "PLN-20260531-P3-pdf-parser"
+    },
+    {
+      "at": "2026-05-31T23:59:00+08:00",
+      "action": "execute_completed",
+      "artifact": "EXC-20260531-P3-pdf-parser"
+    },
+    {
+      "at": "2026-05-31T23:59:10+08:00",
+      "action": "plan_created",
+      "artifact": "PLN-20260531-P4-oj-mirror-ingestion"
+    },
+    {
+      "at": "2026-05-31T23:59:30+08:00",
+      "action": "execute_completed",
+      "artifact": "EXC-20260531-P4-oj-mirror-ingestion"
+    },
+    {
+      "at": "2026-05-31T23:59:40+08:00",
+      "action": "plan_created",
+      "artifact": "PLN-20260531-P5-canonical-problem-alignment"
+    },
+    {
+      "at": "2026-05-31T23:59:55+08:00",
+      "action": "execute_completed",
+      "artifact": "EXC-20260531-P5-canonical-problem-alignment"
+    },
+    {
+      "at": "2026-05-31T23:59:55+08:00",
+      "action": "milestone_completed",
+      "artifact": "M2"
+    },
+    {
+      "at": "2026-05-31T23:59:55+08:00",
+      "action": "milestone_activated",
+      "artifact": "M3"
+    },
+    {
+      "at": "2026-05-31T23:59:56+08:00",
+      "action": "plan_created",
+      "artifact": "PLN-20260531-P6-level-and-domain-classification"
+    },
+    {
+      "at": "2026-05-31T23:59:59+08:00",
+      "action": "execute_completed",
+      "artifact": "EXC-20260531-P6-level-and-domain-classification"
+    },
+    {
+      "at": "2026-06-01T00:25:00+08:00",
+      "action": "plan_created",
+      "artifact": "PLN-20260601-P7-problem-type-and-knowledge-extraction"
+    },
+    {
+      "at": "2026-06-01T00:34:00+08:00",
+      "action": "execute_completed",
+      "artifact": "EXC-20260601-P7-problem-type-and-knowledge-extraction"
+    },
+    {
+      "at": "2026-06-01T00:40:00+08:00",
+      "action": "plan_created",
+      "artifact": "PLN-20260601-P8-conflict-and-confidence-model"
+    },
+    {
+      "at": "2026-06-01T00:49:00+08:00",
+      "action": "execute_completed",
+      "artifact": "EXC-20260601-P8-conflict-and-confidence-model"
+    },
+    {
+      "at": "2026-06-01T00:49:00+08:00",
+      "action": "milestone_completed",
+      "artifact": "M3"
+    },
+    {
+      "at": "2026-06-01T00:49:00+08:00",
+      "action": "milestone_activated",
+      "artifact": "M4"
+    }
+  ],
+  "milestone_history": [
+    {
+      "milestone": "M1",
+      "status": "completed",
+      "completed_at": "2026-05-31T23:43:00+08:00",
+      "artifacts": [
+        "EXC-20260531-P1-source-registry",
+        "EXC-20260531-P2-official-source-ingestion"
+      ],
+      "next_milestone": "M2"
+    },
+    {
+      "milestone": "M2",
+      "status": "completed",
+      "completed_at": "2026-05-31T23:59:55+08:00",
+      "artifacts": [
+        "EXC-20260531-P3-pdf-parser",
+        "EXC-20260531-P4-oj-mirror-ingestion",
+        "EXC-20260531-P5-canonical-problem-alignment"
+      ],
+      "next_milestone": "M3"
+    },
+    {
+      "milestone": "M3",
+      "status": "completed",
+      "completed_at": "2026-06-01T00:49:00+08:00",
+      "artifacts": [
+        "EXC-20260531-P6-level-and-domain-classification",
+        "EXC-20260601-P7-problem-type-and-knowledge-extraction",
+        "EXC-20260601-P8-conflict-and-confidence-model"
+      ],
+      "next_milestone": "M4"
+    }
+  ]
+}

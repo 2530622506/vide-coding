@@ -1,0 +1,4 @@
+id,result_status,findings,files_modified,tests_passed,error
+TASK-014,completed,Plan requires metadata-only ingestion and C++-only GitHub filtering,scripts/ingest-oj-mirrors.mjs;data/source-registry/sources.secondary.json,passed,
+TASK-015,completed,Plan requires generated output with mirror and GitHub C++ reference entries,data/oj-ingestion/mirror-problem-candidates.json,passed,
+TASK-016,completed,Plan requires validation and Chinese documentation updates,docs/oj-ingestion.md;data/oj-ingestion/README.md;docs/source-registry.md,passed,

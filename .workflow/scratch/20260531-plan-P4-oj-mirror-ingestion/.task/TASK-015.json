@@ -1,0 +1,17 @@
+{
+  "id": "TASK-015",
+  "title": "Run OJ and GitHub ingestion",
+  "description": "Fetch public metadata from registered secondary sources and write mirror-problem-candidates.json.",
+  "files": [
+    "data/oj-ingestion/mirror-problem-candidates.json"
+  ],
+  "convergence_criteria": [
+    "output contains third-party entries",
+    "output contains GitHub C++ reference entries",
+    "restricted sources are recorded instead of bypassed"
+  ],
+  "verification": [
+    "npm run ingest:oj"
+  ],
+  "status": "completed"
+}

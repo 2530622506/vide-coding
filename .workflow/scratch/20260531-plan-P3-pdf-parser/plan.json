@@ -1,0 +1,58 @@
+{
+  "id": "PLN-20260531-P3-pdf-parser",
+  "created_at": "2026-05-31T23:55:00+08:00",
+  "scope": "phase",
+  "milestone": "M2",
+  "phase_number": 3,
+  "phase_slug": "pdf-parser",
+  "source": {
+    "roadmap": ".workflow/roadmap.md#phase-3-pdf-parser",
+    "previous_execute": ".workflow/.csv-wave/20260531-execute-P2-official-source-ingestion/context.md"
+  },
+  "summary": "Implement an official GESP PDF parser that extracts structured problem metadata, question type, page references, short evidence snippets, and parser provenance without storing full PDF text.",
+  "approach": [
+    "Use the Phase 2 official source index as the PDF source of truth.",
+    "Temporarily download selected official PDFs and verify sha256 before parsing.",
+    "Extract text through an isolated macOS PDFKit Swift extractor, keeping the extraction layer replaceable by a Docker poppler extractor later.",
+    "Persist only structured metadata and short evidence snippets.",
+    "Validate that C++ level 5 official PDFs produce selection, judgment, and programming problem records."
+  ],
+  "task_ids": [
+    "TASK-011",
+    "TASK-012",
+    "TASK-013"
+  ],
+  "waves": [
+    {
+      "wave": 1,
+      "phase_label": "extractor",
+      "tasks": [
+        "TASK-011"
+      ]
+    },
+    {
+      "wave": 2,
+      "phase_label": "parser-output",
+      "tasks": [
+        "TASK-012"
+      ]
+    },
+    {
+      "wave": 3,
+      "phase_label": "validation",
+      "tasks": [
+        "TASK-013"
+      ]
+    }
+  ],
+  "confidence": {
+    "overall": 0.78,
+    "readiness_gate": "pass",
+    "pressure_pass": "PDFKit works on the local macOS workspace; backend and CI should replace it with a Dockerized extractor when needed."
+  },
+  "notes": [
+    "This phase does not classify algorithm domains or knowledge points.",
+    "This phase does not persist full PDF text.",
+    "Default parsing scope is the latest official true-question session; all sessions can be parsed with --all-sessions."
+  ]
+}

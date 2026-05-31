@@ -1,0 +1,2 @@
+{"type":"decision","detail":"Phase 8 不覆盖 Phase 7 原始标签，只生成展示态 final_confidence 和 effective_review_status。","source":"scripts/build-conflict-confidence-model.mjs"}
+{"type":"result","detail":"review queue 当前 69 条，其中来源冲突 1 条、tag conflict 1 条、来源重复 44 条、medium 复核 23 条。","source":"npm run validate:conflict-confidence"}

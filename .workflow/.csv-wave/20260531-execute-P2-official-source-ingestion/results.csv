@@ -1,0 +1,4 @@
+id,result_status,findings,files_modified,tests_passed,error
+"TASK-008","completed","Added official ingestion and validation scripts plus package commands.","package.json;scripts/ingest-official-sources.mjs;scripts/validate-official-ingestion.mjs;data/official-ingestion/README.md","n/a",""
+"TASK-009","completed","Generated metadata-only official source index: 180 documents, 15 HTML, 165 PDFs, 10 true-question sessions.","data/official-ingestion/official-source-index.json","true",""
+"TASK-010","completed","Official ingestion and source registry validation passed.",".workflow/scratch/20260531-plan-P2-official-source-ingestion/verification.md","true",""

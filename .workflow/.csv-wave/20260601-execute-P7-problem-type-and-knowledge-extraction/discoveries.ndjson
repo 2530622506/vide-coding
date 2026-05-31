@@ -1,0 +1,2 @@
+{"type":"result","detail":"C++ 五级 21/27 条题目有题型候选，21/27 条题目有知识点候选。","source":"npm run validate:problem-knowledge"}
+{"type":"quality-note","detail":"收紧抽取后题型标签从 84 降到 54、知识点标签从 90 降到 80，移除了由派生大类标签造成的宽泛误标。","source":"scripts/extract-problem-types-knowledge.mjs"}

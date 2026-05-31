@@ -1,0 +1,435 @@
+{
+  "version": 2,
+  "generatedAt": 1780258540813,
+  "entries": [
+    {
+      "id": "project-project",
+      "type": "project",
+      "title": "Project: GESP 题型分类与知识点对齐网站",
+      "summary": "## What This Is",
+      "tags": [],
+      "status": "active",
+      "created": "2026-05-31T15:00:35.719Z",
+      "updated": "2026-05-31T15:03:52.398Z",
+      "scope": null,
+      "category": null,
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "project.md"
+      }
+    },
+    {
+      "id": "roadmap-roadmap",
+      "type": "roadmap",
+      "title": "GESP 题型分类与知识点对齐网站 Roadmap",
+      "summary": "## Roadmap Decisions",
+      "tags": [],
+      "status": "active",
+      "created": "2026-05-31T15:00:36.242Z",
+      "updated": "2026-05-31T15:00:36.242Z",
+      "scope": null,
+      "category": null,
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "roadmap.md"
+      }
+    },
+    {
+      "id": "spec:project:architecture-constraints",
+      "type": "spec",
+      "title": "Architecture Constraints",
+      "summary": "# Architecture Constraints",
+      "tags": [
+        "architecture",
+        "module",
+        "layer",
+        "boundary",
+        "dependency",
+        "structure"
+      ],
+      "status": "active",
+      "created": "2026-05-31T15:01:30.696Z",
+      "updated": "2026-05-31T15:43:22.611Z",
+      "scope": "project",
+      "category": "arch",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/architecture-constraints.md"
+      }
+    },
+    {
+      "id": "spec:project:architecture-constraints-001",
+      "type": "spec",
+      "title": "GESP 分类目录优先",
+      "summary": "### GESP 分类目录优先 产品必须以分类目录为主线，而不是搜索页优先；核心信息架构是 level -> algorithm domain -> problem type -> problems -> knowledge points。",
+      "tags": [
+        "gesp",
+        "catalog",
+        "classification",
+        "ia"
+      ],
+      "status": "active",
+      "created": "2026-05-31T15:01:30.696Z",
+      "updated": "2026-05-31T15:43:22.611Z",
+      "scope": "project",
+      "category": "arch",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:architecture-constraints",
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/architecture-constraints.md"
+      }
+    },
+    {
+      "id": "spec:project:architecture-constraints-002",
+      "type": "spec",
+      "title": "GESP 官方来源优先",
+      "summary": "### GESP 官方来源优先 GESP 题目等级和官方知识点范围必须以官方大纲、官方真题和官方样题为准；OJ 镜像、训练题单和题解文章只能作为练习入口、题目映射或辅助标签证据。",
+      "tags": [
+        "gesp",
+        "official-source",
+        "trust",
+        "provenance"
+      ],
+      "status": "active",
+      "created": "2026-05-31T15:01:30.696Z",
+      "updated": "2026-05-31T15:43:22.611Z",
+      "scope": "project",
+      "category": "arch",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:architecture-constraints",
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/architecture-constraints.md"
+      }
+    },
+    {
+      "id": "spec:project:architecture-constraints-003",
+      "type": "spec",
+      "title": "GESP 五级 DP 越级处理",
+      "summary": "### GESP 五级 DP 越级处理 动态规划不属于 GESP 五级核心分类；五级题源中出现 DP 标签时，应保存为 community_inferred、out_of_level 或 disputed，并进入复核流程，不能覆盖官方五级分类。",
+      "tags": [
+        "gesp",
+        "level-5",
+        "dp",
+        "syllabus-fit"
+      ],
+      "status": "active",
+      "created": "2026-05-31T15:01:30.696Z",
+      "updated": "2026-05-31T15:43:22.611Z",
+      "scope": "project",
+      "category": "arch",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:architecture-constraints",
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/architecture-constraints.md"
+      }
+    },
+    {
+      "id": "spec:project:architecture-constraints-004",
+      "type": "spec",
+      "title": "后端与数据库容器化许可",
+      "summary": "### 后端与数据库容器化许可 后端服务、数据库、队列、检索服务和离线解析依赖可以使用 Docker 容器；涉及数据库或服务运行验证时，优先设计为可容器化部署。",
+      "tags": [
+        "backend",
+        "database",
+        "docker",
+        "container"
+      ],
+      "status": "active",
+      "created": "2026-05-31T15:01:30.696Z",
+      "updated": "2026-05-31T15:43:22.611Z",
+      "scope": "project",
+      "category": "arch",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:architecture-constraints",
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/architecture-constraints.md"
+      }
+    },
+    {
+      "id": "spec:project:architecture-constraints-005",
+      "type": "spec",
+      "title": "技术栈默认选择",
+      "summary": "### 技术栈默认选择 后续页面前端默认使用 React 编写，后端服务默认使用 Nest；爬虫优先沿用当前工程脚本方式，若 Node 或常规抓取手段获取不到，可切换为 Python 爬虫实现。",
+      "tags": [
+        "frontend",
+        "react",
+        "backend",
+        "nest",
+        "crawler",
+        "python"
+      ],
+      "status": "active",
+      "created": "2026-05-31T15:01:30.696Z",
+      "updated": "2026-05-31T15:43:22.611Z",
+      "scope": "project",
+      "category": "arch",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:architecture-constraints",
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/architecture-constraints.md"
+      }
+    },
+    {
+      "id": "spec:project:architecture-constraints-006",
+      "type": "spec",
+      "title": "数据库默认选择",
+      "summary": "### 数据库默认选择 后端数据库可以使用 MySQL；需要数据库验证或后端联调时，可以直接启动用户本机 Docker 服务中的 MySQL 容器。",
+      "tags": [
+        "database",
+        "mysql",
+        "docker",
+        "backend"
+      ],
+      "status": "active",
+      "created": "2026-05-31T15:01:30.696Z",
+      "updated": "2026-05-31T15:43:22.611Z",
+      "scope": "project",
+      "category": "arch",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:architecture-constraints",
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/architecture-constraints.md"
+      }
+    },
+    {
+      "id": "spec:project:coding-conventions",
+      "type": "spec",
+      "title": "Coding Conventions",
+      "summary": "# Coding Conventions",
+      "tags": [
+        "style",
+        "naming",
+        "import",
+        "pattern",
+        "convention",
+        "formatting"
+      ],
+      "status": "active",
+      "created": "2026-05-31T14:21:27.094Z",
+      "updated": "2026-05-31T14:21:27.094Z",
+      "scope": "project",
+      "category": "coding",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/coding-conventions.md"
+      }
+    },
+    {
+      "id": "spec:project:debug-notes",
+      "type": "spec",
+      "title": "Debug Notes",
+      "summary": "# Debug Notes",
+      "tags": [
+        "debug",
+        "issue",
+        "workaround",
+        "root-cause",
+        "gotcha"
+      ],
+      "status": "active",
+      "created": "2026-05-31T14:21:27.095Z",
+      "updated": "2026-05-31T14:21:27.095Z",
+      "scope": "project",
+      "category": "debug",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/debug-notes.md"
+      }
+    },
+    {
+      "id": "spec:project:learnings",
+      "type": "spec",
+      "title": "Learnings",
+      "summary": "# Learnings",
+      "tags": [
+        "bug",
+        "lesson",
+        "gotcha",
+        "learning"
+      ],
+      "status": "active",
+      "created": "2026-05-31T14:21:27.095Z",
+      "updated": "2026-05-31T14:21:27.095Z",
+      "scope": "project",
+      "category": "learning",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/learnings.md"
+      }
+    },
+    {
+      "id": "spec:project:quality-rules",
+      "type": "spec",
+      "title": "Quality Rules",
+      "summary": "# Quality Rules",
+      "tags": [
+        "quality",
+        "lint",
+        "rule",
+        "enforcement"
+      ],
+      "status": "active",
+      "created": "2026-05-31T14:21:27.095Z",
+      "updated": "2026-05-31T15:01:12.823Z",
+      "scope": "project",
+      "category": "review",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/quality-rules.md"
+      }
+    },
+    {
+      "id": "spec:project:quality-rules-001",
+      "type": "spec",
+      "title": "分类证据与复核状态",
+      "summary": "### 分类证据与复核状态 每个 problem type tag 和 knowledge point tag 都必须记录 source、evidence、confidence、syllabus_fit 和 review_status，避免无证据分类进入正式目录。",
+      "tags": [
+        "classification",
+        "evidence",
+        "confidence",
+        "review-status",
+        "syllabus-fit"
+      ],
+      "status": "active",
+      "created": "2026-05-31T14:21:27.095Z",
+      "updated": "2026-05-31T15:01:12.823Z",
+      "scope": "project",
+      "category": "quality",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:quality-rules",
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/quality-rules.md"
+      }
+    },
+    {
+      "id": "spec:project:review-standards",
+      "type": "spec",
+      "title": "Review Standards",
+      "summary": "# Review Standards",
+      "tags": [
+        "review",
+        "checklist",
+        "gate",
+        "approval",
+        "standard"
+      ],
+      "status": "active",
+      "created": "2026-05-31T14:21:27.095Z",
+      "updated": "2026-05-31T14:21:27.096Z",
+      "scope": "project",
+      "category": "review",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/review-standards.md"
+      }
+    },
+    {
+      "id": "spec:project:test-conventions",
+      "type": "spec",
+      "title": "Test Conventions",
+      "summary": "# Test Conventions",
+      "tags": [
+        "test",
+        "coverage",
+        "mock",
+        "fixture",
+        "assertion",
+        "framework"
+      ],
+      "status": "active",
+      "created": "2026-05-31T14:21:27.095Z",
+      "updated": "2026-05-31T14:21:27.095Z",
+      "scope": "project",
+      "category": "test",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/test-conventions.md"
+      }
+    },
+    {
+      "id": "spec:project:ui-conventions",
+      "type": "spec",
+      "title": "UI Conventions",
+      "summary": "# UI Conventions",
+      "tags": [
+        "ui",
+        "design",
+        "color",
+        "typography",
+        "layout",
+        "animation",
+        "component"
+      ],
+      "status": "active",
+      "created": "2026-05-31T14:21:27.095Z",
+      "updated": "2026-05-31T14:21:27.095Z",
+      "scope": "project",
+      "category": "ui",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/ui-conventions.md"
+      }
+    }
+  ]
+}

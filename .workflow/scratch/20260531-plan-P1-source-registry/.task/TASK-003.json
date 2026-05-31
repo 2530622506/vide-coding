@@ -1,0 +1,46 @@
+{
+  "id": "TASK-003",
+  "title": "Seed canonical official GESP sources",
+  "type": "data",
+  "phase": "source-registry",
+  "wave": 2,
+  "status": "completed",
+  "completed_at": "2026-05-31T23:18:00+08:00",
+  "depends_on": [
+    "TASK-002"
+  ],
+  "read_first": [
+    ".workflow/.csv-wave/20260531-analyze-gesp-algorithm-taxonomy/context-package.json",
+    ".workflow/roadmap.md",
+    "data/source-registry/schema.json",
+    "data/source-registry/sources.official.json"
+  ],
+  "files": [
+    "data/source-registry/sources.official.json"
+  ],
+  "action": "Create official source seed data for canonical GESP references.",
+  "implementation": [
+    "Create `data/source-registry/sources.official.json` with `schema_version: 1` and `sources` array.",
+    "Add `official-gesp-home` for `https://gesp.ccf.org.cn/101/index.html`.",
+    "Add `official-gesp-syllabus` for `https://gesp.ccf.org.cn/101/1008/10012.html`.",
+    "Add `official-gesp-standard-pdf-2024` for `https://gesp.ccf.org.cn/101/attach/1725701770182688.pdf`.",
+    "Add `official-gesp-true-questions` for `https://gesp.ccf.org.cn/101/1010/index.html`.",
+    "Add `official-gesp-sample-questions` for `https://gesp.ccf.org.cn/101/1010/10088.html`.",
+    "Mark all official sources as `trust_level: canonical` and `can_store_full_text: false` until license policy is explicitly decided."
+  ],
+  "convergence": {
+    "criteria": [
+      "grep -q '\"id\": \"official-gesp-syllabus\"' data/source-registry/sources.official.json",
+      "grep -q '\"trust_level\": \"canonical\"' data/source-registry/sources.official.json",
+      "grep -q 'https://gesp.ccf.org.cn/101/1010/index.html' data/source-registry/sources.official.json",
+      "grep -q '\"can_store_full_text\": false' data/source-registry/sources.official.json"
+    ]
+  },
+  "execution": {
+    "files_modified": [
+      "data/source-registry/sources.official.json"
+    ],
+    "tests_passed": "n/a",
+    "summary": "Seeded five canonical official GESP sources."
+  }
+}

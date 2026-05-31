@@ -1,0 +1,2 @@
+{"at":"2026-05-31T23:47:00+08:00","type":"scope","message":"Phase 4 is source metadata ingestion only; algorithm taxonomy and knowledge extraction remain in Milestone 3."}
+{"at":"2026-05-31T23:48:00+08:00","type":"constraint","message":"All secondary sources including GitHub reference repositories must remain non-canonical and C++ scoped."}

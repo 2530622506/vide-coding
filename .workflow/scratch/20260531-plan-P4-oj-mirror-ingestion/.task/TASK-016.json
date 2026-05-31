@@ -1,0 +1,22 @@
+{
+  "id": "TASK-016",
+  "title": "Validate and document secondary ingestion",
+  "description": "Validate OJ mirror ingestion output and document the trust boundary, C++ scope and source statistics.",
+  "files": [
+    "scripts/validate-oj-ingestion.mjs",
+    "docs/oj-ingestion.md",
+    "data/oj-ingestion/README.md",
+    "docs/source-registry.md"
+  ],
+  "convergence_criteria": [
+    "validation passes",
+    "GitHub C++ reference count is asserted",
+    "docs explain secondary sources are not canonical"
+  ],
+  "verification": [
+    "npm run validate:oj-ingestion",
+    "npm run validate:pdf-parser",
+    "npm run validate:official-ingestion"
+  ],
+  "status": "completed"
+}

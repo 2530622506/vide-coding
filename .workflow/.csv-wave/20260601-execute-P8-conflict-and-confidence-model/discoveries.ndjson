@@ -1,0 +1,2 @@
+{"type":"result","detail":"M3 classification engine is complete enough for M4 catalog UI: level/domain, problem type/knowledge, conflict/confidence model all validate. ","source":"npm run validate:conflict-confidence"}
+{"type":"risk","detail":"Most tags remain candidate; confirmed status should be written by a future review workflow rather than inferred automatically. ","source":"docs/conflict-confidence-model.md"}

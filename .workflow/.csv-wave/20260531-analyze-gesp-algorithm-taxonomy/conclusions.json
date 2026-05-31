@@ -1,0 +1,67 @@
+{
+  "session_id": "20260531-analyze-gesp-algorithm-taxonomy",
+  "scope": "macro",
+  "scope_verdict": "large",
+  "go_no_go": "go",
+  "confidence": 0.78,
+  "scores": {
+    "feasibility": 82,
+    "impact": 88,
+    "risk": 64,
+    "complexity": 72,
+    "alignment": 91,
+    "maintainability": 79
+  },
+  "implementation_scope": [
+    "official source registry and crawler",
+    "PDF extraction and problem normalization",
+    "source alignment and canonical problem normalization",
+    "syllabus-aware problem-type classification and tag evidence",
+    "classified catalog UI with level, algorithm-domain, problem-type, and knowledge-point pages",
+    "admin review workflow"
+  ],
+  "decisions": [
+    {
+      "area": "product",
+      "status": "locked",
+      "decision": "Separate official syllabus facts from inferred/community labels."
+    },
+    {
+      "area": "classification",
+      "status": "locked",
+      "decision": "For GESP level 5 + dynamic programming, show an out-of-level or boundary warning because DP is not level 5; simple DP is level 6 and complex DP is level 7."
+    },
+    {
+      "area": "data",
+      "status": "locked",
+      "decision": "Every problem-type tag and knowledge-point tag must have provenance, evidence, confidence, and review status."
+    },
+    {
+      "area": "legal",
+      "status": "deferred",
+      "decision": "Decide whether full problem statements can be stored after license and source-term review."
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "high",
+      "area": "mvp",
+      "text": "Start with official C++ level 5 PDFs and the official syllabus before adding broad crawling."
+    },
+    {
+      "priority": "high",
+      "area": "ux",
+      "text": "Build classified catalog pages first: level page, algorithm-domain page, problem-type page, problem detail, and source alignment page."
+    },
+    {
+      "priority": "medium",
+      "area": "classifier",
+      "text": "Use rule-based labels plus manual review before introducing LLM or embedding classification."
+    }
+  ],
+  "open_questions": [
+    "Will the MVP support only C++ level 5 or also Python level 5?",
+    "Do you want to store full statements, or only metadata plus links until authorization is clear?",
+    "Is the first audience students, parents, or teachers?"
+  ]
+}

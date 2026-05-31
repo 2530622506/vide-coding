@@ -1,0 +1,17 @@
+{
+  "plans": [
+    {
+      "id": "PLN-20260531-P3-pdf-parser",
+      "phase_number": 3,
+      "phase_slug": "pdf-parser",
+      "milestone": "M2",
+      "plan_path": ".workflow/scratch/20260531-plan-P3-pdf-parser/plan.json",
+      "task_dir": ".workflow/scratch/20260531-plan-P3-pdf-parser/.task",
+      "task_count": 3,
+      "created_at": "2026-05-31T23:55:00+08:00",
+      "execution_status": "completed",
+      "completed_task_count": 3,
+      "completed_at": "2026-05-31T23:59:00+08:00"
+    }
+  ]
+}

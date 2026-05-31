@@ -1,0 +1,20 @@
+{
+  "id": "TASK-025",
+  "title": "Validate and document problem knowledge extraction",
+  "description": "Validate extraction output and document Phase 7 data boundaries for Chinese product planning.",
+  "files": [
+    "scripts/validate-problem-knowledge.mjs",
+    "docs/problem-knowledge-extraction.md",
+    "data/classification/README.md"
+  ],
+  "convergence_criteria": [
+    "validation passes",
+    "docs mention candidate status and no full statement storage",
+    "docs clarify C++ only and level 5 DP boundary"
+  ],
+  "verification": [
+    "node --check scripts/validate-problem-knowledge.mjs",
+    "npm run validate:problem-knowledge"
+  ],
+  "status": "completed"
+}

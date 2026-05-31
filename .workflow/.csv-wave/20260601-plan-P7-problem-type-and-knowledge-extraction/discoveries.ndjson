@@ -1,0 +1,2 @@
+{"type":"constraint","detail":"Phase 7 标签必须保持 candidate 状态，并带 evidence、confidence、syllabus_fit、review_status。","source":"workflow/specs/quality-rules.md"}
+{"type":"quality-note","detail":"不要使用已生成的算法大类标签反推题型，否则排序/模拟这类宽泛标签会造成误标。","source":"scripts/extract-problem-types-knowledge.mjs"}

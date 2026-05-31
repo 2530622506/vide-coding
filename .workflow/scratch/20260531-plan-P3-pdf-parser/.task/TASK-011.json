@@ -1,0 +1,16 @@
+{
+  "id": "TASK-011",
+  "title": "Create PDF text extractor",
+  "description": "Create an isolated official PDF text extraction layer using macOS PDFKit so parser logic can consume page text without storing full PDF bodies.",
+  "files": [
+    "scripts/pdfkit-extract-text.swift"
+  ],
+  "convergence_criteria": [
+    "scripts/pdfkit-extract-text.swift exists",
+    "extractor outputs page_count and pages with page_number/text"
+  ],
+  "verification": [
+    "swift scripts/pdfkit-extract-text.swift <pdf>"
+  ],
+  "status": "completed"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "TASK-018",
+  "title": "Generate canonical problem outputs",
+  "description": "Generate canonical-problem-alignment.json and cxx-level5-canonical-table.json.",
+  "files": [
+    "data/canonical-problems/canonical-problem-alignment.json",
+    "data/canonical-problems/cxx-level5-canonical-table.json"
+  ],
+  "convergence_criteria": [
+    "216 C++ canonical problems are emitted",
+    "C++ level 5 table has 27 rows",
+    "C++ level 5 programming rows have practice links"
+  ],
+  "verification": [
+    "npm run align:canonical"
+  ],
+  "status": "completed"
+}

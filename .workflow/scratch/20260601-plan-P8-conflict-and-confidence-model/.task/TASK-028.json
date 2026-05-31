@@ -1,0 +1,20 @@
+{
+  "id": "TASK-028",
+  "title": "Validate and document conflict model",
+  "description": "Validate conflict/confidence outputs and document how frontend and backend should consume them.",
+  "files": [
+    "scripts/validate-conflict-confidence.mjs",
+    "docs/conflict-confidence-model.md",
+    "data/classification/README.md"
+  ],
+  "convergence_criteria": [
+    "validation passes",
+    "docs explain status rules and scoring factors",
+    "docs mention frontend/backend consumption fields"
+  ],
+  "verification": [
+    "node --check scripts/validate-conflict-confidence.mjs",
+    "npm run validate:conflict-confidence"
+  ],
+  "status": "completed"
+}

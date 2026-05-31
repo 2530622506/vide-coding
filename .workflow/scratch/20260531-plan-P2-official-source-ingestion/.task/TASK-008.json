@@ -1,0 +1,34 @@
+{
+  "id": "TASK-008",
+  "title": "Implement official source ingestion scripts",
+  "type": "feature",
+  "phase": "official-source-ingestion",
+  "wave": 1,
+  "status": "completed",
+  "completed_at": "2026-05-31T23:42:00+08:00",
+  "depends_on": [],
+  "read_first": [
+    "data/source-registry/sources.official.json",
+    "data/source-registry/schema.json",
+    ".workflow/roadmap.md"
+  ],
+  "files": [
+    "package.json",
+    "scripts/ingest-official-sources.mjs",
+    "scripts/validate-official-ingestion.mjs",
+    "data/official-ingestion/README.md"
+  ],
+  "action": "Add official source ingestion and validation scripts.",
+  "implementation": [
+    "Add `ingest:official` and `validate:official-ingestion` package scripts.",
+    "Implement metadata-only official source ingestion.",
+    "Implement official ingestion validation."
+  ],
+  "convergence": {
+    "criteria": [
+      "grep -q '\"ingest:official\": \"node scripts/ingest-official-sources.mjs\"' package.json",
+      "grep -q 'metadata-only' scripts/ingest-official-sources.mjs",
+      "grep -q 'Official source ingestion validation passed' scripts/validate-official-ingestion.mjs"
+    ]
+  }
+}

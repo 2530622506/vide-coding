@@ -1,0 +1,4 @@
+id,result_status,findings,files_modified,tests_passed,error
+TASK-026,completed,Scoring model created with final confidence and confidence breakdown,scripts/build-conflict-confidence-model.mjs;package.json,passed,
+TASK-027,completed,Generated 216 records 258 scored tags and 69 review queue items,data/classification/conflict-confidence-model.json;data/classification/review-queue.json,passed,
+TASK-028,completed,Validation passed and Phase 8 docs added,scripts/validate-conflict-confidence.mjs;docs/conflict-confidence-model.md;data/classification/README.md,passed,

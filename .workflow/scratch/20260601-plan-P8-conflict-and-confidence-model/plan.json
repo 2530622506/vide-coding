@@ -1,0 +1,57 @@
+{
+  "id": "PLN-20260601-P8-conflict-and-confidence-model",
+  "created_at": "2026-06-01T00:40:00+08:00",
+  "scope": "phase",
+  "milestone": "M3",
+  "phase_number": 8,
+  "phase_slug": "conflict-and-confidence-model",
+  "source": {
+    "roadmap": ".workflow/roadmap.md#phase-8-conflict-and-confidence-model",
+    "previous_execute": ".workflow/.csv-wave/20260601-execute-P7-problem-type-and-knowledge-extraction/context.md"
+  },
+  "summary": "在候选分类标签之上建立冲突检测、置信度重算和复核队列，给前端目录和后端 API 提供可解释展示状态。",
+  "approach": [
+    "保留 Phase 7 原始抽取结果，不直接覆盖候选标签。",
+    "定义 syllabus_fit 枚举、置信度阈值和加减分因子。",
+    "从 canonical alignment 的冲突 / 重复候选、越级信号、低置信度标签和五级缺失标签生成 review queue。",
+    "输出每个标签的 raw_confidence、final_confidence、confidence_breakdown 和 effective_review_status。"
+  ],
+  "task_ids": [
+    "TASK-026",
+    "TASK-027",
+    "TASK-028"
+  ],
+  "waves": [
+    {
+      "wave": 1,
+      "phase_label": "confidence-model-script",
+      "tasks": [
+        "TASK-026"
+      ]
+    },
+    {
+      "wave": 2,
+      "phase_label": "review-queue-output",
+      "tasks": [
+        "TASK-027"
+      ]
+    },
+    {
+      "wave": 3,
+      "phase_label": "validation-and-docs",
+      "tasks": [
+        "TASK-028"
+      ]
+    }
+  ],
+  "confidence": {
+    "overall": 0.76,
+    "readiness_gate": "pass",
+    "pressure_pass": "模型可复现，所有展示态都保留分数拆解和复核原因。"
+  },
+  "notes": [
+    "Phase 8 不做人工确认动作，只生成复核队列。",
+    "M3 完成后进入 M4 分类目录 UI。",
+    "复核队列可直接作为后续 Review Workflow 的输入。"
+  ]
+}

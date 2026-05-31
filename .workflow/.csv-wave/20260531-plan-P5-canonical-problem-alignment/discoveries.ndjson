@@ -1,0 +1,2 @@
+{"at":"2026-05-31T23:59:40+08:00","type":"scope","message":"Phase 5 aligns sources only; algorithm domain and knowledge extraction remain Milestone 3."}
+{"at":"2026-05-31T23:59:41+08:00","type":"match_policy","message":"Auto alignment requires exact normalized title plus matching session and level because statement hashes are not available yet."}

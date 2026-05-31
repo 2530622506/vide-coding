@@ -1,0 +1,47 @@
+{
+  "id": "TASK-004",
+  "title": "Seed secondary practice and auxiliary sources",
+  "type": "data",
+  "phase": "source-registry",
+  "wave": 2,
+  "status": "completed",
+  "completed_at": "2026-05-31T23:18:00+08:00",
+  "depends_on": [
+    "TASK-002"
+  ],
+  "read_first": [
+    ".workflow/.csv-wave/20260531-analyze-gesp-algorithm-taxonomy/context-package.json",
+    ".workflow/roadmap.md",
+    ".workflow/specs/architecture-constraints.md",
+    "data/source-registry/schema.json",
+    "data/source-registry/sources.secondary.json"
+  ],
+  "files": [
+    "data/source-registry/sources.secondary.json"
+  ],
+  "action": "Create secondary source seed data for OJ mirrors, training lists, and solution references.",
+  "implementation": [
+    "Create `data/source-registry/sources.secondary.json` with `schema_version: 1` and `sources` array.",
+    "Add 洛谷 total/list sources: `luogu-gesp-total-training`, `luogu-gesp-level5-training`, `luogu-gesp-problem-search`.",
+    "Add `zqiceberg-gesp-level5`.",
+    "Add mirror sources: `hydro-gesp-mirror`, `aijieoj-gesp-mirror`, `cspoj-gesp-mirror`, `acgo-gesp-mirror`, `dongfangboyi-gesp-tag`, `xinchuan-gesp-level5`, `yurun-gesp-question`.",
+    "Add `cnblogs-gesp-solution-sample` as `source_type: solution_article` and `trust_level: auxiliary`.",
+    "Ensure no secondary source uses `trust_level: canonical`."
+  ],
+  "convergence": {
+    "criteria": [
+      "grep -q '\"id\": \"luogu-gesp-level5-training\"' data/source-registry/sources.secondary.json",
+      "grep -q '\"id\": \"zqiceberg-gesp-level5\"' data/source-registry/sources.secondary.json",
+      "grep -q '\"source_type\": \"oj_mirror\"' data/source-registry/sources.secondary.json",
+      "grep -q '\"trust_level\": \"auxiliary\"' data/source-registry/sources.secondary.json",
+      "! grep -q '\"trust_level\": \"canonical\"' data/source-registry/sources.secondary.json"
+    ]
+  },
+  "execution": {
+    "files_modified": [
+      "data/source-registry/sources.secondary.json"
+    ],
+    "tests_passed": "n/a",
+    "summary": "Seeded twelve secondary practice, mirror, and auxiliary sources with no canonical trust level."
+  }
+}

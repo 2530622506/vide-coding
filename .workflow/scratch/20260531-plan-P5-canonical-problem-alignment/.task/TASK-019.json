@@ -1,0 +1,19 @@
+{
+  "id": "TASK-019",
+  "title": "Validate and document canonical alignment",
+  "description": "Validate canonical problem output and document the trust boundary, match policy and level-5 table.",
+  "files": [
+    "scripts/validate-canonical-alignment.mjs",
+    "docs/canonical-alignment.md",
+    "data/canonical-problems/README.md"
+  ],
+  "convergence_criteria": [
+    "validation passes",
+    "duplicate and conflict candidates are reviewable",
+    "docs describe official-only canonical trust policy"
+  ],
+  "verification": [
+    "npm run validate:canonical-alignment"
+  ],
+  "status": "completed"
+}

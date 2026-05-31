@@ -1,0 +1,4 @@
+id,result_status,findings,files_modified,tests_passed,error
+TASK-020,completed,Plan requires official level labels and candidate algorithm domain labels,scripts/classify-level-domains.mjs;package.json,passed,
+TASK-021,completed,Plan requires classification output and C++ level 5 domain table,data/classification/level-domain-classification.json;data/classification/cxx-level5-domain-table.json,passed,
+TASK-022,completed,Plan requires validation and Chinese docs,scripts/validate-level-domain-classification.mjs;docs/level-domain-classification.md;data/classification/README.md,passed,

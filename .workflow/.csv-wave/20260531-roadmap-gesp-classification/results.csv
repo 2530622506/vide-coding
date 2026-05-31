@@ -1,0 +1,5 @@
+id,result_status,findings,output_path,error
+"1","completed","MVP boundary locked to C++ level 5 classified catalog with source registry and evidence-first data model.","",""
+"2","completed","Copyright, PDF extraction, source conflicts, and manual review are the highest risks.","",""
+"3","completed","Source registry and ingestion must precede canonical alignment; classification must precede catalog UI; review closes the trust loop.","",""
+"4","completed","Roadmap written to .workflow/roadmap.md with 6 milestones and 15 phases.",".workflow/roadmap.md",""

@@ -1,0 +1,17 @@
+{
+  "plans": [
+    {
+      "id": "PLN-20260531-P1-source-registry",
+      "phase_number": 1,
+      "phase_slug": "source-registry",
+      "milestone": "M1",
+      "plan_path": ".workflow/scratch/20260531-plan-P1-source-registry/plan.json",
+      "task_dir": ".workflow/scratch/20260531-plan-P1-source-registry/.task",
+      "task_count": 7,
+      "created_at": "2026-05-31T23:05:00+08:00",
+      "execution_status": "completed",
+      "completed_task_count": 7,
+      "completed_at": "2026-05-31T23:18:00+08:00"
+    }
+  ]
+}

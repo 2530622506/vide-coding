@@ -1,0 +1,18 @@
+{
+  "id": "TASK-021",
+  "title": "Generate level/domain outputs",
+  "description": "Generate level-domain-classification.json and cxx-level5-domain-table.json.",
+  "files": [
+    "data/classification/level-domain-classification.json",
+    "data/classification/cxx-level5-domain-table.json"
+  ],
+  "convergence_criteria": [
+    "216 C++ records are classified",
+    "all C++ level 5 records have level labels",
+    "most C++ level 5 records have domain candidates"
+  ],
+  "verification": [
+    "npm run classify:level-domain"
+  ],
+  "status": "completed"
+}

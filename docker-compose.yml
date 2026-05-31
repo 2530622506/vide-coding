@@ -1,0 +1,23 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: gesp-catalog-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-gesp_root_dev_password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-gesp_catalog}
+      MYSQL_USER: ${MYSQL_USER:-gesp}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-gesp_dev_password}
+      TZ: Asia/Shanghai
+    ports:
+      - "${MYSQL_PORT:-3310}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$${MYSQL_USER} -p$${MYSQL_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  mysql-data:

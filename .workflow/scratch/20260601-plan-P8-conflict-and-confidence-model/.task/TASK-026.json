@@ -1,0 +1,19 @@
+{
+  "id": "TASK-026",
+  "title": "Create conflict and confidence model",
+  "description": "Create a deterministic model that scores candidate tags and produces effective review status.",
+  "files": [
+    "scripts/build-conflict-confidence-model.mjs",
+    "package.json"
+  ],
+  "convergence_criteria": [
+    "syllabus_fit enum is defined",
+    "confidence scoring uses reproducible factors",
+    "tags retain raw and final confidence with breakdown"
+  ],
+  "verification": [
+    "node --check scripts/build-conflict-confidence-model.mjs",
+    "npm run model:conflict-confidence"
+  ],
+  "status": "completed"
+}

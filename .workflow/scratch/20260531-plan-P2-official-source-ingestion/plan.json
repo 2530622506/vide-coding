@@ -1,0 +1,57 @@
+{
+  "id": "PLN-20260531-P2-official-source-ingestion",
+  "created_at": "2026-05-31T23:42:00+08:00",
+  "scope": "phase",
+  "milestone": "M1",
+  "phase_number": 2,
+  "phase_slug": "official-source-ingestion",
+  "source": {
+    "roadmap": ".workflow/roadmap.md#phase-2-official-source-ingestion",
+    "previous_execute": ".workflow/.csv-wave/20260531-execute-P1-source-registry/context.md"
+  },
+  "summary": "Implement official GESP source ingestion from canonical registry entries, store metadata-only discovered official pages and PDFs, and validate session/PDF coverage.",
+  "approach": [
+    "Read canonical official sources from the source registry.",
+    "Fetch official pages and same-host PDF attachments with a metadata-only policy.",
+    "Persist URL, title, publication/session metadata, content type, hash, byte length, and source relationships.",
+    "Validate that official sessions, sample attachments, and PDF metadata are present without storing full content."
+  ],
+  "task_ids": [
+    "TASK-008",
+    "TASK-009",
+    "TASK-010"
+  ],
+  "waves": [
+    {
+      "wave": 1,
+      "phase_label": "ingestion-scripts",
+      "tasks": [
+        "TASK-008"
+      ]
+    },
+    {
+      "wave": 2,
+      "phase_label": "run-ingestion",
+      "tasks": [
+        "TASK-009"
+      ]
+    },
+    {
+      "wave": 3,
+      "phase_label": "validation",
+      "tasks": [
+        "TASK-010"
+      ]
+    }
+  ],
+  "confidence": {
+    "overall": 0.82,
+    "readiness_gate": "pass",
+    "pressure_pass": "Network access and upstream page changes are the highest-risk area; validator checks metadata-only output and minimum session/PDF coverage."
+  },
+  "notes": [
+    "This phase does not parse problem statements from PDFs.",
+    "This phase stores metadata and hashes only.",
+    "Official source ingestion required network access."
+  ]
+}

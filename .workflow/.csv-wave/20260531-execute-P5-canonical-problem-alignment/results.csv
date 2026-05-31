@@ -1,0 +1,4 @@
+id,result_status,findings,files_modified,tests_passed,error
+TASK-017,completed,Alignment script uses official-only canonical policy and exact title/session/level auto-match,scripts/align-canonical-problems.mjs;package.json,passed,
+TASK-018,completed,Generated 216 canonical problems 18 secondary source versions 44 duplicate candidates and 1 conflict candidate,data/canonical-problems/canonical-problem-alignment.json;data/canonical-problems/cxx-level5-canonical-table.json,passed,
+TASK-019,completed,Canonical alignment validation passed and documentation added,scripts/validate-canonical-alignment.mjs;docs/canonical-alignment.md;data/canonical-problems/README.md,passed,

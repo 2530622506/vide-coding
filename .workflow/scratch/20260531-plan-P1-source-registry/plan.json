@@ -1,0 +1,89 @@
+{
+  "id": "PLN-20260531-P1-source-registry",
+  "created_at": "2026-05-31T23:05:00+08:00",
+  "scope": "phase",
+  "milestone": "M1",
+  "phase_number": 1,
+  "phase_slug": "source-registry",
+  "source": {
+    "roadmap": ".workflow/roadmap.md#phase-1-source-registry",
+    "analyze_context": ".workflow/.csv-wave/20260531-analyze-gesp-algorithm-taxonomy/context-package.json"
+  },
+  "summary": "Create the GESP source registry foundation: file layout, schema, canonical official seeds, secondary source seeds, dependency-free validation, documentation, and verification.",
+  "approach": [
+    "Start with a minimal Node-capable project scaffold because no application code exists yet.",
+    "Define registry fields before adding seed data.",
+    "Separate official/canonical sources from secondary/practice/auxiliary sources.",
+    "Validate seed files without external dependencies.",
+    "Document source trust rules so later crawler and classifier work cannot treat mirrors as official."
+  ],
+  "task_ids": [
+    "TASK-001",
+    "TASK-002",
+    "TASK-003",
+    "TASK-004",
+    "TASK-005",
+    "TASK-006",
+    "TASK-007"
+  ],
+  "waves": [
+    {
+      "wave": 1,
+      "phase_label": "scaffold",
+      "tasks": [
+        "TASK-001"
+      ]
+    },
+    {
+      "wave": 2,
+      "phase_label": "schema-and-seeds",
+      "tasks": [
+        "TASK-002",
+        "TASK-003",
+        "TASK-004"
+      ]
+    },
+    {
+      "wave": 3,
+      "phase_label": "validation",
+      "tasks": [
+        "TASK-005"
+      ]
+    },
+    {
+      "wave": 4,
+      "phase_label": "documentation",
+      "tasks": [
+        "TASK-006"
+      ]
+    },
+    {
+      "wave": 5,
+      "phase_label": "verification",
+      "tasks": [
+        "TASK-007"
+      ]
+    }
+  ],
+  "confidence": {
+    "overall": 0.84,
+    "factors": {
+      "scope_clarity": 0.91,
+      "dependency_validity": 0.86,
+      "criteria_quality": 0.82,
+      "risk_handling": 0.78,
+      "implementation_specificity": 0.84
+    },
+    "readiness_gate": "pass",
+    "pressure_pass": "TASK-005 is highest complexity because it must enforce schema invariants without external dependencies; criteria require command-level validation and negative fixture behavior."
+  },
+  "collision_detection": {
+    "same_milestone_existing_plans": [],
+    "status": "clear"
+  },
+  "notes": [
+    "Do not implement crawlers in Phase 1.",
+    "Do not store full problem statements in Phase 1.",
+    "Keep DP rules as source metadata policy only; classification logic belongs to later phases."
+  ]
+}

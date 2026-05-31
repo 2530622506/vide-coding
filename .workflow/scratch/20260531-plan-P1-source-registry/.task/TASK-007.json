@@ -1,0 +1,50 @@
+{
+  "id": "TASK-007",
+  "title": "Verify Phase 1 source registry readiness",
+  "type": "validation",
+  "phase": "source-registry",
+  "wave": 5,
+  "status": "completed",
+  "completed_at": "2026-05-31T23:18:00+08:00",
+  "depends_on": [
+    "TASK-001",
+    "TASK-002",
+    "TASK-003",
+    "TASK-004",
+    "TASK-005",
+    "TASK-006"
+  ],
+  "read_first": [
+    "package.json",
+    "data/source-registry/schema.json",
+    "data/source-registry/sources.official.json",
+    "data/source-registry/sources.secondary.json",
+    "scripts/validate-source-registry.mjs",
+    "docs/source-registry.md"
+  ],
+  "files": [
+    ".workflow/scratch/20260531-plan-P1-source-registry/verification.md"
+  ],
+  "action": "Run final checks and record Phase 1 readiness evidence.",
+  "implementation": [
+    "Run `npm run validate:sources`.",
+    "Confirm official source count is at least 5 and total source count is at least 15.",
+    "Confirm secondary sources contain no `trust_level: canonical`.",
+    "Write `.workflow/scratch/20260531-plan-P1-source-registry/verification.md` with command output summary and any follow-up risks."
+  ],
+  "convergence": {
+    "criteria": [
+      "npm run validate:sources",
+      "grep -q 'Source registry validation passed' .workflow/scratch/20260531-plan-P1-source-registry/verification.md",
+      "grep -q 'official source count' .workflow/scratch/20260531-plan-P1-source-registry/verification.md",
+      "grep -q 'secondary canonical count: 0' .workflow/scratch/20260531-plan-P1-source-registry/verification.md"
+    ]
+  },
+  "execution": {
+    "files_modified": [
+      ".workflow/scratch/20260531-plan-P1-source-registry/verification.md"
+    ],
+    "tests_passed": "true",
+    "summary": "Recorded validation output with official count 5, secondary count 12, and secondary canonical count 0."
+  }
+}

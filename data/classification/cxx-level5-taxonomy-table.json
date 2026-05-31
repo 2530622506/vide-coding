@@ -1,0 +1,651 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-31T16:23:40.356Z",
+  "generator": "scripts/extract-problem-types-knowledge.mjs",
+  "source_extraction": "data/classification/problem-type-knowledge.json",
+  "summary": {
+    "domain_count": 10,
+    "problem_count": 27,
+    "typed_problem_count": 21,
+    "knowledge_covered_problem_count": 21
+  },
+  "domains": [
+    {
+      "domain_id": "number_theory",
+      "domain_label": "数论",
+      "problem_count": 6,
+      "problem_types": [
+        {
+          "problem_type_id": "prime_factorization",
+          "problem_type_label": "质因数分解型",
+          "problem_count": 3,
+          "knowledge_points": [
+            {
+              "id": "finite_decimal",
+              "label": "有限小数判定"
+            },
+            {
+              "id": "sieve_prime",
+              "label": "筛法求质数"
+            },
+            {
+              "id": "unique_factorization",
+              "label": "唯一分解定理"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:06",
+              "question_type": "judgment",
+              "question_number": 6,
+              "title": "根据唯⼀分解定理，如果⼤于1的整数不能被任何不超其平⽅根的质数整除，那么n 必定是质数。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:09",
+              "question_type": "judgment",
+              "question_number": 9,
+              "title": "线性筛相比埃氏筛的核心改进在于：埃氏筛中一个合数可能被多个质数重复标记，线性筛通过\"每个合数只",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:programming:01",
+              "question_type": "programming",
+              "question_number": 1,
+              "title": "有限不循环小数",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        },
+        {
+          "problem_type_id": "sieve_fill_judgment",
+          "problem_type_label": "筛法填空/判断型",
+          "problem_count": 3,
+          "knowledge_points": [
+            {
+              "id": "sieve_prime",
+              "label": "筛法求质数"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:09",
+              "question_type": "judgment",
+              "question_number": 9,
+              "title": "线性筛相比埃氏筛的核心改进在于：埃氏筛中一个合数可能被多个质数重复标记，线性筛通过\"每个合数只",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:05",
+              "question_type": "selection",
+              "question_number": 5,
+              "title": "下面代码实现了欧拉（线性）筛，横线处应填写。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:06",
+              "question_type": "selection",
+              "question_number": 6,
+              "title": "埃氏筛中将内层循环从 j = i*i 开始而不是 j = 2*i 的主要原因是。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        },
+        {
+          "problem_type_id": "gcd_lcm_transform",
+          "problem_type_label": "gcd/lcm 变形型",
+          "problem_count": 1,
+          "knowledge_points": [
+            {
+              "id": "euclid_gcd",
+              "label": "欧几里得算法 / gcd"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:04",
+              "question_type": "selection",
+              "question_number": 4,
+              "title": "对如下代码实现的欧几里得算法（辗转相除法），执行 gcd(48, 18) 得到的调用序列为。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "domain_id": "sort_simulation",
+      "domain_label": "排序/模拟",
+      "problem_count": 5,
+      "problem_types": [
+        {
+          "problem_type_id": "sort_key_greedy",
+          "problem_type_label": "排序过程/关键字型",
+          "problem_count": 4,
+          "knowledge_points": [
+            {
+              "id": "quick_sort_partition",
+              "label": "快速排序划分"
+            },
+            {
+              "id": "sort_stability",
+              "label": "排序稳定性"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:03",
+              "question_type": "judgment",
+              "question_number": 3,
+              "title": "快速排序只要每次都选取中间元素作为枢轴，就一定是稳定排序。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:12",
+              "question_type": "selection",
+              "question_number": 12,
+              "title": "游戏大赛决赛，两组选手分别按得分从小到大排好队，现在要把他们合并成一个有序排行榜。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:13",
+              "question_type": "selection",
+              "question_number": 13,
+              "title": "有 位同学的成绩已经从小到大排好序，现在对它执行下面这段以第一个元素为 pivot 的快速排序，请",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:14",
+              "question_type": "selection",
+              "question_number": 14,
+              "title": "下面关于排序算法的描述中，不正确的是。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        },
+        {
+          "problem_type_id": "recursion_divide_process",
+          "problem_type_label": "递归/分治过程分析型",
+          "problem_count": 3,
+          "knowledge_points": [
+            {
+              "id": "quick_sort_partition",
+              "label": "快速排序划分"
+            },
+            {
+              "id": "recursion_call_stack",
+              "label": "递归调用与调用栈"
+            },
+            {
+              "id": "sort_stability",
+              "label": "排序稳定性"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:03",
+              "question_type": "judgment",
+              "question_number": 3,
+              "title": "快速排序只要每次都选取中间元素作为枢轴，就一定是稳定排序。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:10",
+              "question_type": "judgment",
+              "question_number": 10,
+              "title": "任何递归程序都可以改写为等价的非递归程序，但改写后的非递归程序一定需要显式地使用栈来模拟递归",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:13",
+              "question_type": "selection",
+              "question_number": 13,
+              "title": "有 位同学的成绩已经从小到大排好序，现在对它执行下面这段以第一个元素为 pivot 的快速排序，请",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "domain_id": "binary_search",
+      "domain_label": "二分",
+      "problem_count": 4,
+      "problem_types": [
+        {
+          "problem_type_id": "binary_answer_check",
+          "problem_type_label": "二分答案判定型",
+          "problem_count": 2,
+          "knowledge_points": [
+            {
+              "id": "lower_bound",
+              "label": "第一个大于等于"
+            },
+            {
+              "id": "monotonic_check",
+              "label": "单调性判定"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:programming:02",
+              "question_type": "programming",
+              "question_number": 2,
+              "title": "找数",
+              "problem_type_confidence": 0.68,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:10",
+              "question_type": "selection",
+              "question_number": 10,
+              "title": "给定 n 根木头，第 i 根长度为 a[i]。要切成不少于 m 段等长木段，求最大可能长度，则横线上应填",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        },
+        {
+          "problem_type_id": "untyped",
+          "problem_type_label": "待抽取题型",
+          "problem_count": 2,
+          "knowledge_points": [
+            {
+              "id": "lower_bound",
+              "label": "第一个大于等于"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:02",
+              "question_type": "judgment",
+              "question_number": 2,
+              "title": "若数组 a 已按升序排列，则下面代码可以正确实现 “在 a 中查找第一个大于等于 x 的元素的位置”",
+              "problem_type_confidence": 0,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:08",
+              "question_type": "selection",
+              "question_number": 8,
+              "title": "在升序数组中查找第一个大于等于 x 的位置，下面循环中横线应填。",
+              "problem_type_confidence": 0,
+              "review_status": "candidate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "domain_id": "linked_list",
+      "domain_label": "链表",
+      "problem_count": 4,
+      "problem_types": [
+        {
+          "problem_type_id": "linked_list_operation_simulation",
+          "problem_type_label": "链表操作模拟型",
+          "problem_count": 4,
+          "knowledge_points": [
+            {
+              "id": "circular_linked_list",
+              "label": "循环链表"
+            },
+            {
+              "id": "doubly_linked_list",
+              "label": "双链表"
+            },
+            {
+              "id": "pointer_rewire",
+              "label": "指针重连"
+            },
+            {
+              "id": "singly_linked_list",
+              "label": "单链表"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:01",
+              "question_type": "judgment",
+              "question_number": 1,
+              "title": "有一个存储了 个整数的线性表，分别用数组和单链表两种方式实现。在已知下标（或结点指针）的前提",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:01",
+              "question_type": "selection",
+              "question_number": 1,
+              "title": "关于单链表、双链表和循环链表，下列说法正确的是。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:02",
+              "question_type": "selection",
+              "question_number": 2,
+              "title": "双向循环链表中要在结点 p 之前插入新结点 s （均非空），以下指针操作正确的是。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:03",
+              "question_type": "selection",
+              "question_number": 3,
+              "title": "下面函数用“哑结点”统一处理删除单向链表中的头结点与中间结点。横线处应填。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "domain_id": "divide_conquer",
+      "domain_label": "分治",
+      "problem_count": 3,
+      "problem_types": [
+        {
+          "problem_type_id": "recursion_divide_process",
+          "problem_type_label": "递归/分治过程分析型",
+          "problem_count": 3,
+          "knowledge_points": [
+            {
+              "id": "divide_and_conquer_merge",
+              "label": "分治拆分与合并"
+            },
+            {
+              "id": "quick_sort_partition",
+              "label": "快速排序划分"
+            },
+            {
+              "id": "sort_stability",
+              "label": "排序稳定性"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:03",
+              "question_type": "judgment",
+              "question_number": 3,
+              "title": "快速排序只要每次都选取中间元素作为枢轴，就一定是稳定排序。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:11",
+              "question_type": "selection",
+              "question_number": 11,
+              "title": "下面代码用分治求“最大连续子段和”",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:13",
+              "question_type": "selection",
+              "question_number": 13,
+              "title": "有 位同学的成绩已经从小到大排好序，现在对它执行下面这段以第一个元素为 pivot 的快速排序，请",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        },
+        {
+          "problem_type_id": "sort_key_greedy",
+          "problem_type_label": "排序过程/关键字型",
+          "problem_count": 2,
+          "knowledge_points": [
+            {
+              "id": "quick_sort_partition",
+              "label": "快速排序划分"
+            },
+            {
+              "id": "sort_stability",
+              "label": "排序稳定性"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:03",
+              "question_type": "judgment",
+              "question_number": 3,
+              "title": "快速排序只要每次都选取中间元素作为枢轴，就一定是稳定排序。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:13",
+              "question_type": "selection",
+              "question_number": 13,
+              "title": "有 位同学的成绩已经从小到大排好序，现在对它执行下面这段以第一个元素为 pivot 的快速排序，请",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "domain_id": "recursion",
+      "domain_label": "递归",
+      "problem_count": 3,
+      "problem_types": [
+        {
+          "problem_type_id": "recursion_divide_process",
+          "problem_type_label": "递归/分治过程分析型",
+          "problem_count": 3,
+          "knowledge_points": [
+            {
+              "id": "recurrence_complexity",
+              "label": "递推式复杂度"
+            },
+            {
+              "id": "recursion_call_stack",
+              "label": "递归调用与调用栈"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:04",
+              "question_type": "judgment",
+              "question_number": 4,
+              "title": "若某算法满足递推式： ，则其时间复杂度为 。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:10",
+              "question_type": "judgment",
+              "question_number": 10,
+              "title": "任何递归程序都可以改写为等价的非递归程序，但改写后的非递归程序一定需要显式地使用栈来模拟递归",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:09",
+              "question_type": "selection",
+              "question_number": 9,
+              "title": "关于递归函数调用，下列说法错误的是。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        },
+        {
+          "problem_type_id": "complexity_judgment",
+          "problem_type_label": "复杂度判断型",
+          "problem_count": 1,
+          "knowledge_points": [
+            {
+              "id": "recurrence_complexity",
+              "label": "递推式复杂度"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:04",
+              "question_type": "judgment",
+              "question_number": 4,
+              "title": "若某算法满足递推式： ，则其时间复杂度为 。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "domain_id": "unclassified",
+      "domain_label": "未分类",
+      "problem_count": 3,
+      "problem_types": [
+        {
+          "problem_type_id": "untyped",
+          "problem_type_label": "待抽取题型",
+          "problem_count": 3,
+          "knowledge_points": [],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:05",
+              "question_type": "judgment",
+              "question_number": 5,
+              "title": "在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆",
+              "problem_type_confidence": 0,
+              "review_status": "needs_review"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:07",
+              "question_type": "judgment",
+              "question_number": 7,
+              "title": "假设数",
+              "problem_type_confidence": 0,
+              "review_status": "needs_review"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:07",
+              "question_type": "selection",
+              "question_number": 7,
+              "title": "下面程序的运行结果为。",
+              "problem_type_confidence": 0,
+              "review_status": "needs_review"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "domain_id": "complexity",
+      "domain_label": "复杂度",
+      "problem_count": 1,
+      "problem_types": [
+        {
+          "problem_type_id": "complexity_judgment",
+          "problem_type_label": "复杂度判断型",
+          "problem_count": 1,
+          "knowledge_points": [
+            {
+              "id": "recurrence_complexity",
+              "label": "递推式复杂度"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:04",
+              "question_type": "judgment",
+              "question_number": 4,
+              "title": "若某算法满足递推式： ，则其时间复杂度为 。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        },
+        {
+          "problem_type_id": "recursion_divide_process",
+          "problem_type_label": "递归/分治过程分析型",
+          "problem_count": 1,
+          "knowledge_points": [
+            {
+              "id": "recurrence_complexity",
+              "label": "递推式复杂度"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:04",
+              "question_type": "judgment",
+              "question_number": 4,
+              "title": "若某算法满足递推式： ，则其时间复杂度为 。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "domain_id": "greedy",
+      "domain_label": "贪心",
+      "problem_count": 1,
+      "problem_types": [
+        {
+          "problem_type_id": "untyped",
+          "problem_type_label": "待抽取题型",
+          "problem_count": 1,
+          "knowledge_points": [],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:08",
+              "question_type": "judgment",
+              "question_number": 8,
+              "title": "若一个问题满足最优子结构性质，则一定可以用贪心算法得到最优解。",
+              "problem_type_confidence": 0,
+              "review_status": "needs_review"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "domain_id": "high_precision",
+      "domain_label": "高精度",
+      "problem_count": 1,
+      "problem_types": [
+        {
+          "problem_type_id": "high_precision_arithmetic",
+          "problem_type_label": "高精度运算模拟型",
+          "problem_count": 1,
+          "knowledge_points": [
+            {
+              "id": "big_integer_division",
+              "label": "大整数除法"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:15",
+              "question_type": "selection",
+              "question_number": 15,
+              "title": "下面代码实现两个整数除法，其中被除数为一个“大整数”",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+id,title,description,angle,deps,context_from,wave,status,findings,output_path,error
+"1","Explore: Phase 2 Scope","Confirm official-source-ingestion boundaries.","architecture","","","1","completed","Phase 2 should discover official pages and PDF metadata only; no problem extraction or classification.","",""
+"2","Generate Plan","Produce plan.json and task files for official ingestion.","planning","1","1","2","completed","Generated three-task plan covering scripts, ingestion run, and validation.",".workflow/scratch/20260531-plan-P2-official-source-ingestion/plan.json",""

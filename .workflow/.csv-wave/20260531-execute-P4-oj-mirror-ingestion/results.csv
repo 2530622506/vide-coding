@@ -1,0 +1,4 @@
+id,result_status,findings,files_modified,tests_passed,error
+TASK-014,completed,GitHub adapter filters to C++ sample past-exam and solution PDF metadata,scripts/ingest-oj-mirrors.mjs;data/source-registry/sources.secondary.json,passed,
+TASK-015,completed,Generated 345 secondary entries with 106 GitHub C++ references and 44 duplicate candidates,data/oj-ingestion/mirror-problem-candidates.json,passed,
+TASK-016,completed,Validation passed with no canonical secondary entries and docs updated,scripts/validate-oj-ingestion.mjs;docs/oj-ingestion.md;data/oj-ingestion/README.md;docs/source-registry.md,passed,

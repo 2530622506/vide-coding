@@ -1,0 +1,9 @@
+{
+  "session": "20260601-plan-P8-conflict-and-confidence-model",
+  "type": "plan",
+  "status": "completed",
+  "plan": ".workflow/scratch/20260601-plan-P8-conflict-and-confidence-model/plan.json",
+  "results": ".workflow/.csv-wave/20260601-plan-P8-conflict-and-confidence-model/results.csv",
+  "created_at": "2026-06-01T00:40:00+08:00",
+  "completed_at": "2026-06-01T00:41:00+08:00"
+}

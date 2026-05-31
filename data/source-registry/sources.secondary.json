@@ -1,0 +1,472 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "luogu-gesp-total-training",
+      "name": "洛谷 GESP 总题单",
+      "url": "https://www.luogu.com.cn/training/458141",
+      "source_type": "training_list",
+      "trust_level": "practice",
+      "crawl_strategy": "html_index",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "content_scope": [
+        "practice_link",
+        "oj_problem_id",
+        "community_solution"
+      ],
+      "notes": "Practice and mapping source only; never canonical for GESP level or official knowledge scope."
+    },
+    {
+      "id": "luogu-gesp-level5-training",
+      "name": "洛谷 GESP 五级题单",
+      "url": "https://www.luogu.com.cn/training/920878",
+      "source_type": "training_list",
+      "trust_level": "practice",
+      "crawl_strategy": "html_index",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "5"
+      ],
+      "content_scope": [
+        "practice_link",
+        "oj_problem_id",
+        "community_solution"
+      ],
+      "notes": "Useful for C++ level-5 practice-link mapping and update discovery."
+    },
+    {
+      "id": "luogu-gesp-problem-search",
+      "name": "洛谷 GESP 题库检索",
+      "url": "https://www.luogu.com.cn/problem/list?keyword=GESP",
+      "source_type": "training_list",
+      "trust_level": "practice",
+      "crawl_strategy": "html_index",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "unknown"
+      ],
+      "content_scope": [
+        "practice_link",
+        "oj_problem_id"
+      ],
+      "notes": "Discovery entry for Luogu problem IDs; requires later filtering and alignment."
+    },
+    {
+      "id": "luogu-gesp-cxx-level1-training",
+      "name": "洛谷 CCF GESP C++ 一级上机题",
+      "url": "https://www.luogu.com.cn/training/551",
+      "source_type": "training_list",
+      "trust_level": "practice",
+      "crawl_strategy": "html_index",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "1"
+      ],
+      "content_scope": [
+        "practice_link",
+        "oj_problem_id"
+      ],
+      "notes": "Public Luogu CCF GESP C++ level training list; practice source only, not canonical."
+    },
+    {
+      "id": "luogu-gesp-cxx-level2-training",
+      "name": "洛谷 CCF GESP C++ 二级上机题",
+      "url": "https://www.luogu.com.cn/training/552",
+      "source_type": "training_list",
+      "trust_level": "practice",
+      "crawl_strategy": "html_index",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "2"
+      ],
+      "content_scope": [
+        "practice_link",
+        "oj_problem_id"
+      ],
+      "notes": "Public Luogu CCF GESP C++ level training list; practice source only, not canonical."
+    },
+    {
+      "id": "luogu-gesp-cxx-level3-training",
+      "name": "洛谷 CCF GESP C++ 三级上机题",
+      "url": "https://www.luogu.com.cn/training/553",
+      "source_type": "training_list",
+      "trust_level": "practice",
+      "crawl_strategy": "html_index",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "3"
+      ],
+      "content_scope": [
+        "practice_link",
+        "oj_problem_id"
+      ],
+      "notes": "Public Luogu CCF GESP C++ level training list; practice source only, not canonical."
+    },
+    {
+      "id": "luogu-gesp-cxx-level4-training",
+      "name": "洛谷 CCF GESP C++ 四级上机题",
+      "url": "https://www.luogu.com.cn/training/554",
+      "source_type": "training_list",
+      "trust_level": "practice",
+      "crawl_strategy": "html_index",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "4"
+      ],
+      "content_scope": [
+        "practice_link",
+        "oj_problem_id"
+      ],
+      "notes": "Public Luogu CCF GESP C++ level training list; practice source only, not canonical."
+    },
+    {
+      "id": "luogu-gesp-cxx-level5-training-official-list",
+      "name": "洛谷 CCF GESP C++ 五级上机题",
+      "url": "https://www.luogu.com.cn/training/555",
+      "source_type": "training_list",
+      "trust_level": "practice",
+      "crawl_strategy": "html_index",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "5"
+      ],
+      "content_scope": [
+        "practice_link",
+        "oj_problem_id"
+      ],
+      "notes": "Public Luogu CCF GESP C++ level training list; practice source only, not canonical."
+    },
+    {
+      "id": "luogu-gesp-cxx-level6-training",
+      "name": "洛谷 CCF GESP C++ 六级上机题",
+      "url": "https://www.luogu.com.cn/training/556",
+      "source_type": "training_list",
+      "trust_level": "practice",
+      "crawl_strategy": "html_index",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "6"
+      ],
+      "content_scope": [
+        "practice_link",
+        "oj_problem_id"
+      ],
+      "notes": "Public Luogu CCF GESP C++ level training list; practice source only, not canonical."
+    },
+    {
+      "id": "luogu-gesp-cxx-level7-training",
+      "name": "洛谷 CCF GESP C++ 七级上机题",
+      "url": "https://www.luogu.com.cn/training/557",
+      "source_type": "training_list",
+      "trust_level": "practice",
+      "crawl_strategy": "html_index",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "7"
+      ],
+      "content_scope": [
+        "practice_link",
+        "oj_problem_id"
+      ],
+      "notes": "Public Luogu CCF GESP C++ level training list; practice source only, not canonical."
+    },
+    {
+      "id": "luogu-gesp-cxx-level8-training",
+      "name": "洛谷 CCF GESP C++ 八级上机题",
+      "url": "https://www.luogu.com.cn/training/558",
+      "source_type": "training_list",
+      "trust_level": "practice",
+      "crawl_strategy": "html_index",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "8"
+      ],
+      "content_scope": [
+        "practice_link",
+        "oj_problem_id"
+      ],
+      "notes": "Public Luogu CCF GESP C++ level training list; practice source only, not canonical."
+    },
+    {
+      "id": "zqiceberg-gesp-level5",
+      "name": "zqiceberg GESP 五级题目汇总",
+      "url": "https://www.zqiceberg.com/PROBLEM/GESP/5/",
+      "source_type": "solution_article",
+      "trust_level": "auxiliary",
+      "crawl_strategy": "html_detail",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "5"
+      ],
+      "content_scope": [
+        "candidate_problem_list",
+        "solution_hint",
+        "code_signal"
+      ],
+      "notes": "Useful candidate list and solution-signal source; requires manual review."
+    },
+    {
+      "id": "hydro-gesp-mirror",
+      "name": "Hydro GESP 镜像题",
+      "url": "https://oi.wenjian.club/p/GESP1057",
+      "source_type": "oj_mirror",
+      "trust_level": "mirror",
+      "crawl_strategy": "html_detail",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "5",
+        "unknown"
+      ],
+      "content_scope": [
+        "practice_link",
+        "mirror_statement"
+      ],
+      "notes": "Mirror/practice entry; later phases must align to canonical official source."
+    },
+    {
+      "id": "aijieoj-gesp-mirror",
+      "name": "AIJIE_OJ GESP 镜像题",
+      "url": "https://aijieoj.cn/problem.php?id=6028",
+      "source_type": "oj_mirror",
+      "trust_level": "mirror",
+      "crawl_strategy": "html_detail",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "5",
+        "unknown"
+      ],
+      "content_scope": [
+        "practice_link",
+        "mirror_statement"
+      ],
+      "notes": "Mirror/practice entry; source labels need review."
+    },
+    {
+      "id": "cspoj-gesp-mirror",
+      "name": "CSPOJ GESP 镜像题",
+      "url": "https://www.cspoj.com/problem.php?id=3972",
+      "source_type": "oj_mirror",
+      "trust_level": "mirror",
+      "crawl_strategy": "html_detail",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "5",
+        "unknown"
+      ],
+      "content_scope": [
+        "practice_link",
+        "mirror_statement"
+      ],
+      "notes": "Mirror/practice entry; later canonical alignment required."
+    },
+    {
+      "id": "acgo-gesp-mirror",
+      "name": "ACGO GESP 题库",
+      "url": "https://www.acgo.cn/problemset/info/95154",
+      "source_type": "oj_mirror",
+      "trust_level": "mirror",
+      "crawl_strategy": "html_detail",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "5",
+        "unknown"
+      ],
+      "content_scope": [
+        "practice_link",
+        "mirror_statement"
+      ],
+      "notes": "Mirror/practice entry; use for source alignment only."
+    },
+    {
+      "id": "dongfangboyi-gesp-tag",
+      "name": "东方博宜 OJ GESP 标签",
+      "url": "https://oj.czos.cn/problem/index?tag=GESP",
+      "source_type": "oj_mirror",
+      "trust_level": "mirror",
+      "crawl_strategy": "html_index",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "unknown"
+      ],
+      "content_scope": [
+        "practice_link",
+        "tag_index"
+      ],
+      "notes": "Tag index for discovery; labels are not official."
+    },
+    {
+      "id": "xinchuan-gesp-level5",
+      "name": "信创计划 GESP 五级分类",
+      "url": "https://xwjedu.cn/p?q=category%3AGESP%E4%BA%94%E7%BA%A7",
+      "source_type": "oj_mirror",
+      "trust_level": "mirror",
+      "crawl_strategy": "html_index",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "5"
+      ],
+      "content_scope": [
+        "practice_link",
+        "category_index"
+      ],
+      "notes": "Category source for level-5 discovery; requires canonical alignment."
+    },
+    {
+      "id": "yurun-gesp-question",
+      "name": "羽润编程 GESP 题目",
+      "url": "https://www.yurunapp.cn/p/1872",
+      "source_type": "oj_mirror",
+      "trust_level": "mirror",
+      "crawl_strategy": "html_detail",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++",
+        "unknown"
+      ],
+      "level_scope": [
+        "5",
+        "unknown"
+      ],
+      "content_scope": [
+        "practice_link",
+        "question_signal"
+      ],
+      "notes": "May help supplement selection/judgment style clues; not canonical."
+    },
+    {
+      "id": "cnblogs-gesp-solution-sample",
+      "name": "博客园 GESP 题解样例",
+      "url": "https://www.cnblogs.com/kkman2000/p/19243691",
+      "source_type": "solution_article",
+      "trust_level": "auxiliary",
+      "crawl_strategy": "manual_review",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "5",
+        "unknown"
+      ],
+      "content_scope": [
+        "solution_hint",
+        "algorithm_label",
+        "knowledge_signal"
+      ],
+      "notes": "Auxiliary evidence only; cannot override official classification."
+    },
+    {
+      "id": "github-jonaslgtm-gesp-exam-questions",
+      "name": "GitHub gesp-exam-questions 题库参考",
+      "url": "https://github.com/jonaslgtm/gesp-exam-questions",
+      "source_type": "training_list",
+      "trust_level": "auxiliary",
+      "crawl_strategy": "html_index",
+      "license_status": "third_party_unknown",
+      "can_store_full_text": false,
+      "language_scope": [
+        "C++"
+      ],
+      "level_scope": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "content_scope": [
+        "problem_bank_reference",
+        "sample_reference",
+        "solution_hint"
+      ],
+      "notes": "Third-party GitHub reference source. Repository also contains Python and graphical programming materials; this project consumes only C++ metadata and never treats it as canonical."
+    }
+  ]
+}

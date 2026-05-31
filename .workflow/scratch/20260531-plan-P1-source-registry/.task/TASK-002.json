@@ -1,0 +1,46 @@
+{
+  "id": "TASK-002",
+  "title": "Define source registry schema and enums",
+  "type": "feature",
+  "phase": "source-registry",
+  "wave": 2,
+  "status": "completed",
+  "completed_at": "2026-05-31T23:18:00+08:00",
+  "depends_on": [
+    "TASK-001"
+  ],
+  "read_first": [
+    ".workflow/roadmap.md",
+    ".workflow/specs/architecture-constraints.md",
+    ".workflow/specs/quality-rules.md",
+    "data/source-registry/schema.json"
+  ],
+  "files": [
+    "data/source-registry/schema.json"
+  ],
+  "action": "Create the canonical schema document for source registry entries.",
+  "implementation": [
+    "Create `data/source-registry/schema.json` with `schema_version: 1`.",
+    "Define required fields: `id`, `name`, `url`, `source_type`, `trust_level`, `crawl_strategy`, `license_status`, `can_store_full_text`, `language_scope`, `level_scope`, `content_scope`, `notes`.",
+    "Define `source_type` enum: `official_syllabus`, `official_true_questions`, `official_sample_questions`, `oj_mirror`, `training_list`, `solution_article`, `video_explanation`.",
+    "Define `trust_level` enum: `canonical`, `practice`, `mirror`, `auxiliary`.",
+    "Define `crawl_strategy` enum: `html_index`, `html_detail`, `pdf_attachment`, `manual_review`, `disabled`.",
+    "Define `license_status` enum: `unknown`, `official_public`, `third_party_unknown`, `link_only`."
+  ],
+  "convergence": {
+    "criteria": [
+      "grep -q '\"schema_version\": 1' data/source-registry/schema.json",
+      "grep -q '\"official_true_questions\"' data/source-registry/schema.json",
+      "grep -q '\"canonical\"' data/source-registry/schema.json",
+      "grep -q '\"can_store_full_text\"' data/source-registry/schema.json",
+      "grep -q '\"license_status\"' data/source-registry/schema.json"
+    ]
+  },
+  "execution": {
+    "files_modified": [
+      "data/source-registry/schema.json"
+    ],
+    "tests_passed": "n/a",
+    "summary": "Defined required source registry fields and enums."
+  }
+}

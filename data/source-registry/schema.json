@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "description": "Schema contract for GESP source registry entries.",
+  "required_fields": [
+    "id",
+    "name",
+    "url",
+    "source_type",
+    "trust_level",
+    "crawl_strategy",
+    "license_status",
+    "can_store_full_text",
+    "language_scope",
+    "level_scope",
+    "content_scope",
+    "notes"
+  ],
+  "enums": {
+    "source_type": [
+      "official_home",
+      "official_syllabus",
+      "official_true_questions",
+      "official_sample_questions",
+      "oj_mirror",
+      "training_list",
+      "solution_article",
+      "video_explanation"
+    ],
+    "trust_level": [
+      "canonical",
+      "practice",
+      "mirror",
+      "auxiliary"
+    ],
+    "crawl_strategy": [
+      "html_index",
+      "html_detail",
+      "pdf_attachment",
+      "manual_review",
+      "disabled"
+    ],
+    "license_status": [
+      "unknown",
+      "official_public",
+      "third_party_unknown",
+      "link_only"
+    ]
+  },
+  "policies": {
+    "official_trust_level": "canonical",
+    "secondary_disallowed_trust_levels": [
+      "canonical"
+    ],
+    "default_full_text_storage": false
+  }
+}

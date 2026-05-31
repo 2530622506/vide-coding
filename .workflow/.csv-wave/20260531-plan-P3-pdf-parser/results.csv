@@ -1,0 +1,4 @@
+id,result_status,findings,files_modified,tests_passed,error
+TASK-011,completed,PDFKit extractor emits page text JSON,scripts/pdfkit-extract-text.swift,manual smoke passed,
+TASK-012,completed,Latest session parsed 8 C++ PDFs and 216 C++ problem records,scripts/parse-official-pdfs.mjs;data/problem-ingestion/official-pdf-problems.json,passed,
+TASK-013,completed,Validation passed with 27 C++ level 5 records,scripts/validate-pdf-parser.mjs;docs/pdf-parser.md;data/problem-ingestion/README.md,passed,

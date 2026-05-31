@@ -1,0 +1,3 @@
+{"at":"2026-05-31T23:56:00+08:00","type":"environment","message":"npm dependency install for pdfjs-dist failed due registry/network reset, so Phase 3 uses built-in macOS PDFKit instead of adding npm dependencies."}
+{"at":"2026-05-31T23:57:00+08:00","type":"parser_rule","message":"Selection and judgment questions are extracted from '第 N 题'; programming questions are extracted from top-level '3.N 编程题' and use '试题名称' as title."}
+{"at":"2026-05-31T23:59:00+08:00","type":"verification","message":"C++ level 5 official PDF produced 27 records: 15 selection, 10 judgment, 2 programming."}

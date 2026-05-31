@@ -1,0 +1,75 @@
+{
+  "$schema": "context-package/1.0",
+  "source": {
+    "type": "analyze",
+    "id": "20260531-analyze-gesp-algorithm-taxonomy",
+    "path": ".workflow/.csv-wave/20260531-analyze-gesp-algorithm-taxonomy",
+    "scope": "macro",
+    "scope_verdict": "large",
+    "created_at": "2026-05-31T22:45:00+08:00"
+  },
+  "topic": "GESP competition problem-type classification and knowledge alignment website",
+  "requirements": [
+    "The system collects GESP-related problem sources and aligns duplicated problems across official PDFs, OJ mirrors, training lists, and solution articles.",
+    "The system classifies each canonical problem by level, language, algorithm domain, problem type, knowledge points, source evidence, confidence, and review status.",
+    "The system presents classified catalog pages, not just a search page.",
+    "The system acquires official sources first and uses secondary sources only with provenance and safety checks.",
+    "The system distinguishes official facts, inferred tags, community labels, and human-reviewed tags."
+  ],
+  "constraints": [
+    {
+      "status": "locked",
+      "area": "official_scope",
+      "text": "GESP level 5 does not include dynamic programming; simple DP is level 6 and complex DP is level 7."
+    },
+    {
+      "status": "locked",
+      "area": "data_quality",
+      "text": "Problem-type tags and knowledge-point tags must include source, evidence, confidence, and review status."
+    },
+    {
+      "status": "deferred",
+      "area": "copyright",
+      "text": "Full problem-statement storage requires license or permission review."
+    }
+  ],
+  "insights": [
+    "The most valuable product moment is a classified catalog that shows level -> algorithm domain -> problem type -> problems -> knowledge points.",
+    "Official PDFs are enough to start the MVP; community OJ pages are useful for mapping and practice links but should not be canonical.",
+    "A provenance-first data model is more important than a sophisticated classifier in the first version."
+  ],
+  "open_questions": [
+    "Should MVP focus on C++ level 5 only?",
+    "Should the product expose teacher/admin validation in the first version?",
+    "What is the acceptable policy for showing full problem text versus source links?"
+  ],
+  "artifacts": [
+    "tasks.csv",
+    "results.csv",
+    "discoveries.ndjson",
+    "context.md",
+    "analysis.md",
+    "conclusions.json"
+  ],
+  "sources": [
+    "https://gesp.ccf.org.cn/101/index.html",
+    "https://gesp.ccf.org.cn/101/1008/10012.html",
+    "https://gesp.ccf.org.cn/101/attach/1725701770182688.pdf",
+    "https://gesp.ccf.org.cn/101/1010/index.html",
+    "https://gesp.ccf.org.cn/101/1010/10088.html",
+    "https://gesp.ccf.org.cn/101/1002/10255.html",
+    "https://www.luogu.com.cn/training/458141",
+    "https://www.luogu.com.cn/training/920878",
+    "https://www.luogu.com.cn/problem/list?keyword=GESP",
+    "https://www.zqiceberg.com/PROBLEM/GESP/5/",
+    "https://www.luogu.com.cn/training/561515",
+    "https://oi.wenjian.club/p/GESP1057",
+    "https://aijieoj.cn/problem.php?id=6028",
+    "https://www.cspoj.com/problem.php?id=3972",
+    "https://www.acgo.cn/problemset/info/95154",
+    "https://oj.czos.cn/problem/index?tag=GESP",
+    "https://xwjedu.cn/p?q=category%3AGESP%E4%BA%94%E7%BA%A7",
+    "https://www.yurunapp.cn/p/1872",
+    "https://www.cnblogs.com/kkman2000/p/19243691"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "TASK-010",
+  "title": "Validate official ingestion readiness",
+  "type": "validation",
+  "phase": "official-source-ingestion",
+  "wave": 3,
+  "status": "completed",
+  "completed_at": "2026-05-31T23:42:00+08:00",
+  "depends_on": [
+    "TASK-008",
+    "TASK-009"
+  ],
+  "read_first": [
+    "data/official-ingestion/official-source-index.json",
+    "scripts/validate-official-ingestion.mjs"
+  ],
+  "files": [
+    ".workflow/scratch/20260531-plan-P2-official-source-ingestion/verification.md"
+  ],
+  "action": "Run official ingestion validation and record readiness evidence.",
+  "implementation": [
+    "Run `npm run validate:official-ingestion`.",
+    "Run `npm run validate:sources`.",
+    "Write verification summary."
+  ],
+  "convergence": {
+    "criteria": [
+      "npm run validate:official-ingestion",
+      "grep -q 'Official source ingestion validation passed' .workflow/scratch/20260531-plan-P2-official-source-ingestion/verification.md",
+      "grep -q 'official ingestion document count: 180' .workflow/scratch/20260531-plan-P2-official-source-ingestion/verification.md"
+    ]
+  }
+}

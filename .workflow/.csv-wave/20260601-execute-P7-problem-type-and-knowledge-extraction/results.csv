@@ -1,0 +1,4 @@
+id,result_status,findings,files_modified,tests_passed,error
+TASK-023,completed,Extractor created candidate tags with source evidence confidence syllabus_fit and review_status,scripts/extract-problem-types-knowledge.mjs;package.json,passed,
+TASK-024,completed,Generated 216 problem knowledge records and C++ level 5 taxonomy with 21 typed problems,data/classification/problem-type-knowledge.json;data/classification/cxx-level5-taxonomy-table.json,passed,
+TASK-025,completed,Validation passed and Chinese docs describe candidate scope and DP boundary,scripts/validate-problem-knowledge.mjs;docs/problem-knowledge-extraction.md;data/classification/README.md,passed,

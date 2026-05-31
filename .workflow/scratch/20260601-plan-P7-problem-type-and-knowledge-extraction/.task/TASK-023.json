@@ -1,0 +1,19 @@
+{
+  "id": "TASK-023",
+  "title": "Create problem type and knowledge extractor",
+  "description": "Create a deterministic seed-based extractor for candidate problem type tags and knowledge point tags.",
+  "files": [
+    "scripts/extract-problem-types-knowledge.mjs",
+    "package.json"
+  ],
+  "convergence_criteria": [
+    "required problem type seeds are present",
+    "tags contain evidence, confidence, syllabus_fit and review_status",
+    "matching uses original source text and explicit title overrides instead of derived domain labels"
+  ],
+  "verification": [
+    "node --check scripts/extract-problem-types-knowledge.mjs",
+    "npm run extract:problem-knowledge"
+  ],
+  "status": "completed"
+}

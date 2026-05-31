@@ -1,0 +1,17 @@
+{
+  "id": "TASK-012",
+  "title": "Parse official PDFs into problem metadata",
+  "description": "Read official PDF metadata from Phase 2, temporarily download verified PDFs, infer session/language/level, extract selection/judgment/programming problem metadata, and write snippet-only output.",
+  "files": [
+    "scripts/parse-official-pdfs.mjs",
+    "data/problem-ingestion/official-pdf-problems.json"
+  ],
+  "convergence_criteria": [
+    "official-pdf-problems.json declares snippet-only storage policy",
+    "C++ level 5 official PDF produces structured problem records"
+  ],
+  "verification": [
+    "npm run parse:official-pdfs"
+  ],
+  "status": "completed"
+}

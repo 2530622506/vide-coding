@@ -1,0 +1,19 @@
+{
+  "id": "TASK-014",
+  "title": "Create secondary source metadata ingestion",
+  "description": "Create the OJ mirror ingestion layer for Luogu, selected mirrors, solution pages and the GitHub C++ reference repository.",
+  "files": [
+    "scripts/ingest-oj-mirrors.mjs",
+    "data/source-registry/sources.secondary.json"
+  ],
+  "convergence_criteria": [
+    "ingestion reads secondary source registry",
+    "ingestion stores metadata and short snippets only",
+    "GitHub adapter filters to C++ paths only"
+  ],
+  "verification": [
+    "node --check scripts/ingest-oj-mirrors.mjs",
+    "npm run validate:sources"
+  ],
+  "status": "completed"
+}

@@ -1,0 +1,4 @@
+{"type":"scope_boundary","key":"mvp-cpp-level-5","data":{"feature":"C++ 五级题型分类目录","inclusion":"in","rationale":"Small enough to validate source ingestion, canonical alignment, classification, and catalog UI."}}
+{"type":"scope_boundary","key":"search-first-ui","data":{"feature":"搜索页优先","inclusion":"out","rationale":"User clarified product is a classified catalog and knowledge alignment site, not a search page."}}
+{"type":"risk_factor","key":"copyright-full-text","data":{"name":"版权与完整题面存储","severity":"high","probability":"high","mitigation":"Metadata-first storage; source links and short evidence snippets until permission is clarified."}}
+{"type":"dependency_constraint","key":"classification-before-catalog","data":{"from":"Classification Engine","to":"Classified Catalog UI","type":"data dependency","strength":"hard"}}

@@ -1,0 +1,19 @@
+{
+  "id": "TASK-017",
+  "title": "Create canonical alignment script",
+  "description": "Create a metadata-only alignment layer that turns official C++ problems into canonical records and attaches matched secondary source versions.",
+  "files": [
+    "scripts/align-canonical-problems.mjs",
+    "package.json"
+  ],
+  "convergence_criteria": [
+    "script reads official problem index and OJ candidate index",
+    "script outputs canonical problems and review queues",
+    "auto alignment requires title, session and level match"
+  ],
+  "verification": [
+    "node --check scripts/align-canonical-problems.mjs",
+    "npm run align:canonical"
+  ],
+  "status": "completed"
+}

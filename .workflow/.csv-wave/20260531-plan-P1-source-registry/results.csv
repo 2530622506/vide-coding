@@ -1,0 +1,5 @@
+id,result_status,findings,files_modified,error
+"1","completed","Phase 1 is data-foundation work; no UI or crawler implementation should be included yet.","",""
+"2","completed","Source registry must encode trust, source type, crawl strategy, storage policy, and notes for official vs secondary sources.","",""
+"3","completed","Verification can start with Node built-ins and grep-verifiable checks because no package manager or test stack is installed yet.","",""
+"4","completed","Plan files written under .workflow/scratch/20260531-plan-P1-source-registry.",".workflow/scratch/20260531-plan-P1-source-registry/plan.json;.workflow/scratch/20260531-plan-P1-source-registry/.task/TASK-001.json;.workflow/scratch/20260531-plan-P1-source-registry/.task/TASK-002.json;.workflow/scratch/20260531-plan-P1-source-registry/.task/TASK-003.json;.workflow/scratch/20260531-plan-P1-source-registry/.task/TASK-004.json;.workflow/scratch/20260531-plan-P1-source-registry/.task/TASK-005.json;.workflow/scratch/20260531-plan-P1-source-registry/.task/TASK-006.json;.workflow/scratch/20260531-plan-P1-source-registry/.task/TASK-007.json",""

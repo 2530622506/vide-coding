@@ -1,0 +1,4 @@
+id,result_status,findings,files_modified,tests_passed,error
+TASK-023,completed,Extractor uses official/source text and title overrides instead of derived domain labels,scripts/extract-problem-types-knowledge.mjs;package.json,passed,
+TASK-024,completed,Generated 216 Phase 7 records and C++ level 5 taxonomy with 10 domains,data/classification/problem-type-knowledge.json;data/classification/cxx-level5-taxonomy-table.json,passed,
+TASK-025,completed,Problem knowledge validation passed and docs added,scripts/validate-problem-knowledge.mjs;docs/problem-knowledge-extraction.md;data/classification/README.md,passed,

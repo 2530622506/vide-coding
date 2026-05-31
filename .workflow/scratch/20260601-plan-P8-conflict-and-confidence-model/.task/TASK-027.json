@@ -1,0 +1,19 @@
+{
+  "id": "TASK-027",
+  "title": "Generate review queue output",
+  "description": "Generate review queue entries for source conflicts, duplicates, inferred tags and level 5 missing taxonomy.",
+  "files": [
+    "data/classification/conflict-confidence-model.json",
+    "data/classification/review-queue.json"
+  ],
+  "convergence_criteria": [
+    "review queue includes source conflicts",
+    "review queue includes duplicate source candidates",
+    "review queue includes untyped and no-knowledge C++ level 5 problems"
+  ],
+  "verification": [
+    "npm run model:conflict-confidence",
+    "npm run validate:conflict-confidence"
+  ],
+  "status": "completed"
+}

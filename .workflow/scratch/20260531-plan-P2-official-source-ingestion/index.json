@@ -1,0 +1,17 @@
+{
+  "plans": [
+    {
+      "id": "PLN-20260531-P2-official-source-ingestion",
+      "phase_number": 2,
+      "phase_slug": "official-source-ingestion",
+      "milestone": "M1",
+      "plan_path": ".workflow/scratch/20260531-plan-P2-official-source-ingestion/plan.json",
+      "task_dir": ".workflow/scratch/20260531-plan-P2-official-source-ingestion/.task",
+      "task_count": 3,
+      "created_at": "2026-05-31T23:42:00+08:00",
+      "execution_status": "completed",
+      "completed_task_count": 3,
+      "completed_at": "2026-05-31T23:42:00+08:00"
+    }
+  ]
+}

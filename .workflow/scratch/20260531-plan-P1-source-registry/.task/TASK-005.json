@@ -1,0 +1,47 @@
+{
+  "id": "TASK-005",
+  "title": "Implement dependency-free source registry validator",
+  "type": "feature",
+  "phase": "source-registry",
+  "wave": 3,
+  "status": "completed",
+  "completed_at": "2026-05-31T23:18:00+08:00",
+  "depends_on": [
+    "TASK-002",
+    "TASK-003",
+    "TASK-004"
+  ],
+  "read_first": [
+    "package.json",
+    "data/source-registry/schema.json",
+    "data/source-registry/sources.official.json",
+    "data/source-registry/sources.secondary.json",
+    "scripts/validate-source-registry.mjs"
+  ],
+  "files": [
+    "scripts/validate-source-registry.mjs"
+  ],
+  "action": "Add a Node validation script for source registry JSON files.",
+  "implementation": [
+    "Use Node built-ins only: `node:fs/promises` and `node:url`.",
+    "Load `data/source-registry/schema.json`, `sources.official.json`, and `sources.secondary.json`.",
+    "Validate required fields, enum values, URL parseability, unique source ids across files, and official/secondary trust rules.",
+    "Fail with non-zero exit code and a clear message when any source is invalid.",
+    "Print `Source registry validation passed` when all checks pass."
+  ],
+  "convergence": {
+    "criteria": [
+      "grep -q 'Source registry validation passed' scripts/validate-source-registry.mjs",
+      "grep -q 'new URL(source.url)' scripts/validate-source-registry.mjs",
+      "grep -q 'duplicate source id' scripts/validate-source-registry.mjs",
+      "npm run validate:sources"
+    ]
+  },
+  "execution": {
+    "files_modified": [
+      "scripts/validate-source-registry.mjs"
+    ],
+    "tests_passed": "true",
+    "summary": "Implemented dependency-free source registry validator using Node built-ins."
+  }
+}

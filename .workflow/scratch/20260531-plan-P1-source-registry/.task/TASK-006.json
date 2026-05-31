@@ -1,0 +1,49 @@
+{
+  "id": "TASK-006",
+  "title": "Document source registry policy and workflow",
+  "type": "docs",
+  "phase": "source-registry",
+  "wave": 4,
+  "status": "completed",
+  "completed_at": "2026-05-31T23:18:00+08:00",
+  "depends_on": [
+    "TASK-003",
+    "TASK-004",
+    "TASK-005"
+  ],
+  "read_first": [
+    ".workflow/project.md",
+    ".workflow/roadmap.md",
+    ".workflow/specs/architecture-constraints.md",
+    ".workflow/specs/quality-rules.md",
+    "docs/source-registry.md"
+  ],
+  "files": [
+    "docs/source-registry.md",
+    "data/source-registry/README.md"
+  ],
+  "action": "Document how sources are classified, trusted, stored, and validated.",
+  "implementation": [
+    "Create `docs/source-registry.md` with sections: Purpose, Source Types, Trust Levels, Storage Policy, Adding A Source, Validation.",
+    "State that official GESP sources are canonical for level and official knowledge scope.",
+    "State that OJ mirrors and solution articles are not official and must not override official classification.",
+    "State that full text storage remains disabled unless license policy changes.",
+    "Update `data/source-registry/README.md` to point to `docs/source-registry.md` and `npm run validate:sources`."
+  ],
+  "convergence": {
+    "criteria": [
+      "grep -q '# Source Registry' docs/source-registry.md",
+      "grep -q 'official GESP sources are canonical' docs/source-registry.md",
+      "grep -q 'must not override official classification' docs/source-registry.md",
+      "grep -q 'npm run validate:sources' data/source-registry/README.md"
+    ]
+  },
+  "execution": {
+    "files_modified": [
+      "docs/source-registry.md",
+      "data/source-registry/README.md"
+    ],
+    "tests_passed": "n/a",
+    "summary": "Documented source types, trust levels, storage policy, source update workflow, and validation command."
+  }
+}

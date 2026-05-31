@@ -1,0 +1,4 @@
+id,result_status,findings,files_modified,tests_passed,error
+TASK-017,completed,Plan requires official-only canonical records and secondary source versions,scripts/align-canonical-problems.mjs;package.json,passed,
+TASK-018,completed,Plan requires generated canonical alignment and C++ level 5 table,data/canonical-problems/canonical-problem-alignment.json;data/canonical-problems/cxx-level5-canonical-table.json,passed,
+TASK-019,completed,Plan requires validation and Chinese documentation,scripts/validate-canonical-alignment.mjs;docs/canonical-alignment.md;data/canonical-problems/README.md,passed,

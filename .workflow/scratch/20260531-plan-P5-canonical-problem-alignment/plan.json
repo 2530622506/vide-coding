@@ -1,0 +1,58 @@
+{
+  "id": "PLN-20260531-P5-canonical-problem-alignment",
+  "created_at": "2026-05-31T23:59:40+08:00",
+  "scope": "phase",
+  "milestone": "M2",
+  "phase_number": 5,
+  "phase_slug": "canonical-problem-alignment",
+  "source": {
+    "roadmap": ".workflow/roadmap.md#phase-5-canonical-problem-alignment",
+    "previous_execute": ".workflow/.csv-wave/20260531-execute-P4-oj-mirror-ingestion/context.md"
+  },
+  "summary": "以官方 GESP C++ PDF 题目为 canonical records，挂载可自动对齐的二级来源链接，并输出 C++ 五级 canonical table。",
+  "approach": [
+    "官方 C++ PDF 题目是唯一 canonical problem 来源。",
+    "二级来源只能作为 source_versions 挂载，不能覆盖官方等级、题型或知识点范围。",
+    "自动对齐要求归一化标题、场次和等级都一致。",
+    "同名但场次或等级冲突的候选进入 review queue。",
+    "当前没有完整题面 fingerprint，因此 statement_hash 标记为 unavailable。"
+  ],
+  "task_ids": [
+    "TASK-017",
+    "TASK-018",
+    "TASK-019"
+  ],
+  "waves": [
+    {
+      "wave": 1,
+      "phase_label": "alignment-script",
+      "tasks": [
+        "TASK-017"
+      ]
+    },
+    {
+      "wave": 2,
+      "phase_label": "run-alignment",
+      "tasks": [
+        "TASK-018"
+      ]
+    },
+    {
+      "wave": 3,
+      "phase_label": "validation-and-docs",
+      "tasks": [
+        "TASK-019"
+      ]
+    }
+  ],
+  "confidence": {
+    "overall": 0.82,
+    "readiness_gate": "pass",
+    "pressure_pass": "16 道官方 C++ 编程题均可通过标题、场次和等级对齐到二级练习入口；选择题和判断题保留 official_only。"
+  },
+  "notes": [
+    "Phase 5 不做算法范畴分类。",
+    "Phase 5 不保存完整第三方题面或 PDF 正文。",
+    "C++ 五级输出给前端目录使用的 canonical table。"
+  ]
+}

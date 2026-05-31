@@ -1,0 +1,59 @@
+{
+  "id": "PLN-20260531-P4-oj-mirror-ingestion",
+  "created_at": "2026-05-31T23:47:00+08:00",
+  "scope": "phase",
+  "milestone": "M2",
+  "phase_number": 4,
+  "phase_slug": "oj-mirror-ingestion",
+  "source": {
+    "roadmap": ".workflow/roadmap.md#phase-4-oj-mirror-ingestion",
+    "previous_execute": ".workflow/.csv-wave/20260531-execute-P3-pdf-parser/context.md"
+  },
+  "summary": "采集洛谷、zqiceberg、选定 OJ 镜像和 GitHub 参考题库中的 GESP C++ metadata，输出可供 Phase 5 对齐的候选题目和重复候选。",
+  "approach": [
+    "从 source registry 读取二级来源，不允许任何二级来源成为 canonical。",
+    "优先解析公开 HTML 和页面内嵌 JSON，洛谷训练题单登录受限时只记录 restricted 状态。",
+    "只保存 metadata、短证据片段、OJ ID、GitHub PDF 路径、来源信任等级和对齐候选，不保存完整第三方题面或 PDF 正文。",
+    "GitHub `jonaslgtm/gesp-exam-questions` 只接入 C++ 目录下的样题、历年真题和解析 PDF metadata。",
+    "重复候选只与 C++ 官方编程题对齐，避免混入 Python 或图形化编程。"
+  ],
+  "task_ids": [
+    "TASK-014",
+    "TASK-015",
+    "TASK-016"
+  ],
+  "waves": [
+    {
+      "wave": 1,
+      "phase_label": "oj-ingestion-script",
+      "tasks": [
+        "TASK-014"
+      ]
+    },
+    {
+      "wave": 2,
+      "phase_label": "run-ingestion",
+      "tasks": [
+        "TASK-015"
+      ]
+    },
+    {
+      "wave": 3,
+      "phase_label": "validation-and-docs",
+      "tasks": [
+        "TASK-016"
+      ]
+    }
+  ],
+  "confidence": {
+    "overall": 0.8,
+    "readiness_gate": "pass",
+    "pressure_pass": "洛谷题库检索页、zqiceberg 和 GitHub tree API 可公开解析；洛谷训练题单返回 401，已作为受限来源记录。"
+  },
+  "notes": [
+    "Phase 4 不做算法范畴分类。",
+    "Phase 4 不保存第三方完整题面。",
+    "Phase 4 不把 GitHub 参考题库视为官方来源。",
+    "Phase 4 输出给 Phase 5 做 canonical problem alignment。"
+  ]
+}

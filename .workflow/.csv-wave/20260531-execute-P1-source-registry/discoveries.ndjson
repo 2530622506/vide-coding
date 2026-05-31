@@ -1,0 +1,2 @@
+{"type":"execution_result","key":"source-registry-validation","data":{"command":"npm run validate:sources","official_source_count":5,"secondary_source_count":12,"secondary_canonical_count":0,"status":"passed"}}
+{"type":"implementation_pattern","key":"metadata-first-source-registry","data":{"description":"Source registry stores source metadata, trust, crawl strategy, license status, and storage policy; it does not store full problem statements.","files":["data/source-registry/schema.json","docs/source-registry.md"]}}

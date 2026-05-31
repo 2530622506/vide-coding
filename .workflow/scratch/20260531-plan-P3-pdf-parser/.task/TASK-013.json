@@ -1,0 +1,18 @@
+{
+  "id": "TASK-013",
+  "title": "Validate official PDF parser output",
+  "description": "Add validation for parsed official PDF metadata, including source provenance, snippets, C++ level 5 coverage, and question type differentiation.",
+  "files": [
+    "scripts/validate-pdf-parser.mjs",
+    "docs/pdf-parser.md",
+    "data/problem-ingestion/README.md"
+  ],
+  "convergence_criteria": [
+    "validate:pdf-parser passes",
+    "selection, judgment, and programming questions are represented"
+  ],
+  "verification": [
+    "npm run validate:pdf-parser"
+  ],
+  "status": "completed"
+}
