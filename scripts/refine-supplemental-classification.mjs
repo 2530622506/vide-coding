@@ -267,6 +267,18 @@ const overrides = {
     knowledge: [["fenwick_tree", "树状数组"], ["coordinate_compression", "坐标压缩"], ["partial_order_dp", "偏序 DP"]],
     focus: "把金币转成坐标和剩余等待量的二维非降链"
   },
+  "supplemental:luogu:p14921": {
+    domains: [["graph", "图论"], ["brute_force", "枚举搜索"]],
+    types: [["graph_center_by_all_source_bfs", "全源 BFS 图中心型"]],
+    knowledge: [["breadth_first_search", "广度优先搜索"], ["eccentricity", "离心率/最大距离"], ["tie_breaking", "最小编号并列处理"]],
+    focus: "枚举每个城市做 BFS，选择最大最短路最小的城市"
+  },
+  "supplemental:luogu:p14922": {
+    domains: [["dynamic_programming", "动态规划"], ["combinatorics", "组合数学"]],
+    types: [["group_partition_extreme_pairing_dp", "分组极值配对 DP 型"]],
+    knowledge: [["partition_dp", "分组 DP"], ["sorting_extremes", "排序极值配对"], ["group_size_optimization", "小组大小优化"]],
+    focus: "先按非单人组数量计算极值差收益，再用 DP 优化基础积极度"
+  },
   "supplemental:luogu:p10378": {
     domains: [["graph", "图论"], ["sort_simulation", "排序/模拟"]],
     types: [["bipartite_component_size_range", "二分图连通块规模范围型"]],

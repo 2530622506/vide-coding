@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 
 const reviewPlanPath = "data/classification/review-workqueue-plan.json";
+const supplementalPath = "data/classification/supplemental-cxx-problems.json";
 
 function assert(condition, message) {
   if (!condition) {
@@ -10,6 +11,14 @@ function assert(condition, message) {
 
 async function main() {
   const plan = JSON.parse(await readFile(reviewPlanPath, "utf8"));
+  const supplemental = JSON.parse(await readFile(supplementalPath, "utf8"));
+  const supplementalDetails = new Map(supplemental.problem_details.map((detail) => [detail.canonical_problem_id, detail]));
+  const programmingSolutionsMissing = supplemental.records.some((record) => {
+    if (record.question_type !== "programming") return false;
+    const detail = supplementalDetails.get(record.canonical_problem_id);
+    return !detail?.programming_solution?.code;
+  });
+
   assert(plan.schema_version === 1, "schema_version must be 1");
   assert(plan.summary.total_count > 0, "review workqueue must not be empty");
   assert(plan.summary.by_priority.high >= 2, "expected high priority review items");
@@ -17,7 +26,9 @@ async function main() {
   assert(plan.summary.by_type.tag_conflict >= 1, "expected tag conflict review item");
   assert(plan.summary.by_type.tag_needs_review >= 1, "expected tag needs_review items");
   assert(plan.summary.by_type.statement_needs_collection >= 1, "expected statement collection review items");
-  assert(plan.summary.by_type.programming_solution_needs_review >= 1, "expected programming solution review items");
+  if (programmingSolutionsMissing) {
+    assert(plan.summary.by_type.programming_solution_needs_review >= 1, "expected programming solution review items");
+  }
   assert(Array.isArray(plan.next_batch) && plan.next_batch.length > 0, "next_batch must not be empty");
   assert(Array.isArray(plan.items) && plan.items.length === plan.summary.total_count, "items length must match summary");
   assert(plan.items.every((item) => item.status === "open"), "all generated review items must start open");
