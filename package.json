@@ -28,6 +28,7 @@
     "extract:official-pdf-assets": "PYTHONPATH=.python-deps python3 scripts/extract-official-pdf-visual-assets.py",
     "apply:public-oj-enrichment": "node scripts/apply-public-oj-enrichment.mjs",
     "apply:official-pdf-assets": "node scripts/apply-official-pdf-visual-assets.mjs",
+    "apply:official-level5-statements": "node scripts/apply-official-level5-statement-enrichment.mjs",
     "apply:official-programming-enrichment": "node scripts/apply-official-programming-enrichment.mjs",
     "apply:ai-reference-solutions": "node scripts/apply-ai-reference-solutions.mjs",
     "apply:official-ai-reference-solutions": "node scripts/apply-official-ai-reference-solutions.mjs",

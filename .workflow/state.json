@@ -368,6 +368,7 @@
       "M4 catalog app now uses React + Nest + MySQL Docker; API reads MySQL first and falls back to JSON only when MySQL is unavailable.",
       "Problem answer guidance has 216 records: 120 official selection answers, 16 official programming AI sample-verified answers marked needs_review, and 80 judgment answers marked needs_review; every record includes Chinese understanding examples and comments.",
       "Problem detail model has 216 records and MySQL problem_details support; the React detail panel shows answers, knowledge explanations, option status, visual asset status, programming-solution status, and source links.",
+      "Official level-5 problem statements now have 27 source_extracted details: 25 selection/judgment stems come from official PDF text excerpts with needs_review, and 2 programming statements come from public OJ enrichment.",
       "Official PDF option extraction now uses cross-page question blocks; 97/120 selection problems have source-extracted A/B/C/D options and the remaining 23 keep A/B/C/D needs_review slots, so no official selection detail has an empty option array.",
       "Official PDF visual asset extraction now stores cropped PDF image/code regions only, not full pages: 218 official PDF visual assets cover 100 problems; combined official details have 101 source-extracted visual-asset records and 219 assets after including the existing public OJ image, with 115 records marked none_found and 0 pending visual asset collection.",
       "Official programming enrichment now uses public Luogu pages for the 16 official C++ programming problems; all 16 have source-extracted statements and samples, and 1 statement image was detected.",
@@ -382,7 +383,7 @@
       "Catalog CRUD is now implemented for MySQL-backed user-maintained problems: create/update/delete supports title, level, question type, tags, statement, choice options, samples, visual asset URLs, source links, reference answer, explanation, and C++ reference solution; user-maintained content remains needs_review.",
       "React detail pane now scrolls to the top when selecting a problem, and the editor pane scrolls into view for create/edit flows; browser verification covered create, edit, delete, options, samples, images, source links, and C++ reference solution display.",
       "Next public OJ enrichment planning now writes data/enrichment/next-public-oj-targets.json; current supplemental bank has 195 records, 170 source-extracted, 25 remaining with public URLs, and the default next batch selects the remaining 5 level-7 plus 20 level-8 targets.",
-      "Review closure remains required: plan:review-workqueue writes data/classification/review-workqueue-plan.json with 1363 open review work items, including 52 high-priority items. needs_review records must be deliberately reviewed before being promoted."
+      "Review closure remains required: plan:review-workqueue writes data/classification/review-workqueue-plan.json with 1338 open review work items, including 52 high-priority items. needs_review records must be deliberately reviewed before being promoted."
     ],
     "blockers": [],
     "deferred": [

@@ -104,5 +104,5 @@ mysql source version count: 634
 - 对低置信度算法范畴、题型和知识点做人工复核。
 - 对更多已补采题面和样例的编程题补充可通过评测的 C++ 参考解，并加入中文注释。
 - 将确认后的补充题从 `needs_review` 提升为更高可信状态。
-- 使用 `npm run plan:review-workqueue` 跟踪复核闭环；当前复核计划总计 1363 项，其中 high 52 项。
+- 使用 `npm run plan:review-workqueue` 跟踪复核闭环；官方五级题干片段结构化后，当前复核计划总计 1338 项，其中 high 52 项。
 - 使用 `npm run plan:next-public-oj` 生成下一批公开 OJ 补采目标；当前 3-6 级补充题已无待补公开题源，剩余 25 道补充题集中在七级 5 道和八级 20 道，默认批次选取 25 道。

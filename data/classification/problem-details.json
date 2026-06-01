@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-31T19:01:43.782Z",
+  "generated_at": "2026-06-01T02:22:26.910Z",
   "generator": "scripts/build-problem-details.mjs",
   "inputs": {
     "model": "data/classification/conflict-confidence-model.json",
@@ -30,7 +30,9 @@
     "official_pdf_visual_asset_count": 218,
     "visual_asset_none_found_count": 115,
     "source_extracted_visual_asset_record_count": 101,
-    "source_extracted_visual_asset_count": 219
+    "source_extracted_visual_asset_count": 219,
+    "official_level5_source_extracted_statement_count": 27,
+    "official_level5_non_programming_source_extracted_statement_count": 25
   },
   "records": [
     {
@@ -15836,16 +15838,27 @@
       "title": "有一个存储了 个整数的线性表，分别用数组和单链表两种方式实现。在已知下标（或结点指针）的前提",
       "official_choice_options": null,
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "有一个存储了 个整数的线性表，分别用数组和单链表两种方式实现。在已知下标（或结点指针）的前提",
         "evidence_snippet": "第 1 题 有一个存储了 个整数的线性表，分别用数组和单链表两种方式实现。在已知下标（或结点指针）的前提",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 9,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "有一个存储了 个整数的线性表，分别用数组和单链表两种方式实现。在已知下标（或结点指针）的前提",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 1 题 有一个存储了 个整数的线性表，分别用数组和单链表两种方式实现。在已知下标（或结点指针）的前提"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.908Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -15917,6 +15930,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 9,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.908Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -15930,16 +15952,27 @@
       "title": "若数组 a 已按升序排列，则下面代码可以正确实现 “在 a 中查找第一个大于等于 x 的元素的位置”",
       "official_choice_options": null,
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "若数组 a 已按升序排列，则下面代码可以正确实现 “在 a 中查找第一个大于等于 x 的元素的位置”",
         "evidence_snippet": "第 2 题 若数组 a 已按升序排列，则下面代码可以正确实现 “在 a 中查找第一个大于等于 x 的元素的位置”",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 9,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "若数组 a 已按升序排列，则下面代码可以正确实现 “在 a 中查找第一个大于等于 x 的元素的位置”",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 2 题 若数组 a 已按升序排列，则下面代码可以正确实现 “在 a 中查找第一个大于等于 x 的元素的位置”"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16011,6 +16044,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 9,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -16024,16 +16066,27 @@
       "title": "快速排序只要每次都选取中间元素作为枢轴，就一定是稳定排序。",
       "official_choice_options": null,
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "快速排序只要每次都选取中间元素作为枢轴，就一定是稳定排序。",
         "evidence_snippet": "第 3 题 快速排序只要每次都选取中间元素作为枢轴，就一定是稳定排序。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 10,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "快速排序只要每次都选取中间元素作为枢轴，就一定是稳定排序。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 3 题 快速排序只要每次都选取中间元素作为枢轴，就一定是稳定排序。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16105,6 +16158,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 10,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -16118,16 +16180,27 @@
       "title": "若某算法满足递推式： ，则其时间复杂度为 。",
       "official_choice_options": null,
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "若某算法满足递推式： ，则其时间复杂度为 。",
         "evidence_snippet": "第 4 题 若某算法满足递推式： ，则其时间复杂度为 。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 10,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "若某算法满足递推式： ，则其时间复杂度为 。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 4 题 若某算法满足递推式： ，则其时间复杂度为 。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16199,6 +16272,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 10,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -16212,16 +16294,27 @@
       "title": "在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆",
       "official_choice_options": null,
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆",
         "evidence_snippet": "第 5 题 在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 10,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 5 题 在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16315,6 +16408,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 10,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -16328,16 +16430,27 @@
       "title": "根据唯⼀分解定理，如果⼤于1的整数不能被任何不超其平⽅根的质数整除，那么n 必定是质数。",
       "official_choice_options": null,
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "根据唯⼀分解定理，如果⼤于1的整数不能被任何不超其平⽅根的质数整除，那么n 必定是质数。",
         "evidence_snippet": "第 6 题 根据唯⼀分解定理，如果⼤于1的整数不能被任何不超其平⽅根的质数整除，那么n 必定是质数。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 10,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "根据唯⼀分解定理，如果⼤于1的整数不能被任何不超其平⽅根的质数整除，那么n 必定是质数。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 6 题 根据唯⼀分解定理，如果⼤于1的整数不能被任何不超其平⽅根的质数整除，那么n 必定是质数。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16409,6 +16522,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 10,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -16422,16 +16544,27 @@
       "title": "假设数",
       "official_choice_options": null,
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "假设数",
         "evidence_snippet": "第 7 题 假设数",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 10,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "假设数",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 7 题 假设数"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16525,6 +16658,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 10,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -16538,16 +16680,27 @@
       "title": "若一个问题满足最优子结构性质，则一定可以用贪心算法得到最优解。",
       "official_choice_options": null,
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "若一个问题满足最优子结构性质，则一定可以用贪心算法得到最优解。",
         "evidence_snippet": "第 8 题 若一个问题满足最优子结构性质，则一定可以用贪心算法得到最优解。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 11,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "若一个问题满足最优子结构性质，则一定可以用贪心算法得到最优解。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 8 题 若一个问题满足最优子结构性质，则一定可以用贪心算法得到最优解。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16619,6 +16772,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 11,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -16632,16 +16794,27 @@
       "title": "线性筛相比埃氏筛的核心改进在于：埃氏筛中一个合数可能被多个质数重复标记，线性筛通过\"每个合数只",
       "official_choice_options": null,
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "线性筛相比埃氏筛的核心改进在于：埃氏筛中一个合数可能被多个质数重复标记，线性筛通过\"每个合数只",
         "evidence_snippet": "第 9 题 线性筛相比埃氏筛的核心改进在于：埃氏筛中一个合数可能被多个质数重复标记，线性筛通过\"每个合数只",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 11,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "线性筛相比埃氏筛的核心改进在于：埃氏筛中一个合数可能被多个质数重复标记，线性筛通过\"每个合数只",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 9 题 线性筛相比埃氏筛的核心改进在于：埃氏筛中一个合数可能被多个质数重复标记，线性筛通过\"每个合数只"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16713,6 +16886,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 11,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -16726,16 +16908,27 @@
       "title": "任何递归程序都可以改写为等价的非递归程序，但改写后的非递归程序一定需要显式地使用栈来模拟递归",
       "official_choice_options": null,
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "任何递归程序都可以改写为等价的非递归程序，但改写后的非递归程序一定需要显式地使用栈来模拟递归",
         "evidence_snippet": "第 10 题 任何递归程序都可以改写为等价的非递归程序，但改写后的非递归程序一定需要显式地使用栈来模拟递归",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 11,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "任何递归程序都可以改写为等价的非递归程序，但改写后的非递归程序一定需要显式地使用栈来模拟递归",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 10 题 任何递归程序都可以改写为等价的非递归程序，但改写后的非递归程序一定需要显式地使用栈来模拟递归"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16934,6 +17127,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 11,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -17305,16 +17507,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "关于单链表、双链表和循环链表，下列说法正确的是。",
         "evidence_snippet": "第 1 题 关于单链表、双链表和循环链表，下列说法正确的是（ ）。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 1,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "关于单链表、双链表和循环链表，下列说法正确的是。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 1 题 关于单链表、双链表和循环链表，下列说法正确的是（ ）。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -17397,6 +17610,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 1,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -17438,16 +17660,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "双向循环链表中要在结点 p 之前插入新结点 s （均非空），以下指针操作正确的是。",
         "evidence_snippet": "第 2 题 双向循环链表中要在结点 p 之前插入新结点 s （均非空），以下指针操作正确的是（ ）。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 1,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "双向循环链表中要在结点 p 之前插入新结点 s （均非空），以下指针操作正确的是。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 2 题 双向循环链表中要在结点 p 之前插入新结点 s （均非空），以下指针操作正确的是（ ）。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -17530,6 +17763,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 1,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -17571,16 +17813,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "下面函数用“哑结点”统一处理删除单向链表中的头结点与中间结点。横线处应填。",
         "evidence_snippet": "第 3 题 下面函数用“哑结点”统一处理删除单向链表中的头结点与中间结点。横线处应填（ ）。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 1,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "下面函数用“哑结点”统一处理删除单向链表中的头结点与中间结点。横线处应填。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 3 题 下面函数用“哑结点”统一处理删除单向链表中的头结点与中间结点。横线处应填（ ）。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "needs_review",
@@ -17769,6 +18022,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 1,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -17810,16 +18072,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "对如下代码实现的欧几里得算法（辗转相除法），执行 gcd(48, 18) 得到的调用序列为。",
         "evidence_snippet": "第 4 题 对如下代码实现的欧几里得算法（辗转相除法），执行 gcd(48, 18) 得到的调用序列为（ ）。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 2,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "对如下代码实现的欧几里得算法（辗转相除法），执行 gcd(48, 18) 得到的调用序列为。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 4 题 对如下代码实现的欧几里得算法（辗转相除法），执行 gcd(48, 18) 得到的调用序列为（ ）。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "needs_review",
@@ -18008,6 +18281,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 2,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -18049,16 +18331,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "下面代码实现了欧拉（线性）筛，横线处应填写。",
         "evidence_snippet": "第 5 题 下面代码实现了欧拉（线性）筛，横线处应填写（ ）。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 2,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "下面代码实现了欧拉（线性）筛，横线处应填写。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 5 题 下面代码实现了欧拉（线性）筛，横线处应填写（ ）。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "needs_review",
@@ -18247,6 +18540,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 2,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -18288,16 +18590,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "埃氏筛中将内层循环从 j = i*i 开始而不是 j = 2*i 的主要原因是。",
         "evidence_snippet": "第 6 题 埃氏筛中将内层循环从 j = i*i 开始而不是 j = 2*i 的主要原因是（ ）。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 3,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "埃氏筛中将内层循环从 j = i*i 开始而不是 j = 2*i 的主要原因是。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 6 题 埃氏筛中将内层循环从 j = i*i 开始而不是 j = 2*i 的主要原因是（ ）。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.909Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -18402,6 +18715,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 3,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.909Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -18443,16 +18765,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "下面程序的运行结果为。",
         "evidence_snippet": "第 7 题 下面程序的运行结果为（ ）。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 3,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "下面程序的运行结果为。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 7 题 下面程序的运行结果为（ ）。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.910Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -18557,6 +18890,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 3,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.910Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -18598,16 +18940,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "在升序数组中查找第一个大于等于 x 的位置，下面循环中横线应填。",
         "evidence_snippet": "第 8 题 在升序数组中查找第一个大于等于 x 的位置，下面循环中横线应填（ ）。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 4,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "在升序数组中查找第一个大于等于 x 的位置，下面循环中横线应填。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 8 题 在升序数组中查找第一个大于等于 x 的位置，下面循环中横线应填（ ）。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.910Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -18796,6 +19149,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 4,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.910Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -18837,16 +19199,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "关于递归函数调用，下列说法错误的是。",
         "evidence_snippet": "第 9 题 关于递归函数调用，下列说法错误的是（ ）。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 5,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "关于递归函数调用，下列说法错误的是。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 9 题 关于递归函数调用，下列说法错误的是（ ）。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.910Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -18929,6 +19302,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 5,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.910Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -18970,16 +19352,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "给定 n 根木头，第 i 根长度为 a[i]。要切成不少于 m 段等长木段，求最大可能长度，则横线上应填",
         "evidence_snippet": "第 10 题 给定 n 根木头，第 i 根长度为 a[i]。要切成不少于 m 段等长木段，求最大可能长度，则横线上应填",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 5,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "给定 n 根木头，第 i 根长度为 a[i]。要切成不少于 m 段等长木段，求最大可能长度，则横线上应填",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 10 题 给定 n 根木头，第 i 根长度为 a[i]。要切成不少于 m 段等长木段，求最大可能长度，则横线上应填"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.910Z"
       },
       "choice_options": {
         "status": "needs_review",
@@ -19168,6 +19561,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 5,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.910Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -19209,16 +19611,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "下面代码用分治求“最大连续子段和”",
         "evidence_snippet": "第 11 题 下面代码用分治求“最大连续子段和”",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 6,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "下面代码用分治求“最大连续子段和”",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 11 题 下面代码用分治求“最大连续子段和”"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.910Z"
       },
       "choice_options": {
         "status": "needs_review",
@@ -19323,6 +19736,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 6,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.910Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -19364,16 +19786,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "游戏大赛决赛，两组选手分别按得分从小到大排好队，现在要把他们合并成一个有序排行榜。",
         "evidence_snippet": "第 12 题 游戏大赛决赛，两组选手分别按得分从小到大排好队，现在要把他们合并成一个有序排行榜。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 7,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "游戏大赛决赛，两组选手分别按得分从小到大排好队，现在要把他们合并成一个有序排行榜。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 12 题 游戏大赛决赛，两组选手分别按得分从小到大排好队，现在要把他们合并成一个有序排行榜。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.910Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -19478,6 +19911,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 7,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.910Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -19519,16 +19961,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "有 位同学的成绩已经从小到大排好序，现在对它执行下面这段以第一个元素为 pivot 的快速排序，请",
         "evidence_snippet": "第 13 题 有 位同学的成绩已经从小到大排好序，现在对它执行下面这段以第一个元素为 pivot 的快速排序，请",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 8,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "有 位同学的成绩已经从小到大排好序，现在对它执行下面这段以第一个元素为 pivot 的快速排序，请",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 13 题 有 位同学的成绩已经从小到大排好序，现在对它执行下面这段以第一个元素为 pivot 的快速排序，请"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.910Z"
       },
       "choice_options": {
         "status": "needs_review",
@@ -19633,6 +20086,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 8,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.910Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -19674,16 +20136,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "下面关于排序算法的描述中，不正确的是。",
         "evidence_snippet": "第 14 题 下面关于排序算法的描述中，不正确的是( )。",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 8,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "下面关于排序算法的描述中，不正确的是。",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 14 题 下面关于排序算法的描述中，不正确的是( )。"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.910Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -19766,6 +20239,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 8,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.910Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -19807,16 +20289,27 @@
         ]
       },
       "statement": {
-        "status": "partial",
+        "status": "source_extracted",
         "stem": "下面代码实现两个整数除法，其中被除数为一个“大整数”",
         "evidence_snippet": "第 15 题 下面代码实现两个整数除法，其中被除数为一个“大整数”",
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 8,
-        "storage_policy": "short_excerpt_only",
+        "storage_policy": "source_extracted_official_pdf_excerpt",
         "notes": [
-          "当前只保存题干标题和短证据片段，完整题面需要后续在确认来源授权后采集。",
-          "题目详情页先使用该结构承载题干、选项、图片和参考解，后续爬虫可增量补齐。"
-        ]
+          "题干从官方 GESP C++ 五级 PDF 文本层抽取，保留官方 PDF 来源页码。",
+          "PDF 文本层可能丢失公式、代码缩进或图片细节；详情页同时展示已抽取图片资产，仍需人工复核。"
+        ],
+        "title": "下面代码实现两个整数除法，其中被除数为一个“大整数”",
+        "extraction_method": "official_pdf_problem_text_excerpt",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "stem",
+            "title": "题干",
+            "markdown": "第 15 题 下面代码实现两个整数除法，其中被除数为一个“大整数”"
+          }
+        ],
+        "extracted_at": "2026-06-01T02:22:26.910Z"
       },
       "choice_options": {
         "status": "needs_review",
@@ -20005,6 +20498,15 @@
         "needs_visual_asset_collection": false,
         "needs_programming_solution": false,
         "needs_source_enrichment": false
+      },
+      "official_statement_enrichment": {
+        "status": "source_extracted",
+        "source": "official_pdf_text_excerpt",
+        "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+        "source_page": 8,
+        "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
+        "applied_at": "2026-06-01T02:22:26.910Z",
+        "review_status": "needs_review"
       }
     },
     {
@@ -30811,5 +31313,12 @@
       "failure_count": 0
     },
     "review_status": "needs_review"
+  },
+  "official_level5_statement_enrichment": {
+    "applied_at": "2026-06-01T02:22:26.910Z",
+    "applied_count": 25,
+    "source": "official_pdf_text_excerpt",
+    "review_status": "needs_review",
+    "policy": "Official level-5 selection and judgment statements are source-extracted from public official PDFs but remain needs_review because PDF text may lose formulas, code formatting, or image context."
   }
 }

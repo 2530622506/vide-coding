@@ -28,6 +28,8 @@ async function main() {
   let visualSourceExtractedRecords = 0;
   let visualSourceExtractedAssets = 0;
   let visualNoneFound = 0;
+  let officialLevel5Statement = 0;
+  let officialLevel5NonProgrammingStatement = 0;
 
   for (const record of details.records) {
     assert(record.canonical_problem_id, "canonical_problem_id required");
@@ -62,6 +64,16 @@ async function main() {
     if (record.question_type === "programming" && record.statement.status === "source_extracted") {
       officialProgrammingStatement += 1;
       assert(record.source_enrichment?.source_terms_status === "needs_review", `${record.canonical_problem_id}: programming source terms required`);
+    }
+    if (record.level === 5 && record.statement.status === "source_extracted") {
+      officialLevel5Statement += 1;
+      assert(record.statement.sections?.length > 0, `${record.canonical_problem_id}: level 5 statement sections required`);
+      assert(record.statement.source_terms_status === "needs_review", `${record.canonical_problem_id}: level 5 statement source terms required`);
+      if (record.question_type !== "programming") {
+        officialLevel5NonProgrammingStatement += 1;
+        assert(record.official_statement_enrichment?.status === "source_extracted", `${record.canonical_problem_id}: official level 5 statement enrichment required`);
+        assert(record.statement.extraction_method === "official_pdf_problem_text_excerpt", `${record.canonical_problem_id}: official level 5 extraction method required`);
+      }
     }
     if (record.question_type === "programming" && record.sample_cases.status === "source_extracted") {
       officialProgrammingSamples += 1;
@@ -119,10 +131,14 @@ async function main() {
   assert(visualNoneFound === 115, `expected 115 records with no visual assets found, got ${visualNoneFound}`);
   assert(judgmentBinary === 80, `expected 80 judgment records with binary options, got ${judgmentBinary}`);
   assert(officialProgrammingStatement === 16, `expected 16 official programming statements, got ${officialProgrammingStatement}`);
+  assert(officialLevel5Statement === 27, `expected 27 official level 5 statements, got ${officialLevel5Statement}`);
+  assert(officialLevel5NonProgrammingStatement === 25, `expected 25 official level 5 non-programming statements, got ${officialLevel5NonProgrammingStatement}`);
   assert(officialProgrammingSamples === 16, `expected 16 official programming sample groups, got ${officialProgrammingSamples}`);
   assert(officialProgrammingVisualExtracted === 1, `expected 1 official programming visual asset group, got ${officialProgrammingVisualExtracted}`);
   assert(officialProgrammingAiSolutions === 16, `expected 16 official AI sample-verified solutions, got ${officialProgrammingAiSolutions}`);
   assert(details.summary.official_programming_source_extracted_statement_count === officialProgrammingStatement, "summary official programming statement count mismatch");
+  assert(details.summary.official_level5_source_extracted_statement_count === officialLevel5Statement, "summary official level 5 statement count mismatch");
+  assert(details.summary.official_level5_non_programming_source_extracted_statement_count === officialLevel5NonProgrammingStatement, "summary official level 5 non-programming statement count mismatch");
   assert(details.summary.official_programming_source_extracted_sample_count === officialProgrammingSamples, "summary official programming sample count mismatch");
   assert(details.summary.official_programming_ai_sample_verified_solution_count === officialProgrammingAiSolutions, "summary official AI solution count mismatch");
   assert(details.summary.pending_visual_asset_collection_count === visualPending, "summary pending visual asset count mismatch");
@@ -137,6 +153,7 @@ async function main() {
   console.log(`selection source-extracted option count: ${selectionSourceExtracted}`);
   console.log(`selection needs-review option count: ${selectionNeedsReview}`);
   console.log(`official programming source-extracted statement count: ${officialProgrammingStatement}`);
+  console.log(`official level 5 source-extracted statement count: ${officialLevel5Statement}`);
   console.log(`official programming source-extracted sample count: ${officialProgrammingSamples}`);
   console.log(`official programming AI sample-verified solution count: ${officialProgrammingAiSolutions}`);
   console.log(`source-extracted visual asset records: ${visualSourceExtractedRecords}`);
