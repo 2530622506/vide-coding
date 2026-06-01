@@ -207,6 +207,66 @@ const overrides = {
     knowledge: [["dijkstra", "Dijkstra"], ["priority_queue", "优先队列"], ["undirected_weighted_graph", "无向带权图"]],
     focus: "从学校一次 Dijkstra 后回答所有家到学校的距离"
   },
+  "supplemental:luogu:p11967": {
+    domains: [["tree", "树"], ["data_structure", "数据结构"]],
+    types: [["tree_path_cut_vertex_counting", "树上路径割点计数型"]],
+    knowledge: [["lowest_common_ancestor", "最近公共祖先"], ["tree_difference", "树上差分"], ["path_prefix_counting", "路径前缀计数"]],
+    focus: "统计坏点对路径上未被任何好点对路径覆盖的可删除节点"
+  },
+  "supplemental:luogu:p13019": {
+    domains: [["tree", "树"], ["data_structure", "数据结构"]],
+    types: [["functional_jump_on_rooted_tree", "有根树函数跳转型"]],
+    knowledge: [["binary_lifting", "倍增"], ["rooted_tree_parent", "有根树父节点"], ["minimum_child_chain", "最小子节点链"]],
+    focus: "分别对父节点跳转和最小子节点跳转建立倍增表"
+  },
+  "supplemental:luogu:p13020": {
+    domains: [["tree", "树"], ["combinatorics", "组合数学"]],
+    types: [["dfs_order_counting", "DFS 遍历序计数型"]],
+    knowledge: [["tree_degree", "树的度数"], ["factorial_counting", "阶乘计数"], ["root_choice_enumeration", "起点枚举"]],
+    focus: "按 DFS 起点和每个节点邻接访问顺序排列数计数"
+  },
+  "supplemental:luogu:p14079": {
+    domains: [["graph", "图论"], ["number_theory", "数论"]],
+    types: [["complete_graph_gcd_shortest_path", "GCD 完全图最短路型"]],
+    knowledge: [["greatest_common_divisor", "最大公约数"], ["shortest_path_case_analysis", "最短路分类讨论"], ["constructive_intermediate_node", "构造中转点"]],
+    focus: "比较直接边、互质中转和非互质中转三类最短路"
+  },
+  "supplemental:luogu:p14080": {
+    domains: [["graph", "图论"], ["data_structure", "数据结构"]],
+    types: [["mst_edge_deletion_replacement", "最小生成树删边替换型"]],
+    knowledge: [["kruskal", "Kruskal"], ["heavy_light_decomposition", "重链剖分"], ["path_min_update", "路径最小值更新"]],
+    focus: "删除树边时用跨割非树边的最小权值替换"
+  },
+  "supplemental:luogu:p14923": {
+    domains: [["graph", "图论"], ["shortest_path", "最短路"]],
+    types: [["deadline_escape_shortest_path", "带截止时间逃脱路径型"]],
+    knowledge: [["dijkstra", "Dijkstra"], ["latest_arrival_time", "最晚到达时间"], ["priority_queue", "优先队列"]],
+    focus: "用猫的最短到达时间作为节点安全截止时间反向传播"
+  },
+  "supplemental:luogu:p14924": {
+    domains: [["data_structure", "数据结构"], ["two_pointer", "双指针"]],
+    types: [["circular_covering_segment_count", "环形全种类分段计数型"]],
+    knowledge: [["sliding_window", "滑动窗口"], ["binary_lifting", "倍增"], ["circular_array", "环形数组"]],
+    focus: "复制环形数组后求每个起点最早完整段并倍增计数"
+  },
+  "supplemental:luogu:p13018": {
+    domains: [["dynamic_programming", "动态规划"], ["knapsack", "背包"]],
+    types: [["balance_difference_knapsack", "差值平衡背包型"]],
+    knowledge: [["zero_one_knapsack", "0/1 背包"], ["difference_state", "差值状态"], ["max_value_dp", "最大价值 DP"]],
+    focus: "用酸甜差值作为状态，在差值为 0 时最大化总味道强度"
+  },
+  "supplemental:luogu:p14077": {
+    domains: [["graph", "图论"], ["data_structure", "数据结构"]],
+    types: [["connected_component_completion", "连通块补边型"]],
+    knowledge: [["disjoint_set_union", "并查集"], ["connected_component", "连通块"], ["minimum_edge_addition", "最少补边"]],
+    focus: "统计无向图连通块数量，答案为连通块数减一"
+  },
+  "supplemental:luogu:p14078": {
+    domains: [["dynamic_programming", "动态规划"], ["data_structure", "数据结构"]],
+    types: [["two_dimensional_chain_dp", "二维偏序链 DP 型"]],
+    knowledge: [["fenwick_tree", "树状数组"], ["coordinate_compression", "坐标压缩"], ["partial_order_dp", "偏序 DP"]],
+    focus: "把金币转成坐标和剩余等待量的二维非降链"
+  },
   "supplemental:luogu:p10378": {
     domains: [["graph", "图论"], ["sort_simulation", "排序/模拟"]],
     types: [["bipartite_component_size_range", "二分图连通块规模范围型"]],

@@ -1764,6 +1764,698 @@ int main() {
 }
 `
   },
+  "supplemental:luogu:p11967": {
+    algorithm: "删除一个点会割开坏点对，当且仅当该点位于坏点对路径上；同时它不能位于任何好点对路径上。对所有好点对做树上差分标记路径覆盖，再用根前缀统计坏点对路径上未被好路径覆盖的点数。",
+    complexity: "时间复杂度 O((n+a) log n)，空间复杂度 O(n log n)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, a;
+    cin >> n >> a;
+    vector<vector<int>> graph(n + 1);
+    for (int i = 0; i < n - 1; ++i) {
+        int x, y;
+        cin >> x >> y;
+        graph[x].push_back(y);
+        graph[y].push_back(x);
+    }
+
+    int LOG = 1;
+    while ((1 << LOG) <= n) ++LOG;
+    vector<vector<int>> up(LOG, vector<int>(n + 1, 1));
+    vector<int> parent(n + 1, 1), depth(n + 1, 0), order;
+    order.reserve(n);
+    vector<int> stack = {1};
+    parent[1] = 1;
+    while (!stack.empty()) {
+        int node = stack.back();
+        stack.pop_back();
+        order.push_back(node);
+        for (int next : graph[node]) {
+            if (next == parent[node]) continue;
+            parent[next] = node;
+            depth[next] = depth[node] + 1;
+            stack.push_back(next);
+        }
+    }
+    for (int node = 1; node <= n; ++node) up[0][node] = parent[node];
+    for (int bit = 1; bit < LOG; ++bit) {
+        for (int node = 1; node <= n; ++node) {
+            up[bit][node] = up[bit - 1][up[bit - 1][node]];
+        }
+    }
+
+    auto lca = [&](int u, int v) {
+        if (depth[u] < depth[v]) swap(u, v);
+        int diff = depth[u] - depth[v];
+        for (int bit = 0; bit < LOG; ++bit) {
+            if (diff & (1 << bit)) u = up[bit][u];
+        }
+        if (u == v) return u;
+        for (int bit = LOG - 1; bit >= 0; --bit) {
+            if (up[bit][u] != up[bit][v]) {
+                u = up[bit][u];
+                v = up[bit][v];
+            }
+        }
+        return parent[u];
+    };
+
+    vector<int> diff(n + 1, 0);
+    for (int i = 0; i < a; ++i) {
+        int u, v;
+        cin >> u >> v;
+        int w = lca(u, v);
+        ++diff[u];
+        ++diff[v];
+        --diff[w];
+        if (w != 1) --diff[parent[w]];
+    }
+    int bu, bv;
+    cin >> bu >> bv;
+
+    for (int i = static_cast<int>(order.size()) - 1; i >= 0; --i) {
+        int node = order[i];
+        if (node != 1) diff[parent[node]] += diff[node];
+    }
+
+    vector<int> uncoveredPrefix(n + 1, 0);
+    for (int node : order) {
+        // 中文注释：diff[node] 为经过该点的好点对路径数量，0 表示删除它不会破坏好点对。
+        uncoveredPrefix[node] = uncoveredPrefix[parent[node]] + (diff[node] == 0 ? 1 : 0);
+    }
+
+    int w = lca(bu, bv);
+    int answer = uncoveredPrefix[bu] + uncoveredPrefix[bv] - 2 * uncoveredPrefix[w] + (diff[w] == 0 ? 1 : 0);
+    cout << answer << '\\n';
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p13019": {
+    algorithm: "向父节点移动和沿编号最小子节点移动都是函数式跳转。分别预处理父亲倍增表和最小子节点倍增表，每段移动按二进制拆分即可快速跳到终点。",
+    complexity: "预处理 O(n log n)，所有旅行总时间 O((n+sum k) log n)，空间复杂度 O(n log n)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, q;
+    cin >> n >> q;
+    int LOG = 1;
+    while ((1 << LOG) <= n) ++LOG;
+    vector<vector<int>> up(LOG, vector<int>(n + 1, 1));
+    vector<int> minChild(n + 1, 0);
+    for (int node = 2; node <= n; ++node) {
+        int p;
+        cin >> p;
+        up[0][node] = p;
+        if (minChild[p] == 0 || node < minChild[p]) minChild[p] = node;
+    }
+    up[0][1] = 1;
+    for (int bit = 1; bit < LOG; ++bit) {
+        for (int node = 1; node <= n; ++node) up[bit][node] = up[bit - 1][up[bit - 1][node]];
+    }
+
+    vector<vector<int>> down(LOG, vector<int>(n + 1, 1));
+    for (int node = 1; node <= n; ++node) down[0][node] = (minChild[node] == 0 ? node : minChild[node]);
+    for (int bit = 1; bit < LOG; ++bit) {
+        for (int node = 1; node <= n; ++node) down[bit][node] = down[bit - 1][down[bit - 1][node]];
+    }
+
+    auto jump = [&](int node, long long steps, const vector<vector<int>>& table) {
+        for (int bit = 0; bit < LOG; ++bit) {
+            if (steps & (1LL << bit)) node = table[bit][node];
+        }
+        return node;
+    };
+
+    while (q--) {
+        int current, k;
+        cin >> current >> k;
+        for (int i = 0; i < k; ++i) {
+            long long move;
+            cin >> move;
+            if (move > 0) {
+                // 中文注释：正数表示向父节点走，超过根以后保持在根。
+                current = jump(current, move, up);
+            } else {
+                // 中文注释：负数表示反复走向编号最小的子节点，到叶子后保持不动。
+                current = jump(current, -move, down);
+            }
+        }
+        cout << current << '\\n';
+    }
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p13020": {
+    algorithm: "固定 DFS 起点后，每个结点的未访问邻点访问顺序可以任意排列。起点贡献 deg(s)!，其他结点贡献 (deg(v)-1)!；对所有起点求和后得到 prod((deg(v)-1)!) * sum(deg(v))。",
+    complexity: "时间复杂度 O(n)，空间复杂度 O(n)。",
+    code: `#include <iostream>
+#include <vector>
+using namespace std;
+
+const long long MOD = 1000000000LL;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+    vector<int> degree(n + 1, 0);
+    for (int i = 0; i < n - 1; ++i) {
+        int u, v;
+        cin >> u >> v;
+        ++degree[u];
+        ++degree[v];
+    }
+    if (n == 1) {
+        cout << 1 << '\\n';
+        return 0;
+    }
+
+    vector<long long> fact(n + 1, 1);
+    for (int i = 1; i <= n; ++i) fact[i] = fact[i - 1] * i % MOD;
+
+    long long base = 1;
+    long long degreeSum = 0;
+    for (int node = 1; node <= n; ++node) {
+        // 中文注释：非起点在 DFS 树中少一个父亲，因此只有 degree-1 个子方向可排列。
+        base = base * fact[max(0, degree[node] - 1)] % MOD;
+        degreeSum += degree[node];
+    }
+    cout << base * (degreeSum % MOD) % MOD << '\\n';
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p14079": {
+    algorithm: "任意两点可以直接走，也可以经过一个中转点。由于点编号范围极大，总能找到与两端都互质的中转点，若两端都大于 1 也能找到与两端都不互质的中转点；因此只需比较直接边、两条互质边和两条非互质边。",
+    complexity: "每个询问 O(log min(a,b))，空间复杂度 O(1)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <numeric>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long p, q;
+    cin >> n >> p >> q;
+    while (n--) {
+        long long a, b;
+        cin >> a >> b;
+        if (a == b) {
+            cout << 0 << '\\n';
+            continue;
+        }
+        long long answer = (gcd(a, b) == 1 ? p : q);
+        answer = min(answer, 2 * p);
+        if (a > 1 && b > 1) {
+            // 中文注释：两端都有非 1 因子时，可构造一个同时与二者不互质的中转编号。
+            answer = min(answer, 2 * q);
+        }
+        cout << answer << '\\n';
+    }
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p14080": {
+    algorithm: "先用 Kruskal 求一棵最小生成树。删除非树边时 MST 不变；删除树边时，需要找所有跨过该树边割的非树边中权值最小者。用重链剖分把每条非树边对树上路径做区间取最小，最后逐条树边查询替换边。",
+    complexity: "时间复杂度 O(m log^2 n)，空间复杂度 O(n+m)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <numeric>
+#include <tuple>
+#include <vector>
+using namespace std;
+
+const long long INF = (1LL << 62);
+
+struct Edge {
+    int u, v, id;
+    long long w;
+    bool inTree = false;
+};
+
+struct DSU {
+    vector<int> parent, size;
+    DSU(int n) : parent(n + 1), size(n + 1, 1) {
+        iota(parent.begin(), parent.end(), 0);
+    }
+    int find(int x) {
+        while (parent[x] != x) {
+            parent[x] = parent[parent[x]];
+            x = parent[x];
+        }
+        return x;
+    }
+    bool unite(int a, int b) {
+        a = find(a);
+        b = find(b);
+        if (a == b) return false;
+        if (size[a] < size[b]) swap(a, b);
+        parent[b] = a;
+        size[a] += size[b];
+        return true;
+    }
+};
+
+struct SegmentTree {
+    int n;
+    vector<long long> tag;
+    SegmentTree(int n) : n(n), tag(4 * n + 4, INF) {}
+    void update(int node, int left, int right, int ql, int qr, long long value) {
+        if (ql > right || qr < left) return;
+        if (ql <= left && right <= qr) {
+            tag[node] = min(tag[node], value);
+            return;
+        }
+        int mid = (left + right) / 2;
+        update(node * 2, left, mid, ql, qr, value);
+        update(node * 2 + 1, mid + 1, right, ql, qr, value);
+    }
+    long long query(int node, int left, int right, int pos) {
+        if (left == right) return tag[node];
+        int mid = (left + right) / 2;
+        long long answer = tag[node];
+        if (pos <= mid) answer = min(answer, query(node * 2, left, mid, pos));
+        else answer = min(answer, query(node * 2 + 1, mid + 1, right, pos));
+        return answer;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+    vector<Edge> edges(m);
+    for (int i = 0; i < m; ++i) {
+        cin >> edges[i].u >> edges[i].v >> edges[i].w;
+        edges[i].id = i;
+    }
+
+    vector<int> order(m);
+    iota(order.begin(), order.end(), 0);
+    sort(order.begin(), order.end(), [&](int a, int b) {
+        return edges[a].w < edges[b].w;
+    });
+
+    DSU dsu(n);
+    long long mstWeight = 0;
+    int used = 0;
+    vector<vector<pair<int, int>>> tree(n + 1);
+    vector<int> treeEdgeChild(m, 0);
+    for (int idx : order) {
+        auto& e = edges[idx];
+        if (e.u == e.v) continue;
+        if (dsu.unite(e.u, e.v)) {
+            e.inTree = true;
+            ++used;
+            mstWeight += e.w;
+            tree[e.u].push_back({e.v, e.id});
+            tree[e.v].push_back({e.u, e.id});
+        }
+    }
+
+    vector<int> parent(n + 1), depth(n + 1), heavy(n + 1, 0), subtree(n + 1), edgeToParent(n + 1, -1);
+    auto dfs1 = [&](auto&& self, int node, int from) -> void {
+        parent[node] = from;
+        subtree[node] = 1;
+        int bestSize = 0;
+        for (auto [next, edgeId] : tree[node]) {
+            if (next == from) continue;
+            depth[next] = depth[node] + 1;
+            edgeToParent[next] = edgeId;
+            self(self, next, node);
+            subtree[node] += subtree[next];
+            if (subtree[next] > bestSize) {
+                bestSize = subtree[next];
+                heavy[node] = next;
+            }
+        }
+    };
+    dfs1(dfs1, 1, 0);
+
+    vector<int> head(n + 1), position(n + 1);
+    int timer = 0;
+    auto dfs2 = [&](auto&& self, int node, int chainHead) -> void {
+        head[node] = chainHead;
+        position[node] = ++timer;
+        if (edgeToParent[node] != -1) treeEdgeChild[edgeToParent[node]] = node;
+        if (heavy[node]) self(self, heavy[node], chainHead);
+        for (auto [next, edgeId] : tree[node]) {
+            if (next == parent[node] || next == heavy[node]) continue;
+            self(self, next, next);
+        }
+    };
+    dfs2(dfs2, 1, 1);
+
+    SegmentTree seg(n);
+    auto updatePath = [&](int u, int v, long long value) {
+        while (head[u] != head[v]) {
+            if (depth[head[u]] < depth[head[v]]) swap(u, v);
+            seg.update(1, 1, n, position[head[u]], position[u], value);
+            u = parent[head[u]];
+        }
+        if (depth[u] < depth[v]) swap(u, v);
+        if (u != v) {
+            // 中文注释：边权映射到较深端点，LCA 点本身不代表路径边。
+            seg.update(1, 1, n, position[v] + 1, position[u], value);
+        }
+    };
+
+    for (const auto& e : edges) {
+        if (!e.inTree && e.u != e.v) updatePath(e.u, e.v, e.w);
+    }
+
+    for (const auto& e : edges) {
+        if (!e.inTree) {
+            cout << mstWeight << '\\n';
+            continue;
+        }
+        int child = treeEdgeChild[e.id];
+        long long replacement = seg.query(1, 1, n, position[child]);
+        if (replacement == INF) cout << -1 << '\\n';
+        else cout << mstWeight - e.w + replacement << '\\n';
+    }
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p14923": {
+    algorithm: "先从猫窝做 Dijkstra 得到猫到每个点的最短时间。再从老鼠洞反向做最大可行时刻传播：latest[u] 表示老鼠最晚何时到达 u 仍能安全逃到洞；若 latest[u] >= 0，则从 u 出发是安全的。",
+    complexity: "时间复杂度 O((n+m) log n)，空间复杂度 O(n+m)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <queue>
+#include <utility>
+#include <vector>
+using namespace std;
+
+const long long INF = (1LL << 62);
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+    int catHome, hole;
+    cin >> catHome >> hole;
+    vector<long long> cheese(n + 1);
+    for (int i = 1; i <= n; ++i) cin >> cheese[i];
+
+    vector<vector<pair<int, int>>> graph(n + 1);
+    for (int i = 0; i < m; ++i) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        graph[u].push_back({v, w});
+        graph[v].push_back({u, w});
+    }
+
+    auto dijkstra = [&](int start) {
+        vector<long long> dist(n + 1, INF);
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> pq;
+        dist[start] = 0;
+        pq.push({0, start});
+        while (!pq.empty()) {
+            auto [cost, node] = pq.top();
+            pq.pop();
+            if (cost != dist[node]) continue;
+            for (auto [next, weight] : graph[node]) {
+                if (dist[next] > cost + weight) {
+                    dist[next] = cost + weight;
+                    pq.push({dist[next], next});
+                }
+            }
+        }
+        return dist;
+    };
+
+    vector<long long> catDist = dijkstra(catHome);
+    vector<long long> latest(n + 1, -1);
+    priority_queue<pair<long long, int>> pq;
+    latest[hole] = catDist[hole] - 1;
+    pq.push({latest[hole], hole});
+    while (!pq.empty()) {
+        auto [timeLimit, node] = pq.top();
+        pq.pop();
+        if (timeLimit != latest[node]) continue;
+        for (auto [next, weight] : graph[node]) {
+            long long candidate = min(catDist[next] - 1, timeLimit - weight);
+            if (candidate > latest[next]) {
+                // 中文注释：candidate 表示老鼠最晚到达 next 且之后仍能全程早于猫。
+                latest[next] = candidate;
+                pq.push({candidate, next});
+            }
+        }
+    }
+
+    long long answer = 0;
+    for (int node = 1; node <= n; ++node) {
+        if (latest[node] >= 0) answer += cheese[node];
+    }
+    cout << answer << '\\n';
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p14924": {
+    algorithm: "对环形项链复制一遍，用滑动窗口求每个起点向右最早凑齐所有宝石的位置；再把“取一段”视作跳转，用倍增统计长度不超过 n 的范围内最多能跳多少段。",
+    complexity: "时间复杂度 O(n log n)，空间复杂度 O(n log n)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+    vector<int> gems(2 * n + 2);
+    for (int i = 1; i <= n; ++i) {
+        cin >> gems[i];
+        gems[i + n] = gems[i];
+    }
+
+    vector<int> nextStart(2 * n + 3, 2 * n + 2);
+    vector<int> count(m + 1, 0);
+    int distinct = 0;
+    int right = 0;
+    for (int left = 1; left <= 2 * n; ++left) {
+        while (right < 2 * n && distinct < m) {
+            ++right;
+            if (++count[gems[right]] == 1) ++distinct;
+        }
+        if (distinct == m) nextStart[left] = right + 1;
+        if (--count[gems[left]] == 0) --distinct;
+    }
+
+    int LOG = 1;
+    while ((1 << LOG) <= n) ++LOG;
+    vector<vector<int>> jump(LOG, vector<int>(2 * n + 3, 2 * n + 2));
+    jump[0] = nextStart;
+    for (int bit = 1; bit < LOG; ++bit) {
+        for (int i = 1; i <= 2 * n + 2; ++i) {
+            int mid = jump[bit - 1][i];
+            jump[bit][i] = (mid <= 2 * n + 2 ? jump[bit - 1][mid] : 2 * n + 2);
+        }
+    }
+
+    int answer = 0;
+    for (int start = 1; start <= n; ++start) {
+        int pos = start;
+        int used = 0;
+        int limit = start + n;
+        for (int bit = LOG - 1; bit >= 0; --bit) {
+            if (jump[bit][pos] <= limit) {
+                // 中文注释：一次跳转对应切出一个包含全部 m 种宝石的连续段。
+                used += 1 << bit;
+                pos = jump[bit][pos];
+            }
+        }
+        answer = max(answer, used);
+    }
+    cout << answer << '\\n';
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p13018": {
+    algorithm: "令差值为酸度和减甜度和，做 0/1 背包。dp[diff] 记录能达到该差值时酸甜总和的最大值，最后取 diff=0 的最大总和。",
+    complexity: "时间复杂度 O(n * sum(a_i+b_i))，空间复杂度 O(sum(a_i+b_i))。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+    vector<pair<int, int>> items(n);
+    int limit = 0;
+    for (int i = 0; i < n; ++i) {
+        cin >> items[i].first >> items[i].second;
+        limit += max(items[i].first, items[i].second);
+    }
+
+    const long long NEG = -(1LL << 60);
+    int offset = limit;
+    vector<long long> dp(2 * limit + 1, NEG);
+    dp[offset] = 0;
+    for (auto [acid, sweet] : items) {
+        vector<long long> next = dp;
+        int delta = acid - sweet;
+        int value = acid + sweet;
+        for (int idx = 0; idx <= 2 * limit; ++idx) {
+            if (dp[idx] == NEG) continue;
+            int target = idx + delta;
+            if (0 <= target && target <= 2 * limit) {
+                // 中文注释：选择当前食材后更新新的酸甜差值和总味道强度。
+                next[target] = max(next[target], dp[idx] + value);
+            }
+        }
+        dp.swap(next);
+    }
+
+    cout << dp[offset] << '\\n';
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p14077": {
+    algorithm: "无向图每个连通块内部已经互相可达。若当前有 c 个连通块，最少只需加入 c-1 条边把这些连通块串起来。",
+    complexity: "时间复杂度 O((n+m) alpha(n))，空间复杂度 O(n)。",
+    code: `#include <iostream>
+#include <numeric>
+#include <vector>
+using namespace std;
+
+struct DSU {
+    vector<int> parent, size;
+    DSU(int n) : parent(n + 1), size(n + 1, 1) {
+        iota(parent.begin(), parent.end(), 0);
+    }
+    int find(int x) {
+        while (parent[x] != x) {
+            parent[x] = parent[parent[x]];
+            x = parent[x];
+        }
+        return x;
+    }
+    void unite(int a, int b) {
+        a = find(a);
+        b = find(b);
+        if (a == b) return;
+        if (size[a] < size[b]) swap(a, b);
+        parent[b] = a;
+        size[a] += size[b];
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+    DSU dsu(n);
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
+        dsu.unite(u, v);
+    }
+
+    int components = 0;
+    for (int node = 1; node <= n; ++node) {
+        // 中文注释：每个并查集根代表一个连通块，连通块之间至少需要 components-1 条边连接。
+        if (dsu.find(node) == node) ++components;
+    }
+    cout << components - 1 << '\\n';
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p14078": {
+    algorithm: "一枚金币可接在另一枚之后，当且仅当坐标不下降且 t-x 不下降。把每枚金币转为二维点 (x, t-x)，按 x 升序处理，用树状数组维护 y 前缀最大链长。",
+    complexity: "时间复杂度 O(n log n)，空间复杂度 O(n)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+struct Fenwick {
+    int n;
+    vector<int> bit;
+    Fenwick(int n) : n(n), bit(n + 1, 0) {}
+    void update(int idx, int value) {
+        for (; idx <= n; idx += idx & -idx) bit[idx] = max(bit[idx], value);
+    }
+    int query(int idx) {
+        int answer = 0;
+        for (; idx > 0; idx -= idx & -idx) answer = max(answer, bit[idx]);
+        return answer;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+    vector<pair<long long, long long>> coins;
+    vector<long long> ys;
+    for (int i = 0; i < n; ++i) {
+        long long x, t;
+        cin >> x >> t;
+        if (x > t) continue;
+        long long y = t - x;
+        coins.push_back({x, y});
+        ys.push_back(y);
+    }
+    sort(ys.begin(), ys.end());
+    ys.erase(unique(ys.begin(), ys.end()), ys.end());
+    sort(coins.begin(), coins.end());
+
+    Fenwick fenwick(static_cast<int>(ys.size()) + 2);
+    int answer = 0;
+    for (auto [x, y] : coins) {
+        int idx = static_cast<int>(lower_bound(ys.begin(), ys.end(), y) - ys.begin()) + 1;
+        int best = fenwick.query(idx) + 1;
+        // 中文注释：x 和 t-x 都不下降，表示玩家可以只向右或停留并按时拿到金币。
+        fenwick.update(idx, best);
+        answer = max(answer, best);
+    }
+    cout << answer << '\\n';
+    return 0;
+}
+`
+  },
   "supplemental:luogu:p10378": {
     algorithm: "交流关系构成二分图。每个连通块的两种染色可以互换，B 校人数最小值累加 min(size0,size1)，最大值累加 max(size0,size1)。",
     complexity: "时间复杂度 O(N+M)，空间复杂度 O(N+M)。",
