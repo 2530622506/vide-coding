@@ -11,7 +11,7 @@ import { resolve } from "node:path";
 let CatalogService = class CatalogService {
     fallbackModel = this.readJson("data/classification/conflict-confidence-model.json");
     fallbackCanonical = this.readJson("data/canonical-problems/canonical-problem-alignment.json");
-    fallbackReviewQueue = this.readJson("data/classification/review-queue.json");
+    fallbackReviewQueue = this.readJson("data/classification/review-workqueue-plan.json");
     fallbackAnswerGuidance = this.readJson("data/classification/problem-answer-guidance.json");
     fallbackProblemDetails = this.readJson("data/classification/problem-details.json");
     fallbackSupplemental = this.readJson("data/classification/supplemental-cxx-problems.json");
@@ -180,13 +180,168 @@ let CatalogService = class CatalogService {
     }
     async getReviewQueueSummary() {
         const store = await this.loadStore();
+        const openItems = store.reviewQueue.items.filter((item) => item.status === "open");
         return {
             data_source: store.data_source,
-            summary: store.reviewQueue.summary,
-            high_priority: store.reviewQueue.items.filter((item) => item.priority === "high"),
-            medium_priority_count: store.reviewQueue.items.filter((item) => item.priority === "medium").length,
-            low_priority_count: store.reviewQueue.items.filter((item) => item.priority === "low").length
+            summary: this.reviewQueueSummary(openItems),
+            high_priority: openItems.filter((item) => item.priority === "high"),
+            medium_priority_count: openItems.filter((item) => item.priority === "medium").length,
+            low_priority_count: openItems.filter((item) => item.priority === "low").length
         };
+    }
+    async getReviewQueue() {
+        const store = await this.loadStore();
+        const items = [...store.reviewQueue.items].sort(this.sortReviewItems);
+        return {
+            data_source: store.data_source,
+            summary: this.reviewQueueSummary(items),
+            items
+        };
+    }
+    async applyReviewAction(id, body) {
+        const input = this.normalizeReviewActionInput(body);
+        const connection = await this.createMysqlConnection();
+        try {
+            await connection.beginTransaction();
+            const [itemRows] = await connection.query("SELECT item_json FROM review_queue_items WHERE id = ? FOR UPDATE", [id]);
+            const existingItem = itemRows[0]?.item_json;
+            if (!existingItem) {
+                await connection.rollback();
+                return null;
+            }
+            const item = this.parseJson(existingItem);
+            const beforeStatus = item.status || "open";
+            const afterStatus = this.reviewActionStatus(input.action);
+            const reviewedAt = new Date().toISOString();
+            const nextItem = {
+                ...item,
+                status: afterStatus,
+                review_status: afterStatus,
+                reviewed_at: reviewedAt,
+                reviewer: input.reviewer,
+                review_note: input.note
+            };
+            let updatedRecord = null;
+            if (item.canonical_problem_id) {
+                const [recordRows] = await connection.query("SELECT record_json FROM classification_records WHERE canonical_problem_id = ? FOR UPDATE", [item.canonical_problem_id]);
+                const recordJson = recordRows[0]?.record_json;
+                if (recordJson) {
+                    const record = this.parseJson(recordJson);
+                    updatedRecord = this.applyReviewDecisionToRecord(record, item, input);
+                    await connection.execute(`UPDATE classification_records
+             SET effective_review_status = ?, record_json = CAST(? AS JSON)
+             WHERE canonical_problem_id = ?`, [
+                        updatedRecord.effective_review_status,
+                        JSON.stringify(updatedRecord),
+                        updatedRecord.canonical_problem_id
+                    ]);
+                }
+            }
+            await connection.execute(`UPDATE review_queue_items
+         SET status = ?, item_json = CAST(? AS JSON)
+         WHERE id = ?`, [afterStatus, JSON.stringify(nextItem), id]);
+            const event = {
+                review_item_id: id,
+                canonical_problem_id: item.canonical_problem_id,
+                action: input.action,
+                reviewer: input.reviewer,
+                note: input.note,
+                before_status: beforeStatus,
+                after_status: afterStatus,
+                reviewed_at: reviewedAt,
+                item_snapshot: item,
+                source_ref: item.source_ref || null
+            };
+            await connection.execute(`INSERT INTO review_events (
+          review_item_id,
+          canonical_problem_id,
+          action,
+          reviewer,
+          note,
+          before_status,
+          after_status,
+          event_json
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, CAST(? AS JSON))`, [
+                id,
+                item.canonical_problem_id,
+                input.action,
+                input.reviewer,
+                input.note || null,
+                beforeStatus,
+                afterStatus,
+                JSON.stringify(event)
+            ]);
+            await connection.commit();
+            return {
+                item: nextItem,
+                updated_problem_id: updatedRecord?.canonical_problem_id || null,
+                updated_problem_status: updatedRecord?.effective_review_status || null,
+                event
+            };
+        }
+        catch (error) {
+            await connection.rollback();
+            throw error;
+        }
+        finally {
+            await connection.end();
+        }
+    }
+    async getAuditSummary() {
+        const auditExport = this.readJson("data/exports/classification-audit-export.json");
+        const rollback = this.readJson("data/exports/classification-rollback-manifest.json");
+        return {
+            generated_at: auditExport.generated_at,
+            summary: auditExport.summary,
+            source_manifest: auditExport.source_manifest,
+            rollback: {
+                generated_at: rollback.generated_at,
+                export_file: rollback.export_file,
+                source_snapshot_file: rollback.source_snapshot_file,
+                rollback_steps: rollback.rollback_steps
+            }
+        };
+    }
+    async getAuditEvents() {
+        try {
+            const connection = await this.createMysqlConnection();
+            try {
+                const [rows] = await connection.query("SELECT event_json FROM review_events ORDER BY created_at DESC, id DESC LIMIT 50");
+                const events = rows.map((row) => this.parseJson(row.event_json));
+                return {
+                    data_source: "mysql",
+                    summary: { total_count: events.length },
+                    events
+                };
+            }
+            finally {
+                await connection.end();
+            }
+        }
+        catch (error) {
+            if (process.env.CATALOG_MYSQL_REQUIRED === "true") {
+                throw error;
+            }
+            const auditExport = this.readJson("data/exports/classification-audit-export.json");
+            const events = auditExport.review_event_history.decisions
+                .map((decision) => ({
+                review_item_id: decision.review_item_id || null,
+                canonical_problem_id: decision.canonical_problem_id || null,
+                action: decision.action || "decision",
+                reviewer: decision.reviewer || "json-export",
+                note: decision.note || "",
+                reviewed_at: decision.reviewed_at || null,
+                source: "classification_records.review_decisions",
+                decision
+            }))
+                .sort((a, b) => String(b.reviewed_at || "").localeCompare(String(a.reviewed_at || "")))
+                .slice(0, 50);
+            return {
+                data_source: "json",
+                summary: { total_count: events.length },
+                events
+            };
+        }
     }
     async loadEditableProblem(id) {
         const connection = await this.createMysqlConnection();
@@ -367,6 +522,100 @@ let CatalogService = class CatalogService {
             source_url: this.optionalString(value.source_url),
             source_title: this.optionalString(value.source_title)
         };
+    }
+    normalizeReviewActionInput(body) {
+        if (!body || typeof body !== "object") {
+            throw new BadRequestException("复核动作请求体必须是对象");
+        }
+        const value = body;
+        const action = this.optionalString(value.action);
+        if (!action || !["confirm", "reject", "needs_review", "merge_duplicate"].includes(action)) {
+            throw new BadRequestException("复核动作必须是 confirm、reject、needs_review 或 merge_duplicate");
+        }
+        const reviewer = this.optionalString(value.reviewer) || "local-reviewer";
+        const note = this.optionalString(value.note) || "";
+        return { action, reviewer, note };
+    }
+    reviewActionStatus(action) {
+        const statusByAction = {
+            confirm: "confirmed",
+            reject: "rejected",
+            needs_review: "open",
+            merge_duplicate: "merged"
+        };
+        return statusByAction[action];
+    }
+    applyReviewDecisionToRecord(record, item, input) {
+        const nextRecord = structuredClone(record);
+        if (input.action !== "needs_review") {
+            nextRecord.review_queue_refs = nextRecord.review_queue_refs.filter((ref) => ref !== item.id);
+        }
+        else if (!nextRecord.review_queue_refs.includes(item.id)) {
+            nextRecord.review_queue_refs.push(item.id);
+        }
+        const matchingTag = this.findReviewTag(nextRecord, item);
+        if (matchingTag) {
+            matchingTag.review_status = this.reviewActionStatus(input.action);
+            matchingTag.review_reason = [...new Set([...(matchingTag.review_reason || []), `manual_review_${input.action}`])];
+            if (input.action === "confirm") {
+                matchingTag.effective_review_status = "confirmed";
+                matchingTag.final_confidence = Math.max(matchingTag.final_confidence, 0.95);
+                matchingTag.confidence_breakdown = [
+                    ...(matchingTag.confidence_breakdown || []),
+                    {
+                        factor: "manual_reviewer_confirmation",
+                        delta: 0,
+                        description: `reviewed by ${input.reviewer}`
+                    }
+                ];
+            }
+            if (input.action === "reject") {
+                matchingTag.effective_review_status = "needs_review";
+                matchingTag.final_confidence = Math.min(matchingTag.final_confidence, 0.2);
+            }
+        }
+        nextRecord.review_decisions = [
+            ...(nextRecord.review_decisions || []),
+            {
+                review_item_id: item.id,
+                action: input.action,
+                reviewer: input.reviewer,
+                note: input.note,
+                reviewed_at: new Date().toISOString(),
+                tag_kind: item.tag_kind || null,
+                tag_value: item.tag_value || null
+            }
+        ];
+        nextRecord.effective_review_status = this.inferRecordReviewStatus(nextRecord);
+        return nextRecord;
+    }
+    findReviewTag(record, item) {
+        if (!item.tag_kind || !item.tag_value) {
+            return null;
+        }
+        const tagArrays = {
+            algorithm_domain: record.resolved_algorithm_domains,
+            problem_type: record.resolved_problem_type_tags,
+            knowledge_point: record.resolved_knowledge_point_tags
+        };
+        return tagArrays[item.tag_kind]?.find((tag) => tag.value === item.tag_value) || null;
+    }
+    inferRecordReviewStatus(record) {
+        const tags = [
+            ...record.resolved_algorithm_domains,
+            ...record.resolved_problem_type_tags,
+            ...record.resolved_knowledge_point_tags
+        ];
+        if (tags.some((tag) => tag.effective_review_status === "conflict")) {
+            return "conflict";
+        }
+        if (record.review_queue_refs.length > 0 || tags.some((tag) => tag.effective_review_status === "needs_review")) {
+            return "needs_review";
+        }
+        if (tags.length > 0 && tags.every((tag) => tag.effective_review_status === "confirmed")) {
+            return "confirmed";
+        }
+        return "candidate";
     }
     optionalString(value) {
         return typeof value === "string" && value.trim() ? value.trim() : undefined;
@@ -766,7 +1015,7 @@ let CatalogService = class CatalogService {
                     generated_at: new Date().toISOString(),
                     generator: "mysql",
                     source_model: "data/classification/conflict-confidence-model.json",
-                    summary: meta.get("review_queue_summary"),
+                    summary: this.reviewQueueSummary(items),
                     items
                 },
                 answerGuidanceByProblem,
@@ -836,6 +1085,33 @@ let CatalogService = class CatalogService {
             grouped.get(item.canonical_problem_id)?.push(item);
         }
         return grouped;
+    }
+    reviewQueueSummary(items) {
+        const openItems = items.filter((item) => item.status === "open");
+        const byType = {};
+        const byPriority = {};
+        for (const item of openItems) {
+            byType[item.type] = (byType[item.type] || 0) + 1;
+            byPriority[item.priority] = (byPriority[item.priority] || 0) + 1;
+        }
+        return {
+            total_count: openItems.length,
+            by_type: byType,
+            by_priority: {
+                high: byPriority.high || 0,
+                medium: byPriority.medium || 0,
+                low: byPriority.low || 0
+            }
+        };
+    }
+    sortReviewItems(a, b) {
+        const priorityOrder = { high: 0, medium: 1, low: 2 };
+        const statusOrder = { open: 0, confirmed: 1, rejected: 2, merged: 3 };
+        return (statusOrder[a.status] ?? 4) - (statusOrder[b.status] ?? 4)
+            || (priorityOrder[a.priority] ?? 9) - (priorityOrder[b.priority] ?? 9)
+            || a.type.localeCompare(b.type)
+            || (a.canonical_problem_id || "").localeCompare(b.canonical_problem_id || "")
+            || a.id.localeCompare(b.id);
     }
     levelSummary(records) {
         const statusCounts = { confirmed: 0, candidate: 0, needs_review: 0, conflict: 0 };

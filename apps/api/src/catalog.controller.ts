@@ -60,4 +60,29 @@ export class CatalogController {
   getReviewQueueSummary() {
     return this.catalogService.getReviewQueueSummary();
   }
+
+  @Get("review-queue")
+  getReviewQueue() {
+    return this.catalogService.getReviewQueue();
+  }
+
+  @Post("review-queue/:id/actions")
+  applyReviewAction(@Param("id") id: string, @Body() body: unknown) {
+    return this.catalogService.applyReviewAction(id, body).then((result) => {
+      if (!result) {
+        throw new NotFoundException(`Review item ${id} not found`);
+      }
+      return result;
+    });
+  }
+
+  @Get("audit/summary")
+  getAuditSummary() {
+    return this.catalogService.getAuditSummary();
+  }
+
+  @Get("audit/events")
+  getAuditEvents() {
+    return this.catalogService.getAuditEvents();
+  }
 }

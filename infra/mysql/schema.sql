@@ -84,3 +84,25 @@ CREATE TABLE IF NOT EXISTS source_versions (
     REFERENCES classification_records (canonical_problem_id)
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS review_events (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  review_item_id VARCHAR(120) NULL,
+  canonical_problem_id VARCHAR(160) NULL,
+  action VARCHAR(32) NOT NULL,
+  reviewer VARCHAR(120) NOT NULL,
+  note TEXT NULL,
+  before_status VARCHAR(32) NOT NULL,
+  after_status VARCHAR(32) NOT NULL,
+  event_json JSON NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_review_event_item (review_item_id),
+  INDEX idx_review_event_problem (canonical_problem_id),
+  INDEX idx_review_event_action (action, created_at),
+  CONSTRAINT fk_review_event_item FOREIGN KEY (review_item_id)
+    REFERENCES review_queue_items (id)
+    ON DELETE SET NULL,
+  CONSTRAINT fk_review_event_problem FOREIGN KEY (canonical_problem_id)
+    REFERENCES classification_records (canonical_problem_id)
+    ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

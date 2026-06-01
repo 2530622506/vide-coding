@@ -59,6 +59,23 @@ let CatalogController = class CatalogController {
     getReviewQueueSummary() {
         return this.catalogService.getReviewQueueSummary();
     }
+    getReviewQueue() {
+        return this.catalogService.getReviewQueue();
+    }
+    applyReviewAction(id, body) {
+        return this.catalogService.applyReviewAction(id, body).then((result) => {
+            if (!result) {
+                throw new NotFoundException(`Review item ${id} not found`);
+            }
+            return result;
+        });
+    }
+    getAuditSummary() {
+        return this.catalogService.getAuditSummary();
+    }
+    getAuditEvents() {
+        return this.catalogService.getAuditEvents();
+    }
 };
 __decorate([
     Get("levels"),
@@ -108,6 +125,32 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], CatalogController.prototype, "getReviewQueueSummary", null);
+__decorate([
+    Get("review-queue"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], CatalogController.prototype, "getReviewQueue", null);
+__decorate([
+    Post("review-queue/:id/actions"),
+    __param(0, Param("id")),
+    __param(1, Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], CatalogController.prototype, "applyReviewAction", null);
+__decorate([
+    Get("audit/summary"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], CatalogController.prototype, "getAuditSummary", null);
+__decorate([
+    Get("audit/events"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], CatalogController.prototype, "getAuditEvents", null);
 CatalogController = __decorate([
     Controller("catalog"),
     __param(0, Inject(CatalogService)),

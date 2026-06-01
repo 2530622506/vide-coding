@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-01T05:12:49.054Z",
+  "generator": "scripts/export-audit-dataset.mjs",
+  "rollback_scope": "JSON source artifacts used to generate the audit export",
+  "source_manifest": [
+    {
+      "role": "conflictConfidence",
+      "path": "data/classification/conflict-confidence-model.json",
+      "sha256": "3c14d573928f3b58dd9aa27d3ca657167fde91546264504e0aa29a6eb9b1dd51",
+      "bytes": 701744
+    },
+    {
+      "role": "canonicalAlignment",
+      "path": "data/canonical-problems/canonical-problem-alignment.json",
+      "sha256": "6da9962c55d56f07b18a86d22e7e7915427814edb76a490c1e886950269844b9",
+      "bytes": 547988
+    },
+    {
+      "role": "reviewWorkqueue",
+      "path": "data/classification/review-workqueue-plan.json",
+      "sha256": "33d4fd6c1516c9cb66480a125913990a70c654f11bce57b1d81d1eaaa86d35a8",
+      "bytes": 1019272
+    },
+    {
+      "role": "problemDetails",
+      "path": "data/classification/problem-details.json",
+      "sha256": "425a24db5a2088431edd845dd7d25c6800c1a7a75b0666ca9ff001a5016ed7aa",
+      "bytes": 1366428
+    },
+    {
+      "role": "answerGuidance",
+      "path": "data/classification/problem-answer-guidance.json",
+      "sha256": "505ac2c632734253b67bfab5346f6932306e5e407b20a1a1b308ceb39c6de4d0",
+      "bytes": 500347
+    },
+    {
+      "role": "supplemental",
+      "path": "data/classification/supplemental-cxx-problems.json",
+      "sha256": "90ebb4376bd40fadce5bdc386049587c8a8eef6adfbad7cd6811b55f65d7e2c3",
+      "bytes": 5599248
+    }
+  ],
+  "source_snapshot_file": "data/exports/classification-source-snapshot.json",
+  "rollback_steps": [
+    "Stop API and background ingestion jobs before rollback.",
+    "Run npm run restore:audit -- --dry-run to verify the source snapshot.",
+    "Run npm run restore:audit -- --apply only when intentionally restoring the listed source artifacts.",
+    "Run npm run db:seed if MySQL is used.",
+    "Run npm run validate:audit-export and npm run validate:review-workqueue.",
+    "Run npm run build:api and npm run build:web before reopening the catalog UI."
+  ],
+  "export_file": "data/exports/classification-audit-export.json"
+}

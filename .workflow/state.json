@@ -1,8 +1,8 @@
 {
   "version": "3.1",
   "project_name": "GESP 题型分类与知识点对齐网站",
-  "status": "in_progress",
-  "current_milestone": "M4",
+  "status": "completed",
+  "current_milestone": null,
   "current_task_id": null,
   "milestones": [
     {
@@ -61,7 +61,7 @@
       "id": "M4",
       "name": "Classified Catalog UI",
       "type": "standard",
-      "status": "active",
+      "status": "completed",
       "phases": [
         "catalog-information-architecture",
         "problem-detail-and-source-alignment",
@@ -79,7 +79,7 @@
       "id": "M5",
       "name": "Review Workflow",
       "type": "standard",
-      "status": "pending",
+      "status": "completed",
       "phases": [
         "review-queue",
         "audit-and-export"
@@ -95,7 +95,7 @@
       "id": "M6",
       "name": "Expansion",
       "type": "standard",
-      "status": "pending",
+      "status": "completed",
       "phases": [
         "multi-level-expansion",
         "python-and-learning-paths"
@@ -339,9 +339,73 @@
       "results": ".workflow/.csv-wave/20260601-execute-P8-conflict-and-confidence-model/results.csv",
       "plan": ".workflow/scratch/20260601-plan-P8-conflict-and-confidence-model/plan.json",
       "created_at": "2026-06-01T00:49:00+08:00"
+    },
+    {
+      "id": "VRF-20260601-M4-classified-catalog-ui",
+      "type": "verify",
+      "scope": "milestone",
+      "milestone": "M4",
+      "path": ".workflow/scratch/20260601-verify-M4-classified-catalog-ui/verification.md",
+      "created_at": "2026-06-01T12:48:35+08:00"
+    },
+    {
+      "id": "PRG-20260601-P12-review-queue-backend",
+      "type": "progress",
+      "scope": "phase",
+      "milestone": "M5",
+      "phase": "review-queue",
+      "phase_number": 12,
+      "path": ".workflow/scratch/20260601-progress-P12-review-queue-backend/verification.md",
+      "created_at": "2026-06-01T12:48:35+08:00"
+    },
+    {
+      "id": "PRG-20260601-P13-audit-and-export",
+      "type": "progress",
+      "scope": "phase",
+      "milestone": "M5",
+      "phase": "audit-and-export",
+      "phase_number": 13,
+      "path": ".workflow/scratch/20260601-progress-P13-audit-and-export/verification.md",
+      "created_at": "2026-06-01T13:09:48+08:00"
+    },
+    {
+      "id": "VRF-20260601-M5-review-workflow",
+      "type": "verify",
+      "scope": "milestone",
+      "milestone": "M5",
+      "path": ".workflow/scratch/20260601-verify-M5-review-workflow/verification.md",
+      "created_at": "2026-06-01T13:23:26+08:00"
+    },
+    {
+      "id": "VRF-20260601-P14-multi-level-expansion",
+      "type": "verify",
+      "scope": "phase",
+      "milestone": "M6",
+      "phase": "multi-level-expansion",
+      "phase_number": 14,
+      "path": ".workflow/scratch/20260601-verify-P14-multi-level-expansion/verification.md",
+      "created_at": "2026-06-01T13:26:26+08:00"
+    },
+    {
+      "id": "VRF-20260601-P15-python-and-learning-paths",
+      "type": "verify",
+      "scope": "phase",
+      "milestone": "M6",
+      "phase": "python-and-learning-paths",
+      "phase_number": 15,
+      "path": ".workflow/scratch/20260601-verify-P15-python-and-learning-paths/verification.md",
+      "created_at": "2026-06-01T13:42:29+08:00"
+    },
+    {
+      "id": "VRF-20260601-M6-expansion",
+      "type": "verify",
+      "scope": "milestone",
+      "milestone": "M6",
+      "path": ".workflow/scratch/20260601-verify-M6-expansion/verification.md",
+      "created_at": "2026-06-01T13:42:29+08:00"
     }
   ],
-  "last_updated": "2026-06-01T05:10:00+08:00",
+  "last_updated": "2026-06-01T13:42:29+08:00",
   "accumulated_context": {
     "key_decisions": [
       "分类目录优先，不做搜索页优先。",
@@ -382,8 +446,20 @@
       "After current app/data tasks are complete, expand the GESP C++ problem bank by crawling/collecting more sources and importing them into MySQL.",
       "Catalog CRUD is now implemented for MySQL-backed user-maintained problems: create/update/delete supports title, level, question type, tags, statement, choice options, samples, visual asset URLs, source links, reference answer, explanation, and C++ reference solution; user-maintained content remains needs_review.",
       "React detail pane now scrolls to the top when selecting a problem, and the editor pane scrolls into view for create/edit flows; browser verification covered create, edit, delete, options, samples, images, source links, and C++ reference solution display.",
-      "Next public OJ enrichment planning now writes data/enrichment/next-public-oj-targets.json; current supplemental bank has 195 records, 170 source-extracted, 25 remaining with public URLs, and the default next batch selects the remaining 5 level-7 plus 20 level-8 targets.",
-      "Review closure remains required: plan:review-workqueue writes data/classification/review-workqueue-plan.json with 1338 open review work items, including 52 high-priority items. needs_review records must be deliberately reviewed before being promoted."
+      "Next public OJ enrichment planning now writes data/enrichment/next-public-oj-targets.json; current supplemental bank has 195 records, all 195 are source-extracted, and there are no remaining public OJ enrichment targets in the current source set.",
+      "Review closure remains required: plan:review-workqueue writes data/classification/review-workqueue-plan.json with 1229 open review work items, including 2 high-priority items. needs_review records must be deliberately reviewed before being promoted.",
+      "M4 Classified Catalog UI is verified: API and web builds pass, service read-model validation returns 8 levels, C++ level 5 has 53 problems across 11 domains, and M5 Review Workflow is now active.",
+      "Phase 12 review queue backend is in progress: the API now reads the unified 1229-item review-workqueue-plan, exposes review queue list and action endpoints, and writes review action audit records to MySQL review_events when MySQL is available.",
+      "Phase 12 review action logic is verified with an in-memory MySQL fake calling the real CatalogService.applyReviewAction path: confirm updates tag review_status, reject remains auditable and lowers confidence, and merge_duplicate preserves source_ref in review_events.",
+      "Phase 12 review queue has a React操作入口: the right-side review pane now loads the full open workqueue and exposes confirm, reject, and source_duplicate merge actions with reviewer notes.",
+      "Phase 13 audit/export is in progress: export:audit now writes classification-audit-export.json and classification-rollback-manifest.json with 411 canonical problems, 1404 tags, 634 source mappings, and 1229 review workqueue items; validate:audit-export verifies counts, tag evidence fields, source mappings, and source file hashes.",
+      "Phase 13 rollback support now includes classification-source-snapshot.json and restore:audit; restore:audit dry-run verifies 6 source snapshots and --apply can restore source JSON files intentionally.",
+      "Phase 13 audit metrics are visible through GET /api/catalog/audit/summary and the React audit export pane, showing problem/tag/source/queue/snapshot counts from the current audit export.",
+      "Phase 13 audit history visibility is implemented through GET /api/catalog/audit/events and the React audit export pane; the endpoint prefers MySQL review_events and falls back to JSON export review_decisions when MySQL is unavailable.",
+      "M5 Review Workflow is verified and completed; M6 Expansion is now active.",
+      "Phase 14 Multi-Level Expansion is verified: the combined C++ dataset has levels 1-8 with 411 records, level 5 has zero DP tags, and level 6/7 have 56 DP tags that are not marked out_of_level.",
+      "Phase 15 Python And Learning Paths is verified: Python-capable official sources are metadata-only, 15 official Python PDF candidates are tracked separately, 616 C++ concepts are Python-comparable, and 40 learning paths are generated as needs_review.",
+      "M6 Expansion is verified and completed; the original roadmap milestones M1-M6 are now completed."
     ],
     "blockers": [],
     "deferred": [
@@ -510,6 +586,71 @@
       "at": "2026-06-01T00:49:00+08:00",
       "action": "milestone_activated",
       "artifact": "M4"
+    },
+    {
+      "at": "2026-06-01T12:48:35+08:00",
+      "action": "milestone_verified",
+      "artifact": "VRF-20260601-M4-classified-catalog-ui"
+    },
+    {
+      "at": "2026-06-01T12:48:35+08:00",
+      "action": "milestone_completed",
+      "artifact": "M4"
+    },
+    {
+      "at": "2026-06-01T12:48:35+08:00",
+      "action": "milestone_activated",
+      "artifact": "M5"
+    },
+    {
+      "at": "2026-06-01T12:48:35+08:00",
+      "action": "phase_progress",
+      "artifact": "PRG-20260601-P12-review-queue-backend"
+    },
+    {
+      "at": "2026-06-01T13:09:48+08:00",
+      "action": "phase_progress",
+      "artifact": "PRG-20260601-P13-audit-and-export"
+    },
+    {
+      "at": "2026-06-01T13:23:26+08:00",
+      "action": "milestone_verified",
+      "artifact": "VRF-20260601-M5-review-workflow"
+    },
+    {
+      "at": "2026-06-01T13:23:26+08:00",
+      "action": "milestone_completed",
+      "artifact": "M5"
+    },
+    {
+      "at": "2026-06-01T13:23:26+08:00",
+      "action": "milestone_activated",
+      "artifact": "M6"
+    },
+    {
+      "at": "2026-06-01T13:26:26+08:00",
+      "action": "phase_verified",
+      "artifact": "VRF-20260601-P14-multi-level-expansion"
+    },
+    {
+      "at": "2026-06-01T13:42:29+08:00",
+      "action": "phase_verified",
+      "artifact": "VRF-20260601-P15-python-and-learning-paths"
+    },
+    {
+      "at": "2026-06-01T13:42:29+08:00",
+      "action": "milestone_verified",
+      "artifact": "VRF-20260601-M6-expansion"
+    },
+    {
+      "at": "2026-06-01T13:42:29+08:00",
+      "action": "milestone_completed",
+      "artifact": "M6"
+    },
+    {
+      "at": "2026-06-01T13:42:29+08:00",
+      "action": "roadmap_completed",
+      "artifact": "RDM-20260531-gesp-classification"
     }
   ],
   "milestone_history": [
@@ -544,6 +685,37 @@
         "EXC-20260601-P8-conflict-and-confidence-model"
       ],
       "next_milestone": "M4"
+    },
+    {
+      "milestone": "M4",
+      "status": "completed",
+      "completed_at": "2026-06-01T12:48:35+08:00",
+      "artifacts": [
+        "VRF-20260601-M4-classified-catalog-ui"
+      ],
+      "next_milestone": "M5"
+    },
+    {
+      "milestone": "M5",
+      "status": "completed",
+      "completed_at": "2026-06-01T13:23:26+08:00",
+      "artifacts": [
+        "PRG-20260601-P12-review-queue-backend",
+        "PRG-20260601-P13-audit-and-export",
+        "VRF-20260601-M5-review-workflow"
+      ],
+      "next_milestone": "M6"
+    },
+    {
+      "milestone": "M6",
+      "status": "completed",
+      "completed_at": "2026-06-01T13:42:29+08:00",
+      "artifacts": [
+        "VRF-20260601-P14-multi-level-expansion",
+        "VRF-20260601-P15-python-and-learning-paths",
+        "VRF-20260601-M6-expansion"
+      ],
+      "next_milestone": null
     }
   ]
 }

@@ -213,6 +213,36 @@ export type ReviewQueueSummary = {
   low_priority_count: number;
 };
 
+export type ReviewQueueItem = {
+  id: string;
+  type: string;
+  priority: "high" | "medium" | "low";
+  status: string;
+  canonical_problem_id: string | null;
+  title: string;
+  reason: string;
+  final_confidence: number | null;
+  tag_kind?: string | null;
+  tag_value?: string | null;
+  recommended_action?: string;
+  review_status?: string;
+  reviewed_at?: string;
+  reviewer?: string;
+  review_note?: string;
+};
+
+export type ReviewQueueResponse = {
+  data_source: "mysql" | "json";
+  summary: ReviewQueueSummary["summary"];
+  items: ReviewQueueItem[];
+};
+
+export type ReviewActionResult = {
+  item: ReviewQueueItem;
+  updated_problem_id: string | null;
+  updated_problem_status: EffectiveStatus | null;
+};
+
 export type ProblemMutationPayload = {
   canonical_problem_id?: string;
   title: string;

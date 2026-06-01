@@ -45,11 +45,16 @@ npm run dev:api
 - `PATCH /api/catalog/problems/:id`
 - `DELETE /api/catalog/problems/:id`
 - `GET /api/catalog/review-queue/summary`
+- `GET /api/catalog/review-queue`
+- `POST /api/catalog/review-queue/:id/actions`
+- `GET /api/catalog/audit/summary`
+- `GET /api/catalog/audit/events`
 
 API 优先读取 MySQL 表：
 
 - `classification_records`
 - `review_queue_items`
+- `review_events`
 - `problem_answer_guidance`
 - `problem_details`
 - `source_versions`
@@ -59,6 +64,7 @@ JSON 降级读取：
 
 - `data/classification/conflict-confidence-model.json`
 - `data/classification/review-queue.json`
+- `data/classification/review-workqueue-plan.json`
 - `data/classification/problem-answer-guidance.json`
 - `data/classification/problem-details.json`
 - `data/classification/supplemental-cxx-problems.json`
@@ -92,6 +98,7 @@ level -> algorithm domain -> problem type -> problems -> knowledge points
 - 新增时如果题目 ID 已存在，API 返回冲突错误，避免覆盖官方题或已维护题。
 - 点击题目后右侧详情面板会滚动到顶部；新增/修改时会滚动到编辑器顶部，适配页面底部点击场景。
 - 中间题目列表会为已采集图片的题目展示缩略图，点击缩略图可直接预览，不需要先打开右侧详情。
+- 右侧复核队列展示当前 open 工作项，支持确认、拒绝和重复来源合并动作；动作需要 MySQL 写入 `review_events`。
 
 点击题目后，右侧题目详情面板展示：
 
@@ -131,5 +138,8 @@ npm run build:web
 - 公开 OJ 补充题可在题面和样例通过解法补齐后做分类修正；修正标签来源为 `source_extracted_statement_ai_solution_review`，仍需复核。
 - 如果公开来源最终没有答案、图片或讲解，允许生成 AI 学习辅助内容或示意图，但页面必须展示 AI 生成和需甄别提示。
 - `review_queue_refs` 不为空的题目需要在后续 Review Workflow 中人工确认。
+- 复核队列接口使用 `review-workqueue-plan.json` / `review_queue_items` 作为统一入口；复核动作写入 `review_events`，并保留 rejected / merged 等结果的审计记录。
+- 审计导出摘要来自 `data/exports/classification-audit-export.json` 和 rollback manifest，保留给后台校验、备份和回滚，不在普通目录页面展示。
+- 审计事件优先来自 MySQL `review_events`，MySQL 不可用时降级到审计导出里的 `review_decisions`；前端复核队列只展示当前 open items。
 - 当前未使用洛谷登录态，也没有爬取账号私有数据。
 - 后续按 [GESP C++ 题库扩充待办](../future-cpp-source-expansion.md) 扩充更多 C++ 题源并导入 MySQL；下一批公开 OJ 补采目标可用 `npm run plan:next-public-oj` 生成。

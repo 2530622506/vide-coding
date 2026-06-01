@@ -4,7 +4,7 @@ import { mysqlConfig } from "./mysql-config.mjs";
 
 const schemaPath = "infra/mysql/schema.sql";
 const modelPath = "data/classification/conflict-confidence-model.json";
-const reviewQueuePath = "data/classification/review-queue.json";
+const reviewQueuePath = "data/classification/review-workqueue-plan.json";
 const answerGuidancePath = "data/classification/problem-answer-guidance.json";
 const problemDetailsPath = "data/classification/problem-details.json";
 const supplementalPath = "data/classification/supplemental-cxx-problems.json";

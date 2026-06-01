@@ -4,7 +4,7 @@ const baseUrl = process.env.CATALOG_API_URL || "http://localhost:3001/api";
 const expectedSource = process.env.CATALOG_EXPECT_SOURCE || "";
 const officialDetailsPath = "data/classification/problem-details.json";
 const supplementalPath = "data/classification/supplemental-cxx-problems.json";
-const reviewQueuePath = "data/classification/review-queue.json";
+const reviewQueuePath = "data/classification/review-workqueue-plan.json";
 
 function assert(condition, message) {
   if (!condition) {
