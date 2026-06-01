@@ -1,15 +1,137 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-31T16:23:40.356Z",
+  "generated_at": "2026-06-01T04:23:52.275Z",
   "generator": "scripts/extract-problem-types-knowledge.mjs",
   "source_extraction": "data/classification/problem-type-knowledge.json",
   "summary": {
-    "domain_count": 10,
+    "domain_count": 9,
     "problem_count": 27,
-    "typed_problem_count": 21,
-    "knowledge_covered_problem_count": 21
+    "typed_problem_count": 27,
+    "knowledge_covered_problem_count": 27
   },
   "domains": [
+    {
+      "domain_id": "binary_search",
+      "domain_label": "二分",
+      "problem_count": 6,
+      "problem_types": [
+        {
+          "problem_type_id": "binary_search_code_trace",
+          "problem_type_label": "二分答案代码理解型",
+          "problem_count": 3,
+          "knowledge_points": [
+            {
+              "id": "binary_answer_feasibility",
+              "label": "二分答案可行性判定"
+            },
+            {
+              "id": "greedy_spacing_check",
+              "label": "间距贪心检查"
+            },
+            {
+              "id": "monotonic_check",
+              "label": "单调性判定"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:07",
+              "question_type": "judgment",
+              "question_number": 7,
+              "title": "假设数",
+              "problem_type_confidence": 0.68,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:07",
+              "question_type": "selection",
+              "question_number": 7,
+              "title": "下面程序的运行结果为。",
+              "problem_type_confidence": 0.68,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:10",
+              "question_type": "selection",
+              "question_number": 10,
+              "title": "给定 n 根木头，第 i 根长度为 a[i]。要切成不少于 m 段等长木段，求最大可能长度，则横线上应填",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        },
+        {
+          "problem_type_id": "binary_answer_check",
+          "problem_type_label": "二分答案判定型",
+          "problem_count": 2,
+          "knowledge_points": [
+            {
+              "id": "binary_answer_feasibility",
+              "label": "二分答案可行性判定"
+            },
+            {
+              "id": "greedy_spacing_check",
+              "label": "间距贪心检查"
+            },
+            {
+              "id": "lower_bound",
+              "label": "第一个大于等于"
+            },
+            {
+              "id": "monotonic_check",
+              "label": "单调性判定"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:programming:02",
+              "question_type": "programming",
+              "question_number": 2,
+              "title": "找数",
+              "problem_type_confidence": 0.68,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:10",
+              "question_type": "selection",
+              "question_number": 10,
+              "title": "给定 n 根木头，第 i 根长度为 a[i]。要切成不少于 m 段等长木段，求最大可能长度，则横线上应填",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        },
+        {
+          "problem_type_id": "lower_bound_fill_blank",
+          "problem_type_label": "二分下界填空/判断型",
+          "problem_count": 2,
+          "knowledge_points": [
+            {
+              "id": "lower_bound",
+              "label": "第一个大于等于"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:02",
+              "question_type": "judgment",
+              "question_number": 2,
+              "title": "若数组 a 已按升序排列，则下面代码可以正确实现 “在 a 中查找第一个大于等于 x 的元素的位置”",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:08",
+              "question_type": "selection",
+              "question_number": 8,
+              "title": "在升序数组中查找第一个大于等于 x 的位置，下面循环中横线应填。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        }
+      ]
+    },
     {
       "domain_id": "number_theory",
       "domain_label": "数论",
@@ -123,7 +245,7 @@
     {
       "domain_id": "sort_simulation",
       "domain_label": "排序/模拟",
-      "problem_count": 5,
+      "problem_count": 6,
       "problem_types": [
         {
           "problem_type_id": "sort_key_greedy",
@@ -131,12 +253,20 @@
           "problem_count": 4,
           "knowledge_points": [
             {
+              "id": "merge_sorted_arrays",
+              "label": "有序数组合并"
+            },
+            {
               "id": "quick_sort_partition",
               "label": "快速排序划分"
             },
             {
               "id": "sort_stability",
               "label": "排序稳定性"
+            },
+            {
+              "id": "sorting_algorithm_property",
+              "label": "排序算法性质"
             }
           ],
           "problems": [
@@ -180,6 +310,10 @@
           "problem_count": 3,
           "knowledge_points": [
             {
+              "id": "merge_sorted_arrays",
+              "label": "有序数组合并"
+            },
+            {
               "id": "quick_sort_partition",
               "label": "快速排序划分"
             },
@@ -190,6 +324,10 @@
             {
               "id": "sort_stability",
               "label": "排序稳定性"
+            },
+            {
+              "id": "sorting_algorithm_property",
+              "label": "排序算法性质"
             }
           ],
           "problems": [
@@ -218,72 +356,110 @@
               "review_status": "candidate"
             }
           ]
-        }
-      ]
-    },
-    {
-      "domain_id": "binary_search",
-      "domain_label": "二分",
-      "problem_count": 4,
-      "problem_types": [
+        },
         {
-          "problem_type_id": "binary_answer_check",
-          "problem_type_label": "二分答案判定型",
-          "problem_count": 2,
+          "problem_type_id": "sorting_algorithm_property",
+          "problem_type_label": "排序算法性质判断型",
+          "problem_count": 3,
           "knowledge_points": [
             {
-              "id": "lower_bound",
-              "label": "第一个大于等于"
+              "id": "merge_sorted_arrays",
+              "label": "有序数组合并"
             },
             {
-              "id": "monotonic_check",
-              "label": "单调性判定"
+              "id": "quick_sort_partition",
+              "label": "快速排序划分"
+            },
+            {
+              "id": "sort_stability",
+              "label": "排序稳定性"
+            },
+            {
+              "id": "sorting_algorithm_property",
+              "label": "排序算法性质"
             }
           ],
           "problems": [
             {
-              "canonical_problem_id": "canonical:2026-03:c++:level-5:programming:02",
-              "question_type": "programming",
-              "question_number": 2,
-              "title": "找数",
-              "problem_type_confidence": 0.68,
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:03",
+              "question_type": "judgment",
+              "question_number": 3,
+              "title": "快速排序只要每次都选取中间元素作为枢轴，就一定是稳定排序。",
+              "problem_type_confidence": 0.76,
               "review_status": "candidate"
             },
             {
-              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:10",
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:13",
               "question_type": "selection",
-              "question_number": 10,
-              "title": "给定 n 根木头，第 i 根长度为 a[i]。要切成不少于 m 段等长木段，求最大可能长度，则横线上应填",
+              "question_number": 13,
+              "title": "有 位同学的成绩已经从小到大排好序，现在对它执行下面这段以第一个元素为 pivot 的快速排序，请",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:14",
+              "question_type": "selection",
+              "question_number": 14,
+              "title": "下面关于排序算法的描述中，不正确的是。",
               "problem_type_confidence": 0.76,
               "review_status": "candidate"
             }
           ]
         },
         {
-          "problem_type_id": "untyped",
-          "problem_type_label": "待抽取题型",
+          "problem_type_id": "sorted_merge_process",
+          "problem_type_label": "有序序列合并型",
           "problem_count": 2,
           "knowledge_points": [
             {
-              "id": "lower_bound",
-              "label": "第一个大于等于"
+              "id": "merge_sorted_arrays",
+              "label": "有序数组合并"
+            },
+            {
+              "id": "quick_sort_partition",
+              "label": "快速排序划分"
+            },
+            {
+              "id": "sorting_algorithm_property",
+              "label": "排序算法性质"
             }
           ],
           "problems": [
             {
-              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:02",
-              "question_type": "judgment",
-              "question_number": 2,
-              "title": "若数组 a 已按升序排列，则下面代码可以正确实现 “在 a 中查找第一个大于等于 x 的元素的位置”",
-              "problem_type_confidence": 0,
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:12",
+              "question_type": "selection",
+              "question_number": 12,
+              "title": "游戏大赛决赛，两组选手分别按得分从小到大排好队，现在要把他们合并成一个有序排行榜。",
+              "problem_type_confidence": 0.76,
               "review_status": "candidate"
             },
             {
-              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:08",
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:13",
               "question_type": "selection",
-              "question_number": 8,
-              "title": "在升序数组中查找第一个大于等于 x 的位置，下面循环中横线应填。",
-              "problem_type_confidence": 0,
+              "question_number": 13,
+              "title": "有 位同学的成绩已经从小到大排好序，现在对它执行下面这段以第一个元素为 pivot 的快速排序，请",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        },
+        {
+          "problem_type_id": "inversion_pair_definition",
+          "problem_type_label": "逆序对概念判断型",
+          "problem_count": 1,
+          "knowledge_points": [
+            {
+              "id": "inversion_pair",
+              "label": "逆序对"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:05",
+              "question_type": "judgment",
+              "question_number": 5,
+              "title": "在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆",
+              "problem_type_confidence": 0.76,
               "review_status": "candidate"
             }
           ]
@@ -369,12 +545,20 @@
               "label": "分治拆分与合并"
             },
             {
+              "id": "merge_sorted_arrays",
+              "label": "有序数组合并"
+            },
+            {
               "id": "quick_sort_partition",
               "label": "快速排序划分"
             },
             {
               "id": "sort_stability",
               "label": "排序稳定性"
+            },
+            {
+              "id": "sorting_algorithm_property",
+              "label": "排序算法性质"
             }
           ],
           "problems": [
@@ -410,12 +594,20 @@
           "problem_count": 2,
           "knowledge_points": [
             {
+              "id": "merge_sorted_arrays",
+              "label": "有序数组合并"
+            },
+            {
               "id": "quick_sort_partition",
               "label": "快速排序划分"
             },
             {
               "id": "sort_stability",
               "label": "排序稳定性"
+            },
+            {
+              "id": "sorting_algorithm_property",
+              "label": "排序算法性质"
             }
           ],
           "problems": [
@@ -432,6 +624,141 @@
               "question_type": "selection",
               "question_number": 13,
               "title": "有 位同学的成绩已经从小到大排好序，现在对它执行下面这段以第一个元素为 pivot 的快速排序，请",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        },
+        {
+          "problem_type_id": "sorting_algorithm_property",
+          "problem_type_label": "排序算法性质判断型",
+          "problem_count": 2,
+          "knowledge_points": [
+            {
+              "id": "merge_sorted_arrays",
+              "label": "有序数组合并"
+            },
+            {
+              "id": "quick_sort_partition",
+              "label": "快速排序划分"
+            },
+            {
+              "id": "sort_stability",
+              "label": "排序稳定性"
+            },
+            {
+              "id": "sorting_algorithm_property",
+              "label": "排序算法性质"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:03",
+              "question_type": "judgment",
+              "question_number": 3,
+              "title": "快速排序只要每次都选取中间元素作为枢轴，就一定是稳定排序。",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:13",
+              "question_type": "selection",
+              "question_number": 13,
+              "title": "有 位同学的成绩已经从小到大排好序，现在对它执行下面这段以第一个元素为 pivot 的快速排序，请",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        },
+        {
+          "problem_type_id": "sorted_merge_process",
+          "problem_type_label": "有序序列合并型",
+          "problem_count": 1,
+          "knowledge_points": [
+            {
+              "id": "merge_sorted_arrays",
+              "label": "有序数组合并"
+            },
+            {
+              "id": "quick_sort_partition",
+              "label": "快速排序划分"
+            },
+            {
+              "id": "sorting_algorithm_property",
+              "label": "排序算法性质"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:13",
+              "question_type": "selection",
+              "question_number": 13,
+              "title": "有 位同学的成绩已经从小到大排好序，现在对它执行下面这段以第一个元素为 pivot 的快速排序，请",
+              "problem_type_confidence": 0.76,
+              "review_status": "candidate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "domain_id": "greedy",
+      "domain_label": "贪心",
+      "problem_count": 3,
+      "problem_types": [
+        {
+          "problem_type_id": "binary_search_code_trace",
+          "problem_type_label": "二分答案代码理解型",
+          "problem_count": 2,
+          "knowledge_points": [
+            {
+              "id": "binary_answer_feasibility",
+              "label": "二分答案可行性判定"
+            },
+            {
+              "id": "greedy_spacing_check",
+              "label": "间距贪心检查"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:07",
+              "question_type": "judgment",
+              "question_number": 7,
+              "title": "假设数",
+              "problem_type_confidence": 0.68,
+              "review_status": "candidate"
+            },
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:07",
+              "question_type": "selection",
+              "question_number": 7,
+              "title": "下面程序的运行结果为。",
+              "problem_type_confidence": 0.68,
+              "review_status": "candidate"
+            }
+          ]
+        },
+        {
+          "problem_type_id": "greedy_concept_judgment",
+          "problem_type_label": "贪心适用条件判断型",
+          "problem_count": 1,
+          "knowledge_points": [
+            {
+              "id": "greedy_limitation",
+              "label": "贪心适用限制"
+            },
+            {
+              "id": "optimal_substructure",
+              "label": "最优子结构"
+            }
+          ],
+          "problems": [
+            {
+              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:08",
+              "question_type": "judgment",
+              "question_number": 8,
+              "title": "若一个问题满足最优子结构性质，则一定可以用贪心算法得到最优解。",
               "problem_type_confidence": 0.76,
               "review_status": "candidate"
             }
@@ -509,45 +836,6 @@
       ]
     },
     {
-      "domain_id": "unclassified",
-      "domain_label": "未分类",
-      "problem_count": 3,
-      "problem_types": [
-        {
-          "problem_type_id": "untyped",
-          "problem_type_label": "待抽取题型",
-          "problem_count": 3,
-          "knowledge_points": [],
-          "problems": [
-            {
-              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:05",
-              "question_type": "judgment",
-              "question_number": 5,
-              "title": "在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆",
-              "problem_type_confidence": 0,
-              "review_status": "needs_review"
-            },
-            {
-              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:07",
-              "question_type": "judgment",
-              "question_number": 7,
-              "title": "假设数",
-              "problem_type_confidence": 0,
-              "review_status": "needs_review"
-            },
-            {
-              "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:07",
-              "question_type": "selection",
-              "question_number": 7,
-              "title": "下面程序的运行结果为。",
-              "problem_type_confidence": 0,
-              "review_status": "needs_review"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "domain_id": "complexity",
       "domain_label": "复杂度",
       "problem_count": 1,
@@ -591,29 +879,6 @@
               "title": "若某算法满足递推式： ，则其时间复杂度为 。",
               "problem_type_confidence": 0.76,
               "review_status": "candidate"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "domain_id": "greedy",
-      "domain_label": "贪心",
-      "problem_count": 1,
-      "problem_types": [
-        {
-          "problem_type_id": "untyped",
-          "problem_type_label": "待抽取题型",
-          "problem_count": 1,
-          "knowledge_points": [],
-          "problems": [
-            {
-              "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:08",
-              "question_type": "judgment",
-              "question_number": 8,
-              "title": "若一个问题满足最优子结构性质，则一定可以用贪心算法得到最优解。",
-              "problem_type_confidence": 0,
-              "review_status": "needs_review"
             }
           ]
         }

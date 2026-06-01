@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-31T18:39:03.878Z",
+  "generated_at": "2026-06-01T04:25:37.466Z",
   "generator": "scripts/build-conflict-confidence-model.mjs",
   "inputs": {
     "problem_knowledge": "data/classification/problem-type-knowledge.json",
@@ -84,19 +84,19 @@
     "record_count": 216,
     "cxx_level5_record_count": 27,
     "cxx_level5_conflict_count": 0,
-    "cxx_level5_needs_review_count": 10,
-    "tag_count": 298,
+    "cxx_level5_needs_review_count": 6,
+    "tag_count": 332,
     "record_status_counts": {
-      "needs_review": 143,
-      "candidate": 73
+      "needs_review": 139,
+      "candidate": 77
     },
     "tag_status_counts": {
-      "needs_review": 74,
-      "candidate": 224
+      "needs_review": 87,
+      "candidate": 245
     },
     "source_conflict_count": 1,
     "source_duplicate_count": 44,
-    "review_queue_item_count": 69
+    "review_queue_item_count": 70
   },
   "records": [
     {
@@ -541,7 +541,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.877Z",
+        "applied_at": "2026-06-01T04:25:37.465Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -779,7 +779,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -1680,7 +1680,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -1874,7 +1874,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -2933,7 +2933,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -3127,7 +3127,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -4464,7 +4464,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -4658,7 +4658,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -5756,9 +5756,7 @@
       },
       "source_conflict_refs": [],
       "out_of_level_signal_refs": [],
-      "review_queue_refs": [
-        "review:52775430bb3226c3"
-      ],
+      "review_queue_refs": [],
       "resolved_algorithm_domains": [
         {
           "kind": "algorithm_domain",
@@ -5800,7 +5798,47 @@
           ]
         }
       ],
-      "resolved_problem_type_tags": [],
+      "resolved_problem_type_tags": [
+        {
+          "kind": "problem_type",
+          "value": "lower_bound_fill_blank",
+          "label": "二分下界填空/判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "第一个大于等于"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.76,
+          "final_confidence": 0.82,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.76,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        }
+      ],
       "resolved_knowledge_point_tags": [
         {
           "kind": "knowledge_point",
@@ -5842,7 +5880,7 @@
           ]
         }
       ],
-      "effective_review_status": "needs_review"
+      "effective_review_status": "candidate"
     },
     {
       "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:03",
@@ -6022,6 +6060,45 @@
           "review_reason": [
             "candidate_above_threshold"
           ]
+        },
+        {
+          "kind": "problem_type",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "稳定排序"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.76,
+          "final_confidence": 0.82,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.76,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
         }
       ],
       "resolved_knowledge_point_tags": [
@@ -6074,6 +6151,45 @@
             "source_id": "official-gesp-true-questions",
             "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
             "evidence": "稳定排序"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.74,
+          "final_confidence": 0.8,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.74,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "快速排序"
           },
           "confidence": 0.74,
           "syllabus_fit": "needs_review",
@@ -6349,12 +6465,143 @@
       "source_conflict_refs": [],
       "out_of_level_signal_refs": [],
       "review_queue_refs": [
-        "review:9cdea37fb74ca0d0",
-        "review:85f4dc286d27e5bb"
+        "review:13bd828d383629d9",
+        "review:788ac90430b623a8"
       ],
-      "resolved_algorithm_domains": [],
-      "resolved_problem_type_tags": [],
-      "resolved_knowledge_point_tags": [],
+      "resolved_algorithm_domains": [
+        {
+          "kind": "algorithm_domain",
+          "value": "sort_simulation",
+          "label": "排序/模拟",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.62,
+          "final_confidence": 0.63,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.62,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "seed_rule_source",
+              "delta": -0.05,
+              "description": "tag came only from title override seed rule"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "needs_review",
+          "review_reason": [
+            "below_candidate_threshold"
+          ]
+        }
+      ],
+      "resolved_problem_type_tags": [
+        {
+          "kind": "problem_type",
+          "value": "inversion_pair_definition",
+          "label": "逆序对概念判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "a[i] > a[j]"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.76,
+          "final_confidence": 0.82,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.76,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        }
+      ],
+      "resolved_knowledge_point_tags": [
+        {
+          "kind": "knowledge_point",
+          "value": "inversion_pair",
+          "label": "逆序对",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆"
+          },
+          "confidence": 0.66,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate",
+          "raw_confidence": 0.66,
+          "final_confidence": 0.65,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.66,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "seed_rule_source",
+              "delta": -0.05,
+              "description": "tag came only from title override seed rule"
+            },
+            {
+              "factor": "syllabus_community_inferred",
+              "delta": -0.04,
+              "description": "tag is inferred from community or seed evidence"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "needs_review",
+          "review_reason": [
+            "community_or_seed_inferred",
+            "below_candidate_threshold"
+          ]
+        }
+      ],
       "effective_review_status": "needs_review"
     },
     {
@@ -6522,12 +6769,241 @@
       "source_conflict_refs": [],
       "out_of_level_signal_refs": [],
       "review_queue_refs": [
-        "review:1a8a12f1b0f41989",
-        "review:eef6b8d0c27ea811"
+        "review:b36e94db89123a85",
+        "review:bba421c64a7ba5cb",
+        "review:56291cbe109c727a",
+        "review:80dd20e6bec7d6ef",
+        "review:8d976d4882f8fb75"
       ],
-      "resolved_algorithm_domains": [],
-      "resolved_problem_type_tags": [],
-      "resolved_knowledge_point_tags": [],
+      "resolved_algorithm_domains": [
+        {
+          "kind": "algorithm_domain",
+          "value": "binary_search",
+          "label": "二分",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "假设数"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.62,
+          "final_confidence": 0.63,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.62,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "seed_rule_source",
+              "delta": -0.05,
+              "description": "tag came only from title override seed rule"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "needs_review",
+          "review_reason": [
+            "below_candidate_threshold"
+          ]
+        },
+        {
+          "kind": "algorithm_domain",
+          "value": "greedy",
+          "label": "贪心",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "假设数"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.62,
+          "final_confidence": 0.63,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.62,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "seed_rule_source",
+              "delta": -0.05,
+              "description": "tag came only from title override seed rule"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "needs_review",
+          "review_reason": [
+            "below_candidate_threshold"
+          ]
+        }
+      ],
+      "resolved_problem_type_tags": [
+        {
+          "kind": "problem_type",
+          "value": "binary_search_code_trace",
+          "label": "二分答案代码理解型",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "假设数"
+          },
+          "confidence": 0.68,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate",
+          "raw_confidence": 0.68,
+          "final_confidence": 0.67,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.68,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "seed_rule_source",
+              "delta": -0.05,
+              "description": "tag came only from title override seed rule"
+            },
+            {
+              "factor": "syllabus_community_inferred",
+              "delta": -0.04,
+              "description": "tag is inferred from community or seed evidence"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "needs_review",
+          "review_reason": [
+            "community_or_seed_inferred",
+            "below_candidate_threshold"
+          ]
+        }
+      ],
+      "resolved_knowledge_point_tags": [
+        {
+          "kind": "knowledge_point",
+          "value": "binary_answer_feasibility",
+          "label": "二分答案可行性判定",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "假设数"
+          },
+          "confidence": 0.66,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate",
+          "raw_confidence": 0.66,
+          "final_confidence": 0.65,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.66,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "seed_rule_source",
+              "delta": -0.05,
+              "description": "tag came only from title override seed rule"
+            },
+            {
+              "factor": "syllabus_community_inferred",
+              "delta": -0.04,
+              "description": "tag is inferred from community or seed evidence"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "needs_review",
+          "review_reason": [
+            "community_or_seed_inferred",
+            "below_candidate_threshold"
+          ]
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "greedy_spacing_check",
+          "label": "间距贪心检查",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "假设数"
+          },
+          "confidence": 0.66,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate",
+          "raw_confidence": 0.66,
+          "final_confidence": 0.65,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.66,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "seed_rule_source",
+              "delta": -0.05,
+              "description": "tag came only from title override seed rule"
+            },
+            {
+              "factor": "syllabus_community_inferred",
+              "delta": -0.04,
+              "description": "tag is inferred from community or seed evidence"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "needs_review",
+          "review_reason": [
+            "community_or_seed_inferred",
+            "below_candidate_threshold"
+          ]
+        }
+      ],
       "effective_review_status": "needs_review"
     },
     {
@@ -6549,10 +7025,7 @@
       },
       "source_conflict_refs": [],
       "out_of_level_signal_refs": [],
-      "review_queue_refs": [
-        "review:469f2e331d9908dc",
-        "review:778b7e157f1fa97b"
-      ],
+      "review_queue_refs": [],
       "resolved_algorithm_domains": [
         {
           "kind": "algorithm_domain",
@@ -6594,9 +7067,128 @@
           ]
         }
       ],
-      "resolved_problem_type_tags": [],
-      "resolved_knowledge_point_tags": [],
-      "effective_review_status": "needs_review"
+      "resolved_problem_type_tags": [
+        {
+          "kind": "problem_type",
+          "value": "greedy_concept_judgment",
+          "label": "贪心适用条件判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "最优子结构"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.76,
+          "final_confidence": 0.82,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.76,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        }
+      ],
+      "resolved_knowledge_point_tags": [
+        {
+          "kind": "knowledge_point",
+          "value": "greedy_limitation",
+          "label": "贪心适用限制",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "贪心算法"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.74,
+          "final_confidence": 0.8,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.74,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "optimal_substructure",
+          "label": "最优子结构",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "最优子结构"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.74,
+          "final_confidence": 0.8,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.74,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        }
+      ],
+      "effective_review_status": "candidate"
     },
     {
       "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:09",
@@ -7158,7 +7750,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -7397,7 +7989,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -8486,12 +9078,241 @@
       "source_conflict_refs": [],
       "out_of_level_signal_refs": [],
       "review_queue_refs": [
-        "review:f59e6b8474ea750f",
-        "review:a9393c6e1e3ecd27"
+        "review:bf7f2225d0f07976",
+        "review:9b4334433f48d620",
+        "review:7aaa1e73d85a2dd4",
+        "review:6f68d8fd055cf4f7",
+        "review:b5548c600028e5e1"
       ],
-      "resolved_algorithm_domains": [],
-      "resolved_problem_type_tags": [],
-      "resolved_knowledge_point_tags": [],
+      "resolved_algorithm_domains": [
+        {
+          "kind": "algorithm_domain",
+          "value": "binary_search",
+          "label": "二分",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "下面程序的运行结果为。"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.62,
+          "final_confidence": 0.63,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.62,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "seed_rule_source",
+              "delta": -0.05,
+              "description": "tag came only from title override seed rule"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "needs_review",
+          "review_reason": [
+            "below_candidate_threshold"
+          ]
+        },
+        {
+          "kind": "algorithm_domain",
+          "value": "greedy",
+          "label": "贪心",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "下面程序的运行结果为。"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.62,
+          "final_confidence": 0.63,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.62,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "seed_rule_source",
+              "delta": -0.05,
+              "description": "tag came only from title override seed rule"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "needs_review",
+          "review_reason": [
+            "below_candidate_threshold"
+          ]
+        }
+      ],
+      "resolved_problem_type_tags": [
+        {
+          "kind": "problem_type",
+          "value": "binary_search_code_trace",
+          "label": "二分答案代码理解型",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "下面程序的运行结果为。"
+          },
+          "confidence": 0.68,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate",
+          "raw_confidence": 0.68,
+          "final_confidence": 0.67,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.68,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "seed_rule_source",
+              "delta": -0.05,
+              "description": "tag came only from title override seed rule"
+            },
+            {
+              "factor": "syllabus_community_inferred",
+              "delta": -0.04,
+              "description": "tag is inferred from community or seed evidence"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "needs_review",
+          "review_reason": [
+            "community_or_seed_inferred",
+            "below_candidate_threshold"
+          ]
+        }
+      ],
+      "resolved_knowledge_point_tags": [
+        {
+          "kind": "knowledge_point",
+          "value": "binary_answer_feasibility",
+          "label": "二分答案可行性判定",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "下面程序的运行结果为。"
+          },
+          "confidence": 0.66,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate",
+          "raw_confidence": 0.66,
+          "final_confidence": 0.65,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.66,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "seed_rule_source",
+              "delta": -0.05,
+              "description": "tag came only from title override seed rule"
+            },
+            {
+              "factor": "syllabus_community_inferred",
+              "delta": -0.04,
+              "description": "tag is inferred from community or seed evidence"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "needs_review",
+          "review_reason": [
+            "community_or_seed_inferred",
+            "below_candidate_threshold"
+          ]
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "greedy_spacing_check",
+          "label": "间距贪心检查",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "下面程序的运行结果为。"
+          },
+          "confidence": 0.66,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate",
+          "raw_confidence": 0.66,
+          "final_confidence": 0.65,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.66,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "seed_rule_source",
+              "delta": -0.05,
+              "description": "tag came only from title override seed rule"
+            },
+            {
+              "factor": "syllabus_community_inferred",
+              "delta": -0.04,
+              "description": "tag is inferred from community or seed evidence"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "needs_review",
+          "review_reason": [
+            "community_or_seed_inferred",
+            "below_candidate_threshold"
+          ]
+        }
+      ],
       "effective_review_status": "needs_review"
     },
     {
@@ -8513,9 +9334,7 @@
       },
       "source_conflict_refs": [],
       "out_of_level_signal_refs": [],
-      "review_queue_refs": [
-        "review:79f82bed9067eced"
-      ],
+      "review_queue_refs": [],
       "resolved_algorithm_domains": [
         {
           "kind": "algorithm_domain",
@@ -8557,7 +9376,47 @@
           ]
         }
       ],
-      "resolved_problem_type_tags": [],
+      "resolved_problem_type_tags": [
+        {
+          "kind": "problem_type",
+          "value": "lower_bound_fill_blank",
+          "label": "二分下界填空/判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "第一个大于等于"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.76,
+          "final_confidence": 0.82,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.76,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        }
+      ],
       "resolved_knowledge_point_tags": [
         {
           "kind": "knowledge_point",
@@ -8599,7 +9458,7 @@
           ]
         }
       ],
-      "effective_review_status": "needs_review"
+      "effective_review_status": "candidate"
     },
     {
       "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:09",
@@ -8846,9 +9705,126 @@
           "review_reason": [
             "candidate_above_threshold"
           ]
+        },
+        {
+          "kind": "problem_type",
+          "value": "binary_search_code_trace",
+          "label": "二分答案代码理解型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "最大可能长度"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.76,
+          "final_confidence": 0.82,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.76,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
         }
       ],
       "resolved_knowledge_point_tags": [
+        {
+          "kind": "knowledge_point",
+          "value": "binary_answer_feasibility",
+          "label": "二分答案可行性判定",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "最大可能长度"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.74,
+          "final_confidence": 0.8,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.74,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "greedy_spacing_check",
+          "label": "间距贪心检查",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "不少于"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.74,
+          "final_confidence": 0.8,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.74,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        },
         {
           "kind": "knowledge_point",
           "value": "monotonic_check",
@@ -9055,9 +10031,7 @@
       },
       "source_conflict_refs": [],
       "out_of_level_signal_refs": [],
-      "review_queue_refs": [
-        "review:dd1c9a067747ce28"
-      ],
+      "review_queue_refs": [],
       "resolved_algorithm_domains": [
         {
           "kind": "algorithm_domain",
@@ -9138,10 +10112,89 @@
           "review_reason": [
             "candidate_above_threshold"
           ]
+        },
+        {
+          "kind": "problem_type",
+          "value": "sorted_merge_process",
+          "label": "有序序列合并型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "合并成一个有序"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.76,
+          "final_confidence": 0.82,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.76,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
         }
       ],
-      "resolved_knowledge_point_tags": [],
-      "effective_review_status": "needs_review"
+      "resolved_knowledge_point_tags": [
+        {
+          "kind": "knowledge_point",
+          "value": "merge_sorted_arrays",
+          "label": "有序数组合并",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "合并成一个有序"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.74,
+          "final_confidence": 0.8,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.74,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        }
+      ],
+      "effective_review_status": "candidate"
     },
     {
       "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:13",
@@ -9321,13 +10374,169 @@
           "review_reason": [
             "candidate_above_threshold"
           ]
+        },
+        {
+          "kind": "problem_type",
+          "value": "sorted_merge_process",
+          "label": "有序序列合并型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "从小到大"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.76,
+          "final_confidence": 0.82,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.76,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        },
+        {
+          "kind": "problem_type",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "快速排序"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.76,
+          "final_confidence": 0.82,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.76,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
         }
       ],
       "resolved_knowledge_point_tags": [
         {
           "kind": "knowledge_point",
+          "value": "merge_sorted_arrays",
+          "label": "有序数组合并",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "从小到大"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.74,
+          "final_confidence": 0.8,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.74,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        },
+        {
+          "kind": "knowledge_point",
           "value": "quick_sort_partition",
           "label": "快速排序划分",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "快速排序"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.74,
+          "final_confidence": 0.8,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.74,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质",
           "source": "official_pdf",
           "evidence": {
             "source": "official_pdf",
@@ -9386,7 +10595,7 @@
       "source_conflict_refs": [],
       "out_of_level_signal_refs": [],
       "review_queue_refs": [
-        "review:9eb24032c1409ea4"
+        "review:7bdbe98ffb44349d"
       ],
       "resolved_algorithm_domains": [
         {
@@ -9468,9 +10677,133 @@
           "review_reason": [
             "candidate_above_threshold"
           ]
+        },
+        {
+          "kind": "problem_type",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "排序算法"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.76,
+          "final_confidence": 0.82,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.76,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
         }
       ],
-      "resolved_knowledge_point_tags": [],
+      "resolved_knowledge_point_tags": [
+        {
+          "kind": "knowledge_point",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "排序算法"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.74,
+          "final_confidence": 0.8,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.74,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "sort_stability",
+          "label": "排序稳定性",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "下面关于排序算法的描述中，不正确的是。"
+          },
+          "confidence": 0.66,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate",
+          "raw_confidence": 0.66,
+          "final_confidence": 0.65,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.66,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "seed_rule_source",
+              "delta": -0.05,
+              "description": "tag came only from title override seed rule"
+            },
+            {
+              "factor": "syllabus_community_inferred",
+              "delta": -0.04,
+              "description": "tag is inferred from community or seed evidence"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "needs_review",
+          "review_reason": [
+            "community_or_seed_inferred",
+            "below_candidate_threshold"
+          ]
+        }
+      ],
       "effective_review_status": "needs_review"
     },
     {
@@ -10930,7 +12263,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -11166,7 +12499,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -13022,7 +14355,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -13256,7 +14589,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -15223,6 +16556,45 @@
           "review_reason": [
             "candidate_above_threshold"
           ]
+        },
+        {
+          "kind": "problem_type",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734124729532448.pdf",
+            "evidence": "快速排序"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.76,
+          "final_confidence": 0.82,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.76,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
         }
       ],
       "resolved_knowledge_point_tags": [
@@ -15275,6 +16647,45 @@
             "source_id": "official-gesp-true-questions",
             "source_url": "https://gesp.ccf.org.cn/101/attach/1734124729532448.pdf",
             "evidence": "时间复杂度"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate",
+          "raw_confidence": 0.74,
+          "final_confidence": 0.8,
+          "confidence_breakdown": [
+            {
+              "factor": "raw_tag_confidence",
+              "delta": 0.74,
+              "description": "confidence emitted by upstream extraction"
+            },
+            {
+              "factor": "official_problem_text",
+              "delta": 0.08,
+              "description": "official PDF short evidence exists"
+            },
+            {
+              "factor": "syllabus_needs_review",
+              "delta": -0.02,
+              "description": "tag still needs syllabus review"
+            }
+          ],
+          "conflict_reasons": [],
+          "effective_review_status": "candidate",
+          "review_reason": [
+            "candidate_above_threshold"
+          ]
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734124729532448.pdf",
+            "evidence": "快速排序"
           },
           "confidence": 0.74,
           "syllabus_fit": "needs_review",
@@ -16059,7 +17470,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -16293,7 +17704,7 @@
       "classification_refinement": {
         "source": "source_extracted_statement_ai_solution_review",
         "source_id": "official_programming_oj_enrichment+ai_sample_verified_solution",
-        "applied_at": "2026-05-31T18:39:03.878Z",
+        "applied_at": "2026-06-01T04:25:37.466Z",
         "policy": "Official programming refinements may use public OJ statements and sample-verified AI C++ solutions, but remain needs_review until manual or OJ review."
       }
     },
@@ -17549,7 +18960,7 @@
     }
   ],
   "official_programming_classification_refinement": {
-    "applied_at": "2026-05-31T18:39:03.878Z",
+    "applied_at": "2026-06-01T04:25:37.466Z",
     "applied_count": 16,
     "source": "source_extracted_statement_ai_solution_review",
     "review_status": "needs_review"

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-31T16:23:40.354Z",
+  "generated_at": "2026-06-01T04:23:52.272Z",
   "generator": "scripts/extract-problem-types-knowledge.mjs",
   "inputs": {
     "level_domain_classification": "data/classification/level-domain-classification.json",
@@ -99,6 +99,84 @@
         "总价",
         "最大值",
         "最小值"
+      ]
+    },
+    {
+      "id": "lower_bound_fill_blank",
+      "label": "二分下界填空/判断型",
+      "domain_ids": [
+        "binary_search"
+      ],
+      "keywords": [
+        "第一个大于等于",
+        "lower_bound",
+        "升序数组",
+        "查找"
+      ]
+    },
+    {
+      "id": "inversion_pair_definition",
+      "label": "逆序对概念判断型",
+      "domain_ids": [
+        "sort_simulation"
+      ],
+      "keywords": [
+        "逆序对",
+        "a[i] > a[j]",
+        "i < j"
+      ]
+    },
+    {
+      "id": "binary_search_code_trace",
+      "label": "二分答案代码理解型",
+      "domain_ids": [
+        "binary_search",
+        "greedy"
+      ],
+      "keywords": [
+        "check",
+        "dist",
+        "while",
+        "mid",
+        "最大可能长度"
+      ]
+    },
+    {
+      "id": "greedy_concept_judgment",
+      "label": "贪心适用条件判断型",
+      "domain_ids": [
+        "greedy"
+      ],
+      "keywords": [
+        "最优子结构",
+        "贪心算法",
+        "最优解"
+      ]
+    },
+    {
+      "id": "sorted_merge_process",
+      "label": "有序序列合并型",
+      "domain_ids": [
+        "sort_simulation"
+      ],
+      "keywords": [
+        "合并成一个有序",
+        "有序排行榜",
+        "两组",
+        "从小到大"
+      ]
+    },
+    {
+      "id": "sorting_algorithm_property",
+      "label": "排序算法性质判断型",
+      "domain_ids": [
+        "sort_simulation"
+      ],
+      "keywords": [
+        "排序算法",
+        "稳定排序",
+        "稳定性",
+        "快速排序"
       ]
     },
     {
@@ -357,6 +435,19 @@
       ]
     },
     {
+      "id": "sorting_algorithm_property",
+      "label": "排序算法性质",
+      "domain_ids": [
+        "sort_simulation"
+      ],
+      "keywords": [
+        "排序算法",
+        "快速排序",
+        "稳定排序",
+        "稳定性"
+      ]
+    },
+    {
       "id": "multi_key_sort",
       "label": "多关键字排序",
       "domain_ids": [
@@ -379,6 +470,66 @@
       ],
       "keywords": [
         "逆序对"
+      ]
+    },
+    {
+      "id": "merge_sorted_arrays",
+      "label": "有序数组合并",
+      "domain_ids": [
+        "sort_simulation"
+      ],
+      "keywords": [
+        "合并成一个有序",
+        "有序排行榜",
+        "从小到大"
+      ]
+    },
+    {
+      "id": "binary_answer_feasibility",
+      "label": "二分答案可行性判定",
+      "domain_ids": [
+        "binary_search"
+      ],
+      "keywords": [
+        "check",
+        "dist",
+        "判定",
+        "最大可能长度"
+      ]
+    },
+    {
+      "id": "greedy_spacing_check",
+      "label": "间距贪心检查",
+      "domain_ids": [
+        "greedy",
+        "binary_search"
+      ],
+      "keywords": [
+        "dist",
+        "last",
+        "cnt",
+        "不少于"
+      ]
+    },
+    {
+      "id": "optimal_substructure",
+      "label": "最优子结构",
+      "domain_ids": [
+        "greedy"
+      ],
+      "keywords": [
+        "最优子结构"
+      ]
+    },
+    {
+      "id": "greedy_limitation",
+      "label": "贪心适用限制",
+      "domain_ids": [
+        "greedy"
+      ],
+      "keywords": [
+        "贪心算法",
+        "最优解"
       ]
     },
     {
@@ -445,16 +596,16 @@
   "summary": {
     "record_count": 216,
     "cxx_level5_record_count": 27,
-    "cxx_level5_with_problem_type_count": 21,
-    "cxx_level5_with_knowledge_count": 21,
-    "problem_type_tag_count": 54,
-    "knowledge_point_tag_count": 80,
+    "cxx_level5_with_problem_type_count": 27,
+    "cxx_level5_with_knowledge_count": 27,
+    "problem_type_tag_count": 68,
+    "knowledge_point_tag_count": 96,
     "coverage_by_domain": {
       "sort_simulation": {
         "domain_label": "排序/模拟",
-        "problem_count": 18,
-        "problem_type_tag_count": 16,
-        "knowledge_point_tag_count": 14,
+        "problem_count": 19,
+        "problem_type_tag_count": 23,
+        "knowledge_point_tag_count": 22,
         "knowledge_points": [
           {
             "id": "string_transform",
@@ -485,8 +636,20 @@
             "label": "排序稳定性"
           },
           {
+            "id": "sorting_algorithm_property",
+            "label": "排序算法性质"
+          },
+          {
+            "id": "inversion_pair",
+            "label": "逆序对"
+          },
+          {
             "id": "recursion_call_stack",
             "label": "递归调用与调用栈"
+          },
+          {
+            "id": "merge_sorted_arrays",
+            "label": "有序数组合并"
           }
         ]
       },
@@ -561,8 +724,8 @@
       "complexity": {
         "domain_label": "复杂度",
         "problem_count": 13,
-        "problem_type_tag_count": 18,
-        "knowledge_point_tag_count": 18,
+        "problem_type_tag_count": 19,
+        "knowledge_point_tag_count": 19,
         "knowledge_points": [
           {
             "id": "recurrence_complexity",
@@ -579,6 +742,10 @@
           {
             "id": "quick_sort_partition",
             "label": "快速排序划分"
+          },
+          {
+            "id": "sorting_algorithm_property",
+            "label": "排序算法性质"
           },
           {
             "id": "shortest_path",
@@ -616,13 +783,21 @@
       },
       "binary_search": {
         "domain_label": "二分",
-        "problem_count": 5,
-        "problem_type_tag_count": 2,
-        "knowledge_point_tag_count": 5,
+        "problem_count": 7,
+        "problem_type_tag_count": 8,
+        "knowledge_point_tag_count": 11,
         "knowledge_points": [
           {
             "id": "lower_bound",
             "label": "第一个大于等于"
+          },
+          {
+            "id": "binary_answer_feasibility",
+            "label": "二分答案可行性判定"
+          },
+          {
+            "id": "greedy_spacing_check",
+            "label": "间距贪心检查"
           },
           {
             "id": "monotonic_check",
@@ -633,8 +808,8 @@
       "divide_conquer": {
         "domain_label": "分治",
         "problem_count": 6,
-        "problem_type_tag_count": 9,
-        "knowledge_point_tag_count": 7,
+        "problem_type_tag_count": 13,
+        "knowledge_point_tag_count": 11,
         "knowledge_points": [
           {
             "id": "quick_sort_partition",
@@ -645,8 +820,16 @@
             "label": "排序稳定性"
           },
           {
+            "id": "sorting_algorithm_property",
+            "label": "排序算法性质"
+          },
+          {
             "id": "divide_and_conquer_merge",
             "label": "分治拆分与合并"
+          },
+          {
+            "id": "merge_sorted_arrays",
+            "label": "有序数组合并"
           },
           {
             "id": "recurrence_complexity",
@@ -680,10 +863,27 @@
       },
       "greedy": {
         "domain_label": "贪心",
-        "problem_count": 3,
-        "problem_type_tag_count": 0,
-        "knowledge_point_tag_count": 0,
-        "knowledge_points": []
+        "problem_count": 5,
+        "problem_type_tag_count": 3,
+        "knowledge_point_tag_count": 6,
+        "knowledge_points": [
+          {
+            "id": "binary_answer_feasibility",
+            "label": "二分答案可行性判定"
+          },
+          {
+            "id": "greedy_spacing_check",
+            "label": "间距贪心检查"
+          },
+          {
+            "id": "greedy_limitation",
+            "label": "贪心适用限制"
+          },
+          {
+            "id": "optimal_substructure",
+            "label": "最优子结构"
+          }
+        ]
       },
       "high_precision": {
         "domain_label": "高精度",
@@ -3754,7 +3954,23 @@
           "review_status": "candidate"
         }
       ],
-      "problem_type_tags": [],
+      "problem_type_tags": [
+        {
+          "kind": "problem_type",
+          "value": "lower_bound_fill_blank",
+          "label": "二分下界填空/判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "第一个大于等于"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        }
+      ],
       "knowledge_point_tags": [
         {
           "kind": "knowledge_point",
@@ -3851,6 +4067,21 @@
           "confidence": 0.76,
           "syllabus_fit": "needs_review",
           "review_status": "candidate"
+        },
+        {
+          "kind": "problem_type",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "稳定排序"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
         }
       ],
       "knowledge_point_tags": [
@@ -3879,6 +4110,21 @@
             "source_id": "official-gesp-true-questions",
             "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
             "evidence": "稳定排序"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "快速排序"
           },
           "confidence": 0.74,
           "syllabus_fit": "needs_review",
@@ -4000,16 +4246,64 @@
       "question_type": "judgment",
       "question_number": 5,
       "title": "在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆",
-      "algorithm_domains": [],
-      "problem_type_tags": [],
-      "knowledge_point_tags": [],
+      "algorithm_domains": [
+        {
+          "kind": "algorithm_domain",
+          "value": "sort_simulation",
+          "label": "排序/模拟",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        }
+      ],
+      "problem_type_tags": [
+        {
+          "kind": "problem_type",
+          "value": "inversion_pair_definition",
+          "label": "逆序对概念判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "a[i] > a[j]"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        }
+      ],
+      "knowledge_point_tags": [
+        {
+          "kind": "knowledge_point",
+          "value": "inversion_pair",
+          "label": "逆序对",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆"
+          },
+          "confidence": 0.66,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate"
+        }
+      ],
       "extraction_sources": {
         "official_problem_text": true,
         "solution_text": false,
         "code_signal": false,
         "practice_link": false
       },
-      "review_status": "needs_review"
+      "review_status": "candidate"
     },
     {
       "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:06",
@@ -4088,16 +4382,94 @@
       "question_type": "judgment",
       "question_number": 7,
       "title": "假设数",
-      "algorithm_domains": [],
-      "problem_type_tags": [],
-      "knowledge_point_tags": [],
+      "algorithm_domains": [
+        {
+          "kind": "algorithm_domain",
+          "value": "binary_search",
+          "label": "二分",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "假设数"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        },
+        {
+          "kind": "algorithm_domain",
+          "value": "greedy",
+          "label": "贪心",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "假设数"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        }
+      ],
+      "problem_type_tags": [
+        {
+          "kind": "problem_type",
+          "value": "binary_search_code_trace",
+          "label": "二分答案代码理解型",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "假设数"
+          },
+          "confidence": 0.68,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate"
+        }
+      ],
+      "knowledge_point_tags": [
+        {
+          "kind": "knowledge_point",
+          "value": "binary_answer_feasibility",
+          "label": "二分答案可行性判定",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "假设数"
+          },
+          "confidence": 0.66,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate"
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "greedy_spacing_check",
+          "label": "间距贪心检查",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "假设数"
+          },
+          "confidence": 0.66,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate"
+        }
+      ],
       "extraction_sources": {
         "official_problem_text": true,
         "solution_text": false,
         "code_signal": false,
         "practice_link": false
       },
-      "review_status": "needs_review"
+      "review_status": "candidate"
     },
     {
       "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:08",
@@ -4125,15 +4497,62 @@
           "review_status": "candidate"
         }
       ],
-      "problem_type_tags": [],
-      "knowledge_point_tags": [],
+      "problem_type_tags": [
+        {
+          "kind": "problem_type",
+          "value": "greedy_concept_judgment",
+          "label": "贪心适用条件判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "最优子结构"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        }
+      ],
+      "knowledge_point_tags": [
+        {
+          "kind": "knowledge_point",
+          "value": "greedy_limitation",
+          "label": "贪心适用限制",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "贪心算法"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "optimal_substructure",
+          "label": "最优子结构",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "最优子结构"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        }
+      ],
       "extraction_sources": {
         "official_problem_text": true,
         "solution_text": false,
         "code_signal": false,
         "practice_link": false
       },
-      "review_status": "needs_review"
+      "review_status": "candidate"
     },
     {
       "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:09",
@@ -4959,16 +5378,94 @@
       "question_type": "selection",
       "question_number": 7,
       "title": "下面程序的运行结果为。",
-      "algorithm_domains": [],
-      "problem_type_tags": [],
-      "knowledge_point_tags": [],
+      "algorithm_domains": [
+        {
+          "kind": "algorithm_domain",
+          "value": "binary_search",
+          "label": "二分",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "下面程序的运行结果为。"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        },
+        {
+          "kind": "algorithm_domain",
+          "value": "greedy",
+          "label": "贪心",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "下面程序的运行结果为。"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        }
+      ],
+      "problem_type_tags": [
+        {
+          "kind": "problem_type",
+          "value": "binary_search_code_trace",
+          "label": "二分答案代码理解型",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "下面程序的运行结果为。"
+          },
+          "confidence": 0.68,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate"
+        }
+      ],
+      "knowledge_point_tags": [
+        {
+          "kind": "knowledge_point",
+          "value": "binary_answer_feasibility",
+          "label": "二分答案可行性判定",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "下面程序的运行结果为。"
+          },
+          "confidence": 0.66,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate"
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "greedy_spacing_check",
+          "label": "间距贪心检查",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "下面程序的运行结果为。"
+          },
+          "confidence": 0.66,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate"
+        }
+      ],
       "extraction_sources": {
         "official_problem_text": true,
         "solution_text": false,
         "code_signal": false,
         "practice_link": false
       },
-      "review_status": "needs_review"
+      "review_status": "candidate"
     },
     {
       "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:08",
@@ -4996,7 +5493,23 @@
           "review_status": "candidate"
         }
       ],
-      "problem_type_tags": [],
+      "problem_type_tags": [
+        {
+          "kind": "problem_type",
+          "value": "lower_bound_fill_blank",
+          "label": "二分下界填空/判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "第一个大于等于"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        }
+      ],
       "knowledge_point_tags": [
         {
           "kind": "knowledge_point",
@@ -5131,9 +5644,54 @@
           "confidence": 0.76,
           "syllabus_fit": "needs_review",
           "review_status": "candidate"
+        },
+        {
+          "kind": "problem_type",
+          "value": "binary_search_code_trace",
+          "label": "二分答案代码理解型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "最大可能长度"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
         }
       ],
       "knowledge_point_tags": [
+        {
+          "kind": "knowledge_point",
+          "value": "binary_answer_feasibility",
+          "label": "二分答案可行性判定",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "最大可能长度"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "greedy_spacing_check",
+          "label": "间距贪心检查",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "不少于"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        },
         {
           "kind": "knowledge_point",
           "value": "monotonic_check",
@@ -5267,9 +5825,40 @@
           "confidence": 0.76,
           "syllabus_fit": "needs_review",
           "review_status": "candidate"
+        },
+        {
+          "kind": "problem_type",
+          "value": "sorted_merge_process",
+          "label": "有序序列合并型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "合并成一个有序"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
         }
       ],
-      "knowledge_point_tags": [],
+      "knowledge_point_tags": [
+        {
+          "kind": "knowledge_point",
+          "value": "merge_sorted_arrays",
+          "label": "有序数组合并",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "合并成一个有序"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        }
+      ],
       "extraction_sources": {
         "official_problem_text": true,
         "solution_text": false,
@@ -5349,13 +5938,73 @@
           "confidence": 0.76,
           "syllabus_fit": "needs_review",
           "review_status": "candidate"
+        },
+        {
+          "kind": "problem_type",
+          "value": "sorted_merge_process",
+          "label": "有序序列合并型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "从小到大"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        },
+        {
+          "kind": "problem_type",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "快速排序"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
         }
       ],
       "knowledge_point_tags": [
         {
           "kind": "knowledge_point",
+          "value": "merge_sorted_arrays",
+          "label": "有序数组合并",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "从小到大"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        },
+        {
+          "kind": "knowledge_point",
           "value": "quick_sort_partition",
           "label": "快速排序划分",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "快速排序"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质",
           "source": "official_pdf",
           "evidence": {
             "source": "official_pdf",
@@ -5417,9 +6066,55 @@
           "confidence": 0.76,
           "syllabus_fit": "needs_review",
           "review_status": "candidate"
+        },
+        {
+          "kind": "problem_type",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "排序算法"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
         }
       ],
-      "knowledge_point_tags": [],
+      "knowledge_point_tags": [
+        {
+          "kind": "knowledge_point",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "排序算法"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "sort_stability",
+          "label": "排序稳定性",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "下面关于排序算法的描述中，不正确的是。"
+          },
+          "confidence": 0.66,
+          "syllabus_fit": "community_inferred",
+          "review_status": "candidate"
+        }
+      ],
       "extraction_sources": {
         "official_problem_text": true,
         "solution_text": false,
@@ -8092,6 +8787,21 @@
           "confidence": 0.76,
           "syllabus_fit": "needs_review",
           "review_status": "candidate"
+        },
+        {
+          "kind": "problem_type",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734124729532448.pdf",
+            "evidence": "快速排序"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
         }
       ],
       "knowledge_point_tags": [
@@ -8120,6 +8830,21 @@
             "source_id": "official-gesp-true-questions",
             "source_url": "https://gesp.ccf.org.cn/101/attach/1734124729532448.pdf",
             "evidence": "时间复杂度"
+          },
+          "confidence": 0.74,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        },
+        {
+          "kind": "knowledge_point",
+          "value": "sorting_algorithm_property",
+          "label": "排序算法性质",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734124729532448.pdf",
+            "evidence": "快速排序"
           },
           "confidence": 0.74,
           "syllabus_fit": "needs_review",
@@ -8401,7 +9126,23 @@
           "review_status": "candidate"
         }
       ],
-      "problem_type_tags": [],
+      "problem_type_tags": [
+        {
+          "kind": "problem_type",
+          "value": "lower_bound_fill_blank",
+          "label": "二分下界填空/判断型",
+          "source": "official_pdf",
+          "evidence": {
+            "source": "official_pdf",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734124729532448.pdf",
+            "evidence": "查找"
+          },
+          "confidence": 0.76,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        }
+      ],
       "knowledge_point_tags": [],
       "extraction_sources": {
         "official_problem_text": true,
@@ -8409,7 +9150,7 @@
         "code_signal": false,
         "practice_link": true
       },
-      "review_status": "needs_review"
+      "review_status": "candidate"
     },
     {
       "canonical_problem_id": "canonical:2026-03:c++:level-8:programming:02",

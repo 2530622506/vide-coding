@@ -4,6 +4,7 @@ const baseUrl = process.env.CATALOG_API_URL || "http://localhost:3001/api";
 const expectedSource = process.env.CATALOG_EXPECT_SOURCE || "";
 const officialDetailsPath = "data/classification/problem-details.json";
 const supplementalPath = "data/classification/supplemental-cxx-problems.json";
+const reviewQueuePath = "data/classification/review-queue.json";
 
 function assert(condition, message) {
   if (!condition) {
@@ -18,12 +19,14 @@ async function getJson(path) {
 }
 
 async function main() {
-  const [officialDetails, supplemental] = await Promise.all([
+  const [officialDetails, supplemental, reviewQueue] = await Promise.all([
     readFile(officialDetailsPath, "utf8").then(JSON.parse),
-    readFile(supplementalPath, "utf8").then(JSON.parse)
+    readFile(supplementalPath, "utf8").then(JSON.parse),
+    readFile(reviewQueuePath, "utf8").then(JSON.parse)
   ]);
   const expectedLevel5Count = officialDetails.records.filter((record) => record.level === 5).length
     + supplemental.records.filter((record) => record.level === 5).length;
+  const expectedReviewItems = reviewQueue.items.length;
   const [levels, level2, level5, review] = await Promise.all([
     getJson("/catalog/levels"),
     getJson("/catalog/levels/2"),
@@ -51,7 +54,7 @@ async function main() {
   assert(problemDetail.detail?.statement?.stem, "problem detail must include statement stem");
   assert(Array.isArray(problemDetail.detail?.visual_assets?.assets), "problem detail must include visual assets collection");
   assert(problemDetail.detail?.choice_options?.status, "problem detail must include choice option status");
-  assert(review.summary.total_count === 69, `expected 69 review items, got ${review.summary.total_count}`);
+  assert(review.summary.total_count === expectedReviewItems, `expected ${expectedReviewItems} review items, got ${review.summary.total_count}`);
 
   if (expectedSource) {
     assert(levels.data_source === expectedSource, `levels data_source expected ${expectedSource}, got ${levels.data_source}`);

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-01T02:22:26.910Z",
+  "generated_at": "2026-06-01T04:27:28.693Z",
   "generator": "scripts/build-problem-details.mjs",
   "inputs": {
     "model": "data/classification/conflict-confidence-model.json",
@@ -21,18 +21,18 @@
     "pending_visual_asset_collection_count": 0,
     "programming_pending_solution_count": 0,
     "judgment_standard_binary_option_count": 80,
+    "official_level5_source_extracted_statement_count": 27,
+    "official_level5_non_programming_source_extracted_statement_count": 25,
+    "official_pdf_visual_asset_record_count": 100,
+    "official_pdf_visual_asset_count": 218,
+    "source_extracted_visual_asset_record_count": 101,
+    "source_extracted_visual_asset_count": 219,
+    "visual_asset_none_found_count": 115,
     "official_programming_source_extracted_statement_count": 16,
     "official_programming_source_extracted_sample_count": 16,
     "official_programming_source_extracted_visual_asset_count": 1,
     "official_programming_visual_asset_none_found_count": 15,
-    "official_programming_ai_sample_verified_solution_count": 16,
-    "official_pdf_visual_asset_record_count": 100,
-    "official_pdf_visual_asset_count": 218,
-    "visual_asset_none_found_count": 115,
-    "source_extracted_visual_asset_record_count": 101,
-    "source_extracted_visual_asset_count": 219,
-    "official_level5_source_extracted_statement_count": 27,
-    "official_level5_non_programming_source_extracted_statement_count": 25
+    "official_programming_ai_sample_verified_solution_count": 16
   },
   "records": [
     {
@@ -1365,7 +1365,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:23.045Z",
+          "verified_at": "2026-06-01T04:25:12.981Z",
           "sample_count": 1,
           "sample_results": [
             {
@@ -1412,7 +1412,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -1522,7 +1522,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:23.551Z",
+          "verified_at": "2026-06-01T04:25:13.882Z",
           "sample_count": 2,
           "sample_results": [
             {
@@ -1579,7 +1579,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -5526,7 +5526,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:24.085Z",
+          "verified_at": "2026-06-01T04:25:14.747Z",
           "sample_count": 1,
           "sample_results": [
             {
@@ -5573,7 +5573,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -5683,7 +5683,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:24.617Z",
+          "verified_at": "2026-06-01T04:25:15.641Z",
           "sample_count": 1,
           "sample_results": [
             {
@@ -5730,7 +5730,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -9568,7 +9568,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:25.150Z",
+          "verified_at": "2026-06-01T04:25:16.562Z",
           "sample_count": 1,
           "sample_results": [
             {
@@ -9615,7 +9615,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -9725,7 +9725,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:25.672Z",
+          "verified_at": "2026-06-01T04:25:17.459Z",
           "sample_count": 1,
           "sample_results": [
             {
@@ -9772,7 +9772,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -13260,7 +13260,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:26.224Z",
+          "verified_at": "2026-06-01T04:25:18.411Z",
           "sample_count": 1,
           "sample_results": [
             {
@@ -13307,7 +13307,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -13417,7 +13417,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:26.845Z",
+          "verified_at": "2026-06-01T04:25:19.449Z",
           "sample_count": 1,
           "sample_results": [
             {
@@ -13464,7 +13464,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -15858,7 +15858,7 @@
             "markdown": "第 1 题 有一个存储了 个整数的线性表，分别用数组和单链表两种方式实现。在已知下标（或结点指针）的前提"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.908Z"
+        "extracted_at": "2026-06-01T04:26:48.904Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -15937,7 +15937,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 9,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.908Z",
+        "applied_at": "2026-06-01T04:26:48.904Z",
         "review_status": "needs_review"
       }
     },
@@ -15972,7 +15972,7 @@
             "markdown": "第 2 题 若数组 a 已按升序排列，则下面代码可以正确实现 “在 a 中查找第一个大于等于 x 的元素的位置”"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16051,7 +16051,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 9,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -16086,7 +16086,7 @@
             "markdown": "第 3 题 快速排序只要每次都选取中间元素作为枢轴，就一定是稳定排序。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16165,7 +16165,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 10,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -16200,7 +16200,7 @@
             "markdown": "第 4 题 若某算法满足递推式： ，则其时间复杂度为 。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16279,7 +16279,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 10,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -16314,7 +16314,7 @@
             "markdown": "第 5 题 在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16415,7 +16415,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 10,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -16450,7 +16450,7 @@
             "markdown": "第 6 题 根据唯⼀分解定理，如果⼤于1的整数不能被任何不超其平⽅根的质数整除，那么n 必定是质数。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16529,7 +16529,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 10,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -16564,7 +16564,7 @@
             "markdown": "第 7 题 假设数"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16665,7 +16665,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 10,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -16700,7 +16700,7 @@
             "markdown": "第 8 题 若一个问题满足最优子结构性质，则一定可以用贪心算法得到最优解。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16779,7 +16779,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 11,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -16814,7 +16814,7 @@
             "markdown": "第 9 题 线性筛相比埃氏筛的核心改进在于：埃氏筛中一个合数可能被多个质数重复标记，线性筛通过\"每个合数只"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -16893,7 +16893,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 11,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -16928,7 +16928,7 @@
             "markdown": "第 10 题 任何递归程序都可以改写为等价的非递归程序，但改写后的非递归程序一定需要显式地使用栈来模拟递归"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "standard_binary",
@@ -17134,7 +17134,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 11,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -17227,7 +17227,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:27.359Z",
+          "verified_at": "2026-06-01T04:25:20.364Z",
           "sample_count": 1,
           "sample_results": [
             {
@@ -17282,7 +17282,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -17392,7 +17392,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:27.941Z",
+          "verified_at": "2026-06-01T04:25:21.271Z",
           "sample_count": 1,
           "sample_results": [
             {
@@ -17447,7 +17447,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -17527,7 +17527,7 @@
             "markdown": "第 1 题 关于单链表、双链表和循环链表，下列说法正确的是（ ）。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -17617,7 +17617,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 1,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -17680,7 +17680,7 @@
             "markdown": "第 2 题 双向循环链表中要在结点 p 之前插入新结点 s （均非空），以下指针操作正确的是（ ）。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -17770,7 +17770,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 1,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -17833,7 +17833,7 @@
             "markdown": "第 3 题 下面函数用“哑结点”统一处理删除单向链表中的头结点与中间结点。横线处应填（ ）。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "needs_review",
@@ -18029,7 +18029,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 1,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -18092,7 +18092,7 @@
             "markdown": "第 4 题 对如下代码实现的欧几里得算法（辗转相除法），执行 gcd(48, 18) 得到的调用序列为（ ）。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "needs_review",
@@ -18288,7 +18288,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 2,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -18351,7 +18351,7 @@
             "markdown": "第 5 题 下面代码实现了欧拉（线性）筛，横线处应填写（ ）。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "needs_review",
@@ -18547,7 +18547,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 2,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -18610,7 +18610,7 @@
             "markdown": "第 6 题 埃氏筛中将内层循环从 j = i*i 开始而不是 j = 2*i 的主要原因是（ ）。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.909Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -18722,7 +18722,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 3,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.909Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -18785,7 +18785,7 @@
             "markdown": "第 7 题 下面程序的运行结果为（ ）。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.910Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -18897,7 +18897,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 3,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.910Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -18960,7 +18960,7 @@
             "markdown": "第 8 题 在升序数组中查找第一个大于等于 x 的位置，下面循环中横线应填（ ）。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.910Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -19156,7 +19156,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 4,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.910Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -19219,7 +19219,7 @@
             "markdown": "第 9 题 关于递归函数调用，下列说法错误的是（ ）。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.910Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -19309,7 +19309,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 5,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.910Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -19372,7 +19372,7 @@
             "markdown": "第 10 题 给定 n 根木头，第 i 根长度为 a[i]。要切成不少于 m 段等长木段，求最大可能长度，则横线上应填"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.910Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "needs_review",
@@ -19568,7 +19568,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 5,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.910Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -19631,7 +19631,7 @@
             "markdown": "第 11 题 下面代码用分治求“最大连续子段和”"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.910Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "needs_review",
@@ -19743,7 +19743,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 6,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.910Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -19806,7 +19806,7 @@
             "markdown": "第 12 题 游戏大赛决赛，两组选手分别按得分从小到大排好队，现在要把他们合并成一个有序排行榜。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.910Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -19918,7 +19918,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 7,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.910Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -19981,7 +19981,7 @@
             "markdown": "第 13 题 有 位同学的成绩已经从小到大排好序，现在对它执行下面这段以第一个元素为 pivot 的快速排序，请"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.910Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "needs_review",
@@ -20093,7 +20093,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 8,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.910Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -20156,7 +20156,7 @@
             "markdown": "第 14 题 下面关于排序算法的描述中，不正确的是( )。"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.910Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "source_extracted",
@@ -20246,7 +20246,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 8,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.910Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -20309,7 +20309,7 @@
             "markdown": "第 15 题 下面代码实现两个整数除法，其中被除数为一个“大整数”"
           }
         ],
-        "extracted_at": "2026-06-01T02:22:26.910Z"
+        "extracted_at": "2026-06-01T04:26:48.905Z"
       },
       "choice_options": {
         "status": "needs_review",
@@ -20505,7 +20505,7 @@
         "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
         "source_page": 8,
         "source_document_sha256": "0b3b0e7e9ed0f9fea285b66d67bdab7af08b6b3644cb479ac0f50ea06e673f73",
-        "applied_at": "2026-06-01T02:22:26.910Z",
+        "applied_at": "2026-06-01T04:26:48.905Z",
         "review_status": "needs_review"
       }
     },
@@ -21774,7 +21774,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:28.507Z",
+          "verified_at": "2026-06-01T04:25:22.194Z",
           "sample_count": 2,
           "sample_results": [
             {
@@ -21831,7 +21831,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -21941,7 +21941,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:29.080Z",
+          "verified_at": "2026-06-01T04:25:23.217Z",
           "sample_count": 2,
           "sample_results": [
             {
@@ -21998,7 +21998,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -25405,7 +25405,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:29.636Z",
+          "verified_at": "2026-06-01T04:25:24.085Z",
           "sample_count": 1,
           "sample_results": [
             {
@@ -25452,7 +25452,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -25562,7 +25562,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:30.223Z",
+          "verified_at": "2026-06-01T04:25:25.154Z",
           "sample_count": 1,
           "sample_results": [
             {
@@ -25609,7 +25609,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -28953,7 +28953,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:30.851Z",
+          "verified_at": "2026-06-01T04:25:26.203Z",
           "sample_count": 2,
           "sample_results": [
             {
@@ -29010,7 +29010,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -29120,7 +29120,7 @@
         "verification": {
           "status": "sample_passed",
           "verifier": "scripts/apply-official-ai-reference-solutions.mjs",
-          "verified_at": "2026-05-31T18:49:31.461Z",
+          "verified_at": "2026-06-01T04:25:27.142Z",
           "sample_count": 2,
           "sample_results": [
             {
@@ -29177,7 +29177,7 @@
           "reference_kind": null
         }
       ],
-      "answer_guidance_status": "needs_review",
+      "answer_guidance_status": "reference_link",
       "completeness": {
         "has_statement_stem": true,
         "has_choice_options": false,
@@ -31282,9 +31282,26 @@
       }
     }
   ],
+  "official_level5_statement_enrichment": {
+    "applied_at": "2026-06-01T04:26:48.905Z",
+    "applied_count": 25,
+    "source": "official_pdf_text_excerpt",
+    "review_status": "needs_review",
+    "policy": "Official level-5 selection and judgment statements are source-extracted from public official PDFs but remain needs_review because PDF text may lose formulas, code formatting, or image context."
+  },
+  "official_pdf_visual_assets": {
+    "source": "data/problem-ingestion/official-pdf-visual-assets.json",
+    "summary": {
+      "document_count": 8,
+      "asset_count": 218,
+      "problem_with_assets_count": 100,
+      "failure_count": 0
+    },
+    "review_status": "needs_review"
+  },
   "official_programming_enrichment": {
     "source_file": "data/enrichment/official-programming-oj-details.json",
-    "applied_at": "2026-05-31T18:49:17.485Z",
+    "applied_at": "2026-06-01T04:25:05.697Z",
     "applied_count": 16,
     "source_terms_status": "needs_review",
     "crawl_policy": {
@@ -31297,28 +31314,11 @@
     }
   },
   "official_ai_reference_solutions": {
-    "applied_at": "2026-05-31T18:49:31.468Z",
+    "applied_at": "2026-06-01T04:25:27.148Z",
     "applied_count": 16,
     "content_origin": "ai_generated_sample_verified",
     "review_status": "needs_review",
     "verification": "compiled with g++ -std=c++17 and passed current source-extracted samples",
     "notice_policy": "AI-generated answers must be visibly marked and manually reviewed before promotion"
-  },
-  "official_pdf_visual_assets": {
-    "source": "data/problem-ingestion/official-pdf-visual-assets.json",
-    "summary": {
-      "document_count": 8,
-      "asset_count": 218,
-      "problem_with_assets_count": 100,
-      "failure_count": 0
-    },
-    "review_status": "needs_review"
-  },
-  "official_level5_statement_enrichment": {
-    "applied_at": "2026-06-01T02:22:26.910Z",
-    "applied_count": 25,
-    "source": "official_pdf_text_excerpt",
-    "review_status": "needs_review",
-    "policy": "Official level-5 selection and judgment statements are source-extracted from public official PDFs but remain needs_review because PDF text may lose formulas, code formatting, or image context."
   }
 }

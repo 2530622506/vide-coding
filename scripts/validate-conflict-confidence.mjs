@@ -54,8 +54,11 @@ async function main() {
 
   let tagCount = 0;
   let level5Count = 0;
+  let level5UntypedCount = 0;
+  let level5NoKnowledgeCount = 0;
   let level5ExactDpCount = 0;
   const statusCounts = {};
+  const knowledgeById = new Map(problemKnowledge.records.map((record) => [record.canonical_problem_id, record]));
 
   for (const record of model.records) {
     assert(record.language === "C++", `${record.canonical_problem_id}: language must be C++`);
@@ -76,10 +79,19 @@ async function main() {
     }
     if (record.level === 5) {
       level5Count += 1;
+      const knowledgeRecord = knowledgeById.get(record.canonical_problem_id);
+      if (!knowledgeRecord?.problem_type_tags?.length) {
+        level5UntypedCount += 1;
+      }
+      if (!knowledgeRecord?.knowledge_point_tags?.length) {
+        level5NoKnowledgeCount += 1;
+      }
     }
   }
 
   assert(level5Count === 27, `expected 27 C++ level 5 records, got ${level5Count}`);
+  assert(level5UntypedCount === 0, `expected all level 5 records to have problem type tags, got ${level5UntypedCount} untyped`);
+  assert(level5NoKnowledgeCount === 0, `expected all level 5 records to have knowledge point tags, got ${level5NoKnowledgeCount} without knowledge`);
   assert(level5ExactDpCount === 0, "level 5 exact DP tags must be zero");
   assert(model.summary.record_count === model.records.length, "summary record count mismatch");
   assert(model.summary.tag_count === tagCount, "summary tag count mismatch");
@@ -87,7 +99,7 @@ async function main() {
   assert(model.summary.source_duplicate_count === canonicalAlignment.review_queue.duplicate_candidates.length, "source duplicate count mismatch");
   assert(model.summary.review_queue_item_count === reviewQueue.items.length, "review queue item count mismatch");
   assert(model.summary.cxx_level5_record_count === 27, "summary level 5 count mismatch");
-  assert(model.summary.cxx_level5_needs_review_count >= 6, "level 5 review queue should include untyped or uncovered problems");
+  assert(model.summary.cxx_level5_needs_review_count >= 1, "level 5 should retain review items for inferred or low-confidence tags");
   assert(statusCounts.candidate > 0, "expected candidate tags");
   assert(statusCounts.needs_review > 0, "expected needs_review tags");
 
@@ -95,8 +107,8 @@ async function main() {
   assert(Array.isArray(reviewQueue.items), "review queue items must be array");
   assert(reviewQueue.items.some((item) => item.type === "source_conflict"), "review queue must include source conflicts");
   assert(reviewQueue.items.some((item) => item.type === "source_duplicate"), "review queue must include duplicate source candidates");
-  assert(reviewQueue.items.some((item) => item.type === "untyped_level5_problem"), "review queue must include untyped level 5 problems");
-  assert(reviewQueue.items.some((item) => item.type === "no_knowledge_level5_problem"), "review queue must include no-knowledge level 5 problems");
+  assert(!reviewQueue.items.some((item) => item.type === "untyped_level5_problem"), "review queue should not include untyped level 5 problems after full coverage");
+  assert(!reviewQueue.items.some((item) => item.type === "no_knowledge_level5_problem"), "review queue should not include no-knowledge level 5 problems after full coverage");
   for (const item of reviewQueue.items) {
     assert(typeof item.id === "string" && item.id.length > 0, "review item id required");
     assert(["high", "medium", "low"].includes(item.priority), `${item.id}: invalid priority`);

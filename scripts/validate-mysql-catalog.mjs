@@ -4,6 +4,7 @@ import { mysqlConfig } from "./mysql-config.mjs";
 
 const officialDetailsPath = "data/classification/problem-details.json";
 const supplementalPath = "data/classification/supplemental-cxx-problems.json";
+const reviewQueuePath = "data/classification/review-queue.json";
 
 function assert(condition, message) {
   if (!condition) {
@@ -22,15 +23,17 @@ async function scalarCount(connection, sql) {
 }
 
 async function main() {
-  const [officialDetails, supplemental] = await Promise.all([
+  const [officialDetails, supplemental, reviewQueue] = await Promise.all([
     readFile(officialDetailsPath, "utf8").then(JSON.parse),
-    readFile(supplementalPath, "utf8").then(JSON.parse)
+    readFile(supplementalPath, "utf8").then(JSON.parse),
+    readFile(reviewQueuePath, "utf8").then(JSON.parse)
   ]);
   const expectedRecords = officialDetails.records.length + supplemental.records.length;
   const expectedGuidance = officialDetails.records.length + supplemental.answer_guidance.length;
   const expectedDetails = officialDetails.records.length + supplemental.problem_details.length;
   const expectedLevel5 = officialDetails.records.filter((record) => record.level === 5).length + supplemental.records.filter((record) => record.level === 5).length;
   const expectedSourceVersions = supplemental.source_versions.length;
+  const expectedReviewItems = reviewQueue.items.length;
   const connection = await mysql.createConnection(mysqlConfig());
   try {
     const recordCount = await count(connection, "classification_records");
@@ -65,7 +68,7 @@ async function main() {
     assert(recordCount >= expectedRecords, `expected at least ${expectedRecords} classification records, got ${recordCount}`);
     assert(guidanceCount >= expectedGuidance, `expected at least ${expectedGuidance} answer guidance records, got ${guidanceCount}`);
     assert(detailCount >= expectedDetails, `expected at least ${expectedDetails} problem detail records, got ${detailCount}`);
-    assert(reviewCount === 69, `expected 69 review queue items, got ${reviewCount}`);
+    assert(reviewCount === expectedReviewItems, `expected ${expectedReviewItems} review queue items, got ${reviewCount}`);
     assert(sourceCount >= expectedSourceVersions, `expected at least ${expectedSourceVersions} source versions, got ${sourceCount}`);
     assert(Number(levelRows[0].count) === expectedLevel5, `expected ${expectedLevel5} C++ level 5 records, got ${levelRows[0].count}`);
     assert(statusRows.length >= 2, "expected multiple effective review statuses");

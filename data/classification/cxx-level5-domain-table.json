@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-31T16:09:53.878Z",
+  "generated_at": "2026-06-01T04:23:43.588Z",
   "generator": "scripts/classify-level-domains.mjs",
   "source_classification": "data/classification/level-domain-classification.json",
   "summary": {
     "row_count": 27,
-    "rows_with_domain_count": 24,
+    "rows_with_domain_count": 27,
     "out_of_level_signal_count": 0
   },
   "rows": [
@@ -283,9 +283,40 @@
         "syllabus_fit": "exact",
         "review_status": "confirmed"
       },
-      "algorithm_domains": [],
+      "algorithm_domains": [
+        {
+          "kind": "algorithm_domain",
+          "value": "binary_search",
+          "label": "二分",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "下面程序的运行结果为。"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        },
+        {
+          "kind": "algorithm_domain",
+          "value": "greedy",
+          "label": "贪心",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "下面程序的运行结果为。"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        }
+      ],
       "out_of_level_signals": [],
-      "review_status": "needs_review"
+      "review_status": "candidate"
     },
     {
       "canonical_problem_id": "canonical:2026-03:c++:level-5:selection:08",
@@ -858,9 +889,25 @@
         "syllabus_fit": "exact",
         "review_status": "confirmed"
       },
-      "algorithm_domains": [],
+      "algorithm_domains": [
+        {
+          "kind": "algorithm_domain",
+          "value": "sort_simulation",
+          "label": "排序/模拟",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "在一个数组中，如果两个元素 a[i] 和 a[j] 满足 i < j 且 a[i] > a[j] ，则 a[i] 和 a[j] 是一个逆"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        }
+      ],
       "out_of_level_signals": [],
-      "review_status": "needs_review"
+      "review_status": "candidate"
     },
     {
       "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:06",
@@ -926,9 +973,40 @@
         "syllabus_fit": "exact",
         "review_status": "confirmed"
       },
-      "algorithm_domains": [],
+      "algorithm_domains": [
+        {
+          "kind": "algorithm_domain",
+          "value": "binary_search",
+          "label": "二分",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "假设数"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        },
+        {
+          "kind": "algorithm_domain",
+          "value": "greedy",
+          "label": "贪心",
+          "source": "seed_rule",
+          "evidence": {
+            "source": "seed_rule",
+            "source_id": "official-gesp-true-questions",
+            "source_url": "https://gesp.ccf.org.cn/101/attach/1734457367199776.pdf",
+            "evidence": "假设数"
+          },
+          "confidence": 0.62,
+          "syllabus_fit": "needs_review",
+          "review_status": "candidate"
+        }
+      ],
       "out_of_level_signals": [],
-      "review_status": "needs_review"
+      "review_status": "candidate"
     },
     {
       "canonical_problem_id": "canonical:2026-03:c++:level-5:judgment:08",

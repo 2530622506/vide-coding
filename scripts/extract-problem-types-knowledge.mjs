@@ -39,6 +39,42 @@ const problemTypeSeeds = [
     keywords: ["快速排序", "稳定排序", "稳定性", "排行榜", "有序排行榜", "排序算法", "pivot", "枢轴", "关键字", "礼盒排序", "总价", "最大值", "最小值"]
   },
   {
+    id: "lower_bound_fill_blank",
+    label: "二分下界填空/判断型",
+    domain_ids: ["binary_search"],
+    keywords: ["第一个大于等于", "lower_bound", "升序数组", "查找"]
+  },
+  {
+    id: "inversion_pair_definition",
+    label: "逆序对概念判断型",
+    domain_ids: ["sort_simulation"],
+    keywords: ["逆序对", "a[i] > a[j]", "i < j"]
+  },
+  {
+    id: "binary_search_code_trace",
+    label: "二分答案代码理解型",
+    domain_ids: ["binary_search", "greedy"],
+    keywords: ["check", "dist", "while", "mid", "最大可能长度"]
+  },
+  {
+    id: "greedy_concept_judgment",
+    label: "贪心适用条件判断型",
+    domain_ids: ["greedy"],
+    keywords: ["最优子结构", "贪心算法", "最优解"]
+  },
+  {
+    id: "sorted_merge_process",
+    label: "有序序列合并型",
+    domain_ids: ["sort_simulation"],
+    keywords: ["合并成一个有序", "有序排行榜", "两组", "从小到大"]
+  },
+  {
+    id: "sorting_algorithm_property",
+    label: "排序算法性质判断型",
+    domain_ids: ["sort_simulation"],
+    keywords: ["排序算法", "稳定排序", "稳定性", "快速排序"]
+  },
+  {
     id: "complexity_judgment",
     label: "复杂度判断型",
     domain_ids: ["complexity"],
@@ -86,8 +122,14 @@ const knowledgeSeeds = [
   { id: "divide_and_conquer_merge", label: "分治拆分与合并", domain_ids: ["divide_conquer"], keywords: ["分治", "最大连续子段和", "合并"] },
   { id: "quick_sort_partition", label: "快速排序划分", domain_ids: ["divide_conquer", "sort_simulation"], keywords: ["快速排序", "pivot", "枢轴"] },
   { id: "sort_stability", label: "排序稳定性", domain_ids: ["sort_simulation"], keywords: ["稳定排序", "稳定性"] },
+  { id: "sorting_algorithm_property", label: "排序算法性质", domain_ids: ["sort_simulation"], keywords: ["排序算法", "快速排序", "稳定排序", "稳定性"] },
   { id: "multi_key_sort", label: "多关键字排序", domain_ids: ["sort_simulation", "greedy"], keywords: ["关键字", "礼盒排序", "总价", "最大值", "最小值"] },
   { id: "inversion_pair", label: "逆序对", domain_ids: ["sort_simulation"], keywords: ["逆序对"] },
+  { id: "merge_sorted_arrays", label: "有序数组合并", domain_ids: ["sort_simulation"], keywords: ["合并成一个有序", "有序排行榜", "从小到大"] },
+  { id: "binary_answer_feasibility", label: "二分答案可行性判定", domain_ids: ["binary_search"], keywords: ["check", "dist", "判定", "最大可能长度"] },
+  { id: "greedy_spacing_check", label: "间距贪心检查", domain_ids: ["greedy", "binary_search"], keywords: ["dist", "last", "cnt", "不少于"] },
+  { id: "optimal_substructure", label: "最优子结构", domain_ids: ["greedy"], keywords: ["最优子结构"] },
+  { id: "greedy_limitation", label: "贪心适用限制", domain_ids: ["greedy"], keywords: ["贪心算法", "最优解"] },
   { id: "big_integer_division", label: "大整数除法", domain_ids: ["high_precision"], keywords: ["大整数", "除法", "高精度"] },
   { id: "grid_neighbors", label: "八方向邻接", domain_ids: ["sort_simulation"], keywords: ["山之谷", "相邻", "上、下、左、右", "网格"] },
   { id: "string_transform", label: "字符串变换", domain_ids: ["string"], keywords: ["凯撒密码", "回文串", "字符串"] },
@@ -109,6 +151,26 @@ const titleKnowledgeOverrides = new Map([
   ["礼盒排序", ["multi_key_sort"]],
   ["山之谷", ["grid_neighbors"]],
   ["完全二叉树", ["binary_tree_property"]]
+]);
+
+const problemTypeOverrides = new Map([
+  ["canonical:2026-03:c++:level-5:judgment:02", ["lower_bound_fill_blank"]],
+  ["canonical:2026-03:c++:level-5:judgment:05", ["inversion_pair_definition"]],
+  ["canonical:2026-03:c++:level-5:judgment:07", ["binary_search_code_trace"]],
+  ["canonical:2026-03:c++:level-5:judgment:08", ["greedy_concept_judgment"]],
+  ["canonical:2026-03:c++:level-5:selection:07", ["binary_search_code_trace"]],
+  ["canonical:2026-03:c++:level-5:selection:08", ["lower_bound_fill_blank"]],
+  ["canonical:2026-03:c++:level-5:selection:12", ["sorted_merge_process"]],
+  ["canonical:2026-03:c++:level-5:selection:14", ["sorting_algorithm_property"]]
+]);
+
+const problemKnowledgeOverrides = new Map([
+  ["canonical:2026-03:c++:level-5:judgment:05", ["inversion_pair"]],
+  ["canonical:2026-03:c++:level-5:judgment:07", ["binary_answer_feasibility", "greedy_spacing_check"]],
+  ["canonical:2026-03:c++:level-5:judgment:08", ["optimal_substructure", "greedy_limitation"]],
+  ["canonical:2026-03:c++:level-5:selection:07", ["binary_answer_feasibility", "greedy_spacing_check"]],
+  ["canonical:2026-03:c++:level-5:selection:12", ["merge_sorted_arrays"]],
+  ["canonical:2026-03:c++:level-5:selection:14", ["sorting_algorithm_property", "sort_stability"]]
 ]);
 
 async function readJson(path) {
@@ -199,7 +261,11 @@ function extractProblemTypeTags(record, canonicalProblem) {
     }));
   }
 
-  for (const seedId of titleTypeOverrides.get(record.title) || []) {
+  const overrideTypeIds = [
+    ...(titleTypeOverrides.get(record.title) || []),
+    ...(problemTypeOverrides.get(record.canonical_problem_id) || [])
+  ];
+  for (const seedId of overrideTypeIds) {
     if (tags.some((tag) => tag.value === seedId)) {
       continue;
     }
@@ -246,7 +312,11 @@ function extractKnowledgePointTags(record, canonicalProblem) {
     }));
   }
 
-  for (const seedId of titleKnowledgeOverrides.get(record.title) || []) {
+  const overrideKnowledgeIds = [
+    ...(titleKnowledgeOverrides.get(record.title) || []),
+    ...(problemKnowledgeOverrides.get(record.canonical_problem_id) || [])
+  ];
+  for (const seedId of overrideKnowledgeIds) {
     if (tags.some((tag) => tag.value === seedId)) {
       continue;
     }

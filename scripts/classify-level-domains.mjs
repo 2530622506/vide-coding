@@ -82,6 +82,13 @@ const titleOverrides = new Map([
   ["完全二叉树", ["tree"]]
 ]);
 
+const problemIdOverrides = new Map([
+  ["canonical:2026-03:c++:level-5:judgment:05", ["sort_simulation"]],
+  ["canonical:2026-03:c++:level-5:judgment:07", ["binary_search", "greedy"]],
+  ["canonical:2026-03:c++:level-5:selection:07", ["binary_search", "greedy"]],
+  ["canonical:2026-03:c++:level-5:selection:08", ["binary_search"]]
+]);
+
 async function readJson(path) {
   return JSON.parse(await readFile(path, "utf8"));
 }
@@ -156,7 +163,8 @@ function classifyDomains(problem) {
   }
 
   const overrideDomains = titleOverrides.get(problem.title) || [];
-  for (const domainId of overrideDomains) {
+  const problemOverrideDomains = problemIdOverrides.get(problem.id) || [];
+  for (const domainId of [...overrideDomains, ...problemOverrideDomains]) {
     if (labels.some((label) => label.value === domainId)) {
       continue;
     }
