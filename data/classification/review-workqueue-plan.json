@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-01T04:28:09.872Z",
+  "generated_at": "2026-06-01T04:38:49.876Z",
   "generator": "scripts/plan-review-workqueue.mjs",
   "policy": {
     "language_scope": "C++ only",
@@ -8,30 +8,29 @@
     "ai_content": "AI 生成答案、图片或讲解必须保留 needs_review 和甄别提示。"
   },
   "summary": {
-    "total_count": 1404,
+    "total_count": 1229,
     "by_type": {
       "source_conflict": 1,
       "tag_conflict": 1,
       "low_confidence_tag": 11,
       "inferred_seed_rule": 13,
       "tag_needs_review": 1159,
-      "source_duplicate": 44,
-      "statement_needs_collection": 175
+      "source_duplicate": 44
     },
     "by_priority": {
       "high": 2,
       "medium": 730,
-      "low": 672
+      "low": 497
     },
     "by_level": {
-      "1": 169,
-      "2": 173,
-      "3": 182,
-      "4": 189,
+      "1": 144,
+      "2": 148,
+      "3": 157,
+      "4": 164,
       "5": 143,
-      "6": 166,
-      "7": 156,
-      "8": 156,
+      "6": 141,
+      "7": 131,
+      "8": 131,
       "unknown": 70
     }
   },
@@ -55,23 +54,22 @@
       }
     },
     "official_tag_and_detail_review": {
-      "total_count": 262,
+      "total_count": 87,
       "by_type": {
-        "statement_needs_collection": 175,
         "tag_needs_review": 87
       },
       "by_priority": {
-        "low": 262
+        "low": 87
       },
       "by_level": {
-        "1": 34,
-        "2": 33,
-        "3": 34,
-        "4": 33,
+        "1": 9,
+        "2": 8,
+        "3": 9,
+        "4": 8,
         "5": 22,
-        "6": 34,
-        "7": 36,
-        "8": 36
+        "6": 9,
+        "7": 11,
+        "8": 11
       }
     },
     "supplemental_review": {
@@ -14721,136 +14719,6 @@
     {
       "id": "review-plan:00777",
       "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:judgment:01",
-      "title": "小明的妈妈最近刚刚给他买了一块电话手表，除了可以看时间，小明也可以用它和妈妈打电话、收发信息，",
-      "level": 1,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00778",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:judgment:02",
-      "title": "C++表达式 4 % 2 和 2 * 2 % 2 的结果相同。",
-      "level": 1,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00779",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:judgment:03",
-      "title": "下面C++代码段成功执行后将输出 0 。",
-      "level": 1,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00780",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:judgment:04",
-      "title": "下面能够正常执行的C++代码段用于求1到N之和，N为正整数。因为 i < N + 1 ，所以是1到N且包含N之",
-      "level": 1,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00781",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:judgment:05",
-      "title": "执行下面的C++代码段，其语句 cout << (N) 将被执行0次或无数次（即死循环）。",
-      "level": 1,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00782",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:judgment:06",
-      "title": "下面的C++代码段的变量都是整型，它能用于判断输入的正整数是否为对称数。所谓对称数是指从左到右和",
-      "level": 1,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00783",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:judgment:07",
-      "title": "执行下面的C++代码段，如果变量都为整型变量，输入为大于0的整数，则输出数值一定为 -N 的值。",
-      "level": 1,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00784",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:judgment:08",
-      "title": "执行C++语句 printf(\"%d\\n\"",
-      "level": 1,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00785",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:judgment:09",
-      "title": "执行下面的C++代码后将输出 2500 。",
-      "level": 1,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00786",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:judgment:10",
-      "title": "小明在测试C++的 printf 的功能时执行了 printf(\"%-5d\\n\"",
-      "level": 1,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00787",
-      "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
       "canonical_problem_id": "canonical:2026-03:c++:level-1:programming:01",
@@ -14866,7 +14734,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00788",
+      "id": "review-plan:00778",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -14883,7 +14751,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00789",
+      "id": "review-plan:00779",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -14900,7 +14768,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00790",
+      "id": "review-plan:00780",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -14917,7 +14785,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00791",
+      "id": "review-plan:00781",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -14934,7 +14802,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00792",
+      "id": "review-plan:00782",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -14951,7 +14819,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00793",
+      "id": "review-plan:00783",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -14968,7 +14836,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00794",
+      "id": "review-plan:00784",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -14985,7 +14853,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00795",
+      "id": "review-plan:00785",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15002,202 +14870,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00796",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:01",
-      "title": "2026年春节联欢晚会上一个武术表演节目《武 BOT》。节目中多个人形机器人会表演空翻，它们落地可能会",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00797",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:02",
-      "title": "小明学习编程有一段时间了，他想在图形环境下把当前目录（或文件夹）下的文本文件 20260314.txt 的",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00798",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:03",
-      "title": "下面C++代码可以执行，有关说法正确的是。",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00799",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:04",
-      "title": "C++表达式 3 * 3 % 2 的值为。",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00800",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:05",
-      "title": "整型变量 a 、 b 的初值都是 4，则下面的C++代码执行后的输出是。",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00801",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:06",
-      "title": "下面C++代码的相关说法，正确的是。",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00802",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:07",
-      "title": "下面C++代码执行时，其说法正确的是。",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00803",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:08",
-      "title": "下面C++代码执行后的输出是。",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00804",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:09",
-      "title": "执行下面C++代码段求序列 -1+2+3-4+5+6-7+8+9-10+11+12...... 之值。例如输入 4 ，则计算序列前4",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00805",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:10",
-      "title": "下面C++代码的相关说法，正确的是。",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00806",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:11",
-      "title": "一个正整数的每位都是个位数，称为数位，最高位非0。下面的C++代码用于求正整数的所有数位之和，简",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00807",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:12",
-      "title": "小明想要快速知道任给一个正整数中有多少个奇数位(数位值是奇数)，下面的C++代码是其实现，横线处应",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00808",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:13",
-      "title": "小明和弟弟在玩一个拼数字游戏，游戏规则是：二人各写一个两位正整数 M 和 N ；然后将较大的数字放",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00809",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:14",
-      "title": "执行下面C++代码可以判断一个6位正整数 N 的高3位和低3位的差是否是314的倍数。例如 628314 就符",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00810",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-1:selection:15",
-      "title": "N 是一个正整数。如果 N 的所有奇数位的数位和等于所有偶数位的数位和，则称它是一个“双螺旋数”",
-      "level": 1,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00811",
+      "id": "review-plan:00786",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15214,7 +14887,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00812",
+      "id": "review-plan:00787",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15231,7 +14904,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00813",
+      "id": "review-plan:00788",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15248,7 +14921,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00814",
+      "id": "review-plan:00789",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15265,7 +14938,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00815",
+      "id": "review-plan:00790",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15282,7 +14955,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00816",
+      "id": "review-plan:00791",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15299,7 +14972,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00817",
+      "id": "review-plan:00792",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15316,7 +14989,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00818",
+      "id": "review-plan:00793",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15333,7 +15006,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00819",
+      "id": "review-plan:00794",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15350,7 +15023,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00820",
+      "id": "review-plan:00795",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15367,7 +15040,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00821",
+      "id": "review-plan:00796",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15384,7 +15057,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00822",
+      "id": "review-plan:00797",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15401,7 +15074,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00823",
+      "id": "review-plan:00798",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15418,7 +15091,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00824",
+      "id": "review-plan:00799",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15435,7 +15108,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00825",
+      "id": "review-plan:00800",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15452,7 +15125,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00826",
+      "id": "review-plan:00801",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15469,7 +15142,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00827",
+      "id": "review-plan:00802",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15486,7 +15159,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00828",
+      "id": "review-plan:00803",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15503,7 +15176,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00829",
+      "id": "review-plan:00804",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15520,7 +15193,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00830",
+      "id": "review-plan:00805",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15537,7 +15210,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00831",
+      "id": "review-plan:00806",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15554,7 +15227,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00832",
+      "id": "review-plan:00807",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15571,7 +15244,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00833",
+      "id": "review-plan:00808",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15588,7 +15261,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00834",
+      "id": "review-plan:00809",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15605,7 +15278,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00835",
+      "id": "review-plan:00810",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15622,7 +15295,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00836",
+      "id": "review-plan:00811",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15639,7 +15312,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00837",
+      "id": "review-plan:00812",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15656,7 +15329,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00838",
+      "id": "review-plan:00813",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15673,7 +15346,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00839",
+      "id": "review-plan:00814",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15690,7 +15363,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00840",
+      "id": "review-plan:00815",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15707,7 +15380,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00841",
+      "id": "review-plan:00816",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15724,7 +15397,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00842",
+      "id": "review-plan:00817",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15741,7 +15414,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00843",
+      "id": "review-plan:00818",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15758,7 +15431,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00844",
+      "id": "review-plan:00819",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15775,7 +15448,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00845",
+      "id": "review-plan:00820",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15792,7 +15465,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00846",
+      "id": "review-plan:00821",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15809,7 +15482,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00847",
+      "id": "review-plan:00822",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15826,7 +15499,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00848",
+      "id": "review-plan:00823",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15843,7 +15516,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00849",
+      "id": "review-plan:00824",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15860,7 +15533,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00850",
+      "id": "review-plan:00825",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15877,7 +15550,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00851",
+      "id": "review-plan:00826",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15894,7 +15567,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00852",
+      "id": "review-plan:00827",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15911,7 +15584,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00853",
+      "id": "review-plan:00828",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15928,7 +15601,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00854",
+      "id": "review-plan:00829",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15945,7 +15618,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00855",
+      "id": "review-plan:00830",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15962,7 +15635,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00856",
+      "id": "review-plan:00831",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15979,7 +15652,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00857",
+      "id": "review-plan:00832",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -15996,7 +15669,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00858",
+      "id": "review-plan:00833",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16013,7 +15686,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00859",
+      "id": "review-plan:00834",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16030,137 +15703,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00860",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:judgment:01",
-      "title": "小明的妈妈最近刚刚给他买了一块电话手表，除了可以看时间，小明也可以用它和妈妈打电话、收发信息，",
-      "level": 2,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00861",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:judgment:02",
-      "title": "C++ 语句 cout << ('4' % '2' == '2' * '2' % 2); 执行后的输出是1。",
-      "level": 2,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00862",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:judgment:03",
-      "title": "下面的 C++ 代码段执行时将报错，因为10是整数类型， a 是布尔类型。由于类型不同，不能进行加法运",
-      "level": 2,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00863",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:judgment:04",
-      "title": "下面C++代码段执行后将输出 0-3-6-9-",
-      "level": 2,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00864",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:judgment:05",
-      "title": "执行下面的 C++ 代码段，如果N是基本数据类型，则语句 cout << (N); 将被执行 0 次或无数次（即死循",
-      "level": 2,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00865",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:judgment:06",
-      "title": "下面的 C++ 代码段可正常执行，删除 continue 不影响执行效果。",
-      "level": 2,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00866",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:judgment:07",
-      "title": "下面的 C++ 代码段用于计算1到N之间且包含N的所有数字中含有的3的个数，如1到40含有14个3, 而1到20则",
-      "level": 2,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00867",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:judgment:08",
-      "title": "下面的 C++ 代码段执行将不会有输出，因为内层循环 j 总是 0 开始， i * j % 10 == 0 将会被满足，执",
-      "level": 2,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00868",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:judgment:09",
-      "title": "下列 C++ 代码执行后将输出 1#4#9#16#16 。",
-      "level": 2,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00869",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:judgment:10",
-      "title": "下面 C++ 代码执行后输出如左图所示，将\" %d\" 修改为\"%3d\" 即可实现右图输出。",
-      "level": 2,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00870",
+      "id": "review-plan:00835",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16177,7 +15720,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00871",
+      "id": "review-plan:00836",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16194,7 +15737,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00872",
+      "id": "review-plan:00837",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16211,7 +15754,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00873",
+      "id": "review-plan:00838",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16228,7 +15771,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00874",
+      "id": "review-plan:00839",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16245,7 +15788,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00875",
+      "id": "review-plan:00840",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16262,7 +15805,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00876",
+      "id": "review-plan:00841",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16279,7 +15822,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00877",
+      "id": "review-plan:00842",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16296,202 +15839,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00878",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:01",
-      "title": "2026年春节联欢晚会上一个武术表演节目《武 BOT》。节目中多个人形机器人会表演空翻，它们落地可能会",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00879",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:02",
-      "title": "下面代码用来找出输入的N个正整数中最大的一个。如果将代码段用流程图来表示，则 L1 标记的代码行应",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00880",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:03",
-      "title": "下面 C++ 代码可以执行，有关说法正确的是。",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00881",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:04",
-      "title": "下面选择项中，与C++表达式 !(x > 5 && y <= 10) 等价的是。",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00882",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:05",
-      "title": "某同学执行C++代码 cout << ((0.1 + 0.2) == 0.3) 时输出 0 ，下面最可能的原因是。",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00883",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:06",
-      "title": "下面的 C++ 代码段执行后其输出是。",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00884",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:07",
-      "title": "下面的 C++ 代码执行之后的输出是。",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00885",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:08",
-      "title": "下面的 C++ 代码执行后其输出是。",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00886",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:09",
-      "title": "下面 C++ 代码执行后其输出是。",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00887",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:10",
-      "title": "下面4个选项中，与下面 C++ 代码段具有相同效果的是。",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00888",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:11",
-      "title": "下面 C++ 代码执行后输出是。",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00889",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:12",
-      "title": "下面 C++ 代码段执行后，其输出是。",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00890",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:13",
-      "title": "某学校图书馆的借阅卡号由6位整数组成。前5位是顺序编号，第6位是校验码，用于防止输错。校验码规则",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00891",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:14",
-      "title": "下面的 C++ 代码段正常执行后其输出的数字图形是。",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00892",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-2:selection:15",
-      "title": "某学校举办“校园演讲比赛”",
-      "level": 2,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00893",
+      "id": "review-plan:00843",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16508,7 +15856,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00894",
+      "id": "review-plan:00844",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16525,7 +15873,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00895",
+      "id": "review-plan:00845",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16542,7 +15890,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00896",
+      "id": "review-plan:00846",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16559,7 +15907,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00897",
+      "id": "review-plan:00847",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16576,7 +15924,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00898",
+      "id": "review-plan:00848",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16593,7 +15941,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00899",
+      "id": "review-plan:00849",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16610,7 +15958,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00900",
+      "id": "review-plan:00850",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16627,7 +15975,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00901",
+      "id": "review-plan:00851",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16644,7 +15992,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00902",
+      "id": "review-plan:00852",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16661,7 +16009,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00903",
+      "id": "review-plan:00853",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16678,7 +16026,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00904",
+      "id": "review-plan:00854",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16695,7 +16043,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00905",
+      "id": "review-plan:00855",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16712,7 +16060,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00906",
+      "id": "review-plan:00856",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16729,7 +16077,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00907",
+      "id": "review-plan:00857",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16746,7 +16094,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00908",
+      "id": "review-plan:00858",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16763,7 +16111,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00909",
+      "id": "review-plan:00859",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16780,7 +16128,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00910",
+      "id": "review-plan:00860",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16797,7 +16145,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00911",
+      "id": "review-plan:00861",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16814,7 +16162,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00912",
+      "id": "review-plan:00862",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16831,7 +16179,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00913",
+      "id": "review-plan:00863",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16848,7 +16196,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00914",
+      "id": "review-plan:00864",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16865,7 +16213,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00915",
+      "id": "review-plan:00865",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16882,7 +16230,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00916",
+      "id": "review-plan:00866",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16899,7 +16247,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00917",
+      "id": "review-plan:00867",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16916,7 +16264,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00918",
+      "id": "review-plan:00868",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16933,7 +16281,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00919",
+      "id": "review-plan:00869",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16950,7 +16298,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00920",
+      "id": "review-plan:00870",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16967,7 +16315,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00921",
+      "id": "review-plan:00871",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -16984,7 +16332,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00922",
+      "id": "review-plan:00872",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17001,7 +16349,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00923",
+      "id": "review-plan:00873",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17018,7 +16366,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00924",
+      "id": "review-plan:00874",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17035,7 +16383,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00925",
+      "id": "review-plan:00875",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17052,7 +16400,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00926",
+      "id": "review-plan:00876",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17069,7 +16417,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00927",
+      "id": "review-plan:00877",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17086,7 +16434,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00928",
+      "id": "review-plan:00878",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17103,7 +16451,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00929",
+      "id": "review-plan:00879",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17120,7 +16468,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00930",
+      "id": "review-plan:00880",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17137,7 +16485,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00931",
+      "id": "review-plan:00881",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17154,7 +16502,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00932",
+      "id": "review-plan:00882",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17171,7 +16519,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00933",
+      "id": "review-plan:00883",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17188,7 +16536,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00934",
+      "id": "review-plan:00884",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17205,7 +16553,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00935",
+      "id": "review-plan:00885",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17222,7 +16570,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00936",
+      "id": "review-plan:00886",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17239,7 +16587,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00937",
+      "id": "review-plan:00887",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17256,7 +16604,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00938",
+      "id": "review-plan:00888",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17273,7 +16621,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00939",
+      "id": "review-plan:00889",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17290,7 +16638,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00940",
+      "id": "review-plan:00890",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17307,7 +16655,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00941",
+      "id": "review-plan:00891",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17324,7 +16672,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00942",
+      "id": "review-plan:00892",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17341,7 +16689,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00943",
+      "id": "review-plan:00893",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17358,7 +16706,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00944",
+      "id": "review-plan:00894",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17375,7 +16723,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00945",
+      "id": "review-plan:00895",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17392,7 +16740,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00946",
+      "id": "review-plan:00896",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17409,137 +16757,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00947",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:judgment:01",
-      "title": "定义 int arr[5] = {1,2,3};，则 arr[3] 的值为 0， arr[5] 是合法下标。",
-      "level": 3,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00948",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:judgment:02",
-      "title": "定义 double arr[10];，未手动初始化时，数组中所有元素的默认值为 0.0。",
-      "level": 3,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00949",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:judgment:03",
-      "title": "定义 int arr[] = {1,2,3};，则 sizeof(arr) 的结果为 12（ int 占 4 字节）。",
-      "level": 3,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00950",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:judgment:04",
-      "title": "下面的流程图是用来求 1+2+3+…+10 的和。",
-      "level": 3,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00951",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:judgment:05",
-      "title": "下面流程图的功能是计算 5 对 2 取余数，输出结果为 1。",
-      "level": 3,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00952",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:judgment:06",
-      "title": "已知大写字符 A 的ASCII编码的十六进制表示为 0x41 ，计算字符 m 的ASCII编码的八进制表示为 155",
-      "level": 3,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00953",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:judgment:07",
-      "title": "在 C++ 位运算中，各种不同的运算符有优先级的区分，使用括号能够解决优先级的问题。",
-      "level": 3,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00954",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:judgment:08",
-      "title": "由于在 0~255 范围内， char 类型和 int 类型可以互换，因此在这里 x 和 y 相等。",
-      "level": 3,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00955",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:judgment:09",
-      "title": "在C++语言中，表达式 ((0xf0 + 0x15) == 255) 的值为 true 。",
-      "level": 3,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00956",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:judgment:10",
-      "title": "如果 a 为 int 类型的变量，且 a 的二进制最低位为 0 ，则表达式 ((a & 3 & 1) == 0) 的值为",
-      "level": 3,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00957",
+      "id": "review-plan:00897",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17556,7 +16774,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00958",
+      "id": "review-plan:00898",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17573,7 +16791,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00959",
+      "id": "review-plan:00899",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17590,7 +16808,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00960",
+      "id": "review-plan:00900",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17607,7 +16825,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00961",
+      "id": "review-plan:00901",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17624,7 +16842,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00962",
+      "id": "review-plan:00902",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17641,7 +16859,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00963",
+      "id": "review-plan:00903",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17658,7 +16876,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00964",
+      "id": "review-plan:00904",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17675,7 +16893,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00965",
+      "id": "review-plan:00905",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17692,202 +16910,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:00966",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:01",
-      "title": "如果字符变量_",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00967",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:02",
-      "title": "a,b是整型变量，各自有互不相同的初始值。下列程序实现了什么效果。",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00968",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:03",
-      "title": "关于下列正确的程序段，说法正确的是。",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00969",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:04",
-      "title": "关于以下程序段,说法正确的是。",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00970",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:05",
-      "title": "8 位二进制下，十进制数-15 的补码是。",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00971",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:06",
-      "title": "三进制数 转换成十进制是：。",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00972",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:07",
-      "title": "二进制数 10110101 是某数的 8 位补码，该数的十进制是。",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00973",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:08",
-      "title": "已知 unsigned char c = 0x0F; （十六进制 0F = 二进制 00001111 ），执行 c = c << 3; 后， c 的",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00974",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:09",
-      "title": "补码的情况下，关于按位取反运算，用笔计算的情况下，以下说法错误的是：",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00975",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:10",
-      "title": "执行以下 C++ 代码后， sub 的值是。",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00976",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:11",
-      "title": "执行以下代码后，输出结果是：。",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00977",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:12",
-      "title": "执行以下代码后，输出结果是：。",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00978",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:13",
-      "title": "以下问题中，最不适合用枚举法解决的是：",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00979",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:14",
-      "title": "用枚举法解决 “鸡兔同笼问题：头共 35 个，脚共 94 只，求鸡和兔的数量”",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00980",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-3:selection:15",
-      "title": "模拟 “字符串加密”：规则为 “每个字符 ASCII 码 + 3，若超过 z (122) 则从 a 重新开始”",
-      "level": 3,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:00981",
+      "id": "review-plan:00906",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17904,7 +16927,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00982",
+      "id": "review-plan:00907",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17921,7 +16944,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00983",
+      "id": "review-plan:00908",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17938,7 +16961,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00984",
+      "id": "review-plan:00909",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17955,7 +16978,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00985",
+      "id": "review-plan:00910",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17972,7 +16995,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00986",
+      "id": "review-plan:00911",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -17989,7 +17012,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00987",
+      "id": "review-plan:00912",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18006,7 +17029,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00988",
+      "id": "review-plan:00913",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18023,7 +17046,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00989",
+      "id": "review-plan:00914",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18040,7 +17063,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00990",
+      "id": "review-plan:00915",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18057,7 +17080,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00991",
+      "id": "review-plan:00916",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18074,7 +17097,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00992",
+      "id": "review-plan:00917",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18091,7 +17114,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00993",
+      "id": "review-plan:00918",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18108,7 +17131,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00994",
+      "id": "review-plan:00919",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18125,7 +17148,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00995",
+      "id": "review-plan:00920",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18142,7 +17165,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00996",
+      "id": "review-plan:00921",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18159,7 +17182,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00997",
+      "id": "review-plan:00922",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18176,7 +17199,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00998",
+      "id": "review-plan:00923",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18193,7 +17216,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:00999",
+      "id": "review-plan:00924",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18210,7 +17233,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01000",
+      "id": "review-plan:00925",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18227,7 +17250,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01001",
+      "id": "review-plan:00926",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18244,7 +17267,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01002",
+      "id": "review-plan:00927",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18261,7 +17284,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01003",
+      "id": "review-plan:00928",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18278,7 +17301,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01004",
+      "id": "review-plan:00929",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18295,7 +17318,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01005",
+      "id": "review-plan:00930",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18312,7 +17335,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01006",
+      "id": "review-plan:00931",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18329,7 +17352,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01007",
+      "id": "review-plan:00932",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18346,7 +17369,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01008",
+      "id": "review-plan:00933",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18363,7 +17386,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01009",
+      "id": "review-plan:00934",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18380,7 +17403,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01010",
+      "id": "review-plan:00935",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18397,7 +17420,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01011",
+      "id": "review-plan:00936",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18414,7 +17437,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01012",
+      "id": "review-plan:00937",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18431,7 +17454,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01013",
+      "id": "review-plan:00938",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18448,7 +17471,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01014",
+      "id": "review-plan:00939",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18465,7 +17488,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01015",
+      "id": "review-plan:00940",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18482,7 +17505,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01016",
+      "id": "review-plan:00941",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18499,7 +17522,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01017",
+      "id": "review-plan:00942",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18516,7 +17539,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01018",
+      "id": "review-plan:00943",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18533,7 +17556,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01019",
+      "id": "review-plan:00944",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18550,7 +17573,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01020",
+      "id": "review-plan:00945",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18567,7 +17590,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01021",
+      "id": "review-plan:00946",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18584,7 +17607,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01022",
+      "id": "review-plan:00947",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18601,7 +17624,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01023",
+      "id": "review-plan:00948",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18618,7 +17641,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01024",
+      "id": "review-plan:00949",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18635,7 +17658,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01025",
+      "id": "review-plan:00950",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18652,7 +17675,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01026",
+      "id": "review-plan:00951",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18669,7 +17692,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01027",
+      "id": "review-plan:00952",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18686,7 +17709,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01028",
+      "id": "review-plan:00953",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18703,7 +17726,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01029",
+      "id": "review-plan:00954",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18720,7 +17743,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01030",
+      "id": "review-plan:00955",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18737,137 +17760,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01031",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:judgment:01",
-      "title": "下面代码执行结束时，变量 a 的值变成 15。",
-      "level": 4,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01032",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:judgment:02",
-      "title": "引用一旦绑定某个变量，就不能再绑定其他变量。",
-      "level": 4,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01033",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:judgment:03",
-      "title": "执行下面代码，输出结果为 5 。",
-      "level": 4,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01034",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:judgment:04",
-      "title": "下面程序可以正常编译并输出 10 。",
-      "level": 4,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01035",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:judgment:05",
-      "title": "下面程序执行后输出 2010 。",
-      "level": 4,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01036",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:judgment:06",
-      "title": "在 C++ 中，如果声明了一个指针变量但没有显式初始化，该指针会自动被初始化为 nullptr 。",
-      "level": 4,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01037",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:judgment:07",
-      "title": "下面代码没有语法错误。",
-      "level": 4,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01038",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:judgment:08",
-      "title": "下面程序能够把 Hello 写入 data.txt 文件中。",
-      "level": 4,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01039",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:judgment:09",
-      "title": "由于选择排序和插入排序的时间复杂度均为 ，在任何实际场景下两者的性能表现几乎相同，可以互相",
-      "level": 4,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01040",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:judgment:10",
-      "title": "下面用递推方式计算斐波那契数列第 n 项的程序，时间复杂度是 。",
-      "level": 4,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01041",
+      "id": "review-plan:00956",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18884,7 +17777,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01042",
+      "id": "review-plan:00957",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18901,7 +17794,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01043",
+      "id": "review-plan:00958",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18918,7 +17811,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01044",
+      "id": "review-plan:00959",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18935,7 +17828,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01045",
+      "id": "review-plan:00960",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18952,7 +17845,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01046",
+      "id": "review-plan:00961",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18969,7 +17862,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01047",
+      "id": "review-plan:00962",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -18986,7 +17879,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01048",
+      "id": "review-plan:00963",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19003,202 +17896,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01049",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:01",
-      "title": "执行下面程序后，输出为。",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01050",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:02",
-      "title": "执行下面代码后，输出为。",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01051",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:03",
-      "title": "已知：",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01052",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:04",
-      "title": "执行下面程序后，输出为。",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01053",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:05",
-      "title": "执行下面程序后输出为。",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01054",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:06",
-      "title": "下列关于结构体初始化的写法，正确的是。",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01055",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:07",
-      "title": "执行下面代码后输出为。",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01056",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:08",
-      "title": "关于递推算法的描述，正确的是。",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01057",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:09",
-      "title": "执行 climb(6) 的返回值为。",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01058",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:10",
-      "title": "）。",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01059",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:11",
-      "title": "下面代码试图把数组按升序进行“插入排序”",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01060",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:12",
-      "title": "下列代码段的时间复杂度为。",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01061",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:13",
-      "title": "下面哪种方式不能实现将字符串 Welcome to 2026! 输出重定向到文件 log.txt 。",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01062",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:14",
-      "title": "执行下面程序，输出结果是。",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01063",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-4:selection:15",
-      "title": "下列函数实现排行榜中单个元素的位置调整（类似插入排序的相邻搬移）。当某玩家分数增加，需将其向",
-      "level": 4,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01064",
+      "id": "review-plan:00964",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19215,7 +17913,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01065",
+      "id": "review-plan:00965",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19232,7 +17930,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01066",
+      "id": "review-plan:00966",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19249,7 +17947,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01067",
+      "id": "review-plan:00967",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19266,7 +17964,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01068",
+      "id": "review-plan:00968",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19283,7 +17981,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01069",
+      "id": "review-plan:00969",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19300,7 +17998,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01070",
+      "id": "review-plan:00970",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19317,7 +18015,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01071",
+      "id": "review-plan:00971",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19334,7 +18032,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01072",
+      "id": "review-plan:00972",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19351,7 +18049,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01073",
+      "id": "review-plan:00973",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19368,7 +18066,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01074",
+      "id": "review-plan:00974",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19385,7 +18083,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01075",
+      "id": "review-plan:00975",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19402,7 +18100,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01076",
+      "id": "review-plan:00976",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19419,7 +18117,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01077",
+      "id": "review-plan:00977",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19436,7 +18134,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01078",
+      "id": "review-plan:00978",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19453,7 +18151,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01079",
+      "id": "review-plan:00979",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19470,7 +18168,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01080",
+      "id": "review-plan:00980",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19487,7 +18185,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01081",
+      "id": "review-plan:00981",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19504,7 +18202,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01082",
+      "id": "review-plan:00982",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19521,7 +18219,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01083",
+      "id": "review-plan:00983",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19538,7 +18236,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01084",
+      "id": "review-plan:00984",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19555,7 +18253,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01085",
+      "id": "review-plan:00985",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19572,7 +18270,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01086",
+      "id": "review-plan:00986",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19589,7 +18287,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01087",
+      "id": "review-plan:00987",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19606,7 +18304,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01088",
+      "id": "review-plan:00988",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19623,7 +18321,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01089",
+      "id": "review-plan:00989",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19640,7 +18338,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01090",
+      "id": "review-plan:00990",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19657,7 +18355,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01091",
+      "id": "review-plan:00991",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19674,7 +18372,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01092",
+      "id": "review-plan:00992",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19691,7 +18389,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01093",
+      "id": "review-plan:00993",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19708,7 +18406,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01094",
+      "id": "review-plan:00994",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19725,7 +18423,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01095",
+      "id": "review-plan:00995",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19742,7 +18440,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01096",
+      "id": "review-plan:00996",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19759,7 +18457,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01097",
+      "id": "review-plan:00997",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19776,7 +18474,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01098",
+      "id": "review-plan:00998",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19793,7 +18491,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01099",
+      "id": "review-plan:00999",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19810,7 +18508,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01100",
+      "id": "review-plan:01000",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19827,7 +18525,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01101",
+      "id": "review-plan:01001",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19844,7 +18542,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01102",
+      "id": "review-plan:01002",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19861,7 +18559,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01103",
+      "id": "review-plan:01003",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19878,7 +18576,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01104",
+      "id": "review-plan:01004",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19895,7 +18593,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01105",
+      "id": "review-plan:01005",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19912,7 +18610,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01106",
+      "id": "review-plan:01006",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19929,7 +18627,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01107",
+      "id": "review-plan:01007",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19946,7 +18644,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01108",
+      "id": "review-plan:01008",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19963,7 +18661,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01109",
+      "id": "review-plan:01009",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19980,7 +18678,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01110",
+      "id": "review-plan:01010",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -19997,7 +18695,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01111",
+      "id": "review-plan:01011",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20014,7 +18712,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01112",
+      "id": "review-plan:01012",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20031,7 +18729,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01113",
+      "id": "review-plan:01013",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20048,7 +18746,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01114",
+      "id": "review-plan:01014",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20065,7 +18763,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01115",
+      "id": "review-plan:01015",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20082,7 +18780,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01116",
+      "id": "review-plan:01016",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20099,7 +18797,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01117",
+      "id": "review-plan:01017",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20116,7 +18814,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01118",
+      "id": "review-plan:01018",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20133,7 +18831,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01119",
+      "id": "review-plan:01019",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20150,7 +18848,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01120",
+      "id": "review-plan:01020",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20167,7 +18865,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01121",
+      "id": "review-plan:01021",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20184,7 +18882,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01122",
+      "id": "review-plan:01022",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20201,7 +18899,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01123",
+      "id": "review-plan:01023",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20218,7 +18916,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01124",
+      "id": "review-plan:01024",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20235,7 +18933,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01125",
+      "id": "review-plan:01025",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20252,7 +18950,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01126",
+      "id": "review-plan:01026",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20269,7 +18967,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01127",
+      "id": "review-plan:01027",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20286,7 +18984,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01128",
+      "id": "review-plan:01028",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20303,7 +19001,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01129",
+      "id": "review-plan:01029",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20320,7 +19018,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01130",
+      "id": "review-plan:01030",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20337,7 +19035,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01131",
+      "id": "review-plan:01031",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20354,7 +19052,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01132",
+      "id": "review-plan:01032",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20371,7 +19069,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01133",
+      "id": "review-plan:01033",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20388,7 +19086,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01134",
+      "id": "review-plan:01034",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20405,7 +19103,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01135",
+      "id": "review-plan:01035",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20422,7 +19120,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01136",
+      "id": "review-plan:01036",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20439,7 +19137,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01137",
+      "id": "review-plan:01037",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20456,7 +19154,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01138",
+      "id": "review-plan:01038",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20473,7 +19171,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01139",
+      "id": "review-plan:01039",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20490,7 +19188,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01140",
+      "id": "review-plan:01040",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20507,7 +19205,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01141",
+      "id": "review-plan:01041",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20524,7 +19222,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01142",
+      "id": "review-plan:01042",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20541,7 +19239,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01143",
+      "id": "review-plan:01043",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20558,7 +19256,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01144",
+      "id": "review-plan:01044",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20575,7 +19273,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01145",
+      "id": "review-plan:01045",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20592,7 +19290,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01146",
+      "id": "review-plan:01046",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20609,7 +19307,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01147",
+      "id": "review-plan:01047",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20626,7 +19324,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01148",
+      "id": "review-plan:01048",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20643,7 +19341,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01149",
+      "id": "review-plan:01049",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20660,7 +19358,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01150",
+      "id": "review-plan:01050",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20677,7 +19375,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01151",
+      "id": "review-plan:01051",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20694,7 +19392,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01152",
+      "id": "review-plan:01052",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20711,7 +19409,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01153",
+      "id": "review-plan:01053",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20728,7 +19426,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01154",
+      "id": "review-plan:01054",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20745,7 +19443,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01155",
+      "id": "review-plan:01055",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20762,7 +19460,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01156",
+      "id": "review-plan:01056",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20779,7 +19477,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01157",
+      "id": "review-plan:01057",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20796,7 +19494,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01158",
+      "id": "review-plan:01058",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20813,7 +19511,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01159",
+      "id": "review-plan:01059",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20830,7 +19528,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01160",
+      "id": "review-plan:01060",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20847,7 +19545,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01161",
+      "id": "review-plan:01061",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20864,7 +19562,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01162",
+      "id": "review-plan:01062",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20881,7 +19579,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01163",
+      "id": "review-plan:01063",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20898,7 +19596,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01164",
+      "id": "review-plan:01064",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20915,7 +19613,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01165",
+      "id": "review-plan:01065",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20932,7 +19630,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01166",
+      "id": "review-plan:01066",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20949,7 +19647,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01167",
+      "id": "review-plan:01067",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20966,7 +19664,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01168",
+      "id": "review-plan:01068",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -20983,7 +19681,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01169",
+      "id": "review-plan:01069",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21000,7 +19698,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01170",
+      "id": "review-plan:01070",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21017,7 +19715,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01171",
+      "id": "review-plan:01071",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21034,7 +19732,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01172",
+      "id": "review-plan:01072",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21051,7 +19749,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01173",
+      "id": "review-plan:01073",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21068,7 +19766,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01174",
+      "id": "review-plan:01074",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21085,137 +19783,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01175",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:judgment:01",
-      "title": "下面定义了一个表示二维坐标点的类 Point ， 并提供了一个带参数的构造函数，但第 ② 行 Point b; 会",
-      "level": 6,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01176",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:judgment:02",
-      "title": "C++ 中的继承支持单继承和多继承，但子类无法直接访问父类的私有成员。",
-      "level": 6,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01177",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:judgment:03",
-      "title": "对如下结构的树，执行 travel 函数，输出结果是 1 2 3 4 5 。",
-      "level": 6,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01178",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:judgment:04",
-      "title": "若所有字符出现频率相同，则哈夫曼编码一定会得到完全二叉树。",
-      "level": 6,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01179",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:judgment:05",
-      "title": "哈夫曼编码是一种变长的前缀编码，在解码时不需要额外的分隔符就能唯一还原，这是因为在哈夫曼树中，",
-      "level": 6,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01180",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:judgment:06",
-      "title": "在 C++ 中使用一维数组 vector<int> tree 存储按层序遍历的完全二叉树时，若根节点存储在",
-      "level": 6,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01181",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:judgment:07",
-      "title": "在 C++ 中使用栈来非递归地实现二叉树的前序遍历时，为了保证遍历顺序正确，在处理完当前结点后，应",
-      "level": 6,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01182",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:judgment:08",
-      "title": "设二叉树共有 个结点，函数 preorderTraversal 以下代码的时间复杂度为 ，空间复杂度为 。",
-      "level": 6,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01183",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:judgment:09",
-      "title": "下列代码实现了一个0-1背包的一维动态规划代码，内层循环是经典的逆序写法。若将内层循环改成正序遍",
-      "level": 6,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01184",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:judgment:10",
-      "title": "在动态规划问题中，状态空间相同且没有重复计算的情况下，",
-      "level": 6,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01185",
+      "id": "review-plan:01075",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21232,7 +19800,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01186",
+      "id": "review-plan:01076",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21249,7 +19817,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01187",
+      "id": "review-plan:01077",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21266,7 +19834,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01188",
+      "id": "review-plan:01078",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21283,7 +19851,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01189",
+      "id": "review-plan:01079",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21300,7 +19868,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01190",
+      "id": "review-plan:01080",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21317,7 +19885,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01191",
+      "id": "review-plan:01081",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21334,7 +19902,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01192",
+      "id": "review-plan:01082",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21351,7 +19919,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01193",
+      "id": "review-plan:01083",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21368,202 +19936,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01194",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:01",
-      "title": "下列关于 C++ 中类的描述，正确的是。",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01195",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:02",
-      "title": "下列代码中， s1->draw; 和 s2->draw; 输出不同结果的主要原因是。",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01196",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:03",
-      "title": "下面的代码在 main 中有一行会导致编译错误，请找出来。",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01197",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:04",
-      "title": "游乐园的过山车每次限坐 4 人，用循环队列管理排队（容量 MAX=5 ，空一格判满）。下面代码执行后，循",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01198",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:05",
-      "title": "在以下计算机系统应用场景中，最适合使用循环队列的是。",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01199",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:06",
-      "title": "法正确的是。",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01200",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:07",
-      "title": "某二叉树共有10个结点，记为A~J，已知它的先序遍历序列为：A B D H I E C F J G，中序遍历序列为：H D",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01201",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:08",
-      "title": "下列关于树的遍历的说法中，正确的一项是。",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01202",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:09",
-      "title": "有 6 个字符，它们出现的次数分别为： {2, 3, 3, 4, 6, 8} ，现在用哈夫曼编码为这些字符编码，最小",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01203",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:10",
-      "title": "对 个不同符号的符号进行哈夫曼编码。若生成的哈夫曼树共有 个结点，则 的值是。",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01204",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:11",
-      "title": "关于格雷编码（Gray Code），下列说法正确的是。",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01205",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:12",
-      "title": "给定一棵二叉树，采用广度优先搜索 (BFS) 算法，返回右视图所有节点的值。其中右视图定义为：二叉树",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01206",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:13",
-      "title": "下列关于树的深度优先搜索（DFS）的说法中，正确的是。",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01207",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:14",
-      "title": "小朋友们去邻里拜年，每个家里有不同数量的糖果。规则是：不能连续进入两个相邻的房子（即不能同时",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01208",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-6:selection:15",
-      "title": "元宵节晚上，小朋友沿着一条发光石板路前进，每次可向前走 1 块或 2 块石板。动态规划定义如下：",
-      "level": 6,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01209",
+      "id": "review-plan:01084",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21580,7 +19953,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01210",
+      "id": "review-plan:01085",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21597,7 +19970,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01211",
+      "id": "review-plan:01086",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21614,7 +19987,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01212",
+      "id": "review-plan:01087",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21631,7 +20004,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01213",
+      "id": "review-plan:01088",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21648,7 +20021,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01214",
+      "id": "review-plan:01089",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21665,7 +20038,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01215",
+      "id": "review-plan:01090",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21682,7 +20055,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01216",
+      "id": "review-plan:01091",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21699,7 +20072,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01217",
+      "id": "review-plan:01092",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21716,7 +20089,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01218",
+      "id": "review-plan:01093",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21733,7 +20106,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01219",
+      "id": "review-plan:01094",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21750,7 +20123,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01220",
+      "id": "review-plan:01095",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21767,7 +20140,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01221",
+      "id": "review-plan:01096",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21784,7 +20157,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01222",
+      "id": "review-plan:01097",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21801,7 +20174,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01223",
+      "id": "review-plan:01098",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21818,7 +20191,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01224",
+      "id": "review-plan:01099",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21835,7 +20208,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01225",
+      "id": "review-plan:01100",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21852,7 +20225,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01226",
+      "id": "review-plan:01101",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21869,7 +20242,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01227",
+      "id": "review-plan:01102",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21886,7 +20259,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01228",
+      "id": "review-plan:01103",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21903,7 +20276,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01229",
+      "id": "review-plan:01104",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21920,7 +20293,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01230",
+      "id": "review-plan:01105",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21937,7 +20310,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01231",
+      "id": "review-plan:01106",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21954,7 +20327,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01232",
+      "id": "review-plan:01107",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21971,7 +20344,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01233",
+      "id": "review-plan:01108",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -21988,7 +20361,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01234",
+      "id": "review-plan:01109",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22005,7 +20378,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01235",
+      "id": "review-plan:01110",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22022,7 +20395,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01236",
+      "id": "review-plan:01111",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22039,7 +20412,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01237",
+      "id": "review-plan:01112",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22056,7 +20429,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01238",
+      "id": "review-plan:01113",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22073,7 +20446,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01239",
+      "id": "review-plan:01114",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22090,7 +20463,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01240",
+      "id": "review-plan:01115",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22107,7 +20480,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01241",
+      "id": "review-plan:01116",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22124,7 +20497,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01242",
+      "id": "review-plan:01117",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22141,7 +20514,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01243",
+      "id": "review-plan:01118",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22158,7 +20531,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01244",
+      "id": "review-plan:01119",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22175,7 +20548,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01245",
+      "id": "review-plan:01120",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22192,7 +20565,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01246",
+      "id": "review-plan:01121",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22209,7 +20582,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01247",
+      "id": "review-plan:01122",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22226,7 +20599,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01248",
+      "id": "review-plan:01123",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22243,7 +20616,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01249",
+      "id": "review-plan:01124",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22260,7 +20633,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01250",
+      "id": "review-plan:01125",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22277,7 +20650,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01251",
+      "id": "review-plan:01126",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22294,7 +20667,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01252",
+      "id": "review-plan:01127",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22311,137 +20684,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01253",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:judgment:01",
-      "title": "C++ 语言中，表达式 4 ^ 2 的结果类型为 int ，值为 6 。",
-      "level": 7,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01254",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:judgment:02",
-      "title": "C++ 中引用可以重新绑定。",
-      "level": 7,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01255",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:judgment:03",
-      "title": "在 C++ 中，若函数形参为引用类型，则在函数内部对该形参的修改会影响对应的实参。",
-      "level": 7,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01256",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:judgment:04",
-      "title": "如果一个最值问题可以用动态规划在多项式时间内求解，那么也一定存在一种贪心策略，可以在多项式时间",
-      "level": 7,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01257",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:judgment:05",
-      "title": "使用归并排序对 个元素进行排序时，无论最好、最坏还是平均情况，时间复杂度均为 。",
-      "level": 7,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01258",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:judgment:06",
-      "title": "在无向连通图中删除一条边，该图就一定变成非连通图。",
-      "level": 7,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01259",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:judgment:07",
-      "title": "在一个无向图中，每个顶点有不同的编号，在执行深度优先遍历过程中选择下一个顶点时总是优先选择编号",
-      "level": 7,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01260",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:judgment:08",
-      "title": "若所有字符出现频率相同，则哈夫曼编码一定会得到完全二叉树。",
-      "level": 7,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01261",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:judgment:09",
-      "title": "使用 math.h 或 cmath 头文件中的函数，表达式 sin(90) 的结果为 1 。",
-      "level": 7,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01262",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:judgment:10",
-      "title": "点。",
-      "level": 7,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01263",
+      "id": "review-plan:01128",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22458,7 +20701,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01264",
+      "id": "review-plan:01129",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22475,7 +20718,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01265",
+      "id": "review-plan:01130",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22492,7 +20735,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01266",
+      "id": "review-plan:01131",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22509,7 +20752,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01267",
+      "id": "review-plan:01132",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22526,7 +20769,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01268",
+      "id": "review-plan:01133",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22543,7 +20786,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01269",
+      "id": "review-plan:01134",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22560,7 +20803,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01270",
+      "id": "review-plan:01135",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22577,7 +20820,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01271",
+      "id": "review-plan:01136",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22594,7 +20837,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01272",
+      "id": "review-plan:01137",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22611,7 +20854,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01273",
+      "id": "review-plan:01138",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22628,202 +20871,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01274",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:01",
-      "title": "假设一个算法时间复杂度的递推式是 （ 为正整数），且 ，那么这个算法的",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01275",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:02",
-      "title": "下面关于“唯一分解定理”和“素数筛法”的说法中，错误的是。",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01276",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:03",
-      "title": "若字符串 与字符串 的最长公共子序列（LCS）长度为 5，则。",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01277",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:04",
-      "title": "对于一棵包含 个顶点的树，其所有顶点的度数之和必定等于。",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01278",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:05",
-      "title": "关于哈希表（Hash Table）在不考虑扩容且采用简单均匀哈希函数的前提下，下列说法中错误的是。",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01279",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:06",
-      "title": "深度优先搜索（DFS）在遍历图时，每当访问到某个顶点后，选择一个相邻的未访问顶点继续搜索，直到某",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01280",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:07",
-      "title": "下面程序的运行结果为。",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01281",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:08",
-      "title": "下面程序的时间复杂度是，假设数组 的值域范围是 。",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01282",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:09",
-      "title": "某二叉树共有 10 个结点，记为 A~J，已知它的先序遍历序列为：A B D H I E C F J G，中序遍历序列为：H",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01283",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:10",
-      "title": "下面哪一个可能是下图的深度优先遍历序列。",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01284",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:11",
-      "title": "下面这个有向图的强连通分量的个数是。",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01285",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:12",
-      "title": "关于泛洪算法（Flood Fill）的说法，正确的是。",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01286",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:13",
-      "title": "有 6 个字符，它们出现的次数分别为： {2, 3, 3, 4, 6, 8} ，现在用哈夫曼编码为这些字符编码，最",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01287",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:14",
-      "title": "关于单链表、双链表和循环链表，下列说法正确的是。",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01288",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-7:selection:15",
-      "title": "下列关于树的遍历的说法中，正确的一项是。",
-      "level": 7,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01289",
+      "id": "review-plan:01139",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22840,7 +20888,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01290",
+      "id": "review-plan:01140",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22857,7 +20905,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01291",
+      "id": "review-plan:01141",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22874,7 +20922,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01292",
+      "id": "review-plan:01142",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22891,7 +20939,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01293",
+      "id": "review-plan:01143",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22908,7 +20956,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01294",
+      "id": "review-plan:01144",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22925,7 +20973,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01295",
+      "id": "review-plan:01145",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22942,7 +20990,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01296",
+      "id": "review-plan:01146",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22959,7 +21007,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01297",
+      "id": "review-plan:01147",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22976,7 +21024,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01298",
+      "id": "review-plan:01148",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -22993,7 +21041,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01299",
+      "id": "review-plan:01149",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23010,7 +21058,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01300",
+      "id": "review-plan:01150",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23027,7 +21075,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01301",
+      "id": "review-plan:01151",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23044,7 +21092,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01302",
+      "id": "review-plan:01152",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23061,7 +21109,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01303",
+      "id": "review-plan:01153",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23078,7 +21126,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01304",
+      "id": "review-plan:01154",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23095,7 +21143,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01305",
+      "id": "review-plan:01155",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23112,7 +21160,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01306",
+      "id": "review-plan:01156",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23129,7 +21177,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01307",
+      "id": "review-plan:01157",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23146,7 +21194,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01308",
+      "id": "review-plan:01158",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23163,7 +21211,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01309",
+      "id": "review-plan:01159",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23180,7 +21228,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01310",
+      "id": "review-plan:01160",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23197,7 +21245,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01311",
+      "id": "review-plan:01161",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23214,7 +21262,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01312",
+      "id": "review-plan:01162",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23231,7 +21279,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01313",
+      "id": "review-plan:01163",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23248,7 +21296,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01314",
+      "id": "review-plan:01164",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23265,7 +21313,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01315",
+      "id": "review-plan:01165",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23282,7 +21330,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01316",
+      "id": "review-plan:01166",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23299,7 +21347,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01317",
+      "id": "review-plan:01167",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23316,7 +21364,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01318",
+      "id": "review-plan:01168",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23333,7 +21381,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01319",
+      "id": "review-plan:01169",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23350,7 +21398,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01320",
+      "id": "review-plan:01170",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23367,7 +21415,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01321",
+      "id": "review-plan:01171",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23384,7 +21432,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01322",
+      "id": "review-plan:01172",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23401,7 +21449,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01323",
+      "id": "review-plan:01173",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23418,7 +21466,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01324",
+      "id": "review-plan:01174",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23435,7 +21483,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01325",
+      "id": "review-plan:01175",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23452,7 +21500,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01326",
+      "id": "review-plan:01176",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23469,7 +21517,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01327",
+      "id": "review-plan:01177",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23486,7 +21534,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01328",
+      "id": "review-plan:01178",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23503,137 +21551,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01329",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:judgment:01",
-      "title": "在C++中，若结构体中包含一个 static 成员变量，则该变量的存储空间属于结构体对象的一部分。",
-      "level": 8,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01330",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:judgment:02",
-      "title": "对于任意正整数 ，二项式 展开式中各项的二项式系数之和等于 。",
-      "level": 8,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01331",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:judgment:03",
-      "title": "在C++中，若函数参数类型为 const int & ，则该参数既可以绑定左值，也可以绑定右值。",
-      "level": 8,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01332",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:judgment:04",
-      "title": "若一个无向图的最小生成树唯一",
-      "level": 8,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01333",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:judgment:05",
-      "title": "使用快速排序对 个元素进行排序时，无论最好、最坏还是平均情况，时间复杂度均为 。",
-      "level": 8,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01334",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:judgment:06",
-      "title": "若一个图中所有顶点的度数为偶数，则一定存在欧拉回路。",
-      "level": 8,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01335",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:judgment:07",
-      "title": "使用倍增法预处理区间最值问题时，预处理的时间复杂度为 ，查询的时间复杂度为 。",
-      "level": 8,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01336",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:judgment:08",
-      "title": "如果将一个连通无向图 中所有边的权值都统一增加同一个正整数常数 ，形成图 。则 的最小生成树",
-      "level": 8,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01337",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:judgment:09",
-      "title": "在图论算法中，Kruskal算法和Prim算法都可以用来求解最小生成树，且这两者的贪心策略无论在任何连通无",
-      "level": 8,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01338",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:judgment:10",
-      "title": "在动态规划问题中，",
-      "level": 8,
-      "question_type": "judgment",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01339",
+      "id": "review-plan:01179",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23650,7 +21568,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01340",
+      "id": "review-plan:01180",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23667,7 +21585,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01341",
+      "id": "review-plan:01181",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23684,7 +21602,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01342",
+      "id": "review-plan:01182",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23701,7 +21619,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01343",
+      "id": "review-plan:01183",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23718,7 +21636,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01344",
+      "id": "review-plan:01184",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23735,7 +21653,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01345",
+      "id": "review-plan:01185",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23752,7 +21670,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01346",
+      "id": "review-plan:01186",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23769,7 +21687,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01347",
+      "id": "review-plan:01187",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23786,7 +21704,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01348",
+      "id": "review-plan:01188",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23803,7 +21721,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01349",
+      "id": "review-plan:01189",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -23820,202 +21738,7 @@
       "source_bucket": "official_tags"
     },
     {
-      "id": "review-plan:01350",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:01",
-      "title": "某班级有8名男生和6名女生，现要选出3人组成学习小组，要求小组中至少有1名男生和1名女生，则不同的",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01351",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:02",
-      "title": "在杨辉三角中，从第0行开始计数，第10行的所有数之和为。",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01352",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:03",
-      "title": "下列代码实现了快速幂算法，其时间复杂度为。",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01353",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:04",
-      "title": "从5本不同的数学书和4本不同的物理书中选取3本书，要求至少包含1本数学书，则不同的选法有种。",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01354",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:05",
-      "title": "在二叉搜索树（BST）中，若中序遍历的序列为 {1, 2, 3, 4, 5} ，且先序遍历的第一个序列元素为 3 ，",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01355",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:06",
-      "title": "在一个有向带权图中，使用Dijkstra算法求单源最短路时，若使用优先队列（小根堆）优化，其时间复杂度为",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01356",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:07",
-      "title": "对于含 个顶点的连通加权有向图，若图中不存在负权环，则任意两点之间的最短路径（简单路",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01357",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:08",
-      "title": "在使用Floyd算法求任意两点间最短路径时，时间复杂度为 。若在某次算法执行前，已经用 Dijkstra 算",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01358",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:09",
-      "title": "关于图论中的最短路径算法，下列说法中严格正确的是。",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01359",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:10",
-      "title": "有6个人排成一排照相，其中甲、乙两人必须相邻，且丙不能站在排头的不同排法有种。",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01360",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:11",
-      "title": "下列代码试图实现Floyd算法求所有点对之间的最短路径，横线处应填入。",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01361",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:12",
-      "title": "用数字 0、1、2、3、4 组成无重复数字的五位偶数，共有个。",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01362",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:13",
-      "title": "在一个无向带权图中，若使用 Prim 算法从顶点 0 开始构造最小生成树（边权均为正整数，且 graph[u][v]",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01363",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:14",
-      "title": "已知三个点 围1e-8内能正确计算判断这三个点是三点共线的表达式是。",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01364",
-      "status": "open",
-      "type": "statement_needs_collection",
-      "priority": "low",
-      "canonical_problem_id": "canonical:2026-03:c++:level-8:selection:15",
-      "title": "A. (x2-x1)/(y2-y1) == (x3-x1)/(y3-y1)",
-      "level": 8,
-      "question_type": "selection",
-      "reason": "题面状态为 partial。",
-      "recommended_action": "优先从公开 OJ 或官方 PDF 补齐结构化题面；来源条款仍保留 needs_review。",
-      "source_bucket": "official_details"
-    },
-    {
-      "id": "review-plan:01365",
+      "id": "review-plan:01190",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24032,7 +21755,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01366",
+      "id": "review-plan:01191",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24049,7 +21772,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01367",
+      "id": "review-plan:01192",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24066,7 +21789,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01368",
+      "id": "review-plan:01193",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24083,7 +21806,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01369",
+      "id": "review-plan:01194",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24100,7 +21823,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01370",
+      "id": "review-plan:01195",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24117,7 +21840,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01371",
+      "id": "review-plan:01196",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24134,7 +21857,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01372",
+      "id": "review-plan:01197",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24151,7 +21874,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01373",
+      "id": "review-plan:01198",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24168,7 +21891,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01374",
+      "id": "review-plan:01199",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24185,7 +21908,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01375",
+      "id": "review-plan:01200",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24202,7 +21925,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01376",
+      "id": "review-plan:01201",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24219,7 +21942,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01377",
+      "id": "review-plan:01202",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24236,7 +21959,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01378",
+      "id": "review-plan:01203",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24253,7 +21976,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01379",
+      "id": "review-plan:01204",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24270,7 +21993,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01380",
+      "id": "review-plan:01205",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24287,7 +22010,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01381",
+      "id": "review-plan:01206",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24304,7 +22027,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01382",
+      "id": "review-plan:01207",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24321,7 +22044,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01383",
+      "id": "review-plan:01208",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24338,7 +22061,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01384",
+      "id": "review-plan:01209",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24355,7 +22078,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01385",
+      "id": "review-plan:01210",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24372,7 +22095,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01386",
+      "id": "review-plan:01211",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24389,7 +22112,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01387",
+      "id": "review-plan:01212",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24406,7 +22129,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01388",
+      "id": "review-plan:01213",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24423,7 +22146,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01389",
+      "id": "review-plan:01214",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24440,7 +22163,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01390",
+      "id": "review-plan:01215",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24457,7 +22180,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01391",
+      "id": "review-plan:01216",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24474,7 +22197,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01392",
+      "id": "review-plan:01217",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24491,7 +22214,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01393",
+      "id": "review-plan:01218",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24508,7 +22231,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01394",
+      "id": "review-plan:01219",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24525,7 +22248,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01395",
+      "id": "review-plan:01220",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24542,7 +22265,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01396",
+      "id": "review-plan:01221",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24559,7 +22282,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01397",
+      "id": "review-plan:01222",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24576,7 +22299,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01398",
+      "id": "review-plan:01223",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24593,7 +22316,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01399",
+      "id": "review-plan:01224",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24610,7 +22333,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01400",
+      "id": "review-plan:01225",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24627,7 +22350,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01401",
+      "id": "review-plan:01226",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24644,7 +22367,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01402",
+      "id": "review-plan:01227",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24661,7 +22384,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01403",
+      "id": "review-plan:01228",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",
@@ -24678,7 +22401,7 @@
       "source_bucket": "supplemental"
     },
     {
-      "id": "review-plan:01404",
+      "id": "review-plan:01229",
       "status": "open",
       "type": "tag_needs_review",
       "priority": "low",

@@ -69,10 +69,13 @@ function enrichStatement(detail, officialProblem) {
 }
 
 function summarize(data) {
+  const officialNonProgramming = data.records.filter((record) => record.question_type !== "programming");
+  const officialNonProgrammingSourceExtracted = officialNonProgramming.filter((record) => record.statement?.status === "source_extracted");
   const officialLevel5 = data.records.filter((record) => record.level === 5);
   const officialLevel5SourceExtracted = officialLevel5.filter((record) => record.statement?.status === "source_extracted");
   return {
     ...data.summary,
+    official_non_programming_source_extracted_statement_count: officialNonProgrammingSourceExtracted.length,
     official_level5_source_extracted_statement_count: officialLevel5SourceExtracted.length,
     official_level5_non_programming_source_extracted_statement_count: officialLevel5SourceExtracted
       .filter((record) => record.question_type !== "programming").length
@@ -88,7 +91,7 @@ async function main() {
   let applied = 0;
 
   details.records = details.records.map((detail) => {
-    if (detail.level !== 5 || detail.question_type === "programming") {
+    if (detail.question_type === "programming") {
       return detail;
     }
     const officialProblem = officialById.get(detail.official_problem_id);
@@ -100,18 +103,19 @@ async function main() {
   });
 
   details.generated_at = new Date().toISOString();
-  details.official_level5_statement_enrichment = {
+  details.official_non_programming_statement_enrichment = {
     applied_at: details.generated_at,
     applied_count: applied,
     source: "official_pdf_text_excerpt",
     review_status: "needs_review",
-    policy: "Official level-5 selection and judgment statements are source-extracted from public official PDFs but remain needs_review because PDF text may lose formulas, code formatting, or image context."
+    policy: "Official selection and judgment statements are source-extracted from public official PDFs as short excerpts but remain needs_review because PDF text may lose formulas, code formatting, or image context."
   };
   details.summary = summarize(details);
 
   await writeFile(detailsPath, `${JSON.stringify(details, null, 2)}\n`);
 
-  console.log(`official level 5 statement enrichment applied: ${applied}`);
+  console.log(`official non-programming statement enrichment applied: ${applied}`);
+  console.log(`official non-programming source-extracted statements: ${details.summary.official_non_programming_source_extracted_statement_count}`);
   console.log(`official level 5 source-extracted statements: ${details.summary.official_level5_source_extracted_statement_count}`);
   console.log(`wrote ${detailsPath}`);
 }
