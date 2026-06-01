@@ -32,11 +32,11 @@ supplemental C++ problem count: 195
 supplemental level 5 count: 26
 AI generated learning aid count: 195
 source versions added: 400
-source extracted statements: 165
-source extracted samples: 165
-visual asset total count: 4
-AI sample verified solution count: 165
-classification refined count: 165
+source extracted statements: 170
+source extracted samples: 170
+visual asset total count: 5
+AI sample verified solution count: 170
+classification refined count: 170
 ```
 
 合并入库后：
@@ -70,7 +70,7 @@ mysql source version count: 634
 
 ## C++ 参考解策略
 
-- 当前已给 165 道已抽取完整题面和样例的编程题补充参考解，其中包含 28 道一级题、28 道二级题、25 道三级题、26 道四级题、26 道五级题、22 道六级题和 10 道七级题。
+- 当前已给 170 道已抽取完整题面和样例的编程题补充参考解，其中包含 28 道一级题、28 道二级题、25 道三级题、26 道四级题、26 道五级题、22 道六级题和 15 道七级题。
 - 参考解由 AI 根据公开题面生成，写入 `content_origin = ai_generated_sample_verified`。
 - 每份代码包含中文注释，并通过本地 `g++ -std=c++17` 编译。
 - 每份代码已跑通当前公开题面样例，写入 `verification.status = sample_passed`。
@@ -78,7 +78,7 @@ mysql source version count: 634
 
 ## 分类修正策略
 
-- 已对 165 道补采题面做分类修正，修正依据是公开题面和样例通过的 AI C++ 参考解，其中包含 28 道一级题、28 道二级题、25 道三级题、26 道四级题、26 道五级题、22 道六级题和 10 道七级题。
+- 已对 170 道补采题面做分类修正，修正依据是公开题面和样例通过的 AI C++ 参考解，其中包含 28 道一级题、28 道二级题、25 道三级题、26 道四级题、26 道五级题、22 道六级题和 15 道七级题。
 - 一级题已补充“基础程序设计”主范畴，并按题面继续细分为整数除法、因数枚举、日期条件、时间换算、取模筛选、奇偶计数、公式换算、四舍五入、分段计费、优惠比较等题型。
 - 二级题已补充“基础程序设计”主范畴，并按题面继续细分为矩阵构造、日期时间模拟、奇偶计数、幂和判定、重复数位计数、字符图案输出、整数除法、坐标不等式计数等题型。
 - 三级题已补完当前补充题单 25 道，覆盖“基础程序设计 / 字符串 / 数论 / 位运算 / 排序模拟 / 贪心”等范畴，并细分为数组标记、字符串合法性判断、进制转换、前缀平衡、回文分割、字符图案输出、日历格式化、二进制校验、分类最小值选择等题型。
@@ -92,8 +92,8 @@ mysql source version count: 634
 
 - 只访问公开题页，不使用登录态或账号凭据。
 - 默认低频运行：`--delay-ms 1500`，小批量 `--limit` 控制。
-- 目前已补采 C++ 一级 28 道、二级 28 道、三级 25 道、四级 26 道、五级 26 道、六级 22 道、七级 10 道；其中五级新增接入新川 OJ `巧夺大奖`、`烹饪问题`、`小杨的幸运数字` 和爱杰 OJ `平均分配`，均已抽取题面结构和样例。
-- 当前已发现 4 个公开 OJ 题面图片资产，来自 `周长与面积计算`、`黄金格`、`二阶矩阵`、`俄罗斯方块`；其余 161 道写入 `visual_assets.status = none_found`，不是待采集。
+- 目前已补采 C++ 一级 28 道、二级 28 道、三级 25 道、四级 26 道、五级 26 道、六级 22 道、七级 15 道；其中五级新增接入新川 OJ `巧夺大奖`、`烹饪问题`、`小杨的幸运数字` 和爱杰 OJ `平均分配`，七级新增 `武器购买`、`燃烧`、`图上移动`、`等价消除`、`线图`，均已抽取题面结构和样例。
+- 当前已发现 5 个公开 OJ 题面图片资产，来自 `周长与面积计算`、`黄金格`、`二阶矩阵`、`俄罗斯方块`、`线图`；其余 165 道写入 `visual_assets.status = none_found`，不是待采集。
 - 抽取题面写入 `statement.status = source_extracted`，同时保留 `source_terms_status = needs_review`。
 - AI 讲解仍保留 `ai_generated_learning_aid` 标识，公开 OJ 抽取的题面不能变成官方题解。
 - 如果最终无法从公开来源获取答案、图片或讲解，可以生成 AI 学习辅助内容或示意图，但必须显式标注 AI 生成、保留 `needs_review`，并提示用户甄别。
@@ -104,5 +104,5 @@ mysql source version count: 634
 - 对低置信度算法范畴、题型和知识点做人工复核。
 - 对更多已补采题面和样例的编程题补充可通过评测的 C++ 参考解，并加入中文注释。
 - 将确认后的补充题从 `needs_review` 提升为更高可信状态。
-- 使用 `npm run plan:review-workqueue` 跟踪复核闭环；当前复核计划总计 1360 项，其中 high 62 项。
-- 使用 `npm run plan:next-public-oj` 生成下一批公开 OJ 补采目标；当前 3-5 级补充题已无待补公开题源，剩余 30 道补充题集中在七级 10 道和八级 20 道，默认批次选取 30 道。
+- 使用 `npm run plan:review-workqueue` 跟踪复核闭环；当前复核计划总计 1363 项，其中 high 52 项。
+- 使用 `npm run plan:next-public-oj` 生成下一批公开 OJ 补采目标；当前 3-6 级补充题已无待补公开题源，剩余 25 道补充题集中在七级 5 道和八级 20 道，默认批次选取 25 道。

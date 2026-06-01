@@ -1,9 +1,34 @@
 import { readFile } from "node:fs/promises";
 
 const supplementalPath = "data/classification/supplemental-cxx-problems.json";
-const minimumRefinedCount = 165;
+const minimumRefinedCount = 170;
 
 const required = {
+  "supplemental:luogu:p11377": {
+    includeDomains: ["dynamic_programming", "knapsack"],
+    includeTypes: ["zero_one_knapsack_min_cost"],
+    includeKnowledge: ["zero_one_knapsack", "state_compression", "budget_feasibility"]
+  },
+  "supplemental:luogu:p11378": {
+    includeDomains: ["tree", "dynamic_programming"],
+    includeTypes: ["tree_weight_directed_reachability_dp"],
+    includeKnowledge: ["tree_dp", "topological_by_weight", "directed_reachability"]
+  },
+  "supplemental:luogu:p11964": {
+    includeDomains: ["graph", "bitset"],
+    includeTypes: ["fixed_step_reachability_counting"],
+    includeKnowledge: ["bitset_optimization", "walk_reachability", "adjacency_union"]
+  },
+  "supplemental:luogu:p11965": {
+    includeDomains: ["string", "bit_operation"],
+    includeTypes: ["parity_mask_substring_counting"],
+    includeKnowledge: ["character_parity_mask", "prefix_state_counting", "equivalent_elimination"]
+  },
+  "supplemental:luogu:p13017": {
+    includeDomains: ["graph", "math"],
+    includeTypes: ["line_graph_edge_counting"],
+    includeKnowledge: ["degree_counting", "combination_counting", "line_graph"]
+  },
   "supplemental:luogu:b4006": {
     includeDomains: ["sort_simulation", "greedy"],
     includeTypes: ["sliding_window_max_sum"],

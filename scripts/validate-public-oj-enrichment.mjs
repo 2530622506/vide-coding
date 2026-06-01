@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 
 const enrichmentPath = "data/enrichment/public-oj-problem-details.json";
 const supplementalPath = "data/classification/supplemental-cxx-problems.json";
-const minimumExtractedCount = 165;
+const minimumExtractedCount = 170;
 
 function assert(condition, message) {
   if (!condition) {

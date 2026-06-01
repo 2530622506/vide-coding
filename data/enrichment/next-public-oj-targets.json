@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-01T00:58:07.669Z",
+  "generated_at": "2026-06-01T02:06:36.881Z",
   "generator": "scripts/plan-next-public-oj-enrichment.mjs",
   "source_dataset": "data/classification/supplemental-cxx-problems.json",
   "policy": {
@@ -51,8 +51,8 @@
       {
         "level": 7,
         "total": 20,
-        "source_extracted": 10,
-        "pending": 10
+        "source_extracted": 15,
+        "pending": 5
       },
       {
         "level": 8,
@@ -61,80 +61,10 @@
         "pending": 20
       }
     ],
-    "pending_with_public_source_url": 30,
-    "selected_batch_size": 30
+    "pending_with_public_source_url": 25,
+    "selected_batch_size": 25
   },
   "selected_targets": [
-    {
-      "canonical_problem_id": "supplemental:luogu:p11377",
-      "title": "武器购买",
-      "level": 7,
-      "language": "C++",
-      "question_type": "programming",
-      "question_number": 1166,
-      "source_url": "https://www.luogu.com.cn/problem/P11377",
-      "oj_id": "P11377",
-      "current_statement_status": "pending_collection",
-      "current_sample_status": "pending_collection",
-      "current_solution_status": "reference_link",
-      "recommended_next_action": "先用低频公开 OJ 抽取题面、样例和图片；样例完整后再生成带中文注释的 C++ 参考解并执行样例验证。"
-    },
-    {
-      "canonical_problem_id": "supplemental:luogu:p11378",
-      "title": "燃烧",
-      "level": 7,
-      "language": "C++",
-      "question_type": "programming",
-      "question_number": 1167,
-      "source_url": "https://www.luogu.com.cn/problem/P11378",
-      "oj_id": "P11378",
-      "current_statement_status": "pending_collection",
-      "current_sample_status": "pending_collection",
-      "current_solution_status": "reference_link",
-      "recommended_next_action": "先用低频公开 OJ 抽取题面、样例和图片；样例完整后再生成带中文注释的 C++ 参考解并执行样例验证。"
-    },
-    {
-      "canonical_problem_id": "supplemental:luogu:p11964",
-      "title": "图上移动",
-      "level": 7,
-      "language": "C++",
-      "question_type": "programming",
-      "question_number": 1168,
-      "source_url": "https://www.luogu.com.cn/problem/P11964",
-      "oj_id": "P11964",
-      "current_statement_status": "pending_collection",
-      "current_sample_status": "pending_collection",
-      "current_solution_status": "reference_link",
-      "recommended_next_action": "先用低频公开 OJ 抽取题面、样例和图片；样例完整后再生成带中文注释的 C++ 参考解并执行样例验证。"
-    },
-    {
-      "canonical_problem_id": "supplemental:luogu:p11965",
-      "title": "等价消除",
-      "level": 7,
-      "language": "C++",
-      "question_type": "programming",
-      "question_number": 1169,
-      "source_url": "https://www.luogu.com.cn/problem/P11965",
-      "oj_id": "P11965",
-      "current_statement_status": "pending_collection",
-      "current_sample_status": "pending_collection",
-      "current_solution_status": "reference_link",
-      "recommended_next_action": "先用低频公开 OJ 抽取题面、样例和图片；样例完整后再生成带中文注释的 C++ 参考解并执行样例验证。"
-    },
-    {
-      "canonical_problem_id": "supplemental:luogu:p13017",
-      "title": "线图",
-      "level": 7,
-      "language": "C++",
-      "question_type": "programming",
-      "question_number": 1170,
-      "source_url": "https://www.luogu.com.cn/problem/P13017",
-      "oj_id": "P13017",
-      "current_statement_status": "pending_collection",
-      "current_sample_status": "pending_collection",
-      "current_solution_status": "reference_link",
-      "recommended_next_action": "先用低频公开 OJ 抽取题面、样例和图片；样例完整后再生成带中文注释的 C++ 参考解并执行样例验证。"
-    },
     {
       "canonical_problem_id": "supplemental:luogu:p13018",
       "title": "调味平衡",

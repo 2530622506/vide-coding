@@ -250,6 +250,205 @@ int main() {
 }
 `
   },
+  "supplemental:luogu:p11377": {
+    algorithm: "这是 0/1 背包的最小费用版本。设 dp[s] 表示达到强度 s 的最小花费，强度超过 P 时统一压到 P，最后检查 dp[P] 是否不超过 Q。",
+    complexity: "时间复杂度 O(t*n*P)，空间复杂度 O(P)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int tests;
+    cin >> tests;
+    const int INF = 1e9;
+    while (tests--) {
+        int n, targetPower, budget;
+        cin >> n >> targetPower >> budget;
+        vector<int> dp(targetPower + 1, INF);
+        dp[0] = 0;
+
+        for (int i = 0; i < n; ++i) {
+            int power, cost;
+            cin >> power >> cost;
+            for (int current = targetPower; current >= 0; --current) {
+                if (dp[current] == INF) continue;
+                int nextPower = min(targetPower, current + power);
+                // 中文注释：每件武器只能买一次，所以倒序更新 0/1 背包状态。
+                dp[nextPower] = min(dp[nextPower], dp[current] + cost);
+            }
+        }
+
+        cout << (dp[targetPower] <= budget ? dp[targetPower] : -1) << '\\n';
+    }
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p11378": {
+    algorithm: "燃烧只能从权值高的节点扩散到权值低的相邻节点，因此按权值从小到大处理。每个节点能燃烧的数量等于 1 加上所有低权值邻居能燃烧的数量。",
+    complexity: "时间复杂度 O(n log n)，空间复杂度 O(n)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+    vector<int> weight(n + 1);
+    for (int i = 1; i <= n; ++i) cin >> weight[i];
+
+    vector<vector<int>> graph(n + 1);
+    for (int i = 0; i < n - 1; ++i) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    vector<int> order(n);
+    for (int i = 0; i < n; ++i) order[i] = i + 1;
+    sort(order.begin(), order.end(), [&](int a, int b) {
+        return weight[a] < weight[b];
+    });
+
+    vector<int> burnCount(n + 1, 1);
+    int answer = 1;
+    for (int node : order) {
+        for (int next : graph[node]) {
+            if (weight[node] < weight[next]) {
+                // 中文注释：next 权值更大时，可以从 next 扩散到 node。
+                burnCount[next] += burnCount[node];
+            }
+        }
+        answer = max(answer, burnCount[node]);
+    }
+    for (int i = 1; i <= n; ++i) answer = max(answer, burnCount[i]);
+
+    cout << answer << '\\n';
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p11964": {
+    algorithm: "用 bitset 表示一步后可达集合。对每个起点维护当前可达集合，下一步等于当前集合中所有节点邻接集合的并集，逐步输出集合大小。",
+    complexity: "时间复杂度 O(n*k*n^2/word)，空间复杂度 O(n^2/word)。",
+    code: `#include <bitset>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+const int MAXN = 505;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m, k;
+    cin >> n >> m >> k;
+    vector<bitset<MAXN>> adjacent(n);
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
+        --u;
+        --v;
+        adjacent[u].set(v);
+        adjacent[v].set(u);
+    }
+
+    for (int start = 0; start < n; ++start) {
+        bitset<MAXN> current;
+        current.set(start);
+        for (int step = 1; step <= k; ++step) {
+            bitset<MAXN> next;
+            for (int node = 0; node < n; ++node) {
+                if (current.test(node)) {
+                    // 中文注释：恰好再走一步，可以到达所有当前节点的邻居。
+                    next |= adjacent[node];
+                }
+            }
+            current = next;
+            if (step > 1) cout << ' ';
+            cout << current.count();
+        }
+        cout << '\\n';
+    }
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p11965": {
+    algorithm: "一个子串可以两两删除相同字符，当且仅当每个字符出现次数都是偶数。用 26 位奇偶掩码表示前缀状态，相同前缀状态之间的子串满足条件。",
+    complexity: "时间复杂度 O(n)，空间复杂度 O(n)。",
+    code: `#include <iostream>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    string s;
+    cin >> n >> s;
+
+    unordered_map<int, long long> count;
+    count.reserve(static_cast<size_t>(n) * 2 + 1);
+    int mask = 0;
+    long long answer = 0;
+    count[0] = 1;
+    for (char ch : s) {
+        mask ^= 1 << (ch - 'a');
+        // 中文注释：两段前缀奇偶状态相同，中间子串每个字符次数都是偶数。
+        answer += count[mask];
+        ++count[mask];
+    }
+
+    cout << answer << '\\n';
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p13017": {
+    algorithm: "原图中同一个点关联的任意两条边，在线图中会形成一条边。若原图某点度数为 d，则贡献 C(d,2)。简单图中两条边最多共享一个端点，所以总答案为所有点贡献之和。",
+    complexity: "时间复杂度 O(n+m)，空间复杂度 O(n)。",
+    code: `#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+    vector<long long> degree(n + 1, 0);
+    for (int i = 0; i < m; ++i) {
+        int u, v;
+        cin >> u >> v;
+        ++degree[u];
+        ++degree[v];
+    }
+
+    long long answer = 0;
+    for (int i = 1; i <= n; ++i) {
+        // 中文注释：从与 i 相连的 degree[i] 条边中任选两条，在线图中对应一条边。
+        answer += degree[i] * (degree[i] - 1) / 2;
+    }
+
+    cout << answer << '\\n';
+    return 0;
+}
+`
+  },
   "supplemental:luogu:p10379": {
     algorithm: "对网格中每个同色四连通块做 BFS，记录所有格子相对左上角的坐标并排序，平移后相同的坐标集合表示同一种形状。",
     complexity: "时间复杂度 O(nm log(nm))，空间复杂度 O(nm)。",

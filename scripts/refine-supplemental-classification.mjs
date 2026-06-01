@@ -39,6 +39,36 @@ const overrides = {
     knowledge: [["difference_sorting", "差值排序"], ["top_k_selection", "Top-K 选择"], ["assignment_optimization", "分配优化"]],
     focus: "以 C 全买为基准，选择 n 个最大 b_i-c_i 差值给 B"
   },
+  "supplemental:luogu:p11377": {
+    domains: [["dynamic_programming", "动态规划"], ["knapsack", "背包"]],
+    types: [["zero_one_knapsack_min_cost", "0/1 背包最小费用型"]],
+    knowledge: [["zero_one_knapsack", "0/1 背包"], ["state_compression", "状态压缩"], ["budget_feasibility", "预算可行性"]],
+    focus: "在强度达标条件下求不超过预算的最小购买费用"
+  },
+  "supplemental:luogu:p11378": {
+    domains: [["tree", "树"], ["dynamic_programming", "动态规划"]],
+    types: [["tree_weight_directed_reachability_dp", "树上权值有向可达 DP 型"]],
+    knowledge: [["tree_dp", "树形 DP"], ["topological_by_weight", "按权值拓扑处理"], ["directed_reachability", "有向可达性"]],
+    focus: "按权值从小到大累加低权值连通燃烧规模"
+  },
+  "supplemental:luogu:p11964": {
+    domains: [["graph", "图论"], ["bitset", "位集"]],
+    types: [["fixed_step_reachability_counting", "固定步数可达计数型"]],
+    knowledge: [["bitset_optimization", "bitset 优化"], ["walk_reachability", "游走可达"], ["adjacency_union", "邻接集合并集"]],
+    focus: "用 bitset 逐步合并邻接集合统计恰好 k 步可达点数"
+  },
+  "supplemental:luogu:p11965": {
+    domains: [["string", "字符串"], ["bit_operation", "位运算"]],
+    types: [["parity_mask_substring_counting", "奇偶掩码子串计数型"]],
+    knowledge: [["character_parity_mask", "字符奇偶掩码"], ["prefix_state_counting", "前缀状态计数"], ["equivalent_elimination", "等价消除判定"]],
+    focus: "统计字符出现次数全为偶数的子串数量"
+  },
+  "supplemental:luogu:p13017": {
+    domains: [["graph", "图论"], ["math", "数学"]],
+    types: [["line_graph_edge_counting", "线图边数计数型"]],
+    knowledge: [["degree_counting", "度数统计"], ["combination_counting", "组合计数"], ["line_graph", "线图"]],
+    focus: "按原图每个点的度数累加 C(deg,2)"
+  },
   "supplemental:luogu:b4452": {
     domains: [["greedy", "贪心"], ["sort_simulation", "排序/模拟"]],
     types: [["multi_key_sorting_greedy", "多关键字排序贪心型"]],

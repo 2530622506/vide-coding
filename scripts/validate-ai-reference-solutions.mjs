@@ -6,7 +6,7 @@ import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
 const supplementalPath = "data/classification/supplemental-cxx-problems.json";
-const minimumAiSolutionCount = 165;
+const minimumAiSolutionCount = 170;
 
 function assert(condition, message) {
   if (!condition) {
