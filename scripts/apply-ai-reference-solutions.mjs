@@ -1173,6 +1173,597 @@ int main() {
 }
 `
   },
+  "supplemental:luogu:p10113": {
+    algorithm: "每场合作需要所有参与者的公共祖先。先用 LCA 求出所有参与者的最近公共祖先，再输出根到该 LCA 路径上的最大员工编号。",
+    complexity: "预处理 O(N log N)，每次询问 O(m log N)，空间复杂度 O(N log N)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+
+const int LOG = 18;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+
+    vector<vector<int>> children(n);
+    vector<vector<int>> up(LOG, vector<int>(n, 0));
+    for (int node = 1; node < n; ++node) {
+        int parent;
+        cin >> parent;
+        children[parent].push_back(node);
+        up[0][node] = parent;
+    }
+
+    vector<int> depth(n, 0), pathMax(n, 0);
+    queue<int> q;
+    q.push(0);
+    up[0][0] = 0;
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+        pathMax[node] = node == 0 ? 0 : max(pathMax[up[0][node]], node);
+        for (int next : children[node]) {
+            depth[next] = depth[node] + 1;
+            q.push(next);
+        }
+    }
+
+    for (int bit = 1; bit < LOG; ++bit) {
+        for (int node = 0; node < n; ++node) {
+            up[bit][node] = up[bit - 1][up[bit - 1][node]];
+        }
+    }
+
+    auto lca = [&](int a, int b) {
+        if (depth[a] < depth[b]) swap(a, b);
+        int diff = depth[a] - depth[b];
+        for (int bit = 0; bit < LOG; ++bit) {
+            if (diff & (1 << bit)) a = up[bit][a];
+        }
+        if (a == b) return a;
+        for (int bit = LOG - 1; bit >= 0; --bit) {
+            if (up[bit][a] != up[bit][b]) {
+                a = up[bit][a];
+                b = up[bit][b];
+            }
+        }
+        return up[0][a];
+    };
+
+    int queryCount;
+    cin >> queryCount;
+    while (queryCount--) {
+        int m;
+        cin >> m;
+        int common;
+        cin >> common;
+        for (int i = 1; i < m; ++i) {
+            int node;
+            cin >> node;
+            common = lca(common, node);
+        }
+        // 中文注释：能管理所有参与者的人是 common 到根路径上的祖先，题目要求编号最大者。
+        cout << pathMax[common] << '\\n';
+    }
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p10263": {
+    algorithm: "k 能出现在位置 (i,j) 当且仅当 i 和 j 都是 k 的因子。因此 ans_k 等于 k 在 1..N 内的因子数乘以在 1..M 内的因子数。用筛法统计每个 k 的受限因子数。",
+    complexity: "时间复杂度 O(K log K)，空间复杂度 O(K)。",
+    code: `#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m, k;
+    cin >> n >> m >> k;
+
+    vector<int> divisorsN(k + 1, 0), divisorsM(k + 1, 0);
+    for (int d = 1; d <= n && d <= k; ++d) {
+        for (int multiple = d; multiple <= k; multiple += d) {
+            // 中文注释：d 可以作为 multiple 的行编号因子。
+            ++divisorsN[multiple];
+        }
+    }
+    for (int d = 1; d <= m && d <= k; ++d) {
+        for (int multiple = d; multiple <= k; multiple += d) {
+            ++divisorsM[multiple];
+        }
+    }
+
+    long long answer = 0;
+    for (int value = 1; value <= k; ++value) {
+        answer += 1LL * value * divisorsN[value] * divisorsM[value];
+    }
+    cout << answer << '\\n';
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p10264": {
+    algorithm: "按询问区间顺序模拟接竹竿过程。队列中同一点数最多保留一次，加入重复点数时弹出这张旧牌及其之后所有牌。",
+    complexity: "每次询问 O((r-l+1)*13)，空间复杂度 O(13)。",
+    code: `#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int tests;
+    cin >> tests;
+    while (tests--) {
+        int n;
+        cin >> n;
+        vector<int> cards(n + 1);
+        for (int i = 1; i <= n; ++i) cin >> cards[i];
+
+        int q;
+        cin >> q;
+        while (q--) {
+            int left, right;
+            cin >> left >> right;
+            vector<int> deck;
+            for (int i = left; i <= right; ++i) {
+                int same = -1;
+                for (int j = 0; j < static_cast<int>(deck.size()); ++j) {
+                    if (deck[j] == cards[i]) same = j;
+                }
+                if (same == -1) {
+                    deck.push_back(cards[i]);
+                } else {
+                    // 中文注释：遇到相同点数，旧牌到新牌之间的牌全部被收走。
+                    deck.resize(same);
+                }
+            }
+            cout << deck.size() << '\\n';
+        }
+    }
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p10725": {
+    algorithm: "先求白点集合的直径两个端点。树上任意黑点到最远白点的距离一定出现在这两个端点之一，枚举所有黑点取最大距离即可。",
+    complexity: "时间复杂度 O(n)，空间复杂度 O(n)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+
+vector<int> bfs(int start, const vector<vector<int>>& graph) {
+    vector<int> dist(graph.size(), -1);
+    queue<int> q;
+    dist[start] = 0;
+    q.push(start);
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+        for (int next : graph[node]) {
+            if (dist[next] != -1) continue;
+            dist[next] = dist[node] + 1;
+            q.push(next);
+        }
+    }
+    return dist;
+}
+
+int farthestColorNode(const vector<int>& dist, const vector<int>& color, int targetColor) {
+    int best = -1;
+    for (int i = 1; i < static_cast<int>(dist.size()); ++i) {
+        if (color[i] == targetColor && (best == -1 || dist[i] > dist[best])) {
+            best = i;
+        }
+    }
+    return best;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+    vector<int> color(n + 1);
+    int white = -1;
+    for (int i = 1; i <= n; ++i) {
+        cin >> color[i];
+        if (color[i] == 0) white = i;
+    }
+
+    vector<vector<int>> graph(n + 1);
+    for (int i = 0; i < n - 1; ++i) {
+        int x, y;
+        cin >> x >> y;
+        graph[x].push_back(y);
+        graph[y].push_back(x);
+    }
+
+    int a = farthestColorNode(bfs(white, graph), color, 0);
+    int b = farthestColorNode(bfs(a, graph), color, 0);
+    vector<int> distA = bfs(a, graph);
+    vector<int> distB = bfs(b, graph);
+
+    int answer = 0;
+    for (int node = 1; node <= n; ++node) {
+        if (color[node] == 1) {
+            // 中文注释：到白点集合的最远距离只需比较白点直径两个端点。
+            answer = max(answer, max(distA[node], distB[node]));
+        }
+    }
+    cout << answer << '\\n';
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p10726": {
+    algorithm: "把每个挡板的左右端点作为状态做 Dijkstra。从端点可以横向走到另一端，也可以从端点竖直下落到正下方最高挡板；若落到目标挡板即可更新答案。",
+    complexity: "状态数 O(n)，每次找下方挡板 O(n)，总时间 O(n^2 log n)，空间复杂度 O(n)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <queue>
+#include <tuple>
+#include <vector>
+using namespace std;
+
+struct Board {
+    int l, r, h;
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, s, t;
+    cin >> n >> s >> t;
+    vector<Board> board(n + 1);
+    for (int i = 1; i <= n; ++i) cin >> board[i].l >> board[i].r >> board[i].h;
+
+    const long long INF = (1LL << 60);
+    vector<vector<long long>> dist(n + 1, vector<long long>(2, INF));
+    priority_queue<tuple<long long, int, int>, vector<tuple<long long, int, int>>, greater<tuple<long long, int, int>>> pq;
+
+    dist[s][0] = 0;
+    pq.push({0, s, 0});
+    long long answer = s == t ? 0 : INF;
+
+    auto below = [&](int from, int x) {
+        int best = 0;
+        for (int i = 1; i <= n; ++i) {
+            if (board[i].h < board[from].h && board[i].l <= x && x <= board[i].r) {
+                if (best == 0 || board[i].h > board[best].h) best = i;
+            }
+        }
+        return best;
+    };
+
+    while (!pq.empty()) {
+        auto [cost, id, side] = pq.top();
+        pq.pop();
+        if (cost != dist[id][side]) continue;
+        if (id == t) answer = min(answer, cost);
+
+        int other = side ^ 1;
+        long long moveCost = board[id].r - board[id].l;
+        if (dist[id][other] > cost + moveCost) {
+            dist[id][other] = cost + moveCost;
+            pq.push({dist[id][other], id, other});
+        }
+
+        int x = side == 0 ? board[id].l : board[id].r;
+        int landing = below(id, x);
+        if (landing == 0) continue;
+        long long fall = board[id].h - board[landing].h;
+        if (landing == t) {
+            // 中文注释：只要落到目标挡板就已经到达，不必再移动到端点。
+            answer = min(answer, cost + fall);
+        }
+        long long toLeft = cost + fall + abs(x - board[landing].l);
+        long long toRight = cost + fall + abs(board[landing].r - x);
+        if (dist[landing][0] > toLeft) {
+            dist[landing][0] = toLeft;
+            pq.push({toLeft, landing, 0});
+        }
+        if (dist[landing][1] > toRight) {
+            dist[landing][1] = toRight;
+            pq.push({toRight, landing, 1});
+        }
+    }
+
+    cout << (answer == INF ? -1 : answer) << '\\n';
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p11250": {
+    algorithm: "恰好 k 对完整手套：先选出 k 对完整手套，再从剩余 n-k 对中选 m-2k 对只拿一只，并且每对有左右两种选择。",
+    complexity: "预处理 O(2000)，每组询问 O(1)，空间复杂度 O(2000)。",
+    code: `#include <iostream>
+#include <vector>
+using namespace std;
+
+const long long MOD = 1000000007LL;
+const int LIMIT = 2005;
+
+long long modPow(long long base, long long exp) {
+    long long result = 1;
+    while (exp > 0) {
+        if (exp & 1) result = result * base % MOD;
+        base = base * base % MOD;
+        exp >>= 1;
+    }
+    return result;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    vector<long long> fact(LIMIT), invFact(LIMIT), pow2(LIMIT);
+    fact[0] = pow2[0] = 1;
+    for (int i = 1; i < LIMIT; ++i) {
+        fact[i] = fact[i - 1] * i % MOD;
+        pow2[i] = pow2[i - 1] * 2 % MOD;
+    }
+    invFact[LIMIT - 1] = modPow(fact[LIMIT - 1], MOD - 2);
+    for (int i = LIMIT - 2; i >= 0; --i) invFact[i] = invFact[i + 1] * (i + 1) % MOD;
+
+    auto comb = [&](int n, int r) -> long long {
+        if (r < 0 || r > n) return 0;
+        return fact[n] * invFact[r] % MOD * invFact[n - r] % MOD;
+    };
+
+    int tests;
+    cin >> tests;
+    while (tests--) {
+        int n, m, k;
+        cin >> n >> m >> k;
+        int single = m - 2 * k;
+        if (single < 0 || single > n - k) {
+            cout << 0 << '\\n';
+            continue;
+        }
+        // 中文注释：完整的 k 对先确定；剩下只取单只的手套，每对可选左或右。
+        long long answer = comb(n, k) * comb(n - k, single) % MOD * pow2[single] % MOD;
+        cout << answer << '\\n';
+    }
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p11251": {
+    algorithm: "只保留颜色不同的边，原树变成若干森林连通块。每个连通块内任意路径都满足相邻颜色不同，因此答案是这些连通块直径节点数的最大值。",
+    complexity: "时间复杂度 O(n)，空间复杂度 O(n)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+
+pair<int, vector<int>> bfs(int start, const vector<vector<int>>& graph) {
+    vector<int> dist(graph.size(), -1);
+    queue<int> q;
+    dist[start] = 0;
+    q.push(start);
+    int farthest = start;
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+        if (dist[node] > dist[farthest]) farthest = node;
+        for (int next : graph[node]) {
+            if (dist[next] != -1) continue;
+            dist[next] = dist[node] + 1;
+            q.push(next);
+        }
+    }
+    return {farthest, dist};
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+    vector<int> color(n + 1);
+    for (int i = 1; i <= n; ++i) cin >> color[i];
+
+    vector<vector<int>> graph(n + 1);
+    for (int i = 0; i < n - 1; ++i) {
+        int u, v;
+        cin >> u >> v;
+        if (color[u] != color[v]) {
+            // 中文注释：只有异色边能出现在美丽路径中。
+            graph[u].push_back(v);
+            graph[v].push_back(u);
+        }
+    }
+
+    vector<int> visited(n + 1, 0);
+    int answer = 1;
+    for (int start = 1; start <= n; ++start) {
+        if (visited[start]) continue;
+        auto first = bfs(start, graph);
+        for (int i = 1; i <= n; ++i) {
+            if (first.second[i] != -1) visited[i] = 1;
+        }
+        auto second = bfs(first.first, graph);
+        int diameterEdges = 0;
+        for (int d : second.second) diameterEdges = max(diameterEdges, d);
+        answer = max(answer, diameterEdges + 1);
+    }
+
+    cout << answer << '\\n';
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p11379": {
+    algorithm: "n 不超过 1000，可以枚举路径起点并 DFS 到所有终点，维护路径节点数和黑色节点数，黑色节点数不超过 k 时更新答案。",
+    complexity: "时间复杂度 O(n^2)，空间复杂度 O(n)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, k;
+    cin >> n >> k;
+    vector<int> black(n + 1);
+    for (int i = 1; i <= n; ++i) cin >> black[i];
+
+    vector<vector<int>> graph(n + 1);
+    for (int i = 0; i < n - 1; ++i) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    int answer = 1;
+    auto dfs = [&](auto&& self, int node, int parent, int blackCount, int length) -> void {
+        if (blackCount > k) return;
+        // 中文注释：树上任意两点之间路径唯一，枚举起点后 DFS 即可覆盖所有路径。
+        answer = max(answer, length);
+        for (int next : graph[node]) {
+            if (next == parent) continue;
+            self(self, next, node, blackCount + black[next], length + 1);
+        }
+    };
+
+    for (int start = 1; start <= n; ++start) {
+        dfs(dfs, start, 0, black[start], 1);
+    }
+    cout << answer << '\\n';
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p11380": {
+    algorithm: "相邻且有先后顺序的关系会把若干同学合并成有序链。若某人有多个后继、多个前驱或形成环，则无解；否则每条链作为一个整体排列，答案是链块数量的阶乘。",
+    complexity: "时间复杂度 O(n+m)，空间复杂度 O(n+m)。",
+    code: `#include <iostream>
+#include <set>
+#include <vector>
+using namespace std;
+
+const long long MOD = 1000000007LL;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+    vector<int> nextNode(n + 1, 0), prevNode(n + 1, 0);
+    set<pair<int, int>> seen;
+    bool ok = true;
+    int edgeCount = 0;
+
+    for (int i = 0; i < m; ++i) {
+        int a, b;
+        cin >> a >> b;
+        if (seen.count({a, b})) continue;
+        seen.insert({a, b});
+        ++edgeCount;
+        if (nextNode[a] != 0 || prevNode[b] != 0) ok = false;
+        nextNode[a] = b;
+        prevNode[b] = a;
+    }
+
+    vector<int> state(n + 1, 0);
+    for (int node = 1; node <= n; ++node) {
+        if (state[node]) continue;
+        int current = node;
+        while (current != 0 && state[current] == 0) {
+            state[current] = node;
+            current = nextNode[current];
+        }
+        if (current != 0 && state[current] == node) {
+            // 中文注释：有向环无法排成线性队伍并同时满足所有相邻先后关系。
+            ok = false;
+        }
+    }
+
+    if (!ok) {
+        cout << 0 << '\\n';
+        return 0;
+    }
+
+    int blocks = n - edgeCount;
+    long long answer = 1;
+    for (int i = 1; i <= blocks; ++i) answer = answer * i % MOD;
+    cout << answer << '\\n';
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p11966": {
+    algorithm: "所有询问都是到同一个学校节点的最短路，因此从学校 s 做一次 Dijkstra，得到每个家的最短距离后直接回答。",
+    complexity: "时间复杂度 O((n+m) log n)，空间复杂度 O(n+m)。",
+    code: `#include <iostream>
+#include <queue>
+#include <utility>
+#include <vector>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m, s, q;
+    cin >> n >> m >> s >> q;
+    vector<vector<pair<int, int>>> graph(n + 1);
+    for (int i = 0; i < m; ++i) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        graph[u].push_back({v, w});
+        graph[v].push_back({u, w});
+    }
+
+    const long long INF = (1LL << 62);
+    vector<long long> dist(n + 1, INF);
+    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> pq;
+    dist[s] = 0;
+    pq.push({0, s});
+    while (!pq.empty()) {
+        auto [cost, node] = pq.top();
+        pq.pop();
+        if (cost != dist[node]) continue;
+        for (auto [next, weight] : graph[node]) {
+            if (dist[next] > cost + weight) {
+                // 中文注释：从学校反向求到所有家的最短路，和从家到学校等价。
+                dist[next] = cost + weight;
+                pq.push({dist[next], next});
+            }
+        }
+    }
+
+    while (q--) {
+        int home;
+        cin >> home;
+        cout << dist[home] << '\\n';
+    }
+    return 0;
+}
+`
+  },
   "supplemental:luogu:p10378": {
     algorithm: "交流关系构成二分图。每个连通块的两种染色可以互换，B 校人数最小值累加 min(size0,size1)，最大值累加 max(size0,size1)。",
     complexity: "时间复杂度 O(N+M)，空间复杂度 O(N+M)。",

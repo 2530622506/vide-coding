@@ -147,6 +147,66 @@ const overrides = {
     knowledge: [["factorial_inverse", "阶乘逆元"], ["multinomial_coefficient", "多项式系数"], ["modular_arithmetic", "模运算"]],
     focus: "奖品总数为 N 或 N+1 时用多重排列数和少分一个奖品的选择数计数"
   },
+  "supplemental:luogu:p10113": {
+    domains: [["tree", "树"], ["data_structure", "数据结构"]],
+    types: [["common_ancestor_path_max_query", "公共祖先路径最大值型"]],
+    knowledge: [["lowest_common_ancestor", "最近公共祖先"], ["binary_lifting", "倍增"], ["path_prefix_max", "根路径最大值"]],
+    focus: "求参与者 LCA 后取根到 LCA 路径上的最大编号"
+  },
+  "supplemental:luogu:p10263": {
+    domains: [["number_theory", "数论"], ["sieve", "筛法"]],
+    types: [["restricted_divisor_counting", "受限因子计数型"]],
+    knowledge: [["divisor_sieve", "因子筛"], ["common_multiple", "公倍数"], ["multiplicative_counting", "乘法计数"]],
+    focus: "k 可放在矩阵位置当且仅当行列编号均为 k 的因子"
+  },
+  "supplemental:luogu:p10264": {
+    domains: [["stack", "栈"], ["simulation", "模拟"]],
+    types: [["interval_stack_elimination", "区间栈消除模拟型"]],
+    knowledge: [["stack_simulation", "栈模拟"], ["duplicate_elimination", "重复元素消除"], ["interval_query", "区间询问"]],
+    focus: "区间内按接竹竿规则遇到重复点数时截断队列"
+  },
+  "supplemental:luogu:p10725": {
+    domains: [["tree", "树"], ["graph", "图论"]],
+    types: [["colored_tree_diameter", "异色点树直径型"]],
+    knowledge: [["tree_diameter", "树直径"], ["color_set_farthest", "颜色集合最远点"], ["breadth_first_search", "广度优先搜索"]],
+    focus: "用某一颜色集合直径端点求到另一颜色集合的最远距离"
+  },
+  "supplemental:luogu:p10726": {
+    domains: [["graph", "图论"], ["shortest_path", "最短路"]],
+    types: [["platform_falling_shortest_path", "挡板下落最短路型"]],
+    knowledge: [["dijkstra", "Dijkstra"], ["state_graph", "状态建图"], ["vertical_projection", "竖直投影"]],
+    focus: "把挡板端点作为状态并计算横移与下落边"
+  },
+  "supplemental:luogu:p11250": {
+    domains: [["combinatorics", "组合数学"], ["math", "数学"]],
+    types: [["exact_pair_selection_counting", "恰好成对选择计数型"]],
+    knowledge: [["combination", "组合数"], ["modular_arithmetic", "模运算"], ["case_counting", "分类计数"]],
+    focus: "先选完整手套对，再从剩余对中选单只并乘左右选择"
+  },
+  "supplemental:luogu:p11251": {
+    domains: [["tree", "树"], ["graph", "图论"]],
+    types: [["alternating_color_tree_diameter", "交替颜色树直径型"]],
+    knowledge: [["tree_diameter", "树直径"], ["connected_component", "连通块"], ["color_alternation", "颜色交替"]],
+    focus: "只保留异色边后求森林中最长路径"
+  },
+  "supplemental:luogu:p11379": {
+    domains: [["tree", "树"], ["brute_force", "枚举搜索"]],
+    types: [["bounded_black_node_tree_path", "黑点数量受限树路径型"]],
+    knowledge: [["tree_path_enumeration", "树路径枚举"], ["depth_first_search", "深度优先搜索"], ["constraint_counting", "约束计数"]],
+    focus: "枚举路径起点 DFS 统计黑点数量不超过 k 的最长路径"
+  },
+  "supplemental:luogu:p11380": {
+    domains: [["graph", "图论"], ["combinatorics", "组合数学"]],
+    types: [["ordered_adjacent_chain_counting", "有序相邻链计数型"]],
+    knowledge: [["functional_graph", "函数图"], ["cycle_detection", "环检测"], ["factorial_counting", "阶乘计数"]],
+    focus: "相邻先后关系形成有向链，链块之间任意排列"
+  },
+  "supplemental:luogu:p11966": {
+    domains: [["graph", "图论"], ["shortest_path", "最短路"]],
+    types: [["single_source_shortest_path_query", "单源最短路查询型"]],
+    knowledge: [["dijkstra", "Dijkstra"], ["priority_queue", "优先队列"], ["undirected_weighted_graph", "无向带权图"]],
+    focus: "从学校一次 Dijkstra 后回答所有家到学校的距离"
+  },
   "supplemental:luogu:p10378": {
     domains: [["graph", "图论"], ["sort_simulation", "排序/模拟"]],
     types: [["bipartite_component_size_range", "二分图连通块规模范围型"]],
