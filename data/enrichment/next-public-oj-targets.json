@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-01T02:06:36.881Z",
+  "generated_at": "2026-06-01T03:05:22.311Z",
   "generator": "scripts/plan-next-public-oj-enrichment.mjs",
   "source_dataset": "data/classification/supplemental-cxx-problems.json",
   "policy": {
@@ -51,8 +51,8 @@
       {
         "level": 7,
         "total": 20,
-        "source_extracted": 15,
-        "pending": 5
+        "source_extracted": 20,
+        "pending": 0
       },
       {
         "level": 8,
@@ -61,80 +61,10 @@
         "pending": 20
       }
     ],
-    "pending_with_public_source_url": 25,
-    "selected_batch_size": 25
+    "pending_with_public_source_url": 20,
+    "selected_batch_size": 20
   },
   "selected_targets": [
-    {
-      "canonical_problem_id": "supplemental:luogu:p13018",
-      "title": "调味平衡",
-      "level": 7,
-      "language": "C++",
-      "question_type": "programming",
-      "question_number": 1171,
-      "source_url": "https://www.luogu.com.cn/problem/P13018",
-      "oj_id": "P13018",
-      "current_statement_status": "pending_collection",
-      "current_sample_status": "pending_collection",
-      "current_solution_status": "reference_link",
-      "recommended_next_action": "先用低频公开 OJ 抽取题面、样例和图片；样例完整后再生成带中文注释的 C++ 参考解并执行样例验证。"
-    },
-    {
-      "canonical_problem_id": "supplemental:luogu:p14077",
-      "title": "连通图",
-      "level": 7,
-      "language": "C++",
-      "question_type": "programming",
-      "question_number": 1172,
-      "source_url": "https://www.luogu.com.cn/problem/P14077",
-      "oj_id": "P14077",
-      "current_statement_status": "pending_collection",
-      "current_sample_status": "pending_collection",
-      "current_solution_status": "reference_link",
-      "recommended_next_action": "先用低频公开 OJ 抽取题面、样例和图片；样例完整后再生成带中文注释的 C++ 参考解并执行样例验证。"
-    },
-    {
-      "canonical_problem_id": "supplemental:luogu:p14078",
-      "title": "金币收集",
-      "level": 7,
-      "language": "C++",
-      "question_type": "programming",
-      "question_number": 1173,
-      "source_url": "https://www.luogu.com.cn/problem/P14078",
-      "oj_id": "P14078",
-      "current_statement_status": "pending_collection",
-      "current_sample_status": "pending_collection",
-      "current_solution_status": "reference_link",
-      "recommended_next_action": "先用低频公开 OJ 抽取题面、样例和图片；样例完整后再生成带中文注释的 C++ 参考解并执行样例验证。"
-    },
-    {
-      "canonical_problem_id": "supplemental:luogu:p14921",
-      "title": "城市规划",
-      "level": 7,
-      "language": "C++",
-      "question_type": "programming",
-      "question_number": 1174,
-      "source_url": "https://www.luogu.com.cn/problem/P14921",
-      "oj_id": "P14921",
-      "current_statement_status": "pending_collection",
-      "current_sample_status": "pending_collection",
-      "current_solution_status": "reference_link",
-      "recommended_next_action": "先用低频公开 OJ 抽取题面、样例和图片；样例完整后再生成带中文注释的 C++ 参考解并执行样例验证。"
-    },
-    {
-      "canonical_problem_id": "supplemental:luogu:p14922",
-      "title": "学习小组",
-      "level": 7,
-      "language": "C++",
-      "question_type": "programming",
-      "question_number": 1175,
-      "source_url": "https://www.luogu.com.cn/problem/P14922",
-      "oj_id": "P14922",
-      "current_statement_status": "pending_collection",
-      "current_sample_status": "pending_collection",
-      "current_solution_status": "reference_link",
-      "recommended_next_action": "先用低频公开 OJ 抽取题面、样例和图片；样例完整后再生成带中文注释的 C++ 参考解并执行样例验证。"
-    },
     {
       "canonical_problem_id": "supplemental:luogu:p10112",
       "title": "奖品分配",

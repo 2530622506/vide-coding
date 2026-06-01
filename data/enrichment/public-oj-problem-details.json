@@ -1,33 +1,33 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-01T00:49:16.651Z",
+  "generated_at": "2026-06-01T03:00:53.953Z",
   "generator": "scripts/enrich-public-oj-details.mjs",
   "inputs": {
     "supplemental_cxx_problems": "data/classification/supplemental-cxx-problems.json"
   },
   "request": {
-    "level": 5,
-    "limit": 3,
-    "source": "xinchuan",
-    "delay_ms": 2500
+    "level": 7,
+    "limit": 5,
+    "source": "luogu",
+    "delay_ms": 3000
   },
   "crawl_policy": {
     "public_pages_only": true,
     "login_used": false,
     "credentials_used": false,
-    "low_frequency_delay_ms": 2500,
+    "low_frequency_delay_ms": 3000,
     "source_terms_status": "needs_review",
     "ai_fallback_policy": "未从公开来源抽取到答案、图片或讲解时，可以生成学习辅助内容，但必须标注 ai_generated_learning_aid 并进入复核。"
   },
   "summary": {
-    "attempted_count": 170,
-    "extracted_count": 170,
+    "attempted_count": 175,
+    "extracted_count": 175,
     "failed_count": 0,
-    "statement_extracted_count": 170,
-    "sample_extracted_count": 170,
+    "statement_extracted_count": 175,
+    "sample_extracted_count": 175,
     "visual_asset_count": 5,
     "visual_asset_source_extracted_count": 5,
-    "visual_asset_none_found_count": 165
+    "visual_asset_none_found_count": 170
   },
   "records": [
     {
@@ -19382,6 +19382,134 @@
       "attachments": []
     },
     {
+      "canonical_problem_id": "supplemental:luogu:p13018",
+      "title": "[GESP202506 七级] 调味平衡",
+      "level": 7,
+      "oj_system": "luogu",
+      "oj_id": "P13018",
+      "source_url": "https://www.luogu.com.cn/problem/P13018",
+      "fetched_at": "2026-06-01T03:00:34.109Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202506 七级] 调味平衡",
+        "source_url": "https://www.luogu.com.cn/problem/P13018",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1187>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小 A 准备了 $n$ 种食材用来制作料理，这些食材依次以 $1,2,\\dots,n$ 编号，第 $i$ 种食材的酸度为 $a_i$，甜度为 $b_i$。对于每种食材，小 A 可以选择将其放入料理，或者不放入料理。料理的酸度 $A$ 为放入食材的酸度之和，甜度 $B$ 为放入食材的甜度之和。如果料理的酸度和甜度相等，那么料理的调味是**平衡的**。\n\n过于清淡的料理并不好吃，因此小 A 想在满足料理调味平衡的前提下，合理选择食材，最大化料理的酸度与甜度之和。你能帮他求出在调味平衡的前提下，料理酸度与甜度之和的最大值吗？"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，一个正整数 $n$，表示食材种类数量。\n\n接下来 $n$ 行，每行两个正整数 $a_i,b_i$，表示食材的酸度和甜度。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出共一行，一个整数，表示在调味平衡的前提下，料理酸度与甜度之和的最大值。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "对于 $40\\%$ 的测试点，保证 $1 \\le n \\le 10$，$1 \\le a_i,b_i \\le 10$。\n\n对于另外 $20\\%$ 的测试点，保证 $1 \\le n \\le 50$，$1 \\le a_i,b_i \\le 10$。\n\n对于所有测试点，保证 $1 \\le n \\le 100$，$1 \\le a_i,b_i \\le 500$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "3\n1 2\n2 4\n3 2",
+            "output": "8"
+          },
+          {
+            "input": "5\n1 1\n2 3\n6 1\n8 2\n5 7",
+            "output": "2"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P13018",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
       "canonical_problem_id": "supplemental:luogu:p14073",
       "title": "[GESP202509 五级] 数字选取",
       "level": 5,
@@ -19856,6 +19984,264 @@
       "attachments": []
     },
     {
+      "canonical_problem_id": "supplemental:luogu:p14077",
+      "title": "[GESP202509 七级] 连通图",
+      "level": 7,
+      "oj_system": "luogu",
+      "oj_id": "P14077",
+      "source_url": "https://www.luogu.com.cn/problem/P14077",
+      "fetched_at": "2026-06-01T03:00:39.734Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202509 七级] 连通图",
+        "source_url": "https://www.luogu.com.cn/problem/P14077",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1195>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "给定一张包含 $n$ 个结点与 $m$ 条边的无向图，结点依次以 $1,2,\\ldots,n$ 编号，第 $i$ 条边（$1\\le i\\le m$）连接结点 $u_i$ 与结点 $v_i$。如果从一个结点经过若干条边可以到达另一个结点，则称这两个结点是连通的。\n\n你需要向图中加入若干条边，使得图中任意两个结点都是连通的。请你求出最少需要加入的边的条数。\n\n注意给出的图中可能包含重边与自环。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，两个正整数 $n,m$，表示图的点数与边数。\n\n接下来 $m$ 行，每行两个正整数 $u_i,v_i$，表示图中一条连接结点 $u_i$ 与结点 $v_i$ 的边。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，一个整数，表示使得图中任意两个结点连通所需加入的边的最少数量。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "对于 $40\\%$ 的测试点，保证 $1\\le n\\le 100$，$1\\le m\\le 100$。\n\n对于所有测试点，保证 $1\\le n\\le 10^5$，$1\\le m\\le 10^5$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "4 4\n1 2\n2 3\n3 1\n1 4",
+            "output": "0"
+          },
+          {
+            "input": "6 4\n1 2\n2 3\n3 1\n6 5",
+            "output": "2"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P14077",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p14078",
+      "title": "[GESP202509 七级] 金币收集",
+      "level": 7,
+      "oj_system": "luogu",
+      "oj_id": "P14078",
+      "source_url": "https://www.luogu.com.cn/problem/P14078",
+      "fetched_at": "2026-06-01T03:00:44.459Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202509 七级] 金币收集",
+        "source_url": "https://www.luogu.com.cn/problem/P14078",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1195>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小 A 正在游玩收集金币的游戏。具体来说，在数轴上将会出现 $n$ 枚金币，其中第 $i$ 枚（$1\\le i\\le n$）金币将会在时刻 $t_i$ 出现在数轴上坐标为 $x_i$ 的位置。小 A 必须在时刻 $t_i$ 恰好位于坐标 $x_i$，才可以获得第 $i$ 枚金币。\n\n游戏开始时为时刻 $0$，此时小 A 的坐标为 $0$。正常来说，小 A 可以按游戏机的按键在数轴上左右移动，但不幸的是游戏机的左方向键失灵了。小 A 每个时刻只能选择保持不动，或是向右移动一个单位。换言之，如果小 A 在时刻 $t$ 的坐标为 $x$，那么他在时刻 $t+1$ 的坐标只能是 $x$ 或是 $x+1$ 二者之一，分别对应保持不动和向右移动。\n\n小 A 想知道他最多能收集多少枚金币。你能帮他收集最多的金币吗？"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，一个正整数 $n$，表示金币的数量。\n\n接下来 $n$ 行，每行两个正整数 $x_i,t_i$，分别表示金币出现的坐标与时刻。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，一个整数，表示小 A 最多能收集的金币数量。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "对于 $40\\%$ 的测试点，保证 $1\\le n\\le 8$。\n\n对于另外 $30\\%$ 的测试点，保证 $1\\le n\\le 100$，$1\\le x_i\\le 100$，$1\\le t_i\\le 100$。\n\n对于所有测试点，保证 $1\\le n\\le 10^5$，$1\\le x_i\\le 10^9$，$1\\le t_i\\le 10^9$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "3\n1 6\n3 7\n2 4",
+            "output": "2"
+          },
+          {
+            "input": "4\n1 1\n2 2\n1 3\n2 4",
+            "output": "3"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P14078",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
       "canonical_problem_id": "supplemental:luogu:p14917",
       "title": "[GESP202512 五级] 数字移动",
       "level": 5,
@@ -20304,6 +20690,262 @@
         "assets": [],
         "source_hint": {
           "source_url": "https://www.luogu.com.cn/problem/P14920",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p14921",
+      "title": "[GESP202512 七级] 城市规划",
+      "level": 7,
+      "oj_system": "luogu",
+      "oj_id": "P14921",
+      "source_url": "https://www.luogu.com.cn/problem/P14921",
+      "fetched_at": "2026-06-01T03:00:49.178Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202512 七级] 城市规划",
+        "source_url": "https://www.luogu.com.cn/problem/P14921",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1203>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "A 国有 $n$ 座城市，城市之间由 $m$ 条双向道路连接，任意一座城市均可经过若干条双向道路到达另一座城市。城市依次以 $1,2,\\ldots,n$ 编号。第 $i$（$1\\le i\\le m$）条双向道路连接城市 $u_i$ 与城市 $v_i$。\n\n对于城市 $u$ 和城市 $v$ 而言，它们之间的连通度 $d(u,v)$ 定义为从城市 $u$ 出发到达城市 $v$ 所需经过的双向道路的最少条数。由于道路是双向的，可以知道连通度满足 $d(u,v)=d(v,u)$，特殊地有 $d(u,u)=0$。\n\n现在 A 国正在规划城市建设方案。城市 $u$ 的建设难度为它到其它城市的最大连通度。请你求出建设难度最小的城市，如果有多个满足条件的城市，则选取其中编号最小的城市。形式化地，你需要求出使得 $\\max\\limits_{1\\le i\\le n}d(u,i)$ 最小的 $u$，若存在多个可能的 $u$ 则选取其中最小的。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，两个正整数 $n,m$，表示 A 国的城市数量与双向道路数量。\n\n接下来 $m$ 行，每行两个整数 $u_i,v_i$，表示一条连接城市 $u_i$ 与城市 $v_i$ 的双向道路。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，一个整数，表示建设难度最小的城市编号。如果有多个满足条件的城市，则选取其中编号最小的城市。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "对于 $40\\%$ 的测试点，保证 $1\\le n\\le 300$。\n\n对于所有测试点，保证 $1\\le n\\le 2000$，$1\\le m\\le 2000$，$1\\le u_i,v_i\\le n$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "3 3\n1 2\n1 3\n2 3",
+            "output": "1"
+          },
+          {
+            "input": "4 4\n1 2\n2 3\n3 4\n2 4",
+            "output": "2"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P14921",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p14922",
+      "title": "[GESP202512 七级] 学习小组",
+      "level": 7,
+      "oj_system": "luogu",
+      "oj_id": "P14922",
+      "source_url": "https://www.luogu.com.cn/problem/P14922",
+      "fetched_at": "2026-06-01T03:00:53.952Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202512 七级] 学习小组",
+        "source_url": "https://www.luogu.com.cn/problem/P14922",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1203>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "班主任计划将班级里的 $n$ 名同学划分为若干个学习小组，每名同学都需要分入某一个学习小组中。班级里的同学依次以 $1,2,\\ldots,n$ 编号，第 $i$ 名同学有其发言积极度 $c_i$。\n\n观察发现，如果一个学习小组中恰好包含编号为 $p_1,p_2,\\ldots,p_k$ 的 $k$ 名同学，则该学习小组的基础讨论积极度为 $a_k$，综合讨论积极度为 $a_k+\\max\\{c_{p_1},c_{p_2},\\ldots,c_{p_k}\\}−\\min\\{c_{p_1},c_{p_2},\\ldots,c_{p_k}\\}$，也即基础讨论积极度加上小组内同学的最大发言积极度与最小发言积极度之差。\n\n给定基础讨论积极度 $a_1,a_2,\\ldots,a_n$，请你计算将这 $n$ 名同学划分为学习小组的所有可能方案中，综合讨论积极度之和的最大值。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，一个正整数 $n$，表示班级人数。\n\n第二行，$n$ 个非负整数 $c_1,c_2,\\ldots,c_n$，表示每位同学的发言积极度。\n\n第三行，$n$ 个非负整数 $a_1,a_2,\\ldots,a_n$，表示不同人数学习小组的基础讨论积极度。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，一个整数，表示所有划分方案中，学习小组综合讨论积极度之和的最大值。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "对于 $40\\%$ 的测试点，保证 $c_i=0$。\n\n对于所有测试点，保证 $1\\le n\\le 300$，$0\\le c_i\\le 10^4$，$0\\le a_i\\le 10^4$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "4\n2 1 3 2\n1 5 6 3",
+            "output": "12"
+          },
+          {
+            "input": "8\n1 3 2 4 3 5 4 6\n0 2 5 6 4 3 3 4",
+            "output": "21"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P14922",
           "source_page": null
         },
         "notes": [
