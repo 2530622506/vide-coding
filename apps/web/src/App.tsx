@@ -19,6 +19,7 @@ import {
   X
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import type { DomainGroup, EffectiveStatus, LevelCatalog, LevelSummary, ProblemDetailResponse, ProblemMutationPayload, ProblemSummary, ReviewQueueSummary } from "./types";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
@@ -34,6 +35,15 @@ const typeLabel: Record<string, string> = {
   selection: "选择",
   judgment: "判断",
   programming: "编程"
+};
+
+const DETAIL_PANE_WIDTH_KEY = "gesp-detail-pane-width";
+const DETAIL_PANE_DEFAULT_WIDTH = 360;
+const DETAIL_PANE_MIN_WIDTH = 280;
+const DETAIL_PANE_MAX_WIDTH = 720;
+
+type WorkspaceStyle = CSSProperties & {
+  "--detail-column-width"?: string;
 };
 
 const answerStatusLabel: Record<string, string> = {
@@ -70,6 +80,25 @@ async function requestJson<T>(path: string, init: RequestInit): Promise<T> {
     throw new Error(message || `${response.status} ${response.statusText}`);
   }
   return response.json() as Promise<T>;
+}
+
+function clampDetailColumnWidth(width: number) {
+  if (typeof window === "undefined") {
+    return Math.min(DETAIL_PANE_MAX_WIDTH, Math.max(DETAIL_PANE_MIN_WIDTH, width));
+  }
+  const viewportMax = Math.max(DETAIL_PANE_MIN_WIDTH, Math.min(DETAIL_PANE_MAX_WIDTH, window.innerWidth - 560));
+  return Math.min(viewportMax, Math.max(DETAIL_PANE_MIN_WIDTH, width));
+}
+
+function readStoredDetailColumnWidth() {
+  if (typeof window === "undefined") {
+    return DETAIL_PANE_DEFAULT_WIDTH;
+  }
+  const stored = Number.parseInt(window.localStorage.getItem(DETAIL_PANE_WIDTH_KEY) || "", 10);
+  if (Number.isFinite(stored)) {
+    return clampDetailColumnWidth(stored);
+  }
+  return clampDetailColumnWidth(DETAIL_PANE_DEFAULT_WIDTH);
 }
 
 type EditorMode = "create" | "edit";
@@ -134,9 +163,15 @@ export default function App() {
   const [editorMode, setEditorMode] = useState<EditorMode | null>(null);
   const [editorForm, setEditorForm] = useState<ProblemEditorForm>(() => emptyEditorForm(5));
   const [saving, setSaving] = useState(false);
+  const [detailColumnWidth, setDetailColumnWidth] = useState(() => readStoredDetailColumnWidth());
   const editorPaneRef = useRef<HTMLElement | null>(null);
   const detailPaneRef = useRef<HTMLElement | null>(null);
+  const workspaceRef = useRef<HTMLElement | null>(null);
   const pendingSelectionRef = useRef<{ problemId: string; domainId?: string } | null>(null);
+
+  const workspaceStyle = {
+    "--detail-column-width": `${detailColumnWidth}px`
+  } as WorkspaceStyle;
 
   useEffect(() => {
     void loadShell();
@@ -145,6 +180,10 @@ export default function App() {
   useEffect(() => {
     void loadCatalogLevel(selectedLevel);
   }, [selectedLevel]);
+
+  useEffect(() => {
+    window.localStorage.setItem(DETAIL_PANE_WIDTH_KEY, String(detailColumnWidth));
+  }, [detailColumnWidth]);
 
   async function loadShell() {
     return Promise.all([
@@ -204,6 +243,37 @@ export default function App() {
         setError(currentError instanceof Error ? currentError.message : "题目详情加载失败");
       })
       .finally(() => setDetailLoading(false));
+  }
+
+  function resizeDetailColumn(nextWidth: number) {
+    setDetailColumnWidth(clampDetailColumnWidth(nextWidth));
+  }
+
+  function startDetailColumnResize(event: ReactPointerEvent<HTMLButtonElement>) {
+    if (!workspaceRef.current || window.innerWidth <= 1100) {
+      return;
+    }
+    event.preventDefault();
+    const workspace = workspaceRef.current;
+    const handlePointerMove = (moveEvent: PointerEvent) => {
+      const rect = workspace.getBoundingClientRect();
+      resizeDetailColumn(rect.right - moveEvent.clientX);
+    };
+    const handlePointerUp = () => {
+      document.body.classList.remove("isResizingDetailPane");
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("pointercancel", handlePointerUp);
+    };
+
+    document.body.classList.add("isResizingDetailPane");
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
+    window.addEventListener("pointercancel", handlePointerUp);
+  }
+
+  function nudgeDetailColumnWidth(delta: number) {
+    resizeDetailColumn(detailColumnWidth + delta);
   }
 
   function startCreate() {
@@ -333,7 +403,7 @@ export default function App() {
         <Metric icon={<AlertTriangle size={18} />} label="复核项" value={reviewSummary?.summary.total_count ?? 0} tone="warn" />
       </section>
 
-      <section className="workspace">
+      <section className="workspace" ref={workspaceRef} style={workspaceStyle}>
         <aside className="domainNav">
           <div className="paneTitle">算法范畴</div>
           {catalog?.domains.map((domain) => (
@@ -355,6 +425,28 @@ export default function App() {
         </section>
 
         <aside className="sidePane">
+          <button
+            aria-label="调整题目详情栏宽度"
+            aria-orientation="vertical"
+            aria-valuemax={DETAIL_PANE_MAX_WIDTH}
+            aria-valuemin={DETAIL_PANE_MIN_WIDTH}
+            aria-valuenow={detailColumnWidth}
+            className="paneResizeHandle"
+            onKeyDown={(event) => {
+              if (event.key === "ArrowLeft") {
+                event.preventDefault();
+                nudgeDetailColumnWidth(24);
+              }
+              if (event.key === "ArrowRight") {
+                event.preventDefault();
+                nudgeDetailColumnWidth(-24);
+              }
+            }}
+            onPointerDown={startDetailColumnResize}
+            role="separator"
+            title="向左拖动扩大题目详情栏"
+            type="button"
+          />
           {editorMode ? (
             <section className="editorPane" ref={editorPaneRef}>
               <ProblemEditorPanel
