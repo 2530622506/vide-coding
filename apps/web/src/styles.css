@@ -804,13 +804,111 @@ body.isResizingDetailPane {
   margin: 0;
 }
 
-.statementBlock p {
+.markdownBody {
+  color: #435061;
+  display: grid;
+  font-size: 13px;
+  gap: 8px;
+  line-height: 1.55;
+  min-width: 0;
+}
+
+.markdownBody :where(p, ul, ol, pre, blockquote, h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+}
+
+.markdownBody :where(p, li) {
   color: #435061;
   font-size: 13px;
   line-height: 1.55;
-  margin: 0;
   overflow-wrap: anywhere;
-  white-space: pre-wrap;
+}
+
+.markdownBody :where(h1, h2, h3, h4, h5, h6) {
+  color: #263342;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+.markdownBody h1,
+.markdownBody h2 {
+  font-size: 15px;
+}
+
+.markdownBody h3,
+.markdownBody h4,
+.markdownBody h5,
+.markdownBody h6 {
+  font-size: 13px;
+}
+
+.markdownBody :where(ul, ol) {
+  display: grid;
+  gap: 4px;
+  padding-left: 18px;
+}
+
+.markdownBody strong {
+  color: #263342;
+  font-weight: 700;
+}
+
+.markdownBody a {
+  color: #1d6bb7;
+  text-decoration: none;
+}
+
+.markdownBody a:hover {
+  text-decoration: underline;
+}
+
+.markdownBody code {
+  background: #eef4f5;
+  border: 1px solid #d8e4e6;
+  border-radius: 5px;
+  color: #263342;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 12px;
+  padding: 1px 4px;
+}
+
+.markdownBody pre {
+  background: #f7fafb;
+  border: 1px solid #d8e4e6;
+  border-radius: 8px;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.markdownBody pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.markdownBody blockquote {
+  border-left: 3px solid #c7d6dc;
+  color: #596778;
+  padding-left: 10px;
+}
+
+.markdownBody :where(svg, img) {
+  max-width: 100%;
+}
+
+.markdownBody img {
+  border: 1px solid #d8e4e6;
+  border-radius: 8px;
+  display: block;
+  height: auto;
+}
+
+.markdownBody span[id^="mjx-"] {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  vertical-align: middle;
 }
 
 .sourceTerms {

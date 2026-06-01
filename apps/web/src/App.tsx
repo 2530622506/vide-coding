@@ -17,6 +17,8 @@ import {
   Trash2,
   X
 } from "lucide-react";
+import MarkdownIt from "markdown-it";
+import mathjax3 from "markdown-it-mathjax3";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import type { DomainGroup, EffectiveStatus, LevelCatalog, LevelSummary, ProblemDetailResponse, ProblemSummary, ReviewActionResult, ReviewQueueItem, ReviewQueueResponse, ReviewQueueSummary } from "./types";
@@ -46,6 +48,22 @@ const DETAIL_PANE_WIDTH_KEY = "gesp-detail-pane-width";
 const DETAIL_PANE_DEFAULT_WIDTH = 360;
 const DETAIL_PANE_MIN_WIDTH = 280;
 const DETAIL_PANE_MAX_WIDTH = 720;
+
+const statementMarkdown = new MarkdownIt({
+  breaks: true,
+  html: false,
+  linkify: true
+}).use(mathjax3);
+
+const defaultLinkOpenRenderer = statementMarkdown.renderer.rules.link_open;
+statementMarkdown.renderer.rules.link_open = (tokens, idx, options, env, self) => {
+  const token = tokens[idx];
+  token.attrSet("target", "_blank");
+  token.attrSet("rel", "noreferrer");
+  return defaultLinkOpenRenderer
+    ? defaultLinkOpenRenderer(tokens, idx, options, env, self)
+    : self.renderToken(tokens, idx, options);
+};
 
 type WorkspaceStyle = CSSProperties & {
   "--detail-column-width"?: string;
@@ -813,22 +831,15 @@ function StatementBlock({ detail }: { detail: NonNullable<ProblemDetailResponse[
 }
 
 function MarkdownText({ value }: { value: string }) {
-  const blocks = value
-    .replace(/!\[([^\]]*)\]\([^)]+\)/g, (_match, altText: string) => {
-      const alt = altText.trim();
-      return alt ? `（图片：${alt}，见下方图片）` : "";
-    })
-    .replace(/^:::[^\n]*(?:\n|$)/gm, "")
-    .replace(/^:::$/gm, "")
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-    .split(/\n{2,}/)
-    .map((item) => item.trim())
-    .filter(Boolean);
-  return (
-    <>
-      {blocks.map((block) => <p key={block}>{block}</p>)}
-    </>
-  );
+  const html = useMemo(() => {
+    const normalized = value
+      .replace(/^:::[^\n]*(?:\n|$)/gm, "")
+      .replace(/^:::$/gm, "")
+      .trim();
+    return statementMarkdown.render(normalized);
+  }, [value]);
+
+  return <div className="markdownBody" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
 function SampleCasesBlock({ detail }: { detail: NonNullable<ProblemDetailResponse["detail"]> }) {
