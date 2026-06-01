@@ -568,11 +568,12 @@ body.isResizingDetailPane {
   border: 0;
   bottom: 0;
   cursor: col-resize;
-  left: -12px;
+  left: 0;
   padding: 0;
   position: absolute;
+  touch-action: none;
   top: 0;
-  width: 12px;
+  width: 18px;
   z-index: 3;
 }
 
@@ -581,23 +582,33 @@ body.isResizingDetailPane {
   border-radius: 999px;
   content: "";
   display: block;
-  height: 86px;
-  left: 5px;
-  opacity: 0.72;
+  height: 72px;
+  left: 8px;
+  opacity: 0.58;
   position: absolute;
-  top: max(88px, 18vh);
+  top: 50%;
+  transform: translateY(-50%);
   transition:
     background 120ms ease,
+    height 120ms ease,
     opacity 120ms ease,
     width 120ms ease;
   width: 2px;
 }
 
 .paneResizeHandle:hover::before,
-.paneResizeHandle:focus-visible::before {
+.paneResizeHandle:focus-visible::before,
+body.isResizingDetailPane .paneResizeHandle::before {
   background: #188b8b;
+  height: 96px;
   opacity: 1;
   width: 3px;
+}
+
+.paneResizeHandle:hover + .detailPane,
+.paneResizeHandle:focus-visible + .detailPane,
+body.isResizingDetailPane .detailPane {
+  border-left-color: #8bc8c8;
 }
 
 .paneResizeHandle:focus-visible {
@@ -614,6 +625,7 @@ body.isResizingDetailPane {
   overflow-y: auto;
   padding: 14px;
   scroll-behavior: smooth;
+  transition: border-color 120ms ease;
 }
 
 .editorForm {
