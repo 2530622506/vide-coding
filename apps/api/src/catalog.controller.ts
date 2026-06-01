@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, NotFoundException, Param } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Inject, NotFoundException, Param, Patch, Post } from "@nestjs/common";
 import { CatalogService } from "./catalog.service.js";
 
 @Controller("catalog")
@@ -28,6 +28,31 @@ export class CatalogController {
         throw new NotFoundException(`Problem ${id} not found`);
       }
       return problem;
+    });
+  }
+
+  @Post("problems")
+  createProblem(@Body() body: unknown) {
+    return this.catalogService.createProblem(body);
+  }
+
+  @Patch("problems/:id")
+  updateProblem(@Param("id") id: string, @Body() body: unknown) {
+    return this.catalogService.updateProblem(id, body).then((problem) => {
+      if (!problem) {
+        throw new NotFoundException(`Problem ${id} not found`);
+      }
+      return problem;
+    });
+  }
+
+  @Delete("problems/:id")
+  deleteProblem(@Param("id") id: string) {
+    return this.catalogService.deleteProblem(id).then((deleted) => {
+      if (!deleted) {
+        throw new NotFoundException(`Problem ${id} not found`);
+      }
+      return { deleted: true, id };
     });
   }
 

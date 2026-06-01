@@ -11,11 +11,15 @@ import {
   Image as ImageIcon,
   Layers3,
   ListChecks,
+  Pencil,
+  Plus,
   RefreshCw,
+  Save,
+  Trash2,
   X
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import type { DomainGroup, EffectiveStatus, LevelCatalog, LevelSummary, ProblemDetailResponse, ProblemSummary, ReviewQueueSummary } from "./types";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { DomainGroup, EffectiveStatus, LevelCatalog, LevelSummary, ProblemDetailResponse, ProblemMutationPayload, ProblemSummary, ReviewQueueSummary } from "./types";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
@@ -53,6 +57,69 @@ async function fetchJson<T>(path: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 
+async function requestJson<T>(path: string, init: RequestInit): Promise<T> {
+  const response = await fetch(`${API_BASE}${path}`, {
+    ...init,
+    headers: {
+      "Content-Type": "application/json",
+      ...(init.headers || {})
+    }
+  });
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(message || `${response.status} ${response.statusText}`);
+  }
+  return response.json() as Promise<T>;
+}
+
+type EditorMode = "create" | "edit";
+type VisualAsset = NonNullable<ProblemDetailResponse["detail"]>["visual_assets"]["assets"][number];
+type PreviewAsset = Pick<VisualAsset, "id" | "asset_url" | "alt_text" | "source_url" | "source_page">;
+
+type ProblemEditorForm = {
+  canonical_problem_id: string;
+  title: string;
+  session: string;
+  level: string;
+  question_type: ProblemMutationPayload["question_type"];
+  question_number: string;
+  algorithm_domains: string;
+  problem_types: string;
+  knowledge_points: string;
+  statement: string;
+  answer: string;
+  explanation: string;
+  solution_code: string;
+  choice_options: string;
+  sample_cases: string;
+  visual_assets: string;
+  source_url: string;
+  source_title: string;
+};
+
+function emptyEditorForm(level: number): ProblemEditorForm {
+  return {
+    canonical_problem_id: "",
+    title: "",
+    session: "user",
+    level: String(level),
+    question_type: "programming",
+    question_number: "",
+    algorithm_domains: "基础程序设计",
+    problem_types: "",
+    knowledge_points: "",
+    statement: "",
+    answer: "",
+    explanation: "",
+    solution_code: "",
+    choice_options: "",
+    sample_cases: "",
+    visual_assets: "",
+    source_url: "",
+    source_title: ""
+  };
+}
+
 export default function App() {
   const [levels, setLevels] = useState<LevelSummary[]>([]);
   const [selectedLevel, setSelectedLevel] = useState(5);
@@ -64,9 +131,23 @@ export default function App() {
   const [detailLoading, setDetailLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [editorMode, setEditorMode] = useState<EditorMode | null>(null);
+  const [editorForm, setEditorForm] = useState<ProblemEditorForm>(() => emptyEditorForm(5));
+  const [saving, setSaving] = useState(false);
+  const editorPaneRef = useRef<HTMLElement | null>(null);
+  const detailPaneRef = useRef<HTMLElement | null>(null);
+  const pendingSelectionRef = useRef<{ problemId: string; domainId?: string } | null>(null);
 
   useEffect(() => {
-    void Promise.all([
+    void loadShell();
+  }, []);
+
+  useEffect(() => {
+    void loadCatalogLevel(selectedLevel);
+  }, [selectedLevel]);
+
+  async function loadShell() {
+    return Promise.all([
       fetchJson<{ levels: LevelSummary[] }>("/catalog/levels"),
       fetchJson<ReviewQueueSummary>("/catalog/review-queue/summary")
     ])
@@ -77,24 +158,30 @@ export default function App() {
       .catch((currentError: unknown) => {
         setError(currentError instanceof Error ? currentError.message : "API 请求失败");
       });
-  }, []);
+  }
 
-  useEffect(() => {
+  async function loadCatalogLevel(level: number) {
     setLoading(true);
     setError(null);
-    fetchJson<LevelCatalog>(`/catalog/levels/${selectedLevel}`)
+    return fetchJson<LevelCatalog>(`/catalog/levels/${level}`)
       .then((nextCatalog) => {
+        const pendingSelection = pendingSelectionRef.current;
+        pendingSelectionRef.current = null;
         setCatalog(nextCatalog);
-        setActiveDomainId(nextCatalog.domains[0]?.domain_id || null);
-        setSelectedProblemId(null);
-        setSelectedProblem(null);
+        setActiveDomainId(pendingSelection?.domainId || nextCatalog.domains[0]?.domain_id || null);
+        if (pendingSelection) {
+          openProblem(pendingSelection.problemId);
+        } else {
+          setSelectedProblemId(null);
+          setSelectedProblem(null);
+        }
       })
       .catch((currentError: unknown) => {
         setCatalog(null);
         setError(currentError instanceof Error ? currentError.message : "目录加载失败");
       })
       .finally(() => setLoading(false));
-  }, [selectedLevel]);
+  }
 
   const activeDomain = useMemo(() => {
     if (!catalog) {
@@ -106,14 +193,96 @@ export default function App() {
   function openProblem(problemId: string) {
     setSelectedProblemId(problemId);
     setDetailLoading(true);
+    detailPaneRef.current?.scrollIntoView({ block: "start", behavior: "smooth" });
+    detailPaneRef.current?.scrollTo({ top: 0, behavior: "smooth" });
     fetchJson<ProblemDetailResponse>(`/catalog/problems/${encodeURIComponent(problemId)}`)
       .then((problem) => {
         setSelectedProblem(problem);
+        window.setTimeout(() => detailPaneRef.current?.scrollTo({ top: 0 }), 0);
       })
       .catch((currentError: unknown) => {
         setError(currentError instanceof Error ? currentError.message : "题目详情加载失败");
       })
       .finally(() => setDetailLoading(false));
+  }
+
+  function startCreate() {
+    setEditorMode("create");
+    setEditorForm(emptyEditorForm(selectedLevel));
+    window.setTimeout(() => editorPaneRef.current?.scrollIntoView({ block: "start", behavior: "smooth" }), 0);
+  }
+
+  function startEdit() {
+    if (!selectedProblem) {
+      setError("请先选择一道题目再修改");
+      return;
+    }
+    setEditorMode("edit");
+    setEditorForm(formFromProblem(selectedProblem));
+    window.setTimeout(() => editorPaneRef.current?.scrollIntoView({ block: "start", behavior: "smooth" }), 0);
+  }
+
+  async function saveEditor() {
+    setSaving(true);
+    setError(null);
+    try {
+      const currentForm = readEditorForm(editorPaneRef.current, editorForm);
+      setEditorForm(currentForm);
+      const payload = formToPayload(currentForm);
+      const saved = editorMode === "edit" && selectedProblem
+        ? await requestJson<ProblemDetailResponse>(`/catalog/problems/${encodeURIComponent(selectedProblem.id)}`, {
+          method: "PATCH",
+          body: JSON.stringify(payload)
+        })
+        : await requestJson<ProblemDetailResponse>("/catalog/problems", {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+      setEditorMode(null);
+      setSelectedProblem(saved);
+      setSelectedProblemId(saved.id);
+      await loadShell();
+      pendingSelectionRef.current = {
+        problemId: saved.id,
+        domainId: saved.resolved_algorithm_domains[0]?.value
+      };
+      if (saved.level !== selectedLevel) {
+        setSelectedLevel(saved.level);
+      } else {
+        await loadCatalogLevel(saved.level);
+      }
+    } catch (currentError) {
+      setError(currentError instanceof Error ? currentError.message : "保存失败");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function deleteSelectedProblem() {
+    if (!selectedProblem) {
+      setError("请先选择一道题目再删除");
+      return;
+    }
+    const confirmed = window.confirm(`确认删除「${selectedProblem.title}」吗？这个操作会从当前 MySQL 目录中移除题目、详情、答案和来源记录。`);
+    if (!confirmed) {
+      return;
+    }
+    setSaving(true);
+    setError(null);
+    try {
+      await requestJson<{ deleted: boolean }>(`/catalog/problems/${encodeURIComponent(selectedProblem.id)}`, {
+        method: "DELETE"
+      });
+      setSelectedProblem(null);
+      setSelectedProblemId(null);
+      setEditorMode(null);
+      await loadShell();
+      await loadCatalogLevel(selectedLevel);
+    } catch (currentError) {
+      setError(currentError instanceof Error ? currentError.message : "删除失败");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -127,6 +296,18 @@ export default function App() {
           <RefreshCw size={18} />
         </button>
       </header>
+
+      <section className="actionBar">
+        <button className="textButton" type="button" onClick={startCreate}>
+          <Plus size={16} /> 新增题目
+        </button>
+        <button className="textButton" type="button" disabled={!selectedProblem} onClick={startEdit}>
+          <Pencil size={16} /> 修改当前
+        </button>
+        <button className="textButton danger" type="button" disabled={!selectedProblem || saving} onClick={deleteSelectedProblem}>
+          <Trash2 size={16} /> 删除当前
+        </button>
+      </section>
 
       <section className="levelRail" aria-label="等级">
         {levels.map((level) => (
@@ -174,7 +355,20 @@ export default function App() {
         </section>
 
         <aside className="sidePane">
-          <section className="detailPane">
+          {editorMode ? (
+            <section className="editorPane" ref={editorPaneRef}>
+              <ProblemEditorPanel
+                form={editorForm}
+                mode={editorMode}
+                onCancel={() => setEditorMode(null)}
+                onChange={setEditorForm}
+                onSave={saveEditor}
+                saving={saving}
+              />
+            </section>
+          ) : null}
+
+          <section className="detailPane" ref={detailPaneRef}>
             <div className="paneTitle">题目详情</div>
             <ProblemDetailPanel
               loading={detailLoading}
@@ -211,6 +405,240 @@ export default function App() {
   );
 }
 
+function formFromProblem(problem: ProblemDetailResponse): ProblemEditorForm {
+  const statement = problem.detail?.statement.sections?.map((section) => section.markdown).join("\n\n")
+    || problem.detail?.statement.stem
+    || "";
+  return {
+    canonical_problem_id: problem.id,
+    title: problem.title,
+    session: problem.session,
+    level: String(problem.level),
+    question_type: problem.question_type,
+    question_number: String(problem.question_number),
+    algorithm_domains: problem.resolved_algorithm_domains.map((tag) => tag.label).join(", "),
+    problem_types: problem.resolved_problem_type_tags.map((tag) => tag.label).join(", "),
+    knowledge_points: problem.resolved_knowledge_point_tags.map((tag) => tag.label).join(", "),
+    statement,
+    answer: problem.answer_guidance?.reference_answer.answer || "",
+    explanation: problem.answer_guidance?.understanding_example.summary || "",
+    solution_code: problem.detail?.programming_solution.code || "",
+    choice_options: problem.detail?.choice_options.options.map((option) => `${option.key}. ${option.text}`).join("\n") || "",
+    sample_cases: problem.detail?.sample_cases.cases.map((sample) => `${sample.input} => ${sample.output}`).join("\n") || "",
+    visual_assets: problem.detail?.visual_assets.assets.map((asset) => `${asset.asset_url} | ${asset.alt_text}`).join("\n") || "",
+    source_url: problem.detail?.source_links.find((source) => source.url || source.source_url)?.url
+      || problem.detail?.source_links.find((source) => source.url || source.source_url)?.source_url
+      || "",
+    source_title: problem.detail?.source_links.find((source) => source.url || source.source_url)?.title || ""
+  };
+}
+
+function splitList(value: string) {
+  return value.split(/[,，\n]/).map((item) => item.trim()).filter(Boolean);
+}
+
+function readEditorForm(container: HTMLElement | null, fallback: ProblemEditorForm): ProblemEditorForm {
+  if (!container) {
+    return fallback;
+  }
+  const read = (key: keyof ProblemEditorForm) => {
+    const element = container.querySelector(`[name="${key}"]`) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null;
+    return element?.value ?? fallback[key];
+  };
+  return {
+    canonical_problem_id: read("canonical_problem_id"),
+    title: read("title"),
+    session: read("session"),
+    level: read("level"),
+    question_type: read("question_type") as ProblemEditorForm["question_type"],
+    question_number: read("question_number"),
+    algorithm_domains: read("algorithm_domains"),
+    problem_types: read("problem_types"),
+    knowledge_points: read("knowledge_points"),
+    statement: read("statement"),
+    answer: read("answer"),
+    explanation: read("explanation"),
+    solution_code: read("solution_code"),
+    choice_options: read("choice_options"),
+    sample_cases: read("sample_cases"),
+    visual_assets: read("visual_assets"),
+    source_url: read("source_url"),
+    source_title: read("source_title")
+  };
+}
+
+function parseChoiceOptions(value: string): ProblemMutationPayload["choice_options"] {
+  const lines = value.split(/\n/).map((line) => line.trim()).filter(Boolean);
+  if (!lines.length) {
+    return undefined;
+  }
+  return lines.map((line, index) => {
+    const matched = line.match(/^([A-Za-z0-9])[\s.．、:：-]+(.+)$/);
+    return {
+      key: matched?.[1]?.toUpperCase() || String.fromCharCode(65 + index),
+      text: (matched?.[2] || line).trim()
+    };
+  });
+}
+
+function parseSampleCases(value: string): ProblemMutationPayload["sample_cases"] {
+  const lines = value.split(/\n/).map((line) => line.trim()).filter(Boolean);
+  if (!lines.length) {
+    return undefined;
+  }
+  return lines.map((line) => {
+    const [input = "", output = ""] = line.split(/\s*=>\s*/);
+    return { input: input.trim(), output: output.trim() };
+  }).filter((sample) => sample.input || sample.output);
+}
+
+function parseVisualAssets(value: string): ProblemMutationPayload["visual_assets"] {
+  const lines = value.split(/\n/).map((line) => line.trim()).filter(Boolean);
+  if (!lines.length) {
+    return undefined;
+  }
+  return lines.map((line) => {
+    const [assetUrl = "", altText = "用户维护的题目图片"] = line.split(/\s*\|\s*/);
+    return {
+      asset_url: assetUrl.trim(),
+      alt_text: altText.trim() || "用户维护的题目图片"
+    };
+  }).filter((asset) => asset.asset_url);
+}
+
+function formToPayload(form: ProblemEditorForm): ProblemMutationPayload {
+  return {
+    canonical_problem_id: form.canonical_problem_id || undefined,
+    title: form.title,
+    session: form.session || undefined,
+    level: Number(form.level),
+    question_type: form.question_type,
+    question_number: form.question_number ? Number(form.question_number) : undefined,
+    algorithm_domains: splitList(form.algorithm_domains),
+    problem_types: splitList(form.problem_types),
+    knowledge_points: splitList(form.knowledge_points),
+    statement: form.statement || undefined,
+    answer: form.answer || undefined,
+    explanation: form.explanation || undefined,
+    solution_code: form.solution_code || undefined,
+    choice_options: parseChoiceOptions(form.choice_options),
+    sample_cases: parseSampleCases(form.sample_cases),
+    visual_assets: parseVisualAssets(form.visual_assets),
+    source_url: form.source_url || undefined,
+    source_title: form.source_title || undefined
+  };
+}
+
+function ProblemEditorPanel({ form, mode, onCancel, onChange, onSave, saving }: {
+  form: ProblemEditorForm;
+  mode: EditorMode;
+  onCancel: () => void;
+  onChange: (form: ProblemEditorForm) => void;
+  onSave: () => void;
+  saving: boolean;
+}) {
+  function update<K extends keyof ProblemEditorForm>(key: K, value: ProblemEditorForm[K]) {
+    onChange({ ...form, [key]: value });
+  }
+
+  return (
+    <div className="editorForm">
+      <div className="editorHeader">
+        <div>
+          <div className="paneTitle">{mode === "create" ? "新增题目" : "修改题目"}</div>
+          <p>用户维护内容默认保留待复核，不作为官方答案。</p>
+        </div>
+        <button className="iconButton small" type="button" title="关闭编辑" onClick={onCancel}>
+          <X size={16} />
+        </button>
+      </div>
+
+      <label>
+        <span>题目 ID</span>
+        <input disabled={mode === "edit"} name="canonical_problem_id" value={form.canonical_problem_id} onChange={(event) => update("canonical_problem_id", event.target.value)} placeholder="留空自动生成" />
+      </label>
+      <label>
+        <span>标题</span>
+        <input name="title" value={form.title} onChange={(event) => update("title", event.target.value)} />
+      </label>
+      <div className="editorGrid">
+        <label>
+          <span>等级</span>
+          <input min={1} max={8} name="level" type="number" value={form.level} onChange={(event) => update("level", event.target.value)} />
+        </label>
+        <label>
+          <span>题号</span>
+          <input min={1} name="question_number" type="number" value={form.question_number} onChange={(event) => update("question_number", event.target.value)} />
+        </label>
+      </div>
+      <label>
+        <span>题型</span>
+        <select name="question_type" value={form.question_type} onChange={(event) => update("question_type", event.target.value as ProblemMutationPayload["question_type"])}>
+          <option value="programming">编程</option>
+          <option value="selection">选择</option>
+          <option value="judgment">判断</option>
+        </select>
+      </label>
+      <label>
+        <span>算法范畴</span>
+        <input name="algorithm_domains" value={form.algorithm_domains} onChange={(event) => update("algorithm_domains", event.target.value)} placeholder="基础程序设计, 字符串" />
+      </label>
+      <label>
+        <span>题型标签</span>
+        <input name="problem_types" value={form.problem_types} onChange={(event) => update("problem_types", event.target.value)} placeholder="数组标记型, 回文判断型" />
+      </label>
+      <label>
+        <span>知识点</span>
+        <input name="knowledge_points" value={form.knowledge_points} onChange={(event) => update("knowledge_points", event.target.value)} placeholder="布尔标记, 双指针" />
+      </label>
+      <label>
+        <span>题面</span>
+        <textarea name="statement" rows={5} value={form.statement} onChange={(event) => update("statement", event.target.value)} />
+      </label>
+      <label>
+        <span>选择题选项</span>
+        <textarea name="choice_options" rows={4} value={form.choice_options} onChange={(event) => update("choice_options", event.target.value)} placeholder={"A. 选项内容\nB. 选项内容"} />
+      </label>
+      <label>
+        <span>样例</span>
+        <textarea name="sample_cases" rows={3} value={form.sample_cases} onChange={(event) => update("sample_cases", event.target.value)} placeholder="输入 => 输出，每行一组" />
+      </label>
+      <label>
+        <span>图片</span>
+        <textarea name="visual_assets" rows={3} value={form.visual_assets} onChange={(event) => update("visual_assets", event.target.value)} placeholder="图片 URL | 图片说明，每行一张" />
+      </label>
+      <div className="editorGrid">
+        <label>
+          <span>来源链接</span>
+          <input name="source_url" value={form.source_url} onChange={(event) => update("source_url", event.target.value)} placeholder="https://..." />
+        </label>
+        <label>
+          <span>来源标题</span>
+          <input name="source_title" value={form.source_title} onChange={(event) => update("source_title", event.target.value)} />
+        </label>
+      </div>
+      <label>
+        <span>参考答案</span>
+        <textarea name="answer" rows={3} value={form.answer} onChange={(event) => update("answer", event.target.value)} />
+      </label>
+      <label>
+        <span>知识点讲解</span>
+        <textarea name="explanation" rows={4} value={form.explanation} onChange={(event) => update("explanation", event.target.value)} />
+      </label>
+      <label>
+        <span>C++ 参考解</span>
+        <textarea name="solution_code" rows={6} value={form.solution_code} onChange={(event) => update("solution_code", event.target.value)} />
+      </label>
+      <div className="editorActions">
+        <button className="textButton" type="button" onClick={onCancel}>取消</button>
+        <button className="textButton primary" type="button" disabled={saving || !form.title.trim()} onClick={onSave}>
+          <Save size={16} /> {saving ? "保存中" : "保存"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function Metric({ icon, label, value, tone }: { icon: React.ReactNode; label: string; value: number; tone?: "warn" }) {
   return (
     <div className={tone === "warn" ? "metric warn" : "metric"}>
@@ -226,6 +654,8 @@ function DomainPanel({ domain, selectedProblemId, onProblemSelect }: {
   selectedProblemId: string | null;
   onProblemSelect: (problemId: string) => void;
 }) {
+  const [previewAsset, setPreviewAsset] = useState<PreviewAsset | null>(null);
+
   return (
     <div>
       <div className="domainHeader">
@@ -257,6 +687,7 @@ function DomainPanel({ domain, selectedProblemId, onProblemSelect }: {
                   isSelected={selectedProblemId === problem.id}
                   key={`${type.problem_type_id}:${problem.id}`}
                   onSelect={onProblemSelect}
+                  onPreview={setPreviewAsset}
                   problem={problem}
                 />
               ))}
@@ -264,38 +695,52 @@ function DomainPanel({ domain, selectedProblemId, onProblemSelect }: {
           </section>
         ))}
       </div>
+      <ImagePreviewOverlay asset={previewAsset} onClose={() => setPreviewAsset(null)} />
     </div>
   );
 }
 
-function ProblemRow({ problem, isSelected, onSelect }: {
+function ProblemRow({ problem, isSelected, onSelect, onPreview }: {
   problem: ProblemSummary;
   isSelected: boolean;
   onSelect: (problemId: string) => void;
+  onPreview: (asset: PreviewAsset) => void;
 }) {
   const primaryType = problem.problem_type_tags[0];
   const needsSource = problem.detail_completeness?.needs_source_enrichment;
   return (
-    <button className={isSelected ? "problemRow active" : "problemRow"} type="button" onClick={() => onSelect(problem.id)}>
-      <div className="problemIndex">
-        <span>{typeLabel[problem.question_type] || problem.question_type}</span>
-        <strong>{problem.question_number}</strong>
-      </div>
-      <div className="problemMain">
-        <div className="problemTitle">{problem.title}</div>
-        <div className="problemMeta">
-          <StatusBadge status={problem.status} />
-          {problem.answer_guidance ? <AnswerBadge guidance={problem.answer_guidance} /> : null}
-          {primaryType ? <span>{formatConfidence(primaryType.final_confidence)}</span> : null}
-          {needsSource ? <span>题面待补</span> : null}
-          {problem.review_queue_count > 0 ? <span>{problem.review_queue_count} 复核</span> : null}
+    <div className={isSelected ? "problemRow active" : "problemRow"}>
+      <button className="problemSelectButton" type="button" onClick={() => onSelect(problem.id)}>
+        <div className="problemIndex">
+          <span>{typeLabel[problem.question_type] || problem.question_type}</span>
+          <strong>{problem.question_number}</strong>
         </div>
-        {problem.answer_guidance ? <UnderstandingBlock problem={problem} /> : null}
-      </div>
-      <div className="problemTags">
-        {problem.knowledge_point_tags.slice(0, 3).map((tag) => <span className="tag" key={tag.value}>{tag.label}</span>)}
-      </div>
-    </button>
+        <div className="problemMain">
+          <div className="problemTitle">{problem.title}</div>
+          <div className="problemMeta">
+            <StatusBadge status={problem.status} />
+            {problem.answer_guidance ? <AnswerBadge guidance={problem.answer_guidance} /> : null}
+            {primaryType ? <span>{formatConfidence(primaryType.final_confidence)}</span> : null}
+            {needsSource ? <span>题面待补</span> : null}
+            {problem.visual_asset_thumbnails.length ? <span>含图片</span> : null}
+            {problem.review_queue_count > 0 ? <span>{problem.review_queue_count} 复核</span> : null}
+          </div>
+          {problem.answer_guidance ? <UnderstandingBlock problem={problem} /> : null}
+        </div>
+        <div className="problemTags">
+          {problem.knowledge_point_tags.slice(0, 3).map((tag) => <span className="tag" key={tag.value}>{tag.label}</span>)}
+        </div>
+      </button>
+      {problem.visual_asset_thumbnails.length ? (
+        <div className="problemThumbList">
+          {problem.visual_asset_thumbnails.map((asset) => (
+            <button className="problemThumbButton" key={asset.id} type="button" title={asset.alt_text || "预览图片"} onClick={() => onPreview(asset)}>
+              <img alt={asset.alt_text} src={asset.asset_url} />
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </div>
   );
 }
 
@@ -304,6 +749,12 @@ function ProblemDetailPanel({ loading, problem, onClose }: {
   problem: ProblemDetailResponse | null;
   onClose: () => void;
 }) {
+  const [previewAsset, setPreviewAsset] = useState<PreviewAsset | null>(null);
+
+  useEffect(() => {
+    setPreviewAsset(null);
+  }, [problem?.id]);
+
   if (loading) {
     return <div className="detailEmpty">加载中</div>;
   }
@@ -392,7 +843,9 @@ function ProblemDetailPanel({ loading, problem, onClose }: {
           <div className="assetList">
             {detail.visual_assets.assets.map((asset) => (
               <figure className="assetItem" key={asset.id}>
-                <img alt={asset.alt_text} src={asset.asset_url} />
+                <button className="assetPreviewButton" type="button" onClick={() => setPreviewAsset(asset)}>
+                  <img alt={asset.alt_text} src={asset.asset_url} />
+                </button>
                 <figcaption>{asset.alt_text}</figcaption>
               </figure>
             ))}
@@ -441,7 +894,47 @@ function ProblemDetailPanel({ loading, problem, onClose }: {
           {detail?.statement.source_page ? <span className="muted">官方 PDF 第 {detail.statement.source_page} 页</span> : null}
         </div>
       </DetailSection>
+      <ImagePreviewOverlay asset={previewAsset} onClose={() => setPreviewAsset(null)} />
     </article>
+  );
+}
+
+function ImagePreviewOverlay({ asset, onClose }: { asset: PreviewAsset | null; onClose: () => void }) {
+  useEffect(() => {
+    if (!asset) {
+      return;
+    }
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [asset, onClose]);
+
+  if (!asset) {
+    return null;
+  }
+
+  return (
+    <div className="imagePreviewOverlay" role="dialog" aria-modal="true" aria-label="图片预览" onClick={onClose}>
+      <div className="imagePreviewPanel" onClick={(event) => event.stopPropagation()}>
+        <div className="imagePreviewHeader">
+          <span>{asset.alt_text || "题目图片"}</span>
+          <button className="iconButton small" type="button" title="关闭预览" onClick={onClose}>
+            <X size={16} />
+          </button>
+        </div>
+        <img alt={asset.alt_text} src={asset.asset_url} />
+        {asset.source_url ? (
+          <a className="imagePreviewSource" href={asset.source_url} rel="noreferrer" target="_blank">
+            <ExternalLink size={14} />
+            <span>查看来源</span>
+          </a>
+        ) : null}
+      </div>
+    </div>
   );
 }
 

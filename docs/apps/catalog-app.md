@@ -41,6 +41,9 @@ npm run dev:api
 - `GET /api/catalog/levels`
 - `GET /api/catalog/levels/:level`
 - `GET /api/catalog/problems/:id`
+- `POST /api/catalog/problems`
+- `PATCH /api/catalog/problems/:id`
+- `DELETE /api/catalog/problems/:id`
 - `GET /api/catalog/review-queue/summary`
 
 API 优先读取 MySQL 表：
@@ -81,6 +84,15 @@ level -> algorithm domain -> problem type -> problems -> knowledge points
 
 页面不会以搜索框作为主入口。
 
+页面支持用户维护题目：
+
+- 新增题目：写入 MySQL，并默认标记为 `needs_review`。
+- 修改当前：可维护等级、题型、算法范畴、题型标签、知识点、题面、选择题选项、样例、图片 URL、来源链接、参考答案、知识点讲解和 C++ 参考解。
+- 删除当前：只删除当前 MySQL 目录中的题目、详情、答案和来源记录，不会删除原始 JSON 题源或公开站点内容。
+- 新增时如果题目 ID 已存在，API 返回冲突错误，避免覆盖官方题或已维护题。
+- 点击题目后右侧详情面板会滚动到顶部；新增/修改时会滚动到编辑器顶部，适配页面底部点击场景。
+- 中间题目列表会为已采集图片的题目展示缩略图，点击缩略图可直接预览，不需要先打开右侧详情。
+
 点击题目后，右侧题目详情面板展示：
 
 - 参考答案状态和答案证据。
@@ -89,6 +101,7 @@ level -> algorithm domain -> problem type -> problems -> knowledge points
 - 知识点讲解、理解步骤和中文注释。
 - 选择题选项状态；已稳定抽取的官方 PDF A/B/C/D 选项会直接展示，未抽取完整选项时保留 A/B/C/D 槽位并标为待复核。
 - 图片资产状态；已采集的官方 PDF 裁剪图 / OJ 题面图按 asset metadata 渲染，未发现图片时显示“未发现”并保留复核提示。
+- 图片资产支持点击预览；预览可通过关闭按钮、遮罩点击或 `Esc` 关闭。
 - 编程题 C++ 参考解状态；AI 生成参考解会展示生成提示、算法说明、复杂度和样例验证状态。
 - 官方 PDF / OJ 等来源链接。
 - 如果讲解是 AI 生成的学习辅助内容，会显示 AI 辅助和需甄别提示。
@@ -118,4 +131,4 @@ npm run build:web
 - 如果公开来源最终没有答案、图片或讲解，允许生成 AI 学习辅助内容或示意图，但页面必须展示 AI 生成和需甄别提示。
 - `review_queue_refs` 不为空的题目需要在后续 Review Workflow 中人工确认。
 - 当前未使用洛谷登录态，也没有爬取账号私有数据。
-- 当前任务全部完成后，再按 [GESP C++ 题库扩充待办](../future-cpp-source-expansion.md) 扩充更多 C++ 题源并导入 MySQL。
+- 后续按 [GESP C++ 题库扩充待办](../future-cpp-source-expansion.md) 扩充更多 C++ 题源并导入 MySQL；下一批公开 OJ 补采目标可用 `npm run plan:next-public-oj` 生成。

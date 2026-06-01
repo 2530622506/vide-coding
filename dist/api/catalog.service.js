@@ -4,7 +4,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, ConflictException, Injectable } from "@nestjs/common";
 import mysql from "mysql2/promise";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -130,6 +130,7 @@ let CatalogService = class CatalogService {
             return null;
         }
         return {
+            id: record.canonical_problem_id,
             ...record,
             data_source: store.data_source,
             answer_guidance: store.answerGuidanceByProblem.get(id) || null,
@@ -137,6 +138,45 @@ let CatalogService = class CatalogService {
             source_versions: store.sourceVersionsByProblem.get(id) || [],
             review_items: this.groupReviewItemsByProblem(store.reviewQueue).get(id) || []
         };
+    }
+    async createProblem(body) {
+        const input = this.normalizeProblemInput(body, true);
+        const id = input.canonical_problem_id || `user:${Date.now()}`;
+        if (await this.loadEditableProblem(id)) {
+            throw new ConflictException(`题目 ID ${id} 已存在，请换一个 ID 或使用修改功能`);
+        }
+        const record = this.buildEditableRecord(id, input, null);
+        const guidance = this.buildEditableGuidance(id, input, record, null);
+        const detail = this.buildEditableDetail(id, input, record, null);
+        const sourceVersion = this.buildEditableSourceVersion(id, record, input);
+        await this.upsertEditableProblem(record, guidance, detail, sourceVersion, true);
+        const created = await this.getProblem(id);
+        if (!created) {
+            throw new BadRequestException("题目创建后未能读取，请检查数据库状态");
+        }
+        return created;
+    }
+    async updateProblem(id, body) {
+        const input = this.normalizeProblemInput(body, false);
+        const existing = await this.loadEditableProblem(id);
+        if (!existing) {
+            return null;
+        }
+        const record = this.buildEditableRecord(id, input, existing.record);
+        const guidance = this.buildEditableGuidance(id, input, record, existing.guidance);
+        const detail = this.buildEditableDetail(id, input, record, existing.detail);
+        await this.upsertEditableProblem(record, guidance, detail, null, false);
+        return this.getProblem(id);
+    }
+    async deleteProblem(id) {
+        const connection = await this.createMysqlConnection();
+        try {
+            const [result] = await connection.execute("DELETE FROM classification_records WHERE canonical_problem_id = ?", [id]);
+            return result.affectedRows === 1;
+        }
+        finally {
+            await connection.end();
+        }
     }
     async getReviewQueueSummary() {
         const store = await this.loadStore();
@@ -147,6 +187,538 @@ let CatalogService = class CatalogService {
             medium_priority_count: store.reviewQueue.items.filter((item) => item.priority === "medium").length,
             low_priority_count: store.reviewQueue.items.filter((item) => item.priority === "low").length
         };
+    }
+    async loadEditableProblem(id) {
+        const connection = await this.createMysqlConnection();
+        try {
+            const [recordRows] = await connection.query("SELECT record_json FROM classification_records WHERE canonical_problem_id = ?", [id]);
+            const record = recordRows[0]?.record_json;
+            if (!record) {
+                return null;
+            }
+            const [guidanceRows] = await connection.query("SELECT guidance_json FROM problem_answer_guidance WHERE canonical_problem_id = ?", [id]);
+            const [detailRows] = await connection.query("SELECT detail_json FROM problem_details WHERE canonical_problem_id = ?", [id]);
+            return {
+                record: this.parseJson(record),
+                guidance: guidanceRows[0]?.guidance_json
+                    ? this.parseJson(guidanceRows[0].guidance_json)
+                    : null,
+                detail: detailRows[0]?.detail_json
+                    ? this.parseJson(detailRows[0].detail_json)
+                    : null
+            };
+        }
+        finally {
+            await connection.end();
+        }
+    }
+    async upsertEditableProblem(record, guidance, detail, sourceVersion, insertSourceVersion) {
+        const connection = await this.createMysqlConnection();
+        try {
+            await connection.beginTransaction();
+            await connection.execute(`INSERT INTO classification_records (
+          canonical_problem_id,
+          official_problem_id,
+          session_code,
+          language,
+          level_no,
+          question_type,
+          question_number,
+          title,
+          effective_review_status,
+          record_json
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CAST(? AS JSON))
+        ON DUPLICATE KEY UPDATE
+          official_problem_id = VALUES(official_problem_id),
+          session_code = VALUES(session_code),
+          language = VALUES(language),
+          level_no = VALUES(level_no),
+          question_type = VALUES(question_type),
+          question_number = VALUES(question_number),
+          title = VALUES(title),
+          effective_review_status = VALUES(effective_review_status),
+          record_json = VALUES(record_json)`, [
+                record.canonical_problem_id,
+                record.official_problem_id,
+                record.session,
+                record.language,
+                record.level,
+                record.question_type,
+                record.question_number,
+                record.title,
+                record.effective_review_status,
+                JSON.stringify(record)
+            ]);
+            await connection.execute(`INSERT INTO problem_answer_guidance (
+          canonical_problem_id,
+          answer_status,
+          answer_text,
+          answer_source,
+          confidence,
+          guidance_json
+        ) VALUES (?, ?, ?, ?, ?, CAST(? AS JSON))
+        ON DUPLICATE KEY UPDATE
+          answer_status = VALUES(answer_status),
+          answer_text = VALUES(answer_text),
+          answer_source = VALUES(answer_source),
+          confidence = VALUES(confidence),
+          guidance_json = VALUES(guidance_json)`, [
+                guidance.canonical_problem_id,
+                guidance.reference_answer.status,
+                guidance.reference_answer.answer,
+                guidance.reference_answer.source,
+                guidance.reference_answer.confidence,
+                JSON.stringify(guidance)
+            ]);
+            await connection.execute(`INSERT INTO problem_details (
+          canonical_problem_id,
+          statement_status,
+          option_status,
+          option_count,
+          visual_asset_status,
+          visual_asset_count,
+          programming_solution_status,
+          detail_json
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, CAST(? AS JSON))
+        ON DUPLICATE KEY UPDATE
+          statement_status = VALUES(statement_status),
+          option_status = VALUES(option_status),
+          option_count = VALUES(option_count),
+          visual_asset_status = VALUES(visual_asset_status),
+          visual_asset_count = VALUES(visual_asset_count),
+          programming_solution_status = VALUES(programming_solution_status),
+          detail_json = VALUES(detail_json)`, [
+                detail.canonical_problem_id,
+                detail.statement.status,
+                detail.choice_options.status,
+                detail.choice_options.options.length,
+                detail.visual_assets.status,
+                detail.visual_assets.assets.length,
+                detail.programming_solution.status,
+                JSON.stringify(detail)
+            ]);
+            if (insertSourceVersion && sourceVersion) {
+                await connection.execute(`INSERT INTO source_versions (
+            canonical_problem_id,
+            source_kind,
+            source_id,
+            source_url,
+            source_json
+          ) VALUES (?, ?, ?, ?, CAST(? AS JSON))`, [
+                    record.canonical_problem_id,
+                    "user_input",
+                    String(sourceVersion.source_id || record.canonical_problem_id),
+                    null,
+                    JSON.stringify(sourceVersion)
+                ]);
+            }
+            await connection.commit();
+        }
+        catch (error) {
+            await connection.rollback();
+            throw error;
+        }
+        finally {
+            await connection.end();
+        }
+    }
+    normalizeProblemInput(body, requireTitle) {
+        if (!body || typeof body !== "object") {
+            throw new BadRequestException("请求体必须是对象");
+        }
+        const value = body;
+        const title = this.optionalString(value.title);
+        if (requireTitle && !title) {
+            throw new BadRequestException("题目标题不能为空");
+        }
+        const level = value.level === undefined || value.level === "" ? undefined : Number(value.level);
+        if (level !== undefined && (!Number.isInteger(level) || level < 1 || level > 8)) {
+            throw new BadRequestException("等级必须是 1 到 8 的整数");
+        }
+        const questionNumber = value.question_number === undefined || value.question_number === "" ? undefined : Number(value.question_number);
+        if (questionNumber !== undefined && (!Number.isInteger(questionNumber) || questionNumber < 1)) {
+            throw new BadRequestException("题号必须是正整数");
+        }
+        const questionType = this.optionalString(value.question_type);
+        if (questionType && !["selection", "judgment", "programming"].includes(questionType)) {
+            throw new BadRequestException("题型必须是 selection、judgment 或 programming");
+        }
+        const id = this.optionalString(value.canonical_problem_id);
+        if (id && !/^[a-zA-Z0-9:_-]+$/.test(id)) {
+            throw new BadRequestException("题目 ID 只能包含字母、数字、冒号、下划线和短横线");
+        }
+        return {
+            canonical_problem_id: id,
+            title,
+            session: this.optionalString(value.session),
+            level,
+            question_type: questionType,
+            question_number: questionNumber,
+            algorithm_domains: this.optionalStringArray(value.algorithm_domains),
+            problem_types: this.optionalStringArray(value.problem_types),
+            knowledge_points: this.optionalStringArray(value.knowledge_points),
+            statement: this.optionalString(value.statement),
+            answer: this.optionalString(value.answer),
+            explanation: this.optionalString(value.explanation),
+            solution_code: this.optionalString(value.solution_code),
+            choice_options: this.optionalChoiceOptions(value.choice_options),
+            sample_cases: this.optionalSampleCases(value.sample_cases),
+            visual_assets: this.optionalVisualAssets(value.visual_assets),
+            source_url: this.optionalString(value.source_url),
+            source_title: this.optionalString(value.source_title)
+        };
+    }
+    optionalString(value) {
+        return typeof value === "string" && value.trim() ? value.trim() : undefined;
+    }
+    optionalStringArray(value) {
+        if (Array.isArray(value)) {
+            return value.map((item) => String(item).trim()).filter(Boolean);
+        }
+        if (typeof value === "string") {
+            return value.split(/[,，\n]/).map((item) => item.trim()).filter(Boolean);
+        }
+        return undefined;
+    }
+    optionalChoiceOptions(value) {
+        if (value === undefined) {
+            return undefined;
+        }
+        if (!Array.isArray(value)) {
+            throw new BadRequestException("选择题选项必须是数组");
+        }
+        return value.map((item, index) => {
+            if (!item || typeof item !== "object") {
+                throw new BadRequestException("选择题选项必须包含 key 和 text");
+            }
+            const option = item;
+            const key = this.optionalString(option.key) || String.fromCharCode(65 + index);
+            const text = this.optionalString(option.text);
+            if (!text) {
+                throw new BadRequestException("选择题选项内容不能为空");
+            }
+            return { key, text };
+        });
+    }
+    optionalSampleCases(value) {
+        if (value === undefined) {
+            return undefined;
+        }
+        if (!Array.isArray(value)) {
+            throw new BadRequestException("样例必须是数组");
+        }
+        return value.map((item) => {
+            if (!item || typeof item !== "object") {
+                throw new BadRequestException("样例必须包含 input 和 output");
+            }
+            const sample = item;
+            return {
+                input: this.optionalString(sample.input) || "",
+                output: this.optionalString(sample.output) || ""
+            };
+        }).filter((sample) => sample.input || sample.output);
+    }
+    optionalVisualAssets(value) {
+        if (value === undefined) {
+            return undefined;
+        }
+        if (!Array.isArray(value)) {
+            throw new BadRequestException("图片资源必须是数组");
+        }
+        return value.map((item) => {
+            if (!item || typeof item !== "object") {
+                throw new BadRequestException("图片资源必须包含 asset_url");
+            }
+            const asset = item;
+            const assetUrl = this.optionalString(asset.asset_url);
+            if (!assetUrl) {
+                throw new BadRequestException("图片 URL 不能为空");
+            }
+            return {
+                asset_url: assetUrl,
+                alt_text: this.optionalString(asset.alt_text) || "用户维护的题目图片",
+                source_url: this.optionalString(asset.source_url) || null
+            };
+        });
+    }
+    buildEditableRecord(id, input, existing) {
+        const title = input.title || existing?.title || "未命名题目";
+        const level = input.level ?? existing?.level ?? 1;
+        const questionType = input.question_type || existing?.question_type || "programming";
+        const questionNumber = input.question_number ?? existing?.question_number ?? Math.floor(Date.now() % 1000000);
+        const algorithmDomains = input.algorithm_domains !== undefined
+            ? this.buildUserTags("algorithm_domain", input.algorithm_domains)
+            : existing?.resolved_algorithm_domains || [];
+        const problemTypes = input.problem_types !== undefined
+            ? this.buildUserTags("problem_type", input.problem_types)
+            : existing?.resolved_problem_type_tags || [];
+        const knowledgePoints = input.knowledge_points !== undefined
+            ? this.buildUserTags("knowledge_point", input.knowledge_points)
+            : existing?.resolved_knowledge_point_tags || [];
+        return {
+            ...(existing || {}),
+            canonical_problem_id: id,
+            official_problem_id: existing?.official_problem_id || id,
+            session: input.session || existing?.session || "user",
+            language: "C++",
+            level,
+            question_type: questionType,
+            question_number: questionNumber,
+            title,
+            source_signals: {
+                ...(existing?.source_signals || {}),
+                user_editable: true,
+                user_updated_at: new Date().toISOString()
+            },
+            source_conflict_refs: existing?.source_conflict_refs || [],
+            review_queue_refs: existing?.review_queue_refs || [],
+            resolved_algorithm_domains: algorithmDomains,
+            resolved_problem_type_tags: problemTypes,
+            resolved_knowledge_point_tags: knowledgePoints,
+            effective_review_status: "needs_review"
+        };
+    }
+    buildEditableGuidance(id, input, record, existing) {
+        const answer = input.answer ?? existing?.reference_answer.answer ?? null;
+        const explanation = input.explanation || existing?.understanding_example.summary || `用户维护的「${record.title}」题目讲解，仍需结合题面和评测结果复核。`;
+        const algorithmLabels = record.resolved_algorithm_domains.map((tag) => tag.label);
+        const typeLabels = record.resolved_problem_type_tags.map((tag) => tag.label);
+        const knowledgeLabels = record.resolved_knowledge_point_tags.map((tag) => tag.label);
+        return {
+            ...(existing || {}),
+            canonical_problem_id: id,
+            content_origin: "user_input",
+            ai_generation_notice: existing?.ai_generation_notice,
+            reference_answer: {
+                status: "needs_review",
+                answer,
+                answer_format: record.question_type === "judgment" ? "true_false" : record.question_type === "selection" ? "choice" : "free_text",
+                source: "user_input",
+                source_url: "",
+                evidence: answer ? "用户在页面中维护的参考答案，仍需复核。" : "用户尚未填写参考答案。",
+                confidence: answer ? 0.6 : 0,
+                review_status: "needs_review"
+            },
+            understanding_example: {
+                language: "zh-CN",
+                summary: explanation,
+                algorithm_domains: algorithmLabels,
+                problem_types: typeLabels,
+                knowledge_points: knowledgeLabels,
+                steps: [
+                    "先核对题面、输入输出和限制条件。",
+                    "再检查算法范畴、题型和知识点标签是否与解法一致。",
+                    "最后用样例或公开 OJ 评测结果复核答案。"
+                ],
+                chinese_comments: [
+                    "中文注释：该题由用户在页面中维护，默认保留待复核状态。",
+                    "中文注释：确认来源和评测结果后，再提升可信状态。"
+                ],
+                example_hint: "用户维护内容不会自动视为官方答案。"
+            },
+            reference_links: existing?.reference_links || [],
+            review_notes: [
+                "用户通过页面维护，默认进入 needs_review。",
+                ...(existing?.review_notes || []).filter((note) => !note.includes("用户通过页面维护"))
+            ]
+        };
+    }
+    buildEditableDetail(id, input, record, existing) {
+        const statement = input.statement
+            ?? existing?.statement.sections?.[0]?.markdown
+            ?? existing?.statement.stem
+            ?? "";
+        const solutionCode = input.solution_code ?? existing?.programming_solution.code ?? null;
+        const hasStatement = Boolean(statement);
+        const hasSolution = Boolean(solutionCode);
+        const choiceOptions = input.choice_options !== undefined
+            ? {
+                status: input.choice_options.length > 0 ? "source_extracted" : record.question_type === "programming" ? "not_applicable" : "pending_collection",
+                options: input.choice_options.map((option) => ({
+                    key: option.key,
+                    text: option.text,
+                    source_status: "user_input_needs_review"
+                })),
+                extraction_method: "user_input",
+                notes: input.choice_options.length > 0
+                    ? ["用户在页面中维护的选项，需复核来源和准确性。"]
+                    : ["暂未结构化维护选择项。"]
+            }
+            : existing?.choice_options || {
+                status: record.question_type === "programming" ? "not_applicable" : "pending_collection",
+                options: [],
+                notes: ["暂未结构化维护选择项。"]
+            };
+        const visualAssets = input.visual_assets !== undefined
+            ? {
+                status: input.visual_assets.length > 0 ? "ready" : "none_found",
+                assets: input.visual_assets.map((asset, index) => ({
+                    id: `user_asset_${index + 1}`,
+                    asset_url: asset.asset_url,
+                    alt_text: asset.alt_text,
+                    source_url: asset.source_url || input.source_url || null,
+                    source_page: null
+                })),
+                source_hint: {
+                    source_url: input.source_url || input.visual_assets[0]?.source_url || null,
+                    source_page: null
+                },
+                notes: input.visual_assets.length > 0
+                    ? ["用户在页面中维护的图片，需复核版权、来源和是否与题面一致。"]
+                    : ["当前题目未维护图片。"]
+            }
+            : existing?.visual_assets || {
+                status: "none_found",
+                assets: [],
+                source_hint: { source_url: null, source_page: null },
+                notes: ["用户维护题暂未添加图片；如使用 AI 生成示意图，必须显式标注。"]
+            };
+        const sampleCases = input.sample_cases !== undefined
+            ? {
+                status: input.sample_cases.length > 0 ? "source_extracted" : record.question_type === "programming" ? "pending_collection" : "not_applicable",
+                cases: input.sample_cases,
+                notes: input.sample_cases.length > 0
+                    ? ["用户在页面中维护的样例，需用 C++ 参考解或 OJ 结果复核。"]
+                    : ["暂未维护样例。"]
+            }
+            : existing?.sample_cases || {
+                status: record.question_type === "programming" ? "pending_collection" : "not_applicable",
+                cases: [],
+                notes: ["暂未维护样例。"]
+            };
+        const sourceLinks = input.source_url
+            ? [{
+                    role: "user_source",
+                    source_kind: "user_input",
+                    title: input.source_title || "用户维护来源",
+                    url: input.source_url,
+                    source_url: input.source_url,
+                    trust_level: "needs_review"
+                }]
+            : existing?.source_links || [];
+        return {
+            ...(existing || {}),
+            canonical_problem_id: id,
+            content_origin: "user_input",
+            ai_generation_notice: existing?.ai_generation_notice,
+            statement: {
+                status: hasStatement ? "source_extracted" : "pending_collection",
+                stem: hasStatement ? statement.slice(0, 240) : record.title,
+                evidence_snippet: hasStatement ? statement.slice(0, 240) : null,
+                source_url: existing?.statement.source_url || null,
+                source_page: existing?.statement.source_page || null,
+                source_terms_status: "user_input_needs_review",
+                sections: hasStatement ? [{ id: "user_statement", title: "用户题面", markdown: statement }] : [],
+                notes: ["用户在页面中维护的题面，需复核来源和准确性。"]
+            },
+            choice_options: choiceOptions,
+            visual_assets: visualAssets,
+            programming_solution: {
+                status: hasSolution ? "needs_review" : record.question_type === "programming" ? "needs_review" : "not_applicable",
+                language: "C++",
+                code: solutionCode,
+                content_origin: hasSolution ? "user_input" : existing?.programming_solution.content_origin,
+                ai_generation_notice: existing?.programming_solution.ai_generation_notice,
+                algorithm: existing?.programming_solution.algorithm || "",
+                complexity: existing?.programming_solution.complexity || "",
+                verification: existing?.programming_solution.verification,
+                reference_answer: hasSolution ? "用户维护的 C++ 参考解，仍需样例或 OJ 复核。" : existing?.programming_solution.reference_answer,
+                notes: hasSolution
+                    ? ["用户维护的 C++ 参考解，默认待复核。"]
+                    : ["暂未维护 C++ 参考解。"]
+            },
+            sample_cases: sampleCases,
+            source_links: sourceLinks,
+            completeness: {
+                has_statement_stem: hasStatement,
+                has_choice_options: choiceOptions.options.length > 0,
+                has_visual_assets: visualAssets.assets.length > 0,
+                has_reference_answer: Boolean(input.answer ?? existing?.completeness.has_reference_answer),
+                needs_option_collection: record.question_type === "selection" && choiceOptions.options.length === 0,
+                needs_visual_asset_collection: false,
+                needs_programming_solution: record.question_type === "programming" && !hasSolution,
+                needs_source_enrichment: !hasStatement,
+                needs_solution_review: hasSolution
+            }
+        };
+    }
+    buildEditableSourceVersion(id, record, input) {
+        return {
+            id: `source-version:${id}:user-input`,
+            canonical_problem_id: id,
+            role: "user_maintained_entry",
+            source_kind: "user_input",
+            source_id: id,
+            source_url: input.source_url || null,
+            title: input.source_title || record.title,
+            trust_level: "needs_review",
+            review_status: "needs_review"
+        };
+    }
+    buildUserTags(kind, labels) {
+        return labels.map((label, index) => {
+            const value = kind === "algorithm_domain"
+                ? this.knownDomainId(label, index)
+                : this.slugify(label) || `custom_${kind}_${index + 1}`;
+            return {
+                kind,
+                value,
+                label,
+                source: "user_input",
+                evidence: {
+                    source: "user_input",
+                    evidence: "用户在页面中维护的分类标签，需复核。"
+                },
+                confidence: 0.6,
+                syllabus_fit: "community_inferred",
+                review_status: "needs_review",
+                raw_confidence: 0.6,
+                final_confidence: 0.54,
+                effective_review_status: "needs_review"
+            };
+        });
+    }
+    knownDomainId(label, index) {
+        const normalized = label.trim().toLowerCase();
+        const map = new Map([
+            ["基础程序设计", "basic_programming"],
+            ["basic_programming", "basic_programming"],
+            ["字符串", "string"],
+            ["string", "string"],
+            ["数论", "number_theory"],
+            ["number_theory", "number_theory"],
+            ["位运算", "bit_operation"],
+            ["bit_operation", "bit_operation"],
+            ["排序/模拟", "sort_simulation"],
+            ["模拟", "sort_simulation"],
+            ["sort_simulation", "sort_simulation"],
+            ["贪心", "greedy"],
+            ["greedy", "greedy"],
+            ["二分", "binary_search"],
+            ["binary_search", "binary_search"],
+            ["链表", "linked_list"],
+            ["linked_list", "linked_list"],
+            ["递归", "recursion"],
+            ["recursion", "recursion"],
+            ["分治", "divide_conquer"],
+            ["divide_conquer", "divide_conquer"],
+            ["图论", "graph"],
+            ["graph", "graph"],
+            ["动态规划", "dynamic_programming"],
+            ["dynamic_programming", "dynamic_programming"],
+            ["高精度", "high_precision"],
+            ["high_precision", "high_precision"],
+            ["复杂度", "complexity"],
+            ["complexity", "complexity"]
+        ]);
+        return map.get(normalized) || this.slugify(label) || `custom_domain_${index + 1}`;
+    }
+    slugify(value) {
+        return value
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "_")
+            .replace(/^_+|_+$/g, "");
     }
     async loadStore() {
         try {
@@ -160,14 +732,7 @@ let CatalogService = class CatalogService {
         }
     }
     async loadMysqlStore() {
-        const connection = await mysql.createConnection({
-            host: process.env.MYSQL_HOST || "127.0.0.1",
-            port: Number(process.env.MYSQL_PORT || 3310),
-            database: process.env.MYSQL_DATABASE || "gesp_catalog",
-            user: process.env.MYSQL_USER || "gesp",
-            password: process.env.MYSQL_PASSWORD || "gesp_dev_password",
-            charset: "utf8mb4"
-        });
+        const connection = await this.createMysqlConnection();
         try {
             const [recordRows] = await connection.query("SELECT record_json FROM classification_records ORDER BY level_no, question_type, question_number");
             const [reviewRows] = await connection.query("SELECT item_json FROM review_queue_items ORDER BY FIELD(priority, 'high', 'medium', 'low'), item_type, canonical_problem_id");
@@ -213,6 +778,16 @@ let CatalogService = class CatalogService {
         finally {
             await connection.end();
         }
+    }
+    createMysqlConnection() {
+        return mysql.createConnection({
+            host: process.env.MYSQL_HOST || "127.0.0.1",
+            port: Number(process.env.MYSQL_PORT || 3310),
+            database: process.env.MYSQL_DATABASE || "gesp_catalog",
+            user: process.env.MYSQL_USER || "gesp",
+            password: process.env.MYSQL_PASSWORD || "gesp_dev_password",
+            charset: "utf8mb4"
+        });
     }
     loadJsonStore() {
         const sourceVersionsByProblem = new Map();
@@ -297,7 +872,14 @@ let CatalogService = class CatalogService {
             problem_type_tags: record.resolved_problem_type_tags,
             knowledge_point_tags: record.resolved_knowledge_point_tags,
             answer_guidance: answerGuidanceByProblem.get(record.canonical_problem_id) || null,
-            detail_completeness: detail?.completeness || null
+            detail_completeness: detail?.completeness || null,
+            visual_asset_thumbnails: detail?.visual_assets.assets.slice(0, 2).map((asset) => ({
+                id: asset.id,
+                asset_url: asset.asset_url,
+                alt_text: asset.alt_text,
+                source_url: asset.source_url,
+                source_page: asset.source_page
+            })) || []
         };
     }
 };

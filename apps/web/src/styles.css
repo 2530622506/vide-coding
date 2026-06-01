@@ -73,10 +73,47 @@ button {
   width: 32px;
 }
 
+.textButton {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #d7dee4;
+  border-radius: 8px;
+  color: #253141;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 12px;
+}
+
+.textButton.primary {
+  background: #188b8b;
+  border-color: #188b8b;
+  color: #ffffff;
+}
+
+.textButton.danger {
+  color: #9b2c1f;
+}
+
+.textButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
 .levelRail {
   display: grid;
   gap: 8px;
   grid-template-columns: repeat(8, minmax(74px, 1fr));
+  margin: 0 auto 16px;
+  max-width: 1480px;
+}
+
+.actionBar {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   margin: 0 auto 16px;
   max-width: 1480px;
 }
@@ -275,12 +312,25 @@ button {
   border: 0;
   border-top: 1px solid #edf0f2;
   color: inherit;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  min-height: 62px;
+  padding-top: 8px;
+  text-align: left;
+  width: 100%;
+}
+
+.problemSelectButton {
+  align-items: start;
+  background: transparent;
+  border: 0;
+  color: inherit;
   cursor: pointer;
   display: grid;
   gap: 12px;
   grid-template-columns: 58px minmax(0, 1fr) minmax(150px, 260px);
-  min-height: 62px;
-  padding-top: 8px;
+  padding: 0;
   text-align: left;
   width: 100%;
 }
@@ -290,7 +340,8 @@ button {
   box-shadow: inset 3px 0 0 #188b8b;
 }
 
-.problemRow:hover {
+.problemRow:hover,
+.problemSelectButton:hover {
   background: #f7faf9;
 }
 
@@ -327,6 +378,35 @@ button {
   color: #657384;
   font-size: 12px;
   margin-top: 8px;
+}
+
+.problemThumbList {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.problemThumbButton {
+  background: #ffffff;
+  border: 1px solid #d8dfe5;
+  border-radius: 6px;
+  cursor: zoom-in;
+  height: 52px;
+  overflow: hidden;
+  padding: 0;
+  width: 68px;
+}
+
+.problemThumbButton:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.problemThumbButton img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
 }
 
 .answerBadge {
@@ -435,15 +515,93 @@ button {
 }
 
 .sidePane {
+  align-self: start;
   display: grid;
   gap: 14px;
+  grid-template-rows: auto minmax(220px, 1fr) auto;
+  max-height: calc(100vh - 32px);
 }
 
 .detailPane {
   background: #ffffff;
   border: 1px solid #d8dfe5;
   border-radius: 8px;
+  max-height: min(760px, calc(100vh - 32px));
+  overflow-y: auto;
   padding: 14px;
+  scroll-behavior: smooth;
+}
+
+.editorPane {
+  background: #ffffff;
+  border: 1px solid #d8dfe5;
+  border-radius: 8px;
+  max-height: min(760px, calc(100vh - 32px));
+  overflow-y: auto;
+  padding: 14px;
+}
+
+.editorForm {
+  display: grid;
+  gap: 10px;
+}
+
+.editorHeader {
+  align-items: flex-start;
+  border-bottom: 1px solid #e2e7eb;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
+
+.editorHeader p {
+  color: #667486;
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.editorForm label {
+  display: grid;
+  gap: 5px;
+}
+
+.editorForm label span {
+  color: #546475;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.editorForm input,
+.editorForm select,
+.editorForm textarea {
+  background: #ffffff;
+  border: 1px solid #d8dfe5;
+  border-radius: 8px;
+  color: #263342;
+  font: inherit;
+  font-size: 13px;
+  min-width: 0;
+  padding: 8px 10px;
+  width: 100%;
+}
+
+.editorForm textarea {
+  line-height: 1.45;
+  resize: vertical;
+}
+
+.editorGrid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.editorActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
 }
 
 .detailEmpty {
@@ -667,9 +825,24 @@ button {
   overflow: hidden;
 }
 
-.assetItem img {
+.assetPreviewButton {
+  background: #ffffff;
+  border: 0;
+  cursor: zoom-in;
+  display: block;
+  padding: 0;
+  width: 100%;
+}
+
+.assetPreviewButton:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: -2px;
+}
+
+.assetPreviewButton img {
   display: block;
   max-width: 100%;
+  width: 100%;
 }
 
 .assetItem figcaption {
@@ -677,6 +850,62 @@ button {
   color: #566272;
   font-size: 12px;
   padding: 8px;
+}
+
+.imagePreviewOverlay {
+  align-items: center;
+  background: rgba(15, 23, 42, 0.72);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 24px;
+  position: fixed;
+  z-index: 40;
+}
+
+.imagePreviewPanel {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 24px 72px rgba(15, 23, 42, 0.28);
+  display: grid;
+  gap: 10px;
+  max-height: calc(100vh - 48px);
+  max-width: min(980px, calc(100vw - 48px));
+  overflow: auto;
+  padding: 12px;
+}
+
+.imagePreviewHeader {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.imagePreviewHeader span {
+  color: #263342;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.imagePreviewPanel img {
+  border: 1px solid #dfe5ea;
+  border-radius: 6px;
+  display: block;
+  max-height: calc(100vh - 160px);
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.imagePreviewSource {
+  align-items: center;
+  color: #2563eb;
+  display: inline-flex;
+  font-size: 12px;
+  gap: 6px;
+  justify-self: start;
+  text-decoration: none;
 }
 
 .solutionBlock {
@@ -797,7 +1026,14 @@ button {
 
   .sidePane {
     grid-column: 1 / -1;
+    grid-template-rows: none;
+    max-height: none;
     position: static;
+  }
+
+  .detailPane,
+  .editorPane {
+    max-height: none;
   }
 
   .metricGrid {
@@ -845,10 +1081,19 @@ button {
   }
 
   .problemRow {
+    grid-template-columns: 1fr;
+  }
+
+  .problemSelectButton {
     grid-template-columns: 48px minmax(0, 1fr);
   }
 
   .problemTags {
     grid-column: 2;
+  }
+
+  .problemThumbList {
+    justify-content: flex-start;
+    margin-left: 60px;
   }
 }

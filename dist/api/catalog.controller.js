@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-import { Controller, Get, Inject, NotFoundException, Param } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Inject, NotFoundException, Param, Patch, Post } from "@nestjs/common";
 import { CatalogService } from "./catalog.service.js";
 let CatalogController = class CatalogController {
     catalogService;
@@ -37,6 +37,25 @@ let CatalogController = class CatalogController {
             return problem;
         });
     }
+    createProblem(body) {
+        return this.catalogService.createProblem(body);
+    }
+    updateProblem(id, body) {
+        return this.catalogService.updateProblem(id, body).then((problem) => {
+            if (!problem) {
+                throw new NotFoundException(`Problem ${id} not found`);
+            }
+            return problem;
+        });
+    }
+    deleteProblem(id) {
+        return this.catalogService.deleteProblem(id).then((deleted) => {
+            if (!deleted) {
+                throw new NotFoundException(`Problem ${id} not found`);
+            }
+            return { deleted: true, id };
+        });
+    }
     getReviewQueueSummary() {
         return this.catalogService.getReviewQueueSummary();
     }
@@ -61,6 +80,28 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], CatalogController.prototype, "getProblem", null);
+__decorate([
+    Post("problems"),
+    __param(0, Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], CatalogController.prototype, "createProblem", null);
+__decorate([
+    Patch("problems/:id"),
+    __param(0, Param("id")),
+    __param(1, Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], CatalogController.prototype, "updateProblem", null);
+__decorate([
+    Delete("problems/:id"),
+    __param(0, Param("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], CatalogController.prototype, "deleteProblem", null);
 __decorate([
     Get("review-queue/summary"),
     __metadata("design:type", Function),

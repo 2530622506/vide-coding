@@ -3,6 +3,468 @@ import { readFile, writeFile } from "node:fs/promises";
 const supplementalPath = "data/classification/supplemental-cxx-problems.json";
 
 const overrides = {
+  "supplemental:luogu:b4006": {
+    domains: [["sort_simulation", "排序/模拟"], ["greedy", "贪心"]],
+    types: [["sliding_window_max_sum", "滑动窗口最大和型"]],
+    knowledge: [["sorting", "排序"], ["two_pointer", "双指针"], ["window_sum", "窗口和维护"]],
+    focus: "排序后维护最大最小差不超过 k 的连续价值窗口"
+  },
+  "supplemental:luogu:b4069": {
+    domains: [["string", "字符串"], ["sort_simulation", "排序/模拟"]],
+    types: [["string_order_concatenation", "字符串有序拼接判定型"]],
+    knowledge: [["string_monotonicity", "字符串单调性"], ["custom_sort", "自定义排序"], ["boundary_check", "拼接边界检查"]],
+    focus: "检查每个字符串内部和排序后拼接边界是否非降序"
+  },
+  "supplemental:xinchuan:gesp202309": {
+    domains: [["greedy", "贪心"], ["sort_simulation", "排序/模拟"]],
+    types: [["deadline_profit_scheduling", "截止时间收益调度型"]],
+    knowledge: [["deadline_scheduling", "截止时间调度"], ["latest_slot_assignment", "最晚空位安排"], ["greedy_reward_order", "按收益贪心排序"]],
+    focus: "每个游戏占一段时间，在截止时间前安排高奖励游戏"
+  },
+  "supplemental:xinchuan:gesp202312": {
+    domains: [["bit_operation", "位运算"], ["greedy", "贪心"]],
+    types: [["maximum_pairwise_bitwise_and", "最大二元按位与型"]],
+    knowledge: [["bitwise_and", "按位与"], ["greedy_bitmask", "位掩码贪心"], ["candidate_counting", "候选掩码计数"]],
+    focus: "从高位到低位判断是否至少有两个数包含候选掩码"
+  },
+  "supplemental:xinchuan:gesp202406": {
+    domains: [["number_theory", "数论"], ["basic_programming", "基础程序设计"]],
+    types: [["distinct_prime_factor_counting", "不同质因数计数型"]],
+    knowledge: [["prime_factorization", "质因数分解"], ["sieve_precomputation", "筛法预处理"], ["factor_count", "质因数个数统计"]],
+    focus: "判断每个数是否恰好有两个不同质因数"
+  },
+  "supplemental:aijieoj:6028": {
+    domains: [["greedy", "贪心"], ["sort_simulation", "排序/模拟"]],
+    types: [["two_party_assignment_greedy", "双人分配差值贪心型"]],
+    knowledge: [["difference_sorting", "差值排序"], ["top_k_selection", "Top-K 选择"], ["assignment_optimization", "分配优化"]],
+    focus: "以 C 全买为基准，选择 n 个最大 b_i-c_i 差值给 B"
+  },
+  "supplemental:luogu:b4452": {
+    domains: [["greedy", "贪心"], ["sort_simulation", "排序/模拟"]],
+    types: [["multi_key_sorting_greedy", "多关键字排序贪心型"]],
+    knowledge: [["multi_key_sorting", "多关键字排序"], ["greedy_purchase", "贪心购买"], ["lexicographical_order", "字典序"]],
+    focus: "按优先级、价格和名称排序后的预算内购买"
+  },
+  "supplemental:luogu:p10379": {
+    domains: [["graph", "图论"], ["grid", "网格"]],
+    types: [["connected_component_shape_hashing", "连通块形状哈希型"]],
+    knowledge: [["flood_fill", "洪泛搜索"], ["shape_normalization", "形状归一化"], ["translation_equivalence", "平移等价"]],
+    focus: "同色四连通块按相对坐标归一化后统计不同形状"
+  },
+  "supplemental:luogu:p10723": {
+    domains: [["tree", "树"], ["greedy", "贪心"]],
+    types: [["steiner_tree_on_tree", "树上最小连通子树型"]],
+    knowledge: [["tree_subtree_count", "子树计数"], ["minimal_subtree", "最小连通子树"], ["black_node_connectivity", "黑点连通性"]],
+    focus: "把所有初始黑点连接成树所需补染的白点数量"
+  },
+  "supplemental:luogu:p10724": {
+    domains: [["number_theory", "数论"], ["prefix_sum", "前缀和"]],
+    types: [["parity_mask_prefix_counting", "奇偶掩码前缀计数型"]],
+    knowledge: [["prime_factor_parity", "质因数指数奇偶性"], ["xor_prefix", "异或前缀"], ["perfect_square_judgment", "完全平方数判定"]],
+    focus: "用质因数奇偶掩码统计乘积为完全平方数的区间"
+  },
+  "supplemental:luogu:p11248": {
+    domains: [["dynamic_programming", "动态规划"], ["grid", "网格"]],
+    types: [["grid_path_resource_dp", "网格路径资源 DP 型"]],
+    knowledge: [["grid_path_dp", "网格路径 DP"], ["resource_limited_transition", "资源限制转移"], ["rolling_array", "滚动数组"]],
+    focus: "向右向下路径上最多转换 x 个问号以最大化得分"
+  },
+  "supplemental:luogu:p11249": {
+    domains: [["tree", "树"], ["graph", "图论"]],
+    types: [["tree_marked_nodes_path_check", "树上标记点成路径判定型"]],
+    knowledge: [["minimal_subtree", "最小连通子树"], ["path_degree_check", "路径度数判定"], ["tree_traversal", "树遍历"]],
+    focus: "判断所有宝物点的最小连通子树是否是一条简单路径"
+  },
+  "supplemental:luogu:p10110": {
+    domains: [["graph", "图论"], ["greedy", "贪心"]],
+    types: [["shortest_edge_count_with_potential", "势能转化最短边数型"]],
+    knowledge: [["breadth_first_search", "广度优先搜索"], ["potential_function", "势能函数"], ["directed_graph_reachability", "有向图可达性"]],
+    focus: "交易价值差望远镜相消后求最少交换次数"
+  },
+  "supplemental:luogu:p10111": {
+    domains: [["dynamic_programming", "动态规划"], ["game", "博弈/游戏"]],
+    types: [["change_count_state_dp", "换牌次数状态 DP 型"]],
+    knowledge: [["state_definition", "状态定义"], ["transition_penalty", "转移代价"], ["rolling_dp", "滚动 DP"]],
+    focus: "按轮次、换牌次数和当前牌计算最大得分"
+  },
+  "supplemental:luogu:p10265": {
+    domains: [["graph", "图论"], ["matrix", "矩阵"]],
+    types: [["adjacency_matrix_row_column_count", "邻接矩阵行列统计型"]],
+    knowledge: [["adjacency_matrix", "邻接矩阵"], ["in_degree_out_degree", "入度/出度统计"], ["matrix_scan", "矩阵扫描"]],
+    focus: "统计指定节点邻接矩阵行列中的可达数量"
+  },
+  "supplemental:luogu:p10287": {
+    domains: [["dynamic_programming", "动态规划"], ["graph", "图论"]],
+    types: [["dag_lnds_state_dp", "DAG 最长不下降子序列状态 DP 型"]],
+    knowledge: [["topological_order", "拓扑序"], ["longest_non_decreasing_subsequence", "最长不下降子序列"], ["small_value_state_dp", "小值域状态 DP"]],
+    focus: "在 DAG 路径上用 1..10 值域状态维护最大 LNDS"
+  },
+  "supplemental:luogu:p10378": {
+    domains: [["graph", "图论"], ["sort_simulation", "排序/模拟"]],
+    types: [["bipartite_component_size_range", "二分图连通块规模范围型"]],
+    knowledge: [["bipartite_coloring", "二分染色"], ["connected_component", "连通块"], ["min_max_component_choice", "连通块取向最值"]],
+    focus: "每个二分图连通块任选颜色作为 B 校并累加上下界"
+  },
+  "supplemental:luogu:p11963": {
+    domains: [["dynamic_programming", "动态规划"], ["prefix_sum", "前缀和"]],
+    types: [["circular_max_subarray", "环形最大子段和型"]],
+    knowledge: [["kadane_algorithm", "最大子段和"], ["circular_array", "环形数组"], ["minimum_subarray", "最小子段和"]],
+    focus: "在环线上选择非空连续车站段获得最大快乐值"
+  },
+  "supplemental:luogu:p13015": {
+    domains: [["dynamic_programming", "动态规划"], ["basic_programming", "基础程序设计"]],
+    types: [["integer_partition_group_dp", "整数分组 DP 型"]],
+    knowledge: [["complete_knapsack_style_dp", "完全背包式 DP"], ["group_partition", "分组划分"], ["max_value_dp", "最大价值 DP"]],
+    focus: "把 n 名同学划分为若干组以最大化积极度总和"
+  },
+  "supplemental:luogu:p13016": {
+    domains: [["number_theory", "数论"], ["tree", "树"]],
+    types: [["factor_tree_distance", "因数树距离型"]],
+    knowledge: [["smallest_prime_factor", "最小质因数"], ["ancestor_chain", "祖先链"], ["lowest_common_ancestor", "最近公共祖先"]],
+    focus: "最大真因数父节点树中两点距离计算"
+  },
+  "supplemental:luogu:p14075": {
+    domains: [["dynamic_programming", "动态规划"], ["string", "字符串"]],
+    types: [["unique_character_partition_dp", "无重复字符分段 DP 型"]],
+    knowledge: [["string_partition", "字符串划分"], ["unique_character_window", "无重复字符窗口"], ["max_score_dp", "最大得分 DP"]],
+    focus: "把字符串划分为无重复字符子串并最大化价值"
+  },
+  "supplemental:luogu:p14076": {
+    domains: [["tree", "树"], ["greedy", "贪心"]],
+    types: [["tree_route_covering", "树遍历路线覆盖型"]],
+    knowledge: [["tree_edge_traversal", "树边遍历"], ["root_to_farthest_distance", "根到最远点距离"], ["route_optimization", "路线优化"]],
+    focus: "首都出发访问所有城市且不必返回的最短树上路线"
+  },
+  "supplemental:luogu:p14919": {
+    domains: [["tree", "树"], ["dynamic_programming", "动态规划"]],
+    types: [["root_leaf_path_cover_dp", "根叶路径覆盖 DP 型"]],
+    knowledge: [["tree_dp", "树形 DP"], ["path_cover", "路径覆盖"], ["min_cost_selection", "最小代价选择"]],
+    focus: "选择黑点覆盖所有叶子到根路径的最小代价"
+  },
+  "supplemental:luogu:p14920": {
+    domains: [["dynamic_programming", "动态规划"], ["knapsack", "背包"]],
+    types: [["zero_one_knapsack_by_value", "按价值维度 0/1 背包型"]],
+    knowledge: [["zero_one_knapsack", "0/1 背包"], ["value_dimension_dp", "价值维度 DP"], ["min_cost_for_value", "价值最小费用"]],
+    focus: "金币上限很大时按总攻击力做 0/1 背包"
+  },
+  "supplemental:luogu:p11246": {
+    domains: [["dynamic_programming", "动态规划"], ["math", "数学"]],
+    types: [["perfect_square_min_count_dp", "完全平方数最少拆分 DP 型"]],
+    knowledge: [["complete_square", "完全平方数"], ["min_count_dp", "最少数量 DP"], ["unbounded_knapsack", "完全背包"]],
+    focus: "把整数拆成完全平方数之和的最少项数"
+  },
+  "supplemental:luogu:p11247": {
+    domains: [["greedy", "贪心"], ["sort_simulation", "排序/模拟"]],
+    types: [["learning_plan_arrangement_feasibility", "学习计划排布可行性型"]],
+    knowledge: [["greedy_selection", "贪心选择"], ["no_adjacent_same", "相邻不同限制"], ["binary_feasibility", "二分可行性"]],
+    focus: "各知识点达标题数选择后判断能否排成相邻不同序列"
+  },
+  "supplemental:luogu:p11375": {
+    domains: [["tree", "树"], ["sort_simulation", "排序/模拟"]],
+    types: [["infinite_binary_tree_walk", "无限二叉树游走模拟型"]],
+    knowledge: [["binary_tree_indexing", "二叉树编号"], ["parent_child_transition", "父子节点转移"], ["string_simulation", "字符串模拟"]],
+    focus: "按 U/L/R 操作模拟完全二叉树节点编号变化"
+  },
+  "supplemental:luogu:p11376": {
+    domains: [["greedy", "贪心"], ["sort_simulation", "排序/模拟"]],
+    types: [["capacity_assignment_greedy", "容量分配贪心型"]],
+    knowledge: [["rearrangement_inequality", "排序配对优化"], ["capacity_allocation", "容量分配"], ["linear_cost_transform", "线性费用转化"]],
+    focus: "把车辆线性费用系数与运输站位置按符号贪心匹配"
+  },
+  "supplemental:luogu:p11962": {
+    domains: [["tree", "树"], ["graph", "图论"]],
+    types: [["bipartite_tree_parity_count", "树二分染色奇偶计数型"]],
+    knowledge: [["bipartite_coloring", "二分染色"], ["parity_distance", "路径长度奇偶性"], ["breadth_first_search", "广度优先搜索"]],
+    focus: "树上偶数步可达点等于同色点数量"
+  },
+  "supplemental:luogu:p10262": {
+    domains: [["number_theory", "数论"], ["string", "字符串"]],
+    types: [["substring_mod_counting", "子串取模计数型"]],
+    knowledge: [["modulo_remainder", "模运算余数"], ["substring_counting", "子串计数"], ["remainder_state_transition", "余数状态转移"]],
+    focus: "统计所有十进制连续子串中能被 p 整除的数量"
+  },
+  "supplemental:luogu:p10376": {
+    domains: [["dynamic_programming", "动态规划"], ["basic_programming", "基础程序设计"]],
+    types: [["operation_sequence_counting_dp", "操作序列计数 DP 型"]],
+    knowledge: [["linear_dp", "线性 DP"], ["recurrence_counting", "递推计数"], ["modulo_answer", "答案取模"]],
+    focus: "递推统计减 a 或减 b 直到不超过 c 的操作序列数"
+  },
+  "supplemental:luogu:p10377": {
+    domains: [["sort_simulation", "排序/模拟"], ["brute_force", "枚举搜索"]],
+    types: [["permutation_constraint_optimization", "排列约束优化型"]],
+    knowledge: [["permutation_enumeration", "排列枚举"], ["distance_constraint", "距离约束"], ["minimum_interval_length", "最短区间长度"]],
+    focus: "枚举牛的摆放顺序并计算满足攻击范围约束的最短牛棚段"
+  },
+  "supplemental:luogu:p10721": {
+    domains: [["dynamic_programming", "动态规划"], ["string", "字符串"]],
+    types: [["string_segmentation_dp", "字符串分段 DP 型"]],
+    knowledge: [["pattern_matching", "模式匹配"], ["segment_dp", "分段 DP"], ["max_score_dp", "最大得分 DP"]],
+    focus: "把连续 abc 重复块切分为计分子串的最大总分"
+  },
+  "supplemental:luogu:p10722": {
+    domains: [["tree", "树"], ["prefix_sum", "前缀和"]],
+    types: [["subtree_flip_difference", "子树翻转差分型"]],
+    knowledge: [["dfs_order", "DFS 序"], ["difference_array", "差分数组"], ["subtree_interval", "子树区间"]],
+    focus: "用 DFS 序把子树颜色反转转成区间异或差分"
+  },
+  "supplemental:luogu:b3873": {
+    domains: [["dynamic_programming", "动态规划"], ["knapsack", "背包"]],
+    types: [["zero_one_knapsack_min_cost", "0/1 背包最小费用型"]],
+    knowledge: [["zero_one_knapsack", "0/1 背包"], ["capacity_capping", "容量上限压缩"], ["min_cost_dp", "最小费用 DP"]],
+    focus: "容量压缩到目标体积后的 0/1 背包最小花费"
+  },
+  "supplemental:luogu:b3874": {
+    domains: [["data_structure", "数据结构"], ["sort_simulation", "排序/模拟"]],
+    types: [["fenwick_pair_counting", "树状数组计数型"]],
+    knowledge: [["fenwick_tree", "树状数组"], ["prefix_counting", "前缀计数"], ["order_pair_counting", "顺序对计数"]],
+    focus: "按进场顺序统计前面学号更小的握手数量"
+  },
+  "supplemental:luogu:p10108": {
+    domains: [["dynamic_programming", "动态规划"], ["graph", "图论"]],
+    types: [["dag_path_dp", "DAG 路径动态规划型"]],
+    knowledge: [["state_transition", "状态转移"], ["max_score_dp", "最大得分 DP"], ["directed_acyclic_graph", "有向无环图"]],
+    focus: "关卡只向后跳转的最大得分路径 DP"
+  },
+  "supplemental:luogu:p10109": {
+    domains: [["tree", "树"], ["sort_simulation", "排序/模拟"]],
+    types: [["ancestor_intersection_query", "祖先交集查询型"]],
+    knowledge: [["tree_ancestor", "树上祖先"], ["common_manager", "公共管理者"], ["ancestor_counting", "祖先计数"]],
+    focus: "员工管理树中所有参与者公共管理者的最大编号"
+  },
+  "supplemental:luogu:p10250": {
+    domains: [["dynamic_programming", "动态规划"], ["basic_programming", "基础程序设计"]],
+    types: [["linear_recurrence_dp", "线性递推 DP 型"]],
+    knowledge: [["tribonacci_recurrence", "三项递推"], ["state_definition", "状态定义"], ["linear_dp", "线性 DP"]],
+    focus: "一次走 1/2/3 阶的下楼梯方案数递推"
+  },
+  "supplemental:luogu:b4360": {
+    domains: [["string", "字符串"], ["sort_simulation", "排序/模拟"]],
+    types: [["matrix_crop_programming", "矩阵裁剪型"]],
+    knowledge: [["substring_extraction", "子串截取"], ["index_conversion", "下标转换"], ["matrix_grid_traversal", "矩阵/网格处理"]],
+    focus: "按行列边界裁剪字符矩阵"
+  },
+  "supplemental:luogu:b4361": {
+    domains: [["sort_simulation", "排序/模拟"], ["divide_and_conquer", "分治"]],
+    types: [["inversion_count_programming", "逆序对计数型"]],
+    knowledge: [["stable_sorting", "稳定排序"], ["inversion_count", "逆序对计数"], ["merge_sort", "归并排序"]],
+    focus: "目标排序位置序列的逆序对数"
+  },
+  "supplemental:luogu:b4415": {
+    domains: [["prefix_sum", "前缀和"], ["grid", "网格"]],
+    types: [["max_all_one_rectangle", "最大全 1 矩形型"]],
+    knowledge: [["two_dimensional_prefix_sum", "二维前缀和"], ["rectangle_enumeration", "子矩形枚举"], ["area_check", "面积校验"]],
+    focus: "枚举全为 1 的最大矩形区域"
+  },
+  "supplemental:luogu:b4416": {
+    domains: [["sort_simulation", "排序/模拟"], ["set_hash", "集合/哈希"]],
+    types: [["longest_consecutive_sequence", "最长连续整数段型"]],
+    knowledge: [["deduplication", "去重处理"], ["sorting", "排序"], ["consecutive_segment", "连续段统计"]],
+    focus: "去重排序后统计最长连续值段"
+  },
+  "supplemental:luogu:b4451": {
+    domains: [["sort_simulation", "排序/模拟"], ["grid", "网格"]],
+    types: [["fixed_window_matrix_enumeration", "固定窗口矩阵枚举型"]],
+    knowledge: [["sliding_window_fixed_size", "固定大小窗口"], ["max_min_selection", "最大最小值选择"], ["matrix_grid_traversal", "矩阵/网格处理"]],
+    focus: "枚举 3x3 区域并检查高度差"
+  },
+  "supplemental:luogu:b4041": {
+    domains: [["sort_simulation", "排序/模拟"]],
+    types: [["interval_sort_simulation", "区间排序模拟型"]],
+    knowledge: [["range_operation", "区间操作"], ["sorting", "排序"], ["sequential_simulation", "顺序模拟"]],
+    focus: "多次区间升序排序模拟"
+  },
+  "supplemental:luogu:b4068": {
+    domains: [["sort_simulation", "排序/模拟"], ["set_hash", "集合/哈希"]],
+    types: [["sequence_generation_sorting", "数列生成排序型"]],
+    knowledge: [["set_membership", "集合判重"], ["sequence_simulation", "数列模拟"], ["sorting", "排序"]],
+    focus: "Recamán 数列生成、判重和排序输出"
+  },
+  "supplemental:luogu:b4263": {
+    domains: [["sort_simulation", "排序/模拟"], ["grid", "网格"]],
+    types: [["grid_delta_optimization", "网格增量优化型"]],
+    knowledge: [["neighbor_counting", "邻格计数"], ["delta_update", "增量计算"], ["grid_traversal", "网格遍历"]],
+    focus: "清除一个杂物后的可开垦格子增量统计"
+  },
+  "supplemental:luogu:b4264": {
+    domains: [["sort_simulation", "排序/模拟"], ["math", "数学"]],
+    types: [["two_by_two_matrix_counting", "二阶矩阵计数型"]],
+    knowledge: [["matrix_grid_traversal", "矩阵/网格处理"], ["cross_product_equality", "交叉乘积相等"], ["nested_loop_enumeration", "多重循环枚举"]],
+    focus: "枚举 2x2 子矩阵并判断交叉乘积"
+  },
+  "supplemental:luogu:b3998": {
+    domains: [["string", "字符串"], ["sort_simulation", "排序/模拟"]],
+    types: [["keyboard_editing_simulation", "键盘编辑模拟型"]],
+    knowledge: [["string_simulation", "字符串模拟"], ["stack_like_operation", "栈式末尾操作"], ["boundary_case", "边界情况"]],
+    focus: "按键序列和退格操作模拟"
+  },
+  "supplemental:luogu:b3999": {
+    domains: [["greedy", "贪心"], ["sort_simulation", "排序/模拟"]],
+    types: [["constructive_greedy_programming", "构造贪心型"]],
+    knowledge: [["sorting", "排序"], ["prefix_feasibility", "前缀可行性"], ["permutation_construction", "排列构造"]],
+    focus: "产量和订单排序构造交付方案"
+  },
+  "supplemental:luogu:b4005": {
+    domains: [["prefix_sum", "前缀和"], ["sort_simulation", "排序/模拟"]],
+    types: [["matrix_prefix_sum_enumeration", "矩阵前缀和枚举型"]],
+    knowledge: [["two_dimensional_prefix_sum", "二维前缀和"], ["rectangle_enumeration", "子矩形枚举"], ["balance_transform", "黑白平衡转化"]],
+    focus: "黑白格转正负值后的平衡子矩形枚举"
+  },
+  "supplemental:luogu:b4040": {
+    domains: [["sort_simulation", "排序/模拟"], ["basic_programming", "基础程序设计"]],
+    types: [["fixed_pattern_matching", "固定图案匹配型"]],
+    knowledge: [["matrix_grid_traversal", "矩阵/网格处理"], ["pattern_matching", "模式匹配"], ["nested_loop_enumeration", "多重循环枚举"]],
+    focus: "固定 4x4 黑白方块模式匹配"
+  },
+  "supplemental:luogu:b3928": {
+    domains: [["greedy", "贪心"], ["sort_simulation", "排序/模拟"]],
+    types: [["ordered_set_matching_programming", "有序集合匹配型"]],
+    knowledge: [["greedy_choice", "局部最优选择"], ["ordered_set", "有序集合"], ["upper_bound", "二分查找 / upper_bound"]],
+    focus: "按对手顺序用最小可胜马匹贪心匹配"
+  },
+  "supplemental:luogu:b3939": {
+    domains: [["number_theory", "数论"], ["basic_programming", "基础程序设计"]],
+    types: [["prime_enumeration_programming", "素数枚举型"]],
+    knowledge: [["prime_check", "素数判断"], ["digit_reverse", "数位反转"], ["range_enumeration", "区间枚举"]],
+    focus: "两位数及其反转数的素数判定"
+  },
+  "supplemental:luogu:b3940": {
+    domains: [["sort_simulation", "排序/模拟"], ["basic_programming", "基础程序设计"]],
+    types: [["matrix_simulation_programming", "矩阵模拟型"]],
+    knowledge: [["matrix_grid_traversal", "矩阵/网格处理"], ["modulo_wraparound", "取模循环移动"], ["state_simulation", "状态模拟"]],
+    focus: "奇阶幻方移动规则模拟"
+  },
+  "supplemental:luogu:b3958": {
+    domains: [["string", "字符串"], ["sort_simulation", "排序/模拟"]],
+    types: [["one_edit_distance_judgment", "一次编辑距离判定型"]],
+    knowledge: [["two_pointer", "双指针"], ["string_comparison", "字符串比较"], ["case_analysis", "分类讨论"]],
+    focus: "删除、插入或修改一个字符的相似判定"
+  },
+  "supplemental:luogu:b3959": {
+    domains: [["greedy", "贪心"], ["sort_simulation", "排序/模拟"]],
+    types: [["greedy_sequence_matching", "贪心序列匹配型"]],
+    knowledge: [["sorting", "排序"], ["greedy_choice", "局部最优选择"], ["monotonic_requirement", "单调需求匹配"]],
+    focus: "升序题单匹配递增做题天数"
+  },
+  "supplemental:luogu:b3850": {
+    domains: [["basic_programming", "基础程序设计"], ["number_theory", "数论"]],
+    types: [["digit_transform_validation", "数位变换判定型"]],
+    knowledge: [["digit_position", "数位位置"], ["digit_sum", "数位和"], ["modulo_check", "取模判定"]],
+    focus: "奇偶数位变换和 8 的倍数判定"
+  },
+  "supplemental:luogu:b3851": {
+    domains: [["sort_simulation", "排序/模拟"], ["basic_programming", "基础程序设计"]],
+    types: [["frequency_palette_compression", "频次排序压缩型"]],
+    knowledge: [["frequency_count", "频次统计"], ["tie_break_sorting", "排序平局规则"], ["nearest_mapping", "最近值映射"], ["hex_parsing", "十六进制解析"]],
+    focus: "灰阶频次排序和最近调色板映射"
+  },
+  "supplemental:luogu:b3869": {
+    domains: [["basic_programming", "基础程序设计"], ["number_theory", "数论"]],
+    types: [["base_conversion_programming", "进制转换型"]],
+    knowledge: [["base_digit_mapping", "进制数码映射"], ["positional_notation", "位权展开"], ["loop_accumulation", "循环累积"]],
+    focus: "K 进制转十进制"
+  },
+  "supplemental:luogu:b3870": {
+    domains: [["bit_operation", "位运算"], ["basic_programming", "基础程序设计"]],
+    types: [["variable_length_encoding", "变长编码型"]],
+    knowledge: [["bit_grouping", "二进制分组"], ["bitwise_mask", "位掩码"], ["hex_formatting", "十六进制格式化输出"]],
+    focus: "每 7 位分组的变长整数编码"
+  },
+  "supplemental:luogu:b3927": {
+    domains: [["string", "字符串"], ["sort_simulation", "排序/模拟"]],
+    types: [["dictionary_replacement_programming", "字典替换型"]],
+    knowledge: [["hash_map_lookup", "哈希表查找"], ["token_scanning", "词元扫描"], ["delimiter_preservation", "分隔符保留"]],
+    focus: "按标点分词并使用字典替换"
+  },
+  "supplemental:luogu:b3996": {
+    domains: [["basic_programming", "基础程序设计"], ["sort_simulation", "排序/模拟"]],
+    types: [["digit_transform_simulation", "数字变换模拟型"]],
+    knowledge: [["digit_extraction", "数位提取"], ["state_cycle_detection", "状态循环检测"], ["bounded_simulation", "有界模拟"]],
+    focus: "数字末位变换和状态模拟"
+  },
+  "supplemental:luogu:b3997": {
+    domains: [["string", "字符串"], ["sort_simulation", "排序/模拟"]],
+    types: [["string_segment_palindrome_programming", "字符串分段回文统计型"]],
+    knowledge: [["segment_length_growth", "递增长度分段"], ["palindrome_check", "回文判断"], ["two_pointer", "双指针"]],
+    focus: "递增长度分段和回文计数"
+  },
+  "supplemental:luogu:b4003": {
+    domains: [["basic_programming", "基础程序设计"], ["string", "字符串"]],
+    types: [["alphabet_shift_programming", "字母移位型"]],
+    knowledge: [["modulo_operation", "取模运算"], ["character_cycle", "字符循环"], ["formatted_output", "格式输出"]],
+    focus: "大写字母循环移位"
+  },
+  "supplemental:luogu:b4004": {
+    domains: [["basic_programming", "基础程序设计"], ["number_theory", "数论"]],
+    types: [["multiple_existence_judgment", "倍数存在判定型"]],
+    knowledge: [["max_value_selection", "最大值选择"], ["divisibility_check", "整除判定"], ["batch_processing", "多组数据处理"]],
+    focus: "最大值倍数判定"
+  },
+  "supplemental:luogu:b4038": {
+    domains: [["basic_programming", "基础程序设计"], ["sort_simulation", "排序/模拟"]],
+    types: [["prefix_sum_balance_programming", "前缀和分割判定型"]],
+    knowledge: [["prefix_sum", "前缀和"], ["total_sum", "总和维护"], ["split_point", "切分点枚举"]],
+    focus: "前缀和与后缀和相等判定"
+  },
+  "supplemental:luogu:b4039": {
+    domains: [["string", "字符串"], ["sort_simulation", "排序/模拟"]],
+    types: [["palindrome_split_programming", "回文分割型"]],
+    knowledge: [["palindrome_check", "回文判断"], ["split_enumeration", "切分枚举"], ["two_pointer", "双指针"]],
+    focus: "两个回文串拼接判定"
+  },
+  "supplemental:luogu:b4067": {
+    domains: [["basic_programming", "基础程序设计"], ["sort_simulation", "排序/模拟"]],
+    types: [["pattern_output_programming", "字符图案输出型"]],
+    knowledge: [["pattern_table", "图案表"], ["matrix_grid_traversal", "矩阵/网格处理"], ["string_concatenation", "字符串拼接"]],
+    focus: "数字字符图案拼接输出"
+  },
+  "supplemental:luogu:b4261": {
+    domains: [["basic_programming", "基础程序设计"], ["bit_operation", "位运算"]],
+    types: [["bitwise_equation_programming", "位运算方程型"]],
+    knowledge: [["bitwise_identity", "位运算恒等式"], ["algebra_transform", "代数变形"], ["boundary_case", "边界情况"]],
+    focus: "按位与或恒等式变形"
+  },
+  "supplemental:luogu:b4262": {
+    domains: [["string", "字符串"], ["sort_simulation", "排序/模拟"]],
+    types: [["frequency_count_programming", "词频统计型"]],
+    knowledge: [["lowercase_conversion", "大小写归一化"], ["hash_map_counting", "哈希计数"], ["max_value_selection", "最大值选择"]],
+    focus: "忽略大小写词频统计"
+  },
+  "supplemental:luogu:b4358": {
+    domains: [["basic_programming", "基础程序设计"], ["bit_operation", "位运算"]],
+    types: [["bit_count_parity_programming", "二进制计数校验型"]],
+    knowledge: [["bit_count", "二进制 1 个数"], ["parity_check", "奇偶校验"], ["loop_accumulation", "循环累积"]],
+    focus: "二进制 1 个数奇偶校验"
+  },
+  "supplemental:luogu:b4359": {
+    domains: [["greedy", "贪心"], ["sort_simulation", "排序/模拟"]],
+    types: [["greedy_sequence_construction", "贪心序列构造型"]],
+    knowledge: [["monotonic_sequence", "单调序列"], ["greedy_choice", "局部最优选择"], ["loop_accumulation", "循环累积"]],
+    focus: "严格递增糖果数贪心构造"
+  },
+  "supplemental:luogu:b4413": {
+    domains: [["basic_programming", "基础程序设计"], ["sort_simulation", "排序/模拟"]],
+    types: [["array_operation_simulation", "数组操作模拟型"]],
+    knowledge: [["max_min_selection", "最大最小值选择"], ["iterative_simulation", "迭代模拟"], ["boundary_case", "边界情况"]],
+    focus: "数组最大值减最小非零值模拟"
+  },
+  "supplemental:luogu:b4414": {
+    domains: [["basic_programming", "基础程序设计"], ["sort_simulation", "排序/模拟"]],
+    types: [["calendar_formatting_programming", "日历格式化输出型"]],
+    knowledge: [["month_days_table", "月份天数表"], ["weekday_offset", "星期偏移"], ["formatted_output", "格式输出"]],
+    focus: "2025 年月份日历格式化"
+  },
+  "supplemental:luogu:b4449": {
+    domains: [["basic_programming", "基础程序设计"], ["string", "字符串"]],
+    types: [["string_validation_programming", "字符串合法性判断型"]],
+    knowledge: [["length_check", "长度判断"], ["character_category", "字符类别判断"], ["condition_combination", "复合条件判断"]],
+    focus: "密码强度条件判断"
+  },
+  "supplemental:luogu:b4450": {
+    domains: [["greedy", "贪心"], ["sort_simulation", "排序/模拟"]],
+    types: [["category_minimum_selection", "分类最小值选择型"]],
+    knowledge: [["min_value_selection", "最小值选择"], ["array_bucket", "数组桶"], ["greedy_choice", "局部最优选择"]],
+    focus: "每类文具最低价累加"
+  },
   "supplemental:luogu:b3842": {
     domains: [["basic_programming", "基础程序设计"], ["sort_simulation", "排序/模拟"]],
     types: [["array_marking_programming", "数组标记型"]],

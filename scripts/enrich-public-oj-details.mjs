@@ -67,6 +67,12 @@ function normalizeText(value) {
     .trim();
 }
 
+function decodeEscapedMarkdownNewlines(value) {
+  return String(value || "")
+    .replace(/\\r\\n/g, "\n")
+    .replace(/\\n/g, "\n");
+}
+
 function decodeHtmlEntities(value) {
   return String(value || "")
     .replace(/&quot;/g, "\"")
@@ -81,11 +87,28 @@ function decodeHtmlEntities(value) {
 
 function firstSourceUrl(detail, source) {
   const links = detail.source_links || [];
-  const matched = links.find((link) => link.oj_system === source && /luogu\.com\.cn\/problem\//.test(link.source_url || link.url || ""));
+  const sourcePatterns = {
+    luogu: /luogu\.com\.cn\/problem\//,
+    xinchuan: /xwjedu\.cn\/p\//,
+    aijieoj: /aijieoj\.cn\/problem\.php/
+  };
+  const pattern = sourcePatterns[source] || new RegExp(source.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+  const matched = links.find((link) => {
+    const url = link.source_url || link.url || "";
+    return (link.oj_system === source || pattern.test(url)) && pattern.test(url);
+  });
   return matched?.source_url || matched?.url || null;
 }
 
-function sourceIdFromUrl(sourceUrl) {
+function sourceIdFromUrl(sourceUrl, source = "luogu") {
+  if (source === "xinchuan") {
+    const match = sourceUrl.match(/\/p\/([^/?#]+)/);
+    return match ? match[1] : null;
+  }
+  if (source === "aijieoj") {
+    const match = sourceUrl.match(/[?&]id=([^&#]+)/);
+    return match ? match[1] : null;
+  }
   const match = sourceUrl.match(/\/problem\/([^/?#]+)/);
   return match ? match[1].toUpperCase() : null;
 }
@@ -164,6 +187,104 @@ function extractLuoguProblem(html) {
   return { problem, content };
 }
 
+function parseXinchuanContext(html) {
+  const match = html.match(/window\.UiContextNew\s*=\s*'([\s\S]*?)';/);
+  if (!match) {
+    throw new Error("missing xinchuan UiContextNew payload");
+  }
+  const context = JSON.parse(decodeHtmlEntities(match[1]));
+  const pdoc = context?.pdoc;
+  if (!pdoc?.content) {
+    throw new Error("missing xinchuan problem content");
+  }
+  const markdown = normalizeText(decodeEscapedMarkdownNewlines(pdoc.content));
+  return {
+    problem: {
+      pid: String(context.problemId || pdoc.pid || ""),
+      title: pdoc.title,
+      samples: markdownSamples(markdown)
+    },
+    content: markdownContentSections(markdown, pdoc.title, "xinchuan_hydro_context")
+  };
+}
+
+function parseAijieProblem(html) {
+  const titleMatch = html.match(/<h2[^>]*>([\s\S]*?)<\/h2>/i);
+  const markdownMatch = html.match(/<span[^>]*class=["'][^"']*\bmd\b[^"']*["'][^>]*>([\s\S]*?)<\/span>/i);
+  if (!markdownMatch) {
+    throw new Error("missing aijie markdown payload");
+  }
+  const title = normalizeText(decodeHtmlEntities((titleMatch?.[1] || "").replace(/<[^>]+>/g, "")));
+  const markdown = decodeHtmlEntities(markdownMatch[1])
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/p>/gi, "\n")
+    .replace(/<[^>]+>/g, "");
+  return {
+    problem: {
+      pid: sourceIdFromUrl("", "aijieoj"),
+      title,
+      samples: markdownSamples(markdown)
+    },
+    content: markdownContentSections(markdown, title, "aijie_markdown_span")
+  };
+}
+
+function stripSampleBlocks(markdown) {
+  return normalizeText(markdown).replace(/```(?:input|output)\d*[^\n]*\n[\s\S]*?```/gi, "").trim();
+}
+
+function markdownSamples(markdown) {
+  const blocks = [];
+  const pattern = /```(input|output)(\d*)[^\n]*\n([\s\S]*?)```/gi;
+  let match = pattern.exec(markdown);
+  while (match) {
+    blocks.push({
+      kind: match[1].toLowerCase(),
+      index: match[2] || "1",
+      text: normalizeText(match[3])
+    });
+    match = pattern.exec(markdown);
+  }
+  const byIndex = new Map();
+  for (const block of blocks) {
+    if (!byIndex.has(block.index)) {
+      byIndex.set(block.index, {});
+    }
+    byIndex.get(block.index)[block.kind] = block.text;
+  }
+  return [...byIndex.entries()]
+    .sort((a, b) => Number(a[0]) - Number(b[0]))
+    .filter(([, pair]) => pair.input !== undefined && pair.output !== undefined)
+    .map(([, pair]) => [pair.input, pair.output]);
+}
+
+function extractHeadingSection(markdown, headings) {
+  const source = stripSampleBlocks(markdown);
+  for (const heading of headings) {
+    const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const pattern = new RegExp(`(?:^|\\n)##\\s*${escaped}\\s*\\n([\\s\\S]*?)(?=\\n##\\s+|$)`, "i");
+    const match = source.match(pattern);
+    if (match) {
+      return normalizeText(match[1]);
+    }
+  }
+  return "";
+}
+
+function markdownContentSections(markdown, title, extractionMethod) {
+  const description = extractHeadingSection(markdown, ["Description", "题目描述", "题目背景"]) || stripSampleBlocks(markdown);
+  return {
+    name: title,
+    background: extractHeadingSection(markdown, ["题目背景"]),
+    description,
+    formatI: extractHeadingSection(markdown, ["Input Format", "输入格式"]),
+    formatO: extractHeadingSection(markdown, ["Output Format", "输出格式"]),
+    hint: extractHeadingSection(markdown, ["Hint", "说明", "说明/提示"]),
+    rawMarkdown: normalizeText(markdown),
+    extractionMethod
+  };
+}
+
 function section(id, title, markdown) {
   const normalized = normalizeText(markdown);
   return normalized ? { id, title, markdown: normalized } : null;
@@ -182,7 +303,7 @@ function statementFromContent(target, content) {
     title: normalizeText(content.name || target.title),
     source_url: target.source_url,
     source_page: null,
-    extraction_method: "luogu_lentille_context",
+    extraction_method: content.extractionMethod || "luogu_lentille_context",
     storage_policy: "source_extracted_public_oj",
     source_terms_status: "needs_review",
     sections,
@@ -255,7 +376,8 @@ function visualAssetsFromContent(target, problem, content) {
     content.description,
     content.formatI,
     content.formatO,
-    content.hint
+    content.hint,
+    content.rawMarkdown
   ].map((value) => normalizeText(value)).join("\n\n");
   const attachments = Array.isArray(problem.attachments) ? problem.attachments : content.attachments;
   const attachmentAssets = Array.isArray(attachments)
@@ -295,21 +417,42 @@ function visualAssetsFromContent(target, problem, content) {
   };
 }
 
+function extractProblemBySource(target, html) {
+  if (/xwjedu\.cn\/p\//.test(target.source_url)) {
+    return parseXinchuanContext(html);
+  }
+  if (/aijieoj\.cn\/problem\.php/.test(target.source_url)) {
+    return parseAijieProblem(html);
+  }
+  return extractLuoguProblem(html);
+}
+
+function ojSystemFromUrl(sourceUrl) {
+  if (/xwjedu\.cn\/p\//.test(sourceUrl)) {
+    return "xinchuan";
+  }
+  if (/aijieoj\.cn\/problem\.php/.test(sourceUrl)) {
+    return "aijieoj";
+  }
+  return "luogu";
+}
+
 function enrichRecord(target, html) {
-  const { problem, content } = extractLuoguProblem(html);
+  const { problem, content } = extractProblemBySource(target, html);
   const statement = statementFromContent(target, content);
   const sample_cases = sampleCasesFromContent(problem, content);
   const visual_assets = visualAssetsFromContent(target, problem, content);
+  const ojSystem = ojSystemFromUrl(target.source_url);
   return {
     canonical_problem_id: target.canonical_problem_id,
     title: statement.title || target.title,
     level: target.level,
-    oj_system: "luogu",
-    oj_id: problem.pid || sourceIdFromUrl(target.source_url),
+    oj_system: ojSystem,
+    oj_id: problem.pid || sourceIdFromUrl(target.source_url, ojSystem),
     source_url: target.source_url,
     fetched_at: new Date().toISOString(),
     fetch_status: statement.status === "source_extracted" ? "source_extracted" : "partial",
-    extraction_method: "luogu_lentille_context",
+    extraction_method: content.extractionMethod || "luogu_lentille_context",
     source_terms_status: "needs_review",
     review_status: "needs_review",
     statement,

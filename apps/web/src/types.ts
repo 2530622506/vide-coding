@@ -145,6 +145,13 @@ export type ProblemSummary = {
   knowledge_point_tags: ResolvedTag[];
   answer_guidance: AnswerGuidance | null;
   detail_completeness: ProblemDetail["completeness"] | null;
+  visual_asset_thumbnails: Array<{
+    id: string;
+    asset_url: string;
+    alt_text: string;
+    source_url: string | null;
+    source_page: number | null;
+  }>;
 };
 
 export type ProblemDetailResponse = ProblemSummary & {
@@ -204,4 +211,25 @@ export type ReviewQueueSummary = {
   }>;
   medium_priority_count: number;
   low_priority_count: number;
+};
+
+export type ProblemMutationPayload = {
+  canonical_problem_id?: string;
+  title: string;
+  session?: string;
+  level: number;
+  question_type: "selection" | "judgment" | "programming";
+  question_number?: number;
+  algorithm_domains?: string[];
+  problem_types?: string[];
+  knowledge_points?: string[];
+  statement?: string;
+  answer?: string;
+  explanation?: string;
+  solution_code?: string;
+  choice_options?: Array<{ key: string; text: string }>;
+  sample_cases?: Array<{ input: string; output: string }>;
+  visual_assets?: Array<{ asset_url: string; alt_text: string; source_url?: string | null }>;
+  source_url?: string;
+  source_title?: string;
 };

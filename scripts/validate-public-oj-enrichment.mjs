@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 
 const enrichmentPath = "data/enrichment/public-oj-problem-details.json";
 const supplementalPath = "data/classification/supplemental-cxx-problems.json";
+const minimumExtractedCount = 165;
 
 function assert(condition, message) {
   if (!condition) {
@@ -11,6 +12,14 @@ function assert(condition, message) {
 
 async function readJson(path) {
   return JSON.parse(await readFile(path, "utf8"));
+}
+
+function isAllowedPublicOjUrl(url) {
+  return [
+    /^https:\/\/www\.luogu\.com\.cn\/problem\//,
+    /^https:\/\/xwjedu\.cn\/p\//,
+    /^https:\/\/aijieoj\.cn\/problem\.php\?id=/
+  ].some((pattern) => pattern.test(url));
 }
 
 async function main() {
@@ -23,12 +32,12 @@ async function main() {
   assert(enrichment.crawl_policy.public_pages_only === true, "crawl policy must be public only");
   assert(enrichment.crawl_policy.login_used === false, "login must not be used");
   assert(enrichment.crawl_policy.credentials_used === false, "credentials must not be used");
-  assert(enrichment.records.length >= 88, `expected at least 88 extracted enrichment records, got ${enrichment.records.length}`);
-  assert(enrichment.summary.statement_extracted_count >= 88, "expected at least 88 extracted statements");
-  assert(enrichment.summary.sample_extracted_count >= 88, "expected at least 88 extracted sample groups");
+  assert(enrichment.records.length >= minimumExtractedCount, `expected at least ${minimumExtractedCount} extracted enrichment records, got ${enrichment.records.length}`);
+  assert(enrichment.summary.statement_extracted_count >= minimumExtractedCount, `expected at least ${minimumExtractedCount} extracted statements`);
+  assert(enrichment.summary.sample_extracted_count >= minimumExtractedCount, `expected at least ${minimumExtractedCount} extracted sample groups`);
 
   for (const record of enrichment.records) {
-    assert(record.source_url.startsWith("https://www.luogu.com.cn/problem/"), `${record.canonical_problem_id}: source URL must be Luogu problem page`);
+    assert(isAllowedPublicOjUrl(record.source_url), `${record.canonical_problem_id}: source URL must be a supported public OJ problem page`);
     assert(record.source_terms_status === "needs_review", `${record.canonical_problem_id}: source terms must need review`);
     assert(record.statement.status === "source_extracted", `${record.canonical_problem_id}: statement must be extracted`);
     assert(record.statement.sections.length > 0, `${record.canonical_problem_id}: statement sections required`);
@@ -38,7 +47,7 @@ async function main() {
   }
 
   const enrichedDetails = supplemental.problem_details.filter((detail) => detail.statement.status === "source_extracted");
-  assert(enrichedDetails.length >= 88, `expected at least 88 applied details, got ${enrichedDetails.length}`);
+  assert(enrichedDetails.length >= minimumExtractedCount, `expected at least ${minimumExtractedCount} applied details, got ${enrichedDetails.length}`);
   for (const detail of enrichedDetails) {
     assert(detail.content_origin.includes("ai_generated_learning_aid"), `${detail.canonical_problem_id}: AI learning-aid origin must remain visible`);
     assert(detail.statement.source_terms_status === "needs_review", `${detail.canonical_problem_id}: source terms status required`);

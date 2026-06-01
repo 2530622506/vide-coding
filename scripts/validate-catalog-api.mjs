@@ -24,8 +24,9 @@ async function main() {
   ]);
   const expectedLevel5Count = officialDetails.records.filter((record) => record.level === 5).length
     + supplemental.records.filter((record) => record.level === 5).length;
-  const [levels, level5, review] = await Promise.all([
+  const [levels, level2, level5, review] = await Promise.all([
     getJson("/catalog/levels"),
+    getJson("/catalog/levels/2"),
     getJson("/catalog/levels/5"),
     getJson("/catalog/review-queue/summary")
   ]);
@@ -33,12 +34,19 @@ async function main() {
   assert(Array.isArray(levels.levels), "levels must be array");
   assert(levels.levels.length >= 8, "expected at least 8 levels");
   assert(level5.level === 5, "level 5 catalog expected");
-  assert(level5.summary.problem_count === expectedLevel5Count, `expected ${expectedLevel5Count} level 5 problems, got ${level5.summary.problem_count}`);
+  assert(level5.summary.problem_count >= expectedLevel5Count, `expected at least ${expectedLevel5Count} level 5 problems, got ${level5.summary.problem_count}`);
   assert(Array.isArray(level5.domains) && level5.domains.length >= 6, "expected level 5 domain catalog");
   const firstProblem = level5.domains.flatMap((domain) => domain.problem_types.flatMap((type) => type.problems))[0];
   assert(firstProblem?.answer_guidance?.understanding_example?.language === "zh-CN", "problem summaries must include Chinese answer guidance");
   assert(Array.isArray(firstProblem.answer_guidance.understanding_example.chinese_comments), "Chinese comments are required");
   assert(firstProblem.detail_completeness, "problem summaries must expose detail completeness");
+  assert(Array.isArray(firstProblem.visual_asset_thumbnails), "problem summaries must expose visual asset thumbnails array");
+
+  const level2Problems = level2.domains.flatMap((domain) => domain.problem_types.flatMap((type) => type.problems));
+  const imageProblem = level2Problems.find((problem) => problem.id === "supplemental:luogu:b3994" || problem.title.includes("周长与面积"));
+  assert(imageProblem?.visual_asset_thumbnails?.length > 0, "middle problem list summaries must include thumbnails for problems with images");
+  assert(imageProblem.visual_asset_thumbnails[0].asset_url, "visual asset thumbnail must include image URL");
+
   const problemDetail = await getJson(`/catalog/problems/${encodeURIComponent(firstProblem.id)}`);
   assert(problemDetail.detail?.statement?.stem, "problem detail must include statement stem");
   assert(Array.isArray(problemDetail.detail?.visual_assets?.assets), "problem detail must include visual assets collection");
@@ -53,7 +61,7 @@ async function main() {
 
   console.log(`catalog api data source: ${level5.data_source}`);
   console.log(`catalog api level count: ${levels.levels.length}`);
-  console.log(`catalog api C++ level 5 problem count: ${level5.summary.problem_count}`);
+  console.log(`catalog api C++ level 5 problem count: ${level5.summary.problem_count} (seed baseline ${expectedLevel5Count})`);
   console.log(`catalog api first problem detail: ${problemDetail.detail.statement.status}/${problemDetail.detail.choice_options.status}`);
   console.log(`catalog api review queue count: ${review.summary.total_count}`);
   console.log("Catalog API validation passed");

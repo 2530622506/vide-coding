@@ -3,6 +3,28 @@ import { readFile, writeFile } from "node:fs/promises";
 const supplementalPath = "data/classification/supplemental-cxx-problems.json";
 const enrichmentPath = "data/enrichment/public-oj-problem-details.json";
 
+function parseArgs(argv) {
+  const options = {
+    level: null,
+    ids: new Set()
+  };
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+    if (arg === "--level") {
+      options.level = Number(argv[index + 1]);
+      index += 1;
+    } else if (arg === "--ids") {
+      for (const id of String(argv[index + 1] || "").split(",")) {
+        if (id.trim()) {
+          options.ids.add(id.trim());
+        }
+      }
+      index += 1;
+    }
+  }
+  return options;
+}
+
 async function readJson(path) {
   return JSON.parse(await readFile(path, "utf8"));
 }
@@ -96,12 +118,15 @@ function updateGuidance(guidance, enrichment) {
 }
 
 async function main() {
+  const options = parseArgs(process.argv.slice(2));
   const [supplemental, enrichment] = await Promise.all([
     readJson(supplementalPath),
     readJson(enrichmentPath)
   ]);
   const enrichmentById = new Map(enrichment.records
     .filter((record) => record.fetch_status === "source_extracted")
+    .filter((record) => options.level === null || record.level === options.level)
+    .filter((record) => options.ids.size === 0 || options.ids.has(record.canonical_problem_id))
     .map((record) => [record.canonical_problem_id, record]));
   let appliedCount = 0;
 

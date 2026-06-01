@@ -6,6 +6,7 @@ import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
 const supplementalPath = "data/classification/supplemental-cxx-problems.json";
+const minimumAiSolutionCount = 165;
 
 function assert(condition, message) {
   if (!condition) {
@@ -24,6 +25,56 @@ function normalizeOutput(value) {
     .trim();
 }
 
+function isPermutation(values, n) {
+  if (values.length !== n) return false;
+  const seen = new Set(values);
+  if (seen.size !== n) return false;
+  for (let value = 1; value <= n; value += 1) {
+    if (!seen.has(value)) return false;
+  }
+  return true;
+}
+
+function checkGongFactorySample(input, actualOutput) {
+  const inputTokens = normalizeOutput(input).split(/\s+/);
+  const outputTokens = normalizeOutput(actualOutput).split(/\s+/);
+  let inputIndex = 0;
+  let outputIndex = 0;
+  const caseCount = Number(inputTokens[inputIndex++]);
+  for (let caseIndex = 0; caseIndex < caseCount; caseIndex += 1) {
+    const n = Number(inputTokens[inputIndex++]);
+    const machines = Array.from({ length: n }, () => Number(inputTokens[inputIndex++]));
+    const orders = Array.from({ length: n }, () => Number(inputTokens[inputIndex++]));
+    const possible = machines.reduce((sum, value) => sum + value, 0) >= orders.reduce((sum, value) => sum + value, 0);
+    const decision = outputTokens[outputIndex++];
+    if (!possible) {
+      if (decision !== "No") return false;
+      continue;
+    }
+    if (decision !== "Yes") return false;
+    const machineIds = outputTokens.slice(outputIndex, outputIndex + n).map(Number);
+    outputIndex += n;
+    const orderIds = outputTokens.slice(outputIndex, outputIndex + n).map(Number);
+    outputIndex += n;
+    if (!isPermutation(machineIds, n) || !isPermutation(orderIds, n)) return false;
+    let stock = 0;
+    for (let day = 0; day < n; day += 1) {
+      stock += machines[machineIds[day] - 1];
+      stock -= orders[orderIds[day] - 1];
+      if (stock < 0) return false;
+    }
+  }
+  return outputIndex === outputTokens.length;
+}
+
+function samplePassed(detail, sample, actual) {
+  const normalizedActual = normalizeOutput(actual);
+  if (detail.canonical_problem_id === "supplemental:luogu:b3999") {
+    return checkGongFactorySample(sample.input, normalizedActual);
+  }
+  return normalizedActual === normalizeOutput(sample.output);
+}
+
 async function verifyCode(detail, tempRoot) {
   const sourcePath = join(tempRoot, `${detail.canonical_problem_id.replace(/[^a-z0-9]+/gi, "_")}.cpp`);
   const binaryPath = join(tempRoot, `${detail.canonical_problem_id.replace(/[^a-z0-9]+/gi, "_")}.out`);
@@ -32,9 +83,7 @@ async function verifyCode(detail, tempRoot) {
 
   for (const [index, sample] of detail.sample_cases.cases.entries()) {
     const stdout = await runBinary(binaryPath, `${sample.input}\n`);
-    const actual = normalizeOutput(stdout);
-    const expected = normalizeOutput(sample.output);
-    assert(actual === expected, `${detail.canonical_problem_id}: sample ${index + 1} expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+    assert(samplePassed(detail, sample, stdout), `${detail.canonical_problem_id}: sample ${index + 1} output did not satisfy checker, got ${JSON.stringify(normalizeOutput(stdout))}`);
   }
 }
 
@@ -75,7 +124,7 @@ function runBinary(binaryPath, input) {
 async function main() {
   const data = await readJson(supplementalPath);
   const details = data.problem_details.filter((detail) => detail.programming_solution.verification?.status === "sample_passed");
-  assert(details.length >= 88, `expected at least 88 sample-verified AI reference solutions, got ${details.length}`);
+  assert(details.length >= minimumAiSolutionCount, `expected at least ${minimumAiSolutionCount} sample-verified AI reference solutions, got ${details.length}`);
   assert(data.summary.ai_sample_verified_solution_count === details.length, "summary AI solution count mismatch");
 
   for (const detail of details) {
