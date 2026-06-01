@@ -955,6 +955,224 @@ int main() {
 }
 `
   },
+  "supplemental:luogu:p10288": {
+    algorithm: "把每个数值出现的位置存入有序数组。每次询问 [l,r] 中 x 的出现次数时，只需要在 x 对应的位置数组中二分查找落在区间内的位置数量。",
+    complexity: "预处理 O(n)，每次询问 O(log n)，空间复杂度 O(n)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int tests;
+    cin >> tests;
+    while (tests--) {
+        int n;
+        cin >> n;
+
+        unordered_map<long long, vector<int>> positions;
+        positions.reserve(n * 2);
+        for (int i = 1; i <= n; ++i) {
+            long long value;
+            cin >> value;
+            // 中文注释：同一个数值的所有下标天然按读入顺序递增。
+            positions[value].push_back(i);
+        }
+
+        int q;
+        cin >> q;
+        while (q--) {
+            int left, right;
+            long long x;
+            cin >> left >> right >> x;
+
+            auto it = positions.find(x);
+            if (it == positions.end()) {
+                cout << 0 << '\\n';
+                continue;
+            }
+
+            const vector<int>& pos = it->second;
+            auto first = lower_bound(pos.begin(), pos.end(), left);
+            auto last = upper_bound(pos.begin(), pos.end(), right);
+            // 中文注释：两个二分边界之间的元素个数就是 x 在区间内出现的次数。
+            cout << (last - first) << '\\n';
+        }
+    }
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p10289": {
+    algorithm: "树上普通路径距离用 LCA 求解；如果经过传送门，最优路径等价于从起点走到最近传送门、零成本传送、再从最近传送门走到终点。用多源 BFS 预处理每个点到最近传送门的距离。",
+    complexity: "预处理 O(n log n)，每次询问 O(log n)，空间复杂度 O(n log n)。",
+    code: `#include <algorithm>
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+
+const int LOG = 20;
+const int INF = 1000000000;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, k, q;
+    cin >> n >> k >> q;
+
+    vector<vector<int>> graph(n + 1);
+    for (int i = 0; i < n - 1; ++i) {
+        int x, y;
+        cin >> x >> y;
+        graph[x].push_back(y);
+        graph[y].push_back(x);
+    }
+
+    vector<int> portals(k);
+    for (int i = 0; i < k; ++i) cin >> portals[i];
+
+    vector<int> depth(n + 1, 0);
+    vector<vector<int>> up(LOG, vector<int>(n + 1, 1));
+    vector<int> parent(n + 1, 0);
+    queue<int> bfs;
+    bfs.push(1);
+    parent[1] = 1;
+    up[0][1] = 1;
+
+    while (!bfs.empty()) {
+        int node = bfs.front();
+        bfs.pop();
+        for (int next : graph[node]) {
+            if (next == parent[node]) continue;
+            parent[next] = node;
+            depth[next] = depth[node] + 1;
+            up[0][next] = node;
+            bfs.push(next);
+        }
+    }
+
+    for (int bit = 1; bit < LOG; ++bit) {
+        for (int node = 1; node <= n; ++node) {
+            up[bit][node] = up[bit - 1][up[bit - 1][node]];
+        }
+    }
+
+    auto lca = [&](int a, int b) {
+        if (depth[a] < depth[b]) swap(a, b);
+        int diff = depth[a] - depth[b];
+        for (int bit = 0; bit < LOG; ++bit) {
+            if (diff & (1 << bit)) a = up[bit][a];
+        }
+        if (a == b) return a;
+        for (int bit = LOG - 1; bit >= 0; --bit) {
+            if (up[bit][a] != up[bit][b]) {
+                a = up[bit][a];
+                b = up[bit][b];
+            }
+        }
+        return up[0][a];
+    };
+
+    auto treeDistance = [&](int a, int b) {
+        int root = lca(a, b);
+        return depth[a] + depth[b] - 2 * depth[root];
+    };
+
+    vector<int> nearestPortal(n + 1, INF);
+    queue<int> multi;
+    for (int portal : portals) {
+        nearestPortal[portal] = 0;
+        multi.push(portal);
+    }
+    while (!multi.empty()) {
+        int node = multi.front();
+        multi.pop();
+        for (int next : graph[node]) {
+            if (nearestPortal[next] <= nearestPortal[node] + 1) continue;
+            // 中文注释：多源 BFS 同时从所有传送门出发，得到每个点到最近传送门的距离。
+            nearestPortal[next] = nearestPortal[node] + 1;
+            multi.push(next);
+        }
+    }
+
+    while (q--) {
+        int u, v;
+        cin >> u >> v;
+        int answer = treeDistance(u, v);
+        if (k > 0) {
+            // 中文注释：使用传送门时，中间传送费用为 0，只保留两端走到传送门的距离。
+            answer = min(answer, nearestPortal[u] + nearestPortal[v]);
+        }
+        cout << answer << '\\n';
+    }
+    return 0;
+}
+`
+  },
+  "supplemental:luogu:p10112": {
+    algorithm: "因为奖品总数只可能是 N 或 N+1，若总数为 N，则每种奖品都必须全部分出；若总数为 N+1，则恰好少分出 1 个奖品。用多重集合排列数 N!/prod(a_i!)，总数为 N+1 时再乘以可被少分出的奖品总数 N+1。",
+    complexity: "预处理阶乘和逆阶乘 O(1001)，每组数据 O(M)，空间复杂度 O(1001)。",
+    code: `#include <iostream>
+#include <vector>
+using namespace std;
+
+const long long MOD = 1000000007LL;
+const int LIMIT = 1005;
+
+long long modPow(long long base, long long exp) {
+    long long result = 1;
+    while (exp > 0) {
+        if (exp & 1) result = result * base % MOD;
+        base = base * base % MOD;
+        exp >>= 1;
+    }
+    return result;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    vector<long long> fact(LIMIT), invFact(LIMIT);
+    fact[0] = 1;
+    for (int i = 1; i < LIMIT; ++i) fact[i] = fact[i - 1] * i % MOD;
+    invFact[LIMIT - 1] = modPow(fact[LIMIT - 1], MOD - 2);
+    for (int i = LIMIT - 2; i >= 0; --i) invFact[i] = invFact[i + 1] * (i + 1) % MOD;
+
+    int tests;
+    cin >> tests;
+    while (tests--) {
+        int n, m;
+        cin >> n >> m;
+        vector<int> count(m);
+        int total = 0;
+        for (int i = 0; i < m; ++i) {
+            cin >> count[i];
+            total += count[i];
+        }
+
+        long long answer = fact[n];
+        for (int value : count) {
+            // 中文注释：先计算每种奖品都按指定数量分出的多重排列数。
+            answer = answer * invFact[value] % MOD;
+        }
+        if (total == n + 1) {
+            // 中文注释：总数多 1 时，少分出的那个奖品可以来自任意一个实物奖品。
+            answer = answer * total % MOD;
+        }
+
+        cout << answer << '\\n';
+    }
+    return 0;
+}
+`
+  },
   "supplemental:luogu:p10378": {
     algorithm: "交流关系构成二分图。每个连通块的两种染色可以互换，B 校人数最小值累加 min(size0,size1)，最大值累加 max(size0,size1)。",
     complexity: "时间复杂度 O(N+M)，空间复杂度 O(N+M)。",

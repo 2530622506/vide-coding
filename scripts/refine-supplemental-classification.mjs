@@ -129,6 +129,24 @@ const overrides = {
     knowledge: [["topological_order", "拓扑序"], ["longest_non_decreasing_subsequence", "最长不下降子序列"], ["small_value_state_dp", "小值域状态 DP"]],
     focus: "在 DAG 路径上用 1..10 值域状态维护最大 LNDS"
   },
+  "supplemental:luogu:p10288": {
+    domains: [["data_structure", "数据结构"], ["binary_search", "二分"]],
+    types: [["range_frequency_query", "区间频次查询型"]],
+    knowledge: [["position_indexing", "位置索引"], ["lower_upper_bound", "上下界二分"], ["offline_value_buckets", "按值分桶"]],
+    focus: "按数值保存有序下标并用二分统计区间出现次数"
+  },
+  "supplemental:luogu:p10289": {
+    domains: [["tree", "树"], ["graph", "图论"]],
+    types: [["tree_shortest_path_with_portals", "树上带传送门最短路型"]],
+    knowledge: [["lowest_common_ancestor", "最近公共祖先"], ["multi_source_bfs", "多源 BFS"], ["tree_distance", "树上距离"]],
+    focus: "比较普通树上距离和两端到最近传送门距离之和"
+  },
+  "supplemental:luogu:p10112": {
+    domains: [["math", "数学"], ["combinatorics", "组合数学"]],
+    types: [["multiset_distribution_counting", "多重集合分配计数型"]],
+    knowledge: [["factorial_inverse", "阶乘逆元"], ["multinomial_coefficient", "多项式系数"], ["modular_arithmetic", "模运算"]],
+    focus: "奖品总数为 N 或 N+1 时用多重排列数和少分一个奖品的选择数计数"
+  },
   "supplemental:luogu:p10378": {
     domains: [["graph", "图论"], ["sort_simulation", "排序/模拟"]],
     types: [["bipartite_component_size_range", "二分图连通块规模范围型"]],
