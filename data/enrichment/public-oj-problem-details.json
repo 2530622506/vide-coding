@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-01T03:00:53.953Z",
+  "generated_at": "2026-06-01T03:11:14.581Z",
   "generator": "scripts/enrich-public-oj-details.mjs",
   "inputs": {
     "supplemental_cxx_problems": "data/classification/supplemental-cxx-problems.json"
   },
   "request": {
-    "level": 7,
-    "limit": 5,
+    "level": 8,
+    "limit": 20,
     "source": "luogu",
     "delay_ms": 3000
   },
@@ -20,14 +20,14 @@
     "ai_fallback_policy": "未从公开来源抽取到答案、图片或讲解时，可以生成学习辅助内容，但必须标注 ai_generated_learning_aid 并进入复核。"
   },
   "summary": {
-    "attempted_count": 175,
-    "extracted_count": 175,
+    "attempted_count": 195,
+    "extracted_count": 195,
     "failed_count": 0,
-    "statement_extracted_count": 175,
-    "sample_extracted_count": 175,
-    "visual_asset_count": 5,
-    "visual_asset_source_extracted_count": 5,
-    "visual_asset_none_found_count": 170
+    "statement_extracted_count": 195,
+    "sample_extracted_count": 195,
+    "visual_asset_count": 6,
+    "visual_asset_source_extracted_count": 6,
+    "visual_asset_none_found_count": 189
   },
   "records": [
     {
@@ -14684,6 +14684,246 @@
       "attachments": []
     },
     {
+      "canonical_problem_id": "supplemental:luogu:p10112",
+      "title": "[GESP202312 八级] 奖品分配",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P10112",
+      "source_url": "https://www.luogu.com.cn/problem/P10112",
+      "fetched_at": "2026-06-01T03:09:33.491Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202312 八级] 奖品分配",
+        "source_url": "https://www.luogu.com.cn/problem/P10112",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1140>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "班上有 $N$ 名同学，学号从 $0$ 到 $N-1$。有 $M$ 种奖品要分给这些同学，其中，第 $i$ 种奖品总共有 $a_i$ 个 （$i=0,1, \\cdots ,M-1$）。\n\n巧合的是，奖品的数量不多不少，每位同学都可以恰好分到一个奖品，且最后剩余的奖品不超过 $1$ 个（即：$N\\le a_0+a_1+ \\cdots +a_{M-1}\\le N+1$）。\n\n现在，请你求出每个班级礼物分配的方案数，所谓方案，指的是为每位同学都分配一个种类的奖品。\n\n只要有一位同学获得了不同种类的奖品，即视为不同的方案。方便起见，你只需要输出方案数对 $10^{9}+7$ 取模后的结果即可。\n\n共有 $T$ 个班级都面临着奖品分配的问题，你需要依次为他们解答。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行一个整数 $T$，表示班级数量。\n\n接下来 $T$ 行，每行若干用单个空格隔开的正整数。首先是两个正整数$N,M$，接着是 $M$ 个正整数 $a_0,a_1...a_{M-1}$。保证 $N \\le a_0+a_1+\\cdots+a_{M-1} \\le N+1 $。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出 $T$ 行，每行一个整数，表示该班级分配奖品的方案数对 $10^{9}+7$ 取模的结果。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "**样例解释 1**\n\n对于第 $1$ 个班级，学号为 $0,1,2$ 的同学可以依次分别获得奖品 $0,1,1$，也可以依次分别获得奖品 $1,0,1$，也可以依次分别获得奖品 $1,1,0$ ，因此共有 $3$ 种方案。\n\n对于第 $2$ 个班级，学号为 $0,1,2$ 的同学可以依次分别获得奖品 $0,1,1$ ，也可以依次分别获得奖品 $1,0,1$，也可以依次分别获得奖品 $1,1,0$，也可以依次分别获得奖品 $1,1,1$，因此共有 $4$ 种方案。\n\n对于第 $3$ 个班级，可以把编号为 $0$ 的奖品分配给 $5$ 名同学中的任意一名，共有 $5$ 种方案；再把编号为 $2$ 的奖品分配给剩余 $4$ 名同学中的任意一名，共有$4$ 种方案；最后给剩余 $3$ 名同学自然获得 $1$ 号奖品。因此，方案数为 $5 \\times 4 = 20$。\n\n**数据范围**\n\n对于 $30\\%$ 的测试点，保证 $N \\le 10$。\n\n对于另外 $30\\%$ 的测试点，保证 $M=2$。\n\n对于所有测试点，保证 $N \\le 1000$；保证 $T \\le 1000$ ；保证 $M \\le 1001$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "3\n3 2 1 2\n3 2 1 3\n5 3 1 3 1",
+            "output": "3\n4\n20"
+          },
+          {
+            "input": "5\n100 1 100\n100 1 101\n20 2 12 8\n123 4 80 20 21 3\n999 5 101 234 499 66 99",
+            "output": "1\n1\n125970\n895031741\n307187590"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P10112",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p10113",
+      "title": "[GESP202312 八级] 大量的工作沟通",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P10113",
+      "source_url": "https://www.luogu.com.cn/problem/P10113",
+      "fetched_at": "2026-06-01T03:09:39.153Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202312 八级] 大量的工作沟通",
+        "source_url": "https://www.luogu.com.cn/problem/P10113",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1140>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "某公司有 $N$ 名员工，编号从 $0$ 至 $N-1$。其中，除了 $0$ 号员工是老板，其余每名员工都有一个直接领导。我们假设编号为 $i$ 的员工的直接领导是 $f_i$。\n\n该公司有严格的管理制度，每位员工只能受到本人或直接领导或间接领导的管理。具体来说，规定员工 $x$ 可以管理员工 $y$，当且仅当 $x=y$，或 $x=f_y$，或 $x$ 可以管理 $f_y$。特别地，$0$ 号员工老板只能自我管理，无法由其他任何员工管理。\n\n现在，有一些同事要开展合作，他们希望找到一位同事来主持这场合作，这位同事必须能够管理参与合作的所有同事。如果有多名满足这一条件的员工，他们希望找到编号最大的员工。你能帮帮他们吗？"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行一个整数 $N$ ，表示员工的数量。\n\n第二行 $N-1$ 个用空格隔开的正整数，依次为 $f_1, f_2, \\dots f_{N-1}$。\n\n第三行一个整数 $Q$ ，表示共有 $Q$ 场合作需要安排。\n\n接下来 $Q$ 行，每行描述一场合作：开头是一个整数 $m$（$2 \\leq m \\leq N$），表示参与本次合作的员工数量；接着是 $m$ 个整数，依次表示参与本次合作的员工编号（保证编号合法且不重复）。\n\n保证公司结构合法，即不存在任意一名员工，其本人是自己的直接或间接领导。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出 $Q$ 行，每行一个整数，依次为每场合作的主持人选。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "**样例解释 1**\n\n对于第一场合作，员工 $3,4$ 有共同领导 $2$ ，可以主持合作。\n\n对于第二场合作，员工 $2$ 本人即可以管理所有参与者。\n\n对于第三场合作，只有 $0$ 号老板才能管理所有员工。\n\n**数据范围**\n\n对于 $25\\%$ 的测试点，保证 $N \\leq 50$。\n\n对于 $50\\%$ 的测试点，保证 $N \\leq 300$。\n\n对于所有测试点，保证 $3 \\leq N \\leq 10^5$，$Q \\leq 100$，$m \\leq 10^4$。\n\n\n------------\n2024/2/8 添加一组 hack 数据。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "5\n0 0 2 2\n3\n2 3 4\n3 2 3 4\n2 1 4",
+            "output": "2\n2\n0"
+          },
+          {
+            "input": "7\n0 1 0 2 1 2\n5\n2 4 6\n2 4 5\n3 4 5 6\n4 2 4 5 6\n2 3 4",
+            "output": "2\n1\n1\n1\n0"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P10113",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
       "canonical_problem_id": "supplemental:luogu:p10250",
       "title": "[GESP样题 六级] 下楼梯",
       "level": 6,
@@ -15020,6 +15260,222 @@
       "attachments": []
     },
     {
+      "canonical_problem_id": "supplemental:luogu:p10263",
+      "title": "[GESP202403 八级] 公倍数问题",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P10263",
+      "source_url": "https://www.luogu.com.cn/problem/P10263",
+      "fetched_at": "2026-06-01T03:09:45.119Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202403 八级] 公倍数问题",
+        "source_url": "https://www.luogu.com.cn/problem/P10263",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1148>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小 A 写了一个 $N \\times M$ 的矩阵 $A$，我们看不到这个矩阵，但我们可以知道，其中第 $i$ 行第 $j$ 列的元素 $A_{i,j}$ 是 $i$ 和 $j$ 的公倍数（$i=1,\\dots,N$，$j=1,\\dots,M$）。现在有 $K$ 个小朋友，其中第 $k$ 个小朋友想知道，矩阵 $A$ 中最多有多少个元素可以是 $k$（$k=1,2,\\dots,K$）。请你帮助这些小朋友求解。\n\n注意：每位小朋友的答案互不相关，例如，有些位置既可能是 $x$，又可能是 $y$，则它同时可以满足 $x,y$ 两名小朋友的要求。\n\n方便起见，你只需要输出 $\\sum_{k=1}^{K}{k \\times \\texttt{ans}_k}$ 即可，其中 $\\texttt{ans}_k$ 表示第 $k$ 名小朋友感兴趣的答案。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行三个正整数 $N,M,K$。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，即 $\\sum_{k=1}^{K}{k \\times \\texttt{ans}_k}$。\n\n请注意，这个数可能很大，使用 C++ 语言的选手请酌情使用 `long long` 等数据类型存储答案。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "### 样例 1 解释\n\n只有 $A_{1,1}$ 可以是 $1$，其余都不行。\n\n$A_{1,1},A_{1,2},A_{2,1},A_{2,2}$ 都可以是 $2$，而其余不行。\n\n因此答案是 $1 \\times 1 + 2 \\times 4 = 9$。\n\n### 数据规模\n\n对于 $30\\%$ 的测试点，保证 $N,M,K \\leq 10$；\n\n对于 $60\\%$ 的测试点，保证 $N,M,K \\leq 500$；\n\n对于 $100\\%$ 的测试点，保证 $N,M \\leq 10^5$，$K \\leq 10^6$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "2 5 2",
+            "output": "9"
+          },
+          {
+            "input": "100 100 100",
+            "output": "185233"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P10263",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p10264",
+      "title": "[GESP202403 八级] 接竹竿",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P10264",
+      "source_url": "https://www.luogu.com.cn/problem/P10264",
+      "fetched_at": "2026-06-01T03:09:50.108Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202403 八级] 接竹竿",
+        "source_url": "https://www.luogu.com.cn/problem/P10264",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1148>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小杨同学想用卡牌玩一种叫做“接竹竿”的游戏。\n\n游戏规则是：每张牌上有一个点数 $v$，将给定的牌依次放入一列牌的末端。若放入之前这列牌中已有与这张牌点数相同的牌，则小杨同学会将这张牌和点数相同的牌之间的所有牌全部取出队列（包括这两张牌本身）。\n\n小杨同学现在有一个长度为 $n$ 的卡牌序列 $A$，其中每张牌的点数为 $A_i$（$1\\le i\\le n$）。小杨同学有 $q$ 次询问。第 $i$ 次（$1\\le i\\le q$）询问时，小杨同学会给出 $l_i,r_i$ 小杨同学想知道如果用下标在 $[l_i,r_i]$ 的所有卡牌按照下标顺序玩“接竹竿”的游戏，最后队列中剩余的牌数。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "一行包含一个正整数 $T$，表示测试数据组数。\n\n对于每组测试数据，第一行包含一个正整数 $n$，表示卡牌序列 $A$ 的长度。\n\n第二行包含 $n$ 个正整数 $A_1,A_2,\\dots,A_n$，表示卡牌的点数 $A$。\n\n第三行包含一个正整数 $q$，表示询问次数。\n\n接下来 $q$ 行，每行两个正整数 $l_i,r_i$ 表示一组询问。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "对于每组数据，输出 $q$ 行。第 $i$ 行（$1\\le i\\le q$）输出一个非负整数，表示第 $i$ 次询问的答案。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "**样例解释**\n\n对于第一次询问，小杨同学会按照 $1,2,2$ 的顺序放置卡牌，在放置最后一张卡牌时，两张点数为 $2$ 的卡牌会被收走，因此最后队列中只剩余一张点数为 $1$ 的卡牌。\n\n对于第二次询问，队列变化情况为：\n\n$\\{\\}\\to\\{1\\}\\to\\{1,2\\}\\to\\{1,2,2\\}\\to\\{1\\}\\to\\{1,3\\}\\to\\{1,3,1\\}\\to\\{\\}\\to\\{3\\}$。因此最后队列中只剩余一张点数为 $3$ 的卡牌。\n\n**数据范围**\n\n|子任务|分数|$T$|$n$|$q$|$\\max A_i$|特殊条件|\n|:---:|:---:|:---:|:---:|:---:|:---:|:---:|\n|$1$|$30$|$\\le 5$|$\\le100$|$\\le100$|$\\le13$|\n|$2$|$30$|$\\le 5$|$\\le 1.5\\times10^4$|$\\le 1.5\\times10^4$|$\\le13$|所有询问的右端点等于 $n$\n|$3$|$40$|$\\le 5$|$\\le 1.5\\times10^4$|$\\le 1.5\\times10^4$|$\\le13$|\n\n对于全部数据，保证有 $1\\le T\\le 5$，$1\\le n\\le 1.5\\times 10^4$，$1\\le q\\le 1.5\\times 10^4$，$1\\le A_i\\le 13$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "1\n6\n1 2 2 3 1 3\n4\n1 3\n1 6\n1 5\n5 6",
+            "output": "1\n1\n0\n2"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P10264",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
       "canonical_problem_id": "supplemental:luogu:p10265",
       "title": "[GESP样题 七级] 迷宫统计",
       "level": 7,
@@ -15207,6 +15663,238 @@
           1000
         ],
         "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p10288",
+      "title": "[GESP样题 八级] 区间",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P10288",
+      "source_url": "https://www.luogu.com.cn/problem/P10288",
+      "fetched_at": "2026-06-01T03:09:55.459Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP样题 八级] 区间",
+        "source_url": "https://www.luogu.com.cn/problem/P10288",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1108>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小杨有一个长度为 $n$ 的正整数序列 $A$。\n\n小杨有 $q$ 次询问。第 $i$ 次（$1\\le i\\le q$）询问时，小杨会给出 $l_i,r_i,x_i$，请你求出 $x_i$ 在 $A_{l_i}, A_{l_i+1}, \\dots A_{r_i}$ 中出现的次数。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行包含一个正整数 $T$，表示数据组数。\n\n对于每组数据：第一行包含一个正整数 $n$，表示序列 $A$ 的长度。\n第二行包含 $n$ 个正整数 $A_1,A_2,\\dots,A_n$，表示序列 $A$。\n第三行包含一个正整数 $q$，表示询问次数。接下来 $q$ 行，每行三个正整数 $l_i,r_i,x_i$，表示一组询问。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "对于每组数据，输出 $q$ 行。第 $i$ 行（$1\\le i\\le q$）输出一个非负整数，表示第 $i$ 次询问的答案。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "|子任务|分值|$n$|$q$|$\\max A_i$|\n|-|-|-|-|-|\n|$1$|$30$|$\\le 100$|$\\le 100$|$\\le 10$|\n|$2$|$30$|$\\le 10^5$|$\\le 10^5$|$\\le 10^5$|\n|$3$|$40$|$\\le 10^5$|$\\le 10^5$|$\\le 10^9$|\n\n对于全部数据，保证有 $1 \\leq T\\le 5$，$1 \\le n,q\\le 10^5$，$1 \\le A_i\\le 10^9$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "2\n5\n7 4 6 1 1\n2\n1 2 3\n1 5 1\n5\n1 2 3 4 5\n2\n5 5 3\n1 4 3",
+            "output": "0\n2\n0\n1"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P10288",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072,
+          131072
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p10289",
+      "title": "[GESP样题 八级] 小杨的旅游",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P10289",
+      "source_url": "https://www.luogu.com.cn/problem/P10289",
+      "fetched_at": "2026-06-01T03:10:00.729Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP样题 八级] 小杨的旅游",
+        "source_url": "https://www.luogu.com.cn/problem/P10289",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1108>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小杨准备前往 B 国旅游。\n\nB 国有 $n$ 座城市，这 $n$ 座城市依次以 $1$ 至 $n$ 编号。城市之间由 $n-1$ 条双向道路连接，任意两座城市之间均可达（即任意两座城市之间存在可达的路径）。\n\n小杨可以通过双向道路在城市之间移动，通过一条双向道路需要 $1$ 单位时间。\n\nB 国城市中有 $k$ 座城市设有传送门。设有传送门的城市的编号依次为 $b_1,b_2, \\cdots ,b_k$。小杨可以从任意一座设有传送门的城市花费 $0$ 单位时间前往另一座设有传送门的城市。\n\n注：如果两座设有传送门的城市之间存在双向道路，那么小杨可以选择通过双向道路移动，也可以选择通过传送门传送。\n\n小杨计划在 B 国旅游 $q$ 次。第 $i$ 次旅游（$1 \\le i \\le q$），小杨计划从编号为 $u_i$ 的城市前往编号为 $v_i$ 的城市，小杨希望你能求出所需要的最短时间。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行包含三个正整数 $n,k,q$，分别表示 B 国的城市数量，设有传送门的城市数量，以及小杨计划在 B 国旅游的次数。\n接下来 $n-1$ 行，每行包含两个正整数 $x_i, y_i$，表示一条双向道路连接的两座城市的编号。\n第 $n + 1$ 行包含 $k$ 个正整数，表示设有传送门的城市的编号。\n接下来 $q$ 行，每行包含两个正整数 $u_i,v_i$，表示小杨第 $i$ 次旅游行程的起点城市编号与终点城市编号。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出共 $q$ 行。第 $i$ 行（$1 \\leq i \\leq q$）输出一个非负整数，表示小杨计划第 $i$ 次旅游从编号为 $u_i$ 的城市前往编号为 $v_i$ 的城市所需要的最短时间。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "| 子任务 | 分值 | $n \\leq $ | $ k \\leq $ | $q \\leq $ |\n|:-: | :-: | :-: | :-: | :-:|\n| $1$ | $30$ | $500$ | $500$ | $1$ |\n| $2$ | $30$ | $2 \\times 10^5$ | $0$ | $2 \\times 10^5$ |\n| $3$ | $40$ | $2 \\times 10^5$ | $2 \\times 10^5$ | $2 \\times 10^5$ |\n\n对全部的测试数据，$1 \\leq n \\leq 2 \\times 10^5$，$0 \\leq k \\leq n$，$1 \\leq x_i, y_i, u_i, v_i \\leq n$，$u_i \\neq v_i$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "7 2 1\n5 7\n3 6\n2 3\n1 5\n5 4\n1 2\n7 4\n3 7",
+            "output": "4"
+          },
+          {
+            "input": "5 0 3\n2 3\n5 1\n5 2\n1 4\n4 5\n1 4\n4 3",
+            "output": "2\n1\n4"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P10289",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
           524288,
           524288,
           524288,
@@ -16902,6 +17590,384 @@
       "attachments": []
     },
     {
+      "canonical_problem_id": "supplemental:luogu:p10725",
+      "title": "[GESP202406 八级] 最远点对",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P10725",
+      "source_url": "https://www.luogu.com.cn/problem/P10725",
+      "fetched_at": "2026-06-01T03:10:06.501Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202406 八级] 最远点对",
+        "source_url": "https://www.luogu.com.cn/problem/P10725",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1156>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小杨有一棵包含 $n$ 个节点的树，这棵树上的任意一个节点要么是白色，要么是黑色。\n\n小杨想知道相距最远的一对不同颜色节点的距离是多少。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行包含一个正整数 $n$，代表树的节点数。\n\n第二行包含 $n$ 个非负整数 $a_1,a_2,\\cdots,a_n$（对于所有的 $1\\le i\\le n$，均有 $a_i$ 等于 $0$ 或 $1$），其中如果 $a_i=0$，则节点 $i$ 的颜色为白色；如果 $a_i=1$，则节点 $i$ 的颜色为黑色。\n\n之后 $(n-1)$ 行，每行包含两个正整数 $x_i,y_i$，代表存在一条连接节点 $x_i$ 和 $y_i$ 的边。\n\n保证输入的树中存在不同颜色的点。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一个整数，代表相距最远的一对不同颜色节点的距离。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "#### 样例解释\n\n相距最远的不同颜色的一对节点为节点 $2$ 和 $5$。\n\n#### 数据范围\n\n**本题采用捆绑测试。**\n\n| 子任务编号 | 得分 | $n$ | $a_i$ | 特殊条件 |\n| :--: | :--: | :--: | :--: | :--: |\n| $1$ |  $30$ | $\\le 10^5$ | $0\\le a_i\\le 1$ | 树的形态为一条链 |\n| $2$ | $30$ | $\\le 10^3$ | $0\\le a_i\\le 1$ | |\n| $3$ | $40$ | $\\le 10^5$ | $0\\le a_i\\le 1$ | |\n\n对于全部数据，保证有 $1\\le n\\le 10^5$，$0\\le a_i\\le 1$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "5\n0 1 0 1 0\n1 2\n1 3\n3 4\n3 5",
+            "output": "3"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P10725",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p10726",
+      "title": "[GESP202406 八级] 空间跳跃",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P10726",
+      "source_url": "https://www.luogu.com.cn/problem/P10726",
+      "fetched_at": "2026-06-01T03:10:11.344Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202406 八级] 空间跳跃",
+        "source_url": "https://www.luogu.com.cn/problem/P10726",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1156>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小杨在二维空间中有 $n$ 个水平挡板，并且挡板之间彼此不重叠，其中第 $i$ 个挡板处于水平高度 $h_i$，左右端点分别位于 $l_i$ 与 $r_i$。\n\n小杨可以在挡板上左右移动，当小杨移动到右端点时，如果再向右移动会竖直掉落，从而落到下方第一个挡板上，移动到左端点时同理。小杨在挡板上每移动 $1$ 个单位长度会耗费 $1$ 个单位时间，掉落时每掉落 $1$ 个单位高度也会耗费 $1$ 个单位时间。\n\n小杨想知道，从第 $s$ 个挡板上的左端点出发到第 $t$ 个挡板需要耗费的最少时间是多少？\n\n注意：可能无法从第 $s$ 个挡板到达到第 $t$ 个挡板。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行包含一个正整数 $n$，代表挡板数量。\n\n第二行包含两个正整数 $s,t$，含义如题面所示。\n\n之后 $n$ 行，每行包含三个正整数 $l_i,r_i,h_i$，代表第 $i$ 个挡板的左右端点位置与高度。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一个整数代表需要耗费的最少时间，如果无法到达则输出 $-1$。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "### 样例解释\n\n耗费时间最少的移动方案为，从第 $3$ 个挡板左端点移动到右端点，耗费 $3$ 个单位时间，然后向右移动掉落到第 $2$ 个挡板上，耗费 $100000-6=99994$ 个单位时间，之后再向右移动 $1$ 个单位长度，耗费 $1$ 个单位时间，最后向右移动掉落到第 $1$ 个挡板上，耗费 $3$ 个单位时间。共耗费 $100001$ 个单位时间。\n\n### 数据范围\n\n子任务编号|数据点占比|$n$|特殊条件\n:-:|:-:|:-:|:-:\n$1$|$20\\%$|$\\leq 1000$|$l_i=1$\n$2$|$40\\%$|$\\leq 1000$|$l_i=i,r_i=i+1$\n$3$|$40\\%$|$\\leq 1000$|\n\n对于全部数据，保证有 $1\\leq n\\leq 1000$，$1\\leq l_i\\leq r_i\\leq 10^5$，$1\\leq h_i\\leq 10^5$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "3\n3 1\n5 6 3\n3 5 6\n1 4 100000",
+            "output": "100001"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P10726",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000,
+          512000
+        ]
+      },
+      "attachments": []
+    },
+    {
       "canonical_problem_id": "supplemental:luogu:p11246",
       "title": "[GESP202409 六级] 小杨和整数拆分",
       "level": 6,
@@ -17338,6 +18404,228 @@
           1000
         ],
         "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p11250",
+      "title": "[GESP202409 八级] 手套配对",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P11250",
+      "source_url": "https://www.luogu.com.cn/problem/P11250",
+      "fetched_at": "2026-06-01T03:10:16.162Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202409 八级] 手套配对",
+        "source_url": "https://www.luogu.com.cn/problem/P11250",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1164>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小杨有 $n$ 对不同的手套，每对手套由左右各一只组成。\n\n小杨想知道从中取出 $m$ 只手套，$m$ 只手套恰好包含 $k$ 对手套的情况有多少种。\n\n小杨认为两种取出的情况不同，当且仅当两种情况取出的手套中存在不同的手套（同一对手套的左右手也视为不同的手套）。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "**本题单个测试点内有多组测试数据**。\n\n第一行包含一个正整数 $t$，代表测试用例组数。\n\n接下来是 $t$ 组测试用例。对于每组测试用例，一共一行。\n\n第一行包含三个正整数 $n,m,k$，代表手套数量，取出的手套数和目标对数。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "对于每组测试数据，输出一个整数，代表可能的情况数量对 $10^9+7$ 取模的结果。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "::cute-table{tuack}\n\n| 子任务 | 占比 | $t$ | $n$ | $m$ | $k$ |\n| :-: | :-: | :-: | :-: | :-: | :-: |\n| $1$ | $30\\%$ | $\\leq 5$ | $\\leq 1000$ | $\\le 3$ | $=1$ |\n| $2$ | $30\\%$ | $\\leq 5$ | $\\leq 5$ | $\\leq 10$ | $\\leq 5$ |\n| $3$ | $40\\%$ | $\\leq 10^5$ | $\\leq 1000$ | $\\leq 2000$ | $\\leq 2000$ |\n\n对全部的测试数据，保证 $1 \\leq t \\leq 10^5,1 \\leq n \\leq 1000,1 \\leq m \\leq 2 \\times n,1 \\leq k \\leq n$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "2\n5 6 2\n5 1 5",
+            "output": "120\n0"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P11250",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p11251",
+      "title": "[GESP202409 八级] 美丽路径",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P11251",
+      "source_url": "https://www.luogu.com.cn/problem/P11251",
+      "fetched_at": "2026-06-01T03:10:22.118Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202409 八级] 美丽路径",
+        "source_url": "https://www.luogu.com.cn/problem/P11251",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1164>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小杨有一棵包含 $n$ 个节点的树，节点从 $1$ 到 $n$ 编号，并且每个节点要么是白色，要么是黑色。\n\n对于树上的一条简单路径（不经过重复节点的路径），小杨认为它是**美丽**的当且仅当路径上相邻节点的颜色均不相同。例如下图，其中节点 $1$ 和节点 $4$ 是黑色，其余节点是白色，路径 $2-1-3-4$ 是美丽路径，而路径 $2-1-3-5$ 不是美丽路径（相邻节点 $3$ 和 $5$ 颜色相同）。\n\n![](https://cdn.luogu.com.cn/upload/image_hosting/zyz3v6jo.png)\n\n对于树上的一条简单路径，小杨认为它的长度是路径包含节点的数量。小杨想知道**最长的美丽路径**的长度是多少。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行包含一个正整数 $n$，代表节点数量。\n\n第二行包含 $n$ 个整数 $c_1,c_2,\\dots,c_n$，代表每个节点的颜色，如果 $c_i=0$，代表节点 $i$ 为白色，如果 $c_i=1$，代表节点 $i$ 为黑色。\n\n之后 $n-1$ 行，每行包含两个正整数 $u_i,v_i$，代表存在一条连接节点 $u_i$ 和节点 $v_i$ 的边。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一个整数，代表最长美丽路径的长度。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "| 子任务编号 | 数据点占比 | $n$ | 特殊条件 |\n| :-: | :-: | :-: | :-: |\n| $1$ | $30\\%$ | $\\leq 1000$ | 树的形态是一条链 |\n| $2$ | $30\\%$ | $\\leq 1000$ |  |\n| $3$ | $40\\%$ | $\\leq 10^5$ |  |\n\n对于全部数据，保证有 $1 \\leq n \\leq 10^5,0 \\leq c_i \\leq 1$，同时保证给出的数据构成一棵树。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "5\n1 0 0 1 0\n1 2\n3 5\n4 3\n1 3",
+            "output": "4"
+          },
+          {
+            "input": "5\n0 0 0 0 0\n1 2\n2 3\n3 4\n4 5",
+            "output": "1"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "source_extracted",
+        "assets": [
+          {
+            "id": "asset:supplemental:luogu:p11251:1",
+            "asset_url": "https://cdn.luogu.com.cn/upload/image_hosting/zyz3v6jo.png",
+            "alt_text": "题面图片",
+            "source_url": "https://www.luogu.com.cn/problem/P11251",
+            "source_page": null,
+            "source_kind": "statement_image",
+            "origin": "source_extracted",
+            "storage_policy": "remote_link_until_asset_storage_ready"
+          }
+        ],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P11251",
+          "source_page": null
+        },
+        "notes": [
+          "图片链接从公开 OJ 题面抽取，当前保存远程 URL；后续可下载入对象存储。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
           524288,
           524288,
           524288,
@@ -17788,6 +19076,262 @@
         "assets": [],
         "source_hint": {
           "source_url": "https://www.luogu.com.cn/problem/P11378",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p11379",
+      "title": "[GESP202412 八级] 树上移动",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P11379",
+      "source_url": "https://www.luogu.com.cn/problem/P11379",
+      "fetched_at": "2026-06-01T03:10:26.875Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202412 八级] 树上移动",
+        "source_url": "https://www.luogu.com.cn/problem/P11379",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1172>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小杨有一棵包含 $n$ 个节点的树，其中节点的编号从 $1$ 到 $n$，每个节点的颜色要么是白色要么是黑色，小杨可以任意选择节点 $s$ 和节点 $t$ 并从节点 $s$ 出发移动到节点 $t$，移动过程中小杨不能够经过重复节点。\n\n小杨希望自己在至多经过 $k$ 个黑色节点的前提下，经过的总节点数尽可能多，请你帮小杨选择经过最多的节点数是多少。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行包含两个正整数 $n,k$，代表节点数量和至多经过的黑色节点数。\n\n第二行包含 $n$ 个正整数 $a_1,a_2,\\dots,a_n$，代表节点颜色，如果 $a_i=0$，代表节点颜色为白色，如果 $a_i=1$，代表节点颜色为黑色。\n\n之后 $n-1$ 行，每行包含两个正整数 $u_i,v_i$，代表存在一条连接 $u_i$ 和 $v_i$ 的边。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一个正整数，代表最多经过的节点数。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "| 子任务编号 | 数据点占比 |     $n$     | $k$         |     特殊性质     |\n| :--------: | :--------: | :---------: | ----------- | :--------------: |\n|    $1$     |   $20\\%$   | $\\leq 100$  | $\\leq 100$  | 树的形态为一条链 |\n|    $2$     |   $20\\%$   | $\\leq 1000$ | $0$         |                  |\n|    $3$     |   $60\\%$   | $\\leq 1000$ | $\\leq 1000$ |                  |\n\n\n对于全部数据，保证有 $1\\leq n\\leq 1000$，$0\\leq k\\leq 1000$，$0\\leq a_i\\leq 1$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "5 1\n0 0 1 1 1\n1 2\n2 3\n2 5\n1 4",
+            "output": "3"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P11379",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p11380",
+      "title": "[GESP202412 八级] 排队",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P11380",
+      "source_url": "https://www.luogu.com.cn/problem/P11380",
+      "fetched_at": "2026-06-01T03:10:32.256Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202412 八级] 排队",
+        "source_url": "https://www.luogu.com.cn/problem/P11380",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1172>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小杨所在班级共有 $n$ 位同学，依次以 $1,2,\\dots,n$ 标号。这 $n$ 位同学想排成一行队伍，其中有些同学之间关系非常好，在队伍里需要排在相邻的位置。具体来说，有 $m$ 对这样的关系（$m$ 是一个非负整数）。当 $m\\geq 1$ 时，第 $i$ 对关系（$1\\leq i\\leq m$）给出 $a_i,b_i$，表示排队时编号为 $a_i$ 的同学需要排在编号为 $b_i$ 的同学前面，并且两人在队伍中相邻。\n\n现在小杨想知道总共有多少种排队方式。由于答案可能很大，你只需要求出答案对 $10^9+7$ 取模的结果。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，两个整数 $n,m$，分别表示同学们的数量与关系数量。\n\n接下来 $m$ 行，每行两个整数 $a_i,b_i$，表示一对关系。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "一行，一个整数，表示答案对 $10^9+7$ 取模的结果。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "对于 $20\\%$ 的测试数据点，保证 $1\\leq n\\leq 8$，$0\\leq m\\leq 10$。\n\n对于另外 $20\\%$ 的测试数据点，保证 $1\\leq n\\leq 10^3$，$0\\leq m\\leq 1$。\n\n对于所有测试数据点，保证 $1\\leq n\\leq 2\\times 10^5$，$0\\leq m\\leq 2\\times 10^5$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "4 2\n1 3\n2 4",
+            "output": "2"
+          },
+          {
+            "input": "3 0",
+            "output": "6"
+          },
+          {
+            "input": "3 2\n1 2\n2 1",
+            "output": "0"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P11380",
           "source_page": null
         },
         "notes": [
@@ -18670,6 +20214,378 @@
       "attachments": []
     },
     {
+      "canonical_problem_id": "supplemental:luogu:p11966",
+      "title": "[GESP202503 八级] 上学",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P11966",
+      "source_url": "https://www.luogu.com.cn/problem/P11966",
+      "fetched_at": "2026-06-01T03:10:37.581Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202503 八级] 上学",
+        "source_url": "https://www.luogu.com.cn/problem/P11966",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1180>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "C 城可以视为由 $n$ 个结点与 $m$ 条边组成的无向图。 这些结点依次以 $1, 2, \\ldots, n$ 标号，边依次以 $1 \\leq i \\leq m$ 连接边号为 $u_i$ 与 $v_i$ 的结点，长度为 $l_i$ 米。\n\n小 A 的学校坐落在 C 城的编号为 $s$ 的结点。小 A 的同学们共有 $q$ 位，他们想在保证不迟到的前提下，每天尽可能晚地出门上学。但同学们并不会计算从家需要多久才能到学校，于是找到了聪明的小 A。第 $i$ 位同学 ($1 \\leq i \\leq q$) 告诉小 A，他的家位置于编号为 $h_i$ 的结点，并且他每秒钟能行走 1 米。请你帮小 A 计算，每位同学从家出发需要多少秒才能到达学校呢？"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，四个正整数 $n, m, s, q$，分别表示 C 城的结点数与边数，学校所在的结点编号，以及小 A 同学们的数量。\n\n接下来 $m$ 行，每行三个正整数 $u_i, v_i, l_i$，表示 C 城中的一条无向边。\n\n接下来 $q$ 行，每行一个正整数 $h_i$，表示一位同学的情况。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "共 $q$ 行，对于每位同学，输出一个整数，表示从家出发到学校的最短时间。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "**本题采用捆绑测试。**\n\n对于 $20\\%$ 的测试点，保证 $q = 1$。\n\n对于另外 $20\\%$ 的测试点，保证 $1 \\leq n \\leq 500$，$1 \\leq m \\leq 500$。\n\n对于所有测试点，保证 $1 \\leq n \\leq 2 \\times 10^5$，$1 \\leq m \\leq 2 \\times 10^5$，$1 \\leq q \\leq 2 \\times 10^5$，$1 \\leq u_i, v_i, s, h_i \\leq n$，$1 \\leq l_i \\leq 10^6$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "5 5 3 3\n1 2 3\n2 3 2\n3 4 1\n4 5 3\n1 4 2\n5\n1\n4",
+            "output": "4\n3\n1"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P11966",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p11967",
+      "title": "[GESP202503 八级] 割裂",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P11967",
+      "source_url": "https://www.luogu.com.cn/problem/P11967",
+      "fetched_at": "2026-06-01T03:10:42.916Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202503 八级] 割裂",
+        "source_url": "https://www.luogu.com.cn/problem/P11967",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1180>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小杨有一棵包含 $ n $ 个节点的树，其中节点的编号从 $ 1 $ 到 $ n $。\n\n小杨设置了 $ a $ 个好点对 $\\{\\langle u_1, v_1 \\rangle, \\langle u_2, v_2 \\rangle, \\dots, \\langle u_a, v_a \\rangle\\}$ 和一个坏点对 $\\langle b_u, b_v \\rangle$。一个节点能被删除，当且仅当：\n\n- 删除该节点后对于所有的 $ 1 \\leq i \\leq a $，好点对 $ u_i $ 和 $ v_i $ 仍然连通；\n- 删除该节点后坏点对 $ b_u $ 和 $ b_v $ 不连通。\n\n如果点对中的任意一个节点被删除，其视为不连通。\n\n小杨想知道，还有多少个节点能被删除。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行包含两个非负整数 $ n $, $ a $，含义如下题面所示。\n\n接下来 $n - 1$ 行，每行包含两个正整数 $ x_i, y_i $，代表存在一条连接节点 $ x_i $ 和 $ y_i $ 的边；\n\n之后 $ a $ 行，每行包含两个正整数 $ u_i, v_i $，代表一个好点对 $ \\langle u_i, v_i \\rangle $；\n\n最后一行包含两个正整数 $ b_u, b_v $，代表坏点对 $ \\langle b_u, b_v \\rangle $。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一个非负整数，代表删除的节点个数。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "| 子任务编号 | 分值 | $ n $ | $ a $ |\n|:-:|:-:|:-:|:-:|\n| 1          | $20$  | $=10$     | $=0$      |\n| 2          | $20$  | $ \\leq 100 $ | $ \\leq 100 $ |\n| 3          | $60$  | $ \\leq 10^6 $ | $ \\leq 10^5 $ |\n\n对于全部数据，保证有 $ 1 \\leq n \\leq 10^6 $, $ 0 \\leq a \\leq 10^5 $, $ u_i \\neq v_i $, $ b_u \\neq b_v $。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "6 2\n1 3\n1 5\n3 6\n3 2\n5 4\n5 4\n5 3\n2 6",
+            "output": "2"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P11967",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000,
+          4000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
       "canonical_problem_id": "supplemental:luogu:p13013",
       "title": "[GESP202506 五级] 奖品兑换",
       "level": 5,
@@ -19510,6 +21426,346 @@
       "attachments": []
     },
     {
+      "canonical_problem_id": "supplemental:luogu:p13019",
+      "title": "[GESP202506 八级] 树上旅行",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P13019",
+      "source_url": "https://www.luogu.com.cn/problem/P13019",
+      "fetched_at": "2026-06-01T03:10:48.695Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202506 八级] 树上旅行",
+        "source_url": "https://www.luogu.com.cn/problem/P13019",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1188>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "给定一棵有 $ n $ 个结点的 **有根树**，结点依次以 $1,2,\\dots,n$ 编号，其中根结点的编号为 $1$。\n\n小 A 计划在这棵有根树上进行 $q$ 次旅行。在第 $i$ 次旅行中，小 A 首先选定结点 $s_i$ 作为起点，并移动若干次。移动分为以下两种：\n\n1. 移动至当前结点的父结点。特殊地，如果当前位于根结点，则不进行移动。\n2. 移动至当前结点的所有子结点中**编号最小**的结点。特殊地，如果当前位于叶子结点，则不进行移动。\n\n由于移动次数可能很大，对于第 $i$ 次旅行，旅行中的移动以 $k_i$ 个不为零的整数构成的序列 $a_{i,1}, a_{i,2}, \\dots, a_{i,k_i}$ 表示。对 $a_{i,j}$，若 $a_{i,j} > 0$ 则代表进行 $a_{i,j}$ 次第一种移动；若 $a_{i,j} < 0$ 则代表进行 $-a_{i,j}$ 次第二种移动。根据给出的序列从左至右完成所有移动后，小 A 所在的结点即是旅行的**终点**。\n\n给定每次旅行的起点与移动序列，请你求出旅行终点的结点编号。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，两个正整数 $n, q$，分别表示有根树的结点数量，以及旅行次数。\n\n第二行，$n-1$ 个整数 $p_2, p_3, \\dots, p_n$，其中 $p_i$ 表示结点 $i$ 的父结点编号。\n\n接下来 $2q$ 行中的第 $2i-1$ 行（$1 \\leq i \\leq q$）包含两个正整数 $s_i, k_i$，分别表示第 $i$ 次旅行的起点编号，以及移动序列的长度。第 $2i$ 行包含 $k_i$ 个整数 $a_{i,1}, a_{i,2}, \\dots, a_{i,k_i}$，表示移动序列。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出共 $q$ 行，第 $i$ 行包含一个整数，表示第 $i$ 次旅行终点的结点编号。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "| 子任务编号 | 测试点占比 | $n$ | $q$ | $\\sum k_i$ | 特殊性质 |\n|:-:|:-:|:-:|:-:|:-:|:-:|\n| $1$          | $20\\%$         | $\\leq 100$ | $\\leq 100$ | $\\leq 1000$ | 保证 $a_{i,j}$ 为 $1$ 或 $-1$ |\n| $2$          | $20\\%$         | $\\leq 10^4$ | $\\leq 10^4$ | $\\leq 4 \\times 10^4$ | 仅包含第一种移动 |\n| $3$          | $20\\%$         | $\\leq 10^4$ | $\\leq 10^4$ | $\\leq 4 \\times 10^4$ | 仅包含第二种移动 |\n| $4$          | $40\\%$         | $\\leq 10^5$ | $\\leq 2 \\times 10^4$ | $\\leq 10^5$ | - |\n\n对于所有测试点，保证：\n\n- $1 \\leq n \\leq 10^5$\n- $1 \\leq q \\leq 2 \\times 10^4$\n- $1 \\leq p_i \\leq n$\n- $1 \\leq s_i \\leq n$\n- $k_i \\geq 1$ 且 $\\sum k_i \\leq 10^5$\n- $1 \\leq |a_{i,j}| \\leq n$"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "5 4\n1 1 2 2\n3 3\n1 -1 -1\n2 5\n1 -1 1 -1 1\n5 8\n1 1 1 -1 -1 -1 -1 -1\n5 3\n-1 -1 1",
+            "output": "4\n1\n4\n2"
+          },
+          {
+            "input": "8 3\n5 4 2 1 3 6 6\n8 1\n8\n8 2\n8 -8\n8 3\n8 -8 8",
+            "output": "1\n7\n1"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P13019",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p13020",
+      "title": "[GESP202506 八级] 遍历计数",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P13020",
+      "source_url": "https://www.luogu.com.cn/problem/P13020",
+      "fetched_at": "2026-06-01T03:10:54.309Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202506 八级] 遍历计数",
+        "source_url": "https://www.luogu.com.cn/problem/P13020",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1188>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "给定一棵有 $n$ 个结点的树 $T$，结点依次以 $1,2,\\dots,n$ 标号。树 $T$ 的深度优先遍历序可由以下过程得到：\n\n1. 选定深度优先遍历的起点 $s$（$1 \\leq s \\leq n$），当前位置结点即是起点。\n2. 若当前结点存在未被遍历的相邻结点 $u$ 则遍历 $u$，也即令当前位置结点为 $u$ 并重复这一步；否则回溯。\n3. 按照遍历结点的顺序依次写下结点编号，即可得到一组深度优先遍历序。\n\n第一步中起点的选择是任意的，并且第二步中遍历相邻结点的顺序也是任意的，因此对于同一棵树 $T$ 可能有多组不同的深度优先遍历序。请你求出树 $T$ 有多少组不同的深度优先遍历序。由于答案可能很大，你只需要求出答案对 $10^9$ 取模之后的结果。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，一个整数 $n$，表示树 $T$ 的结点数。\n\n接下来 $n-1$ 行，每行两个正整数 $u_i, v_i$，表示树 $T$ 中的一条连接结点 $u_i, v_i$ 的边。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，一个整数，表示树 $T$ 的不同的深度优先遍历序数量对 $10^9$ 取模的结果。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "对于 $40\\%$ 的测试点，保证 $1 \\leq n \\leq 8$。\n\n对于另外 $20\\%$ 的测试点，保证给定的树是一条链。\n\n对于所有测试点，保证 $1 \\leq n \\leq 10^5$。\n\n在洛谷上，只有通过了 Subtask0、Subtask1 和 Subtask2 后，才能获得第三个 Subtask 的分数。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "4\n1 2\n2 3\n3 4",
+            "output": "6"
+          },
+          {
+            "input": "8\n1 2\n1 3\n1 4\n2 5\n2 6\n3 7\n3 8",
+            "output": "112"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P13020",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
       "canonical_problem_id": "supplemental:luogu:p14073",
       "title": "[GESP202509 五级] 数字选取",
       "level": 5,
@@ -20242,6 +22498,352 @@
       "attachments": []
     },
     {
+      "canonical_problem_id": "supplemental:luogu:p14079",
+      "title": "[GESP202509 八级] 最短距离",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P14079",
+      "source_url": "https://www.luogu.com.cn/problem/P14079",
+      "fetched_at": "2026-06-01T03:10:59.848Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202509 八级] 最短距离",
+        "source_url": "https://www.luogu.com.cn/problem/P14079",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1196>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "给定正整数 $p,q$ 以及常数 $N=10^{18}$。现在构建一张包含 $N$ 个结点的带权无向图，结点依次以 $1,2,\\ldots,N$ 编号。对于任意满足 $1\\le u<v\\le N$ 的 $u,v$，向图中加入一条连接结点 $u$ 与结点 $v$ 的无向边，边权取决于 $u,v$ 是否互质：\n\n- 若 $u,v$ 互质（即 $u,v$ 的最大公因数为 $1$），则连接结点 $u$ 与结点 $v$ 的无向边长度为 $p$；\n- 否则连接结点 $u$ 与结点 $v$ 的无向边长度为 $q$。\n\n现在给定 $n$ 组询问，第 $i$（$1\\le i\\le n$）组询问给定两个正整数 $a_i,b_i$，你需要回答结点 $a_i$ 与结点 $b_i$ 之间的最短距离。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，三个正整数 $n,p,q$，分别表示询问数量，结点编号互质时的边权，以及结点编号不互质时的边权。\n\n接下来 $n$ 行，每行两个正整数 $a_i,b_i$，表示一组询问。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出共 $n$ 行，每行一个整数，表示结点 $a_i$ 与结点 $b_i$ 之间的最短距离。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "对于 $30\\%$ 的测试点，保证 $1\\le n\\le 10$，$1\\le a_i,b_i\\le 50$。\n\n对于另外 $30\\%$ 的测试点，保证 $1\\le a_i,b_i\\le 250$。\n\n对于所有测试点，保证 $1\\le n\\le 10^4$，$1\\le a_i,b_i\\le 10^9$，$1\\le p,q\\le 10^9$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "4 4 3\n1 2\n2 3\n4 2\n3 5",
+            "output": "4\n4\n3\n4"
+          },
+          {
+            "input": "5 2 6\n1 2\n2 3\n4 2\n3 5\n6 6",
+            "output": "2\n2\n4\n2\n0"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P14079",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p14080",
+      "title": "[GESP202509 八级] 最小生成树",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P14080",
+      "source_url": "https://www.luogu.com.cn/problem/P14080",
+      "fetched_at": "2026-06-01T03:11:04.637Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202509 八级] 最小生成树",
+        "source_url": "https://www.luogu.com.cn/problem/P14080",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1196>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "给定一张包含 $n$ 个结点 $m$ 条边的带权连通无向图，结点依次以 $1,2,\\ldots,n$ 编号，第 $i$ 条边（$1\\le i\\le m$）连接结点 $u_i$ 与结点 $v_i$，边权为 $w_i$。\n\n对于每条边，请你求出从图中移除该条边后，图的最小生成树中所有边的边权和。特别地，若移除某条边后图的最小生成树不存在，则输出 $-1$。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，两个正整数 $n,m$，分别表示图的结点数与边数。\n\n接下来 $m$ 行中的第 $i$ 行（$1\\le i\\le m$）包含三个正整数 $u_i,v_i,w_i$，表示图中连接结点 $u_i$ 与结点 $v_i$ 的边，边权为 $w_i$。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出共 $m$ 行，第 $i$ 行（$1\\le i\\le m$）包含一个整数，表示移除第 $i$ 条边后，图的最小生成树中所有边的边权和。若移除第 $i$ 条边后图的最小生成树不存在，则输出 $−1$。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "::cute-table{tuack}\n\n| 子任务编号 |\t测试点占比 |\t$n$ |\t$m$|\t特殊性质 |\n|:--:|:--:|:--:|:--:|:--:|\n| 1 |\t$20\\%$ |\t$\\le 50$ |\t$\\le 100$ |\t- |\n| 2 |\t$30\\%$ |\t$\\le 10^5$ |\t$\\le 10^5$|\t$n=m$ |\n| 3 |\t$30\\%$ |\t$\\le 500$ |\t$\\le 2\\times 10^4$ |\t- |\n| 4 |\t$20\\%$ |\t$\\le 10^5$ |\t$\\le 10^5$|\t- |\n\n对于所有测试点，保证 $1\\le n\\le 10^5$，$1\\le m\\le 10^5$，$1\\le u_i,v_i\\le n$，$1\\le w_i\\le 10^9$。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "5 5\n1 2 4\n2 3 3\n3 4 1\n2 5 2\n3 1 8",
+            "output": "14\n15\n-1\n-1\n10"
+          },
+          {
+            "input": "6 10\n1 2 6\n2 3 3\n3 1 4\n3 4 5\n4 5 8\n5 6 2\n6 4 1\n3 2 4\n5 4 4\n3 3 6",
+            "output": "15\n16\n17\n-1\n15\n17\n18\n15\n15\n15"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P14080",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
       "canonical_problem_id": "supplemental:luogu:p14917",
       "title": "[GESP202512 五级] 数字移动",
       "level": 5,
@@ -20946,6 +23548,262 @@
         "assets": [],
         "source_hint": {
           "source_url": "https://www.luogu.com.cn/problem/P14922",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p14923",
+      "title": "[GESP202512 八级] 猫和老鼠",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P14923",
+      "source_url": "https://www.luogu.com.cn/problem/P14923",
+      "fetched_at": "2026-06-01T03:11:09.414Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202512 八级] 猫和老鼠",
+        "source_url": "https://www.luogu.com.cn/problem/P14923",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1204>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "猫和老鼠所在的庄园可以视为一张由 $n$ 个点和 $m$ 条带权无向边构成的连通图。结点依次以 $1,2,\\ldots,n$ 编号，结点 $i$（$1\\le i\\le n$）有价值为 $c_i$ 的奶酪。在 $m$ 条带权无向边中，第 $i$（$1\\le i\\le m$）条无向边连接结点 $u_i$ 与结点 $v_i$，边权 $w_i$ 表示猫和老鼠通过这条边所需的时间。\n\n猫窝位于结点 $a$，老鼠洞位于结点 $b$。对于老鼠而言，结点 $u$ 是**安全的**当且仅当：\n\n- 老鼠能规划一条从结点 $u$ 出发逃往老鼠洞的路径，使得对于路径上任意结点 $x$（包括结点 $u$ 与老鼠洞）都有：猫从猫窝出发到结点 $x$ 的最短时间**严格大于**老鼠从结点 $u$ **沿这条路径**前往结点 $x$ 所需的时间。\n\n老鼠在拿取安全结点的奶酪时不存在被猫抓住的可能，但在拿取不是安全结点的奶酪时则不一定。为了确保万无一失，老鼠决定只拿取安全结点放置的奶酪。请你计算老鼠所能拿到的奶酪价值之和。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，两个正整数 $n,m$，分别表示图的结点数与边数。\n\n第二行，两个正整数 $a,b$，分别表示猫窝的结点编号，以及老鼠洞的结点编号。\n\n第三行，$n$ 个正整数 $c_1,c_2,\\ldots,c_n$，表示各个结点的奶酪价值。\n\n接下来 $m$ 行中的第 $i$ 行（$1\\le i\\le m$）包含三个正整数 $u_i,v_i,w_i$，表示图中连接结点 $u_i$ 与结点 $v_i$ 的边，边权为 $w_i$。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，一个整数，表示老鼠所能拿到的奶酪价值之和。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "对于 $40\\%$ 的测试点，保证 $1\\le n\\le 500$，$1\\le m\\le 500$。\n\n对于所有测试点，保证 $1\\le n\\le 10^5$，$1\\le m\\le 10^5$，$1\\le a,b\\le n$ 且 $a\\neq b$，$1\\le u_i,v_i\\le n$，$1\\le w_i\\le 10^9$。\n\n注：GESP 原题缺失 $c_i$ 范围，可按 $1 \\le c_i \\le 10^9$ 计算。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "5 5\n1 2\n1 2 4 8 16\n1 2 4\n2 3 3\n3 4 1\n2 5 2\n3 1 8",
+            "output": "22"
+          },
+          {
+            "input": "6 10\n3 4\n1 1 1 1 1 1\n1 2 6\n2 3 3\n3 1 4\n3 4 5\n4 5 8\n5 6 2\n6 4 1\n3 2 4\n5 4 4\n3 3 6",
+            "output": "3"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P14923",
+          "source_page": null
+        },
+        "notes": [
+          "公开 OJ 题面未发现图片或附件。",
+          "如果人工确认题目需要示意图，可以生成 AI 图片，但必须标注 AI 生成并要求甄别。"
+        ]
+      },
+      "limits": {
+        "time": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "memory": [
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288,
+          524288
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "canonical_problem_id": "supplemental:luogu:p14924",
+      "title": "[GESP202512 八级] 宝石项链",
+      "level": 8,
+      "oj_system": "luogu",
+      "oj_id": "P14924",
+      "source_url": "https://www.luogu.com.cn/problem/P14924",
+      "fetched_at": "2026-06-01T03:11:14.579Z",
+      "fetch_status": "source_extracted",
+      "extraction_method": "luogu_lentille_context",
+      "source_terms_status": "needs_review",
+      "review_status": "needs_review",
+      "statement": {
+        "status": "source_extracted",
+        "title": "[GESP202512 八级] 宝石项链",
+        "source_url": "https://www.luogu.com.cn/problem/P14924",
+        "source_page": null,
+        "extraction_method": "luogu_lentille_context",
+        "storage_policy": "source_extracted_public_oj",
+        "source_terms_status": "needs_review",
+        "sections": [
+          {
+            "id": "background",
+            "title": "题目背景",
+            "markdown": "对应的选择、判断题：<https://ti.luogu.com.cn/problemset/1204>"
+          },
+          {
+            "id": "description",
+            "title": "题目描述",
+            "markdown": "小 A 有一串包含 $n$ 枚宝石的宝石项链，这些宝石按照在项链中的顺序依次以 $1,2,\\ldots,n$ 编号，第 $n$ 枚宝石与第 $1$ 枚宝石相邻。项链由 $m$ 种宝石组成，其中第 $i$ 枚宝石种类为 $t_i$。\n\n小 A 想将宝石项链分给他的好朋友们。具体而言，小 A 会将项链划分为若干**连续段**，并且需要保证每段都包含全部 $m$ 种宝石。请帮小 A 计算在满足条件的前提下，宝石项链最多可以划分为多少段。"
+          },
+          {
+            "id": "input",
+            "title": "输入格式",
+            "markdown": "第一行，两个正整数 $n,m$，分别表示宝石项链中的宝石的数量与种类数。\n\n第二行，$n$ 个正整数 $t_1,t_2,\\ldots,t_n$，表示每枚宝石的种类。"
+          },
+          {
+            "id": "output",
+            "title": "输出格式",
+            "markdown": "输出一行，一个整数，表示宝石项链最多可以划分的段数。"
+          },
+          {
+            "id": "hint",
+            "title": "说明/提示",
+            "markdown": "对于 $40\\%$ 的测试点，保证 $2\\le n\\le 1000$。\n\n对于所有测试点，保证 $2\\le n\\le 10^5$，$2\\le m\\le n$，$1\\le t_i\\le m$，保证 $1,2,\\ldots,m$ 均在 $t_1,t_2,\\ldots,t_n$ 中出现。"
+          }
+        ],
+        "notes": [
+          "题面从公开 OJ 页面结构化抽取，未使用登录态。",
+          "公开 OJ 题面仍需人工确认来源条款，不能覆盖官方来源优先规则。"
+        ]
+      },
+      "sample_cases": {
+        "status": "source_extracted",
+        "cases": [
+          {
+            "input": "6 2\n1 2 1 2 1 2",
+            "output": "3"
+          },
+          {
+            "input": "7 3\n3 1 3 1 2 1 2",
+            "output": "2"
+          }
+        ],
+        "notes": [
+          "样例从公开 OJ 题面结构化字段抽取。"
+        ]
+      },
+      "visual_assets": {
+        "status": "none_found",
+        "assets": [],
+        "source_hint": {
+          "source_url": "https://www.luogu.com.cn/problem/P14924",
           "source_page": null
         },
         "notes": [
