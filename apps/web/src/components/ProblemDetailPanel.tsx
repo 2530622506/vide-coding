@@ -1,3 +1,6 @@
+import hljs from "highlight.js/lib/core";
+import cpp from "highlight.js/lib/languages/cpp";
+import "highlight.js/styles/github-dark.css";
 import MarkdownIt from "markdown-it";
 import mathjax3 from "markdown-it-mathjax3";
 import { useEffect, useMemo, useState } from "react";
@@ -6,6 +9,10 @@ import { BookOpenCheck, CheckCircle2, Code2, ExternalLink, FileText, Image as Im
 import type { ProblemDetailResponse } from "../types";
 import { AnswerBadge, typeLabel } from "./catalogLabels";
 import { ImagePreviewOverlay, type PreviewAsset } from "./ImagePreviewOverlay";
+
+if (!hljs.getLanguage("cpp")) {
+  hljs.registerLanguage("cpp", cpp);
+}
 
 const statementMarkdown = new MarkdownIt({
   breaks: true,
@@ -149,7 +156,7 @@ export function ProblemDetailPanel({ loading, problem, onClose }: {
                   type="success"
                 />
               ) : null}
-              <pre className="codeBlock"><code>{detail.programming_solution.code}</code></pre>
+              <HighlightedCppCode code={detail.programming_solution.code} />
             </Space>
           ) : (
             <DataGap status={detail?.programming_solution.status || "needs_review"} notes={detail?.programming_solution.notes || []} />
@@ -256,6 +263,21 @@ function SampleCasesBlock({ detail }: { detail: NonNullable<ProblemDetailRespons
         </List.Item>
       )}
     />
+  );
+}
+
+function HighlightedCppCode({ code }: { code: string }) {
+  const highlighted = useMemo(() => {
+    return hljs.highlight(code, {
+      language: "cpp",
+      ignoreIllegals: true
+    }).value;
+  }, [code]);
+
+  return (
+    <pre className="codeBlock">
+      <code className="hljs language-cpp" dangerouslySetInnerHTML={{ __html: highlighted }} />
+    </pre>
   );
 }
 

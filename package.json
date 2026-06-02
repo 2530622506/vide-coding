@@ -84,6 +84,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
     "antd": "^6.4.3",
+    "highlight.js": "^11.11.1",
     "lucide-react": "^1.17.0",
     "markdown-it": "^14.2.0",
     "markdown-it-mathjax3": "^5.2.0",

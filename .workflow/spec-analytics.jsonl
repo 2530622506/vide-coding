@@ -88,3 +88,4 @@
 {"type":"cli","id":"CLI-1780314760549-1","timestamp":"2026-06-01T11:52:40.549Z","command":"spec load","args":{"keyword":"部署","stdin":false}}
 {"type":"cli","id":"CLI-1780315320486-1","timestamp":"2026-06-01T12:02:00.486Z","command":"spec load","args":{"keyword":"antd","stdin":false}}
 {"type":"cli","id":"CLI-1780315331622-1","timestamp":"2026-06-01T12:02:11.622Z","command":"spec load","args":{"category":"ui","stdin":false}}
+{"type":"cli","id":"CLI-1780365312443-1","timestamp":"2026-06-02T01:55:12.443Z","command":"spec load","args":{"keyword":"部署","stdin":false}}
