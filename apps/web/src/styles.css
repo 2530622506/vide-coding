@@ -569,8 +569,26 @@ body.isResizingDetailPane {
   margin-top: 8px;
 }
 
+.problemMeta .ant-tag {
+  max-width: 100%;
+  min-height: 22px;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.problemMeta .ant-tag .ant-tag-icon {
+  display: inline-flex;
+  margin-inline-end: 4px;
+  vertical-align: -2px;
+}
+
 .problemTags {
   justify-content: flex-end;
+}
+
+.backToTopButton.ant-float-btn {
+  bottom: 28px;
+  right: 28px;
 }
 
 .understandingArea {
@@ -1214,6 +1232,11 @@ body.isResizingDetailPane .detailPane {
   .problemTags {
     grid-column: 2;
     justify-content: flex-start;
+  }
+
+  .backToTopButton.ant-float-btn {
+    bottom: 18px;
+    right: 18px;
   }
 
   .understandingArea {

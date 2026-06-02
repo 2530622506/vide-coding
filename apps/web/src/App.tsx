@@ -1,4 +1,4 @@
-import { Alert, Button, Card, ConfigProvider, Flex, Input, Modal, Radio, Space, theme, Typography } from "antd";
+import { Alert, Button, Card, ConfigProvider, Flex, FloatButton, Input, Modal, Radio, Space, theme, Typography } from "antd";
 import { AlertTriangle, Binary, ChevronDown, ChevronUp, Database, GitBranch, Layers3, ListChecks, Pencil, Plus, RefreshCw, Trash2 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
@@ -573,6 +573,12 @@ export default function App() {
           onChange={setEditorForm}
           onSave={saveEditor}
           saving={saving}
+        />
+        <FloatButton.BackTop
+          aria-label="回到顶部"
+          className="backToTopButton"
+          tooltip="回到顶部"
+          visibilityHeight={360}
         />
       </main>
     </ConfigProvider>
