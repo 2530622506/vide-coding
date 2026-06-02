@@ -1,6 +1,7 @@
 import { Alert, Button, Card, ConfigProvider, Flex, Input, Modal, Radio, Space, theme, Typography } from "antd";
-import { AlertTriangle, Binary, Database, GitBranch, Layers3, ListChecks, Pencil, Plus, RefreshCw, Trash2 } from "lucide-react";
+import { AlertTriangle, Binary, ChevronDown, ChevronUp, Database, GitBranch, Layers3, ListChecks, Pencil, Plus, RefreshCw, Trash2 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { DomainPanel } from "./components/DomainPanel";
 import { DomainNav } from "./components/DomainNav";
@@ -91,6 +92,12 @@ export default function App() {
   const [reviewActionBusyId, setReviewActionBusyId] = useState<string | null>(null);
   const [reviewActionMessage, setReviewActionMessage] = useState<string | null>(null);
   const [detailColumnWidth, setDetailColumnWidth] = useState(() => readStoredDetailColumnWidth());
+  const [stickyControlsPinned, setStickyControlsPinned] = useState(false);
+  const [stickyControlsExpanded, setStickyControlsExpanded] = useState(false);
+  const [stickyControlsMotion, setStickyControlsMotion] = useState<"pinning" | "restoring" | null>(null);
+  const stickyControlsSentinelRef = useRef<HTMLDivElement | null>(null);
+  const stickyControlsPinnedRef = useRef(false);
+  const stickyControlsMotionTimerRef = useRef<number | null>(null);
   const detailPaneRef = useRef<HTMLDivElement | null>(null);
   const workspaceRef = useRef<HTMLElement | null>(null);
   const pendingSelectionRef = useRef<{ problemId: string; domainId?: string } | null>(null);
@@ -98,6 +105,21 @@ export default function App() {
   const workspaceStyle = {
     "--detail-column-width": `${detailColumnWidth}px`
   } as WorkspaceStyle;
+
+  const selectedLevelSummary = levels.find((level) => level.level === selectedLevel);
+  const stickyControlsCollapsed = stickyControlsPinned && !stickyControlsExpanded;
+  const stickyControlsClassName = [
+    "stickyControls",
+    stickyControlsPinned ? "isPinned" : "",
+    stickyControlsCollapsed ? "isCollapsed" : "isExpanded",
+    stickyControlsMotion === "pinning" ? "isPinning" : "",
+    stickyControlsMotion === "restoring" ? "isRestoring" : ""
+  ].filter(Boolean).join(" ");
+  const shellClassName = [
+    "shell",
+    stickyControlsPinned ? "hasStickyControlsPinned" : "",
+    stickyControlsCollapsed ? "hasStickyControlsCollapsed" : ""
+  ].filter(Boolean).join(" ");
 
   useEffect(() => {
     void loadShell();
@@ -110,6 +132,75 @@ export default function App() {
   useEffect(() => {
     window.localStorage.setItem(DETAIL_PANE_WIDTH_KEY, String(detailColumnWidth));
   }, [detailColumnWidth]);
+
+  useEffect(() => {
+    stickyControlsPinnedRef.current = stickyControlsPinned;
+  }, [stickyControlsPinned]);
+
+  useEffect(() => {
+    let frameId = 0;
+
+    const applyPinnedState = (nextPinned: boolean) => {
+      if (stickyControlsPinnedRef.current === nextPinned) {
+        return;
+      }
+      const scrollTopBeforeChange = window.scrollY;
+      stickyControlsPinnedRef.current = nextPinned;
+      if (stickyControlsMotionTimerRef.current) {
+        window.clearTimeout(stickyControlsMotionTimerRef.current);
+      }
+      flushSync(() => {
+        setStickyControlsPinned(nextPinned);
+        setStickyControlsMotion(nextPinned ? "pinning" : "restoring");
+        if (!nextPinned) {
+          setStickyControlsExpanded(false);
+        }
+      });
+      window.scrollTo({ top: scrollTopBeforeChange, behavior: "instant" });
+      stickyControlsMotionTimerRef.current = window.setTimeout(() => {
+        stickyControlsMotionTimerRef.current = null;
+        setStickyControlsMotion(null);
+      }, 340);
+    };
+
+    const updatePinnedState = () => {
+      const sentinel = stickyControlsSentinelRef.current;
+      if (!sentinel) {
+        return;
+      }
+      const pinStart = Math.max(0, sentinel.offsetTop - 8);
+      const pinEnd = Math.max(0, pinStart - 48);
+      if (window.scrollY <= pinEnd) {
+        applyPinnedState(false);
+        return;
+      }
+      applyPinnedState(stickyControlsPinnedRef.current || window.scrollY >= pinStart);
+    };
+
+    const schedulePinnedUpdate = () => {
+      if (frameId) {
+        return;
+      }
+      frameId = window.requestAnimationFrame(() => {
+        frameId = 0;
+        updatePinnedState();
+      });
+    };
+
+    updatePinnedState();
+    window.addEventListener("scroll", schedulePinnedUpdate, { passive: true });
+    window.addEventListener("resize", schedulePinnedUpdate);
+    return () => {
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
+      if (stickyControlsMotionTimerRef.current) {
+        window.clearTimeout(stickyControlsMotionTimerRef.current);
+      }
+      window.removeEventListener("scroll", schedulePinnedUpdate);
+      window.removeEventListener("resize", schedulePinnedUpdate);
+    };
+  }, []);
 
   async function loadShell() {
     return Promise.all([
@@ -346,7 +437,7 @@ export default function App() {
         }
       }}
     >
-      <main className="shell">
+      <main className={shellClassName}>
         <Flex className="topbar" align="center" justify="space-between" gap={24}>
           <div>
             <Typography.Text className="eyebrow"><Database size={16} /> C++ 官方真题分类数据</Typography.Text>
@@ -355,35 +446,70 @@ export default function App() {
           <Button icon={<RefreshCw size={18} />} onClick={() => window.location.reload()} title="刷新目录" />
         </Flex>
 
-        <Space className="actionBar" size={8} wrap>
-          <Button icon={<Plus size={16} />} onClick={startCreate}>新增题目</Button>
-          <Button disabled={!selectedProblem} icon={<Pencil size={16} />} onClick={startEdit}>修改当前</Button>
-          <Button danger disabled={!selectedProblem || saving} icon={<Trash2 size={16} />} onClick={deleteSelectedProblem}>删除当前</Button>
-        </Space>
+        <div className="stickyControlsSentinel" ref={stickyControlsSentinelRef} />
+        <section className={stickyControlsClassName} aria-label="目录操作、级别筛选和统计">
+          <div className="stickyControlsTop">
+            <Space className="actionBar" size={8} wrap>
+              <Button icon={<Plus size={16} />} onClick={startCreate}>新增题目</Button>
+              <Button disabled={!selectedProblem} icon={<Pencil size={16} />} onClick={startEdit}>修改当前</Button>
+              <Button danger disabled={!selectedProblem || saving} icon={<Trash2 size={16} />} onClick={deleteSelectedProblem}>删除当前</Button>
+            </Space>
 
-        <Radio.Group
-          className="levelRail"
-          onChange={(event) => setSelectedLevel(Number(event.target.value))}
-          value={selectedLevel}
-        >
-          {levels.map((level) => (
-            <Radio.Button className="levelOptionButton" key={level.level} value={level.level}>
-              <span className="levelOption">
-                <span>{level.level} 级</span>
-                <strong>{level.problem_count}</strong>
-              </span>
-            </Radio.Button>
-          ))}
-        </Radio.Group>
+            {stickyControlsPinned ? (
+              <div className="stickyControlsSummary" aria-hidden={stickyControlsExpanded}>
+                <span className="stickyLevelPill">
+                  {selectedLevel} 级
+                  <strong>{selectedLevelSummary?.problem_count ?? 0}</strong>
+                </span>
+                <span>题目 <strong>{catalog?.summary.problem_count ?? 0}</strong></span>
+                <span>算法 <strong>{catalog?.domains.length ?? 0}</strong></span>
+                <span>题型 <strong>{catalog?.summary.problem_type_count ?? 0}</strong></span>
+                <span>知识点 <strong>{catalog?.summary.knowledge_point_count ?? 0}</strong></span>
+                <span className="stickyReviewCount">复核 <strong>{reviewSummary?.summary.total_count ?? 0}</strong></span>
+                {error ? <span className="stickyWarning">提示</span> : null}
+              </div>
+            ) : null}
 
-        {error ? <Alert className="notice" icon={<AlertTriangle size={18} />} message={error} showIcon type="warning" /> : null}
+            {stickyControlsPinned ? (
+              <Button
+                className="stickyControlsToggle"
+                icon={stickyControlsExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                onClick={() => setStickyControlsExpanded((expanded) => !expanded)}
+                aria-expanded={stickyControlsExpanded}
+              >
+                {stickyControlsExpanded ? "收起" : "展开"}
+              </Button>
+            ) : null}
+          </div>
 
-        <section className="metricGrid">
-          <Metric icon={<Layers3 size={18} />} label="题目" value={catalog?.summary.problem_count ?? 0} />
-          <Metric icon={<GitBranch size={18} />} label="算法范畴" value={catalog?.domains.length ?? 0} />
-          <Metric icon={<Binary size={18} />} label="题型" value={catalog?.summary.problem_type_count ?? 0} />
-          <Metric icon={<ListChecks size={18} />} label="知识点" value={catalog?.summary.knowledge_point_count ?? 0} />
-          <Metric icon={<AlertTriangle size={18} />} label="复核项" value={reviewSummary?.summary.total_count ?? 0} tone="warn" />
+          {!stickyControlsCollapsed ? (
+            <div className="stickyControlsBody">
+              <Radio.Group
+                className="levelRail"
+                onChange={(event) => setSelectedLevel(Number(event.target.value))}
+                value={selectedLevel}
+              >
+                {levels.map((level) => (
+                  <Radio.Button className="levelOptionButton" key={level.level} value={level.level}>
+                    <span className="levelOption">
+                      <span>{level.level} 级</span>
+                      <strong>{level.problem_count}</strong>
+                    </span>
+                  </Radio.Button>
+                ))}
+              </Radio.Group>
+
+              {error ? <Alert className="notice" icon={<AlertTriangle size={18} />} message={error} showIcon type="warning" /> : null}
+
+              <section className="metricGrid">
+                <Metric icon={<Layers3 size={18} />} label="题目" value={catalog?.summary.problem_count ?? 0} />
+                <Metric icon={<GitBranch size={18} />} label="算法范畴" value={catalog?.domains.length ?? 0} />
+                <Metric icon={<Binary size={18} />} label="题型" value={catalog?.summary.problem_type_count ?? 0} />
+                <Metric icon={<ListChecks size={18} />} label="知识点" value={catalog?.summary.knowledge_point_count ?? 0} />
+                <Metric icon={<AlertTriangle size={18} />} label="复核项" value={reviewSummary?.summary.total_count ?? 0} tone="warn" />
+              </section>
+            </div>
+          ) : null}
         </section>
 
         <section className="workspace" ref={workspaceRef} style={workspaceStyle}>
