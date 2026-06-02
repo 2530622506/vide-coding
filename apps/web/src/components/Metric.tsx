@@ -1,3 +1,4 @@
+import { Card, Statistic } from "antd";
 import type { ReactNode } from "react";
 
 type Props = {
@@ -9,10 +10,8 @@ type Props = {
 
 export function Metric({ icon, label, value, tone }: Props) {
   return (
-    <div className={tone === "warn" ? "metric warn" : "metric"}>
-      {icon}
-      <span>{label}</span>
-      <strong>{value}</strong>
-    </div>
+    <Card className={tone === "warn" ? "metric warn" : "metric"} size="small">
+      <Statistic prefix={icon} title={label} value={value} />
+    </Card>
   );
 }

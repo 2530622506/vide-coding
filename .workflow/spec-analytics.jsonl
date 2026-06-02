@@ -86,3 +86,5 @@
 {"type":"cli","id":"CLI-1780314684675-1","timestamp":"2026-06-01T11:51:24.675Z","command":"spec load","args":{"keyword":"样式","stdin":false}}
 {"type":"cli","id":"CLI-1780314690232-1","timestamp":"2026-06-01T11:51:30.232Z","command":"spec load","args":{"keyword":"coding-conventions","stdin":false}}
 {"type":"cli","id":"CLI-1780314760549-1","timestamp":"2026-06-01T11:52:40.549Z","command":"spec load","args":{"keyword":"部署","stdin":false}}
+{"type":"cli","id":"CLI-1780315320486-1","timestamp":"2026-06-01T12:02:00.486Z","command":"spec load","args":{"keyword":"antd","stdin":false}}
+{"type":"cli","id":"CLI-1780315331622-1","timestamp":"2026-06-01T12:02:11.622Z","command":"spec load","args":{"category":"ui","stdin":false}}

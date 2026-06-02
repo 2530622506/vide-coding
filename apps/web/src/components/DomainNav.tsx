@@ -1,3 +1,4 @@
+import { Menu, Typography } from "antd";
 import type { DomainGroup } from "../types";
 
 type Props = {
@@ -9,20 +10,22 @@ type Props = {
 export function DomainNav({ activeDomainId, domains, onSelect }: Props) {
   return (
     <aside className="domainNav">
-      <div className="paneTitle">算法范畴</div>
-      <div className="domainNavList">
-        {domains.map((domain) => (
-          <button
-            key={domain.domain_id}
-            type="button"
-            className={domain.domain_id === activeDomainId ? "domainButton active" : "domainButton"}
-            onClick={() => onSelect(domain.domain_id)}
-          >
-            <span>{domain.domain_label}</span>
-            <strong>{domain.problem_count}</strong>
-          </button>
-        ))}
-      </div>
+      <Typography.Text className="paneTitle" strong>算法范畴</Typography.Text>
+      <Menu
+        className="domainMenu"
+        mode="inline"
+        onClick={(event) => onSelect(event.key)}
+        selectedKeys={activeDomainId ? [activeDomainId] : []}
+        items={domains.map((domain) => ({
+          key: domain.domain_id,
+          label: (
+            <span className="domainMenuLabel">
+              <span>{domain.domain_label}</span>
+              <strong>{domain.problem_count}</strong>
+            </span>
+          )
+        }))}
+      />
     </aside>
   );
 }
