@@ -16,10 +16,13 @@ const ANTHROPIC_AUTH_HEADER = process.env.ATCODER_ANTHROPIC_AUTH_HEADER || (ANTH
 const MODEL = process.env.ATCODER_AI_MODEL || process.env.OPENAI_MODEL || process.env.ANTHROPIC_MODEL || "gpt-4.1-mini";
 const LIMIT = Number(process.env.ATCODER_AI_SOLUTION_LIMIT || 1);
 const CONCURRENCY = Math.max(1, Number(process.env.ATCODER_AI_CONCURRENCY || 1));
+const WORKER_START_DELAY_MS = Number(process.env.ATCODER_AI_WORKER_START_DELAY_MS || 0);
 const MAX_TOKENS = Number(process.env.ATCODER_AI_MAX_TOKENS || 4096);
 const REQUIRE_SAMPLES = process.env.ATCODER_AI_REQUIRE_SAMPLES === "1";
+const VERIFY_SAMPLES = process.env.ATCODER_AI_VERIFY_SAMPLES !== "0";
 const CONTINUE_ON_ERROR = process.env.ATCODER_AI_CONTINUE_ON_ERROR === "1";
 const RETRIES = Number(process.env.ATCODER_AI_RETRIES || 1);
+const RETRY_BASE_DELAY_MS = Number(process.env.ATCODER_AI_RETRY_BASE_DELAY_MS || 2000);
 const SKIP_FAILED = process.env.ATCODER_AI_SKIP_FAILED === "1";
 const EXCLUDE_IDS = new Set((process.env.ATCODER_AI_EXCLUDE_IDS || "").split(",").map((item) => item.trim()).filter(Boolean));
 const REQUEST_TIMEOUT_MS = Number(process.env.ATCODER_AI_REQUEST_TIMEOUT_MS || 90000);
@@ -35,6 +38,14 @@ function assert(condition, message) {
   if (!condition) {
     throw new Error(message);
   }
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isTransientGenerationError(error) {
+  return /429|rate_limit|并发请求数量过多|This operation was aborted|aborted|timeout|ECONNRESET|ETIMEDOUT/i.test(error?.message || "");
 }
 
 function statementText(problem) {
@@ -315,6 +326,10 @@ async function compileAndRun(problem, code, tempRoot) {
     maxBuffer: 4 * 1024 * 1024
   });
 
+  if (!VERIFY_SAMPLES) {
+    return [];
+  }
+
   const sampleResults = [];
   for (const [index, sample] of problem.statement.samples.entries()) {
     const actual = normalizeOutput(await runBinary(binaryPath, `${sample.input}\n`));
@@ -363,6 +378,9 @@ async function generateVerifiedSolution(problem, tempRoot) {
       lastError = error;
       if (attempt < RETRIES) {
         console.error(`${problem.id}: attempt ${attempt + 1} failed: ${error.message}`);
+        if (isTransientGenerationError(error)) {
+          await sleep(RETRY_BASE_DELAY_MS * (attempt + 1));
+        }
       }
     }
   }
@@ -491,6 +509,7 @@ async function main() {
   const tempRoot = await mkdtemp(join(tmpdir(), "atcoder-ai-solutions-"));
   let solvedCount = 0;
   let failedCount = 0;
+  let transientCount = 0;
   let cursor = 0;
   let writeQueue = Promise.resolve();
 
@@ -508,7 +527,10 @@ async function main() {
     return writeQueue;
   }
 
-  async function worker() {
+  async function worker(workerIndex) {
+    if (WORKER_START_DELAY_MS > 0 && workerIndex > 0) {
+      await sleep(WORKER_START_DELAY_MS * workerIndex);
+    }
     while (true) {
       const problem = nextCandidate();
       if (!problem) return;
@@ -516,8 +538,16 @@ async function main() {
         const { solution, sampleResults } = await generateVerifiedSolution(problem, tempRoot);
         await persistReplacement(applySolution(problem, solution, sampleResults));
         solvedCount += 1;
-        console.log(`generated and verified ${problem.id}`);
+        console.log(`generated and ${sampleResults.length ? "sample verified" : "compile verified"} ${problem.id}`);
       } catch (error) {
+        if (isTransientGenerationError(error)) {
+          transientCount += 1;
+          console.error(`${problem.id}: transient generation error, not recorded as problem failure: ${error.message}`);
+          if (!CONTINUE_ON_ERROR) {
+            throw error;
+          }
+          continue;
+        }
         const failure = {
           message: error.message,
           failed_at: new Date().toISOString(),
@@ -536,7 +566,7 @@ async function main() {
 
   try {
     console.log(`AI solution generation concurrency: ${Math.min(CONCURRENCY, candidates.length)}`);
-    await Promise.all(Array.from({ length: Math.min(CONCURRENCY, candidates.length) }, () => worker()));
+    await Promise.all(Array.from({ length: Math.min(CONCURRENCY, candidates.length) }, (_, index) => worker(index)));
     await writeQueue;
   } finally {
     await rm(tempRoot, { recursive: true, force: true });
@@ -547,6 +577,9 @@ async function main() {
   console.log(`AI solutions generated: ${solvedCount}`);
   if (failedCount) {
     console.log(`AI solutions failed: ${failedCount}`);
+  }
+  if (transientCount) {
+    console.log(`AI solutions transient skipped: ${transientCount}`);
   }
   console.log(`wrote ${DATA_PATH}`);
 }

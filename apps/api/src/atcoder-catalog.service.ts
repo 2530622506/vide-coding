@@ -70,13 +70,13 @@ export type AtCoderProgrammingSolution = {
   status: "pending_ai_generation" | "needs_review";
   language: "C++17";
   code: string | null;
-  content_origin: "pending_ai_generation" | "ai_generated_sample_verified" | "local_ai_generated_reference";
+  content_origin: "pending_ai_generation" | "ai_generated_sample_verified" | "ai_generated_compile_verified" | "local_ai_generated_reference";
   ai_generation_notice: string;
   reference_answer: string;
   algorithm: string;
   complexity: string;
   verification: null | {
-    status: "sample_passed";
+    status: "sample_passed" | "compiled_no_samples";
     verifier: string;
     verified_at: string;
     sample_count: number;

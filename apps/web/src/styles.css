@@ -435,6 +435,22 @@ button {
   margin: 0 auto 16px;
   max-width: 1480px;
   padding: 8px 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.difficultyTabs::after {
+  background: linear-gradient(180deg, rgba(18, 107, 107, 0.12), rgba(18, 107, 107, 0));
+  bottom: -10px;
+  content: "";
+  height: 10px;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  transition: opacity 120ms ease;
 }
 
 .difficultyTabs .ant-tabs-nav {
@@ -446,11 +462,28 @@ button {
 }
 
 .atcoderDetailPane {
-  max-height: calc(100vh - 48px);
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 92px);
+  max-height: calc(100vh - 92px);
+  overflow: hidden;
   position: sticky;
   scrollbar-width: thin;
-  top: 24px;
+  top: 76px;
+}
+
+.atcoderDetailPane .ant-card-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+  overflow-y: auto;
+  padding: 12px 12px 34px 22px;
+  scroll-behavior: auto;
+  scrollbar-width: thin;
+}
+
+.atcoderPaneResizeHandle {
+  display: block;
 }
 
 body.isResizingDetailPane {
@@ -781,6 +814,16 @@ body.isResizingDetailPane .detailPane {
   overflow-y: auto;
   scroll-behavior: smooth;
   transition: border-color 120ms ease;
+}
+
+.detailPane.atcoderDetailPane {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 92px);
+  max-height: calc(100vh - 92px);
+  min-height: 420px;
+  overflow: hidden;
+  top: 76px;
 }
 
 .editorForm {
@@ -1176,6 +1219,11 @@ body.isResizingDetailPane .detailPane {
   width: 100%;
 }
 
+.atcoderEditorInlineField {
+  flex: 1 1 160px;
+  min-width: 160px;
+}
+
 .queueList {
   flex: 1 1 auto;
   min-height: 0;
@@ -1237,7 +1285,15 @@ body.isResizingDetailPane .detailPane {
   }
 
   .atcoderDetailPane {
+    height: auto;
+    max-height: none;
+    min-height: 360px;
     position: static;
+  }
+
+  .atcoderDetailPane .ant-card-body {
+    overflow: visible;
+    padding-left: 12px;
   }
 
   .metricGrid {

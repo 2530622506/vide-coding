@@ -4,10 +4,10 @@ import cpp from "highlight.js/lib/languages/cpp";
 import "highlight.js/styles/github-dark.css";
 import MarkdownIt from "markdown-it";
 import mathjax3 from "markdown-it-mathjax3";
-import { Alert, App as AntApp, Button, Card, Empty, Flex, Image, Input, Modal, Select, Space, Tabs, Tag, Tooltip, Typography } from "antd";
-import { ArrowLeft, BookOpenCheck, Code2, Database, Edit3, ExternalLink, FileText, GitBranch, Image as ImageIcon, ListChecks, Plus, RefreshCw, Trash2, Trophy } from "lucide-react";
+import { Alert, App as AntApp, Button, Card, Empty, Flex, FloatButton, Image, Input, Modal, Select, Space, Tabs, Tag, Tooltip, Typography } from "antd";
+import { ArrowLeft, ArrowUp, BookOpenCheck, Code2, Database, Edit3, ExternalLink, FileText, GitBranch, Image as ImageIcon, ListChecks, Plus, RefreshCw, Trash2, Trophy } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import type { CSSProperties, KeyboardEvent, ReactNode } from "react";
+import type { CSSProperties, KeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from "react";
 import { DomainNav } from "../components/DomainNav";
 import { Metric } from "../components/Metric";
 import { createAtCoderProblem, deleteAtCoderProblem, fetchAtCoderCatalog, fetchAtCoderProblem, updateAtCoderProblem } from "../services/atcoderCatalog";
@@ -53,18 +53,35 @@ type EditorForm = {
   pid: string;
   title: string;
   title_zh: string;
+  source_url: string;
   difficulty_label: string;
+  total_submit: string;
+  total_accepted: string;
+  acceptance_rate: string;
+  algorithm_domains_json: string;
+  problem_type_tags_json: string;
+  knowledge_points_json: string;
+  statement_json: string;
+  visual_assets_json: string;
   answer: string;
   solution_outline: string;
+  review_note: string;
+  solution_code: string;
+  solution_algorithm: string;
+  solution_complexity: string;
+  solution_notice: string;
+  solution_reference: string;
+  solution_notes: string;
 };
 
 export function AtCoderCatalogPage({ onBack }: Props) {
-  const { modal } = AntApp.useApp();
+  const { message, modal } = AntApp.useApp();
   const [activeDomainId, setActiveDomainId] = useState<string | null>(null);
   const [selectedProblemId, setSelectedProblemId] = useState<string | null>(null);
   const [activeDifficulty, setActiveDifficulty] = useState<string>(DIFFICULTY_TABS[0].key);
   const [editorMode, setEditorMode] = useState<EditorMode | null>(null);
   const [editorForm, setEditorForm] = useState<EditorForm>(emptyEditorForm(DIFFICULTY_TABS[0].key));
+  const [detailColumnWidth, setDetailColumnWidth] = useState(480);
 
   const catalogRequest = useRequest(fetchAtCoderCatalog);
   const problemRequest = useRequest(fetchAtCoderProblem, {
@@ -97,45 +114,23 @@ export function AtCoderCatalogPage({ onBack }: Props) {
   }
 
   function openEditModal(problem: AtCoderProblem) {
-    setEditorForm({
-      pid: problem.pid,
-      title: problem.title,
-      title_zh: problem.title_zh,
-      difficulty_label: problem.difficulty_label,
-      answer: problem.answer_guidance.answer,
-      solution_outline: problem.answer_guidance.solution_outline
-    });
+    setEditorForm(problemToEditorForm(problem));
     setEditorMode("edit");
   }
 
   async function submitEditor() {
-    const difficulty = DIFFICULTY_TABS.find((tab) => tab.key === editorForm.difficulty_label)?.difficulty || 3;
-    const payload: Partial<AtCoderProblem> = {
-      pid: editorForm.pid,
-      title: editorForm.title,
-      title_zh: editorForm.title_zh,
-      difficulty,
-      difficulty_label: editorForm.difficulty_label as AtCoderProblem["difficulty_label"],
-      answer_guidance: {
-        ...(problemRequest.data?.answer_guidance || {
-          status: "reference_link",
-          source: "luogu_problem_page",
-          source_url: `https://www.luogu.com.cn/problem/${editorForm.pid}`,
-          knowledge_points: [],
-          review_note: "当前答案是 AI 生成，仅供参考；不是官方题解。"
-        }),
-        answer: editorForm.answer,
-        solution_outline: editorForm.solution_outline,
-        review_note: "当前答案是 AI 生成，仅供参考；不是官方题解。"
-      }
-    };
-    const saved = editorMode === "create"
-      ? await createAtCoderProblem(payload)
-      : await updateAtCoderProblem(selectedProblemId || editorForm.pid, payload);
-    setEditorMode(null);
-    setSelectedProblemId(saved.id);
-    await catalogRequest.refreshAsync();
-    problemRequest.run(saved.id);
+    try {
+      const payload = editorFormToProblemPayload(editorForm, problemRequest.data || null);
+      const saved = editorMode === "create"
+        ? await createAtCoderProblem(payload)
+        : await updateAtCoderProblem(selectedProblemId || editorForm.pid, payload);
+      setEditorMode(null);
+      setSelectedProblemId(saved.id);
+      await catalogRequest.refreshAsync();
+      problemRequest.run(saved.id);
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : "题目信息格式不正确");
+    }
   }
 
   async function confirmDelete(problem: AtCoderProblem) {
@@ -154,8 +149,29 @@ export function AtCoderCatalogPage({ onBack }: Props) {
     });
   }
 
+  function startDetailResize(event: ReactPointerEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    document.body.classList.add("isResizingDetailPane");
+    const startX = event.clientX;
+    const startWidth = detailColumnWidth;
+
+    function resize(moveEvent: PointerEvent) {
+      const nextWidth = Math.min(920, Math.max(360, startWidth - (moveEvent.clientX - startX)));
+      setDetailColumnWidth(nextWidth);
+    }
+
+    function stopResize() {
+      document.body.classList.remove("isResizingDetailPane");
+      window.removeEventListener("pointermove", resize);
+      window.removeEventListener("pointerup", stopResize);
+    }
+
+    window.addEventListener("pointermove", resize);
+    window.addEventListener("pointerup", stopResize, { once: true });
+  }
+
   const workspaceStyle: AtCoderWorkspaceStyle = {
-    "--detail-column-width": "480px"
+    "--detail-column-width": `${detailColumnWidth}px`
   };
 
   return (
@@ -220,7 +236,18 @@ export function AtCoderCatalogPage({ onBack }: Props) {
           ) : null}
         </Card>
 
-        <Card className="detailPane atcoderDetailPane" loading={problemRequest.loading} size="small" title="题目详情">
+        <Card
+          className="detailPane atcoderDetailPane"
+          loading={problemRequest.loading}
+          size="small"
+          title="题目详情"
+        >
+          <button
+            aria-label="拖动调整题目详情宽度"
+            className="paneResizeHandle atcoderPaneResizeHandle"
+            onPointerDown={startDetailResize}
+            type="button"
+          />
           <AtCoderProblemDetail
             onDelete={confirmDelete}
             onEdit={openEditModal}
@@ -228,6 +255,12 @@ export function AtCoderCatalogPage({ onBack }: Props) {
           />
         </Card>
       </section>
+      <FloatButton
+        className="backToTopButton"
+        icon={<ArrowUp size={18} />}
+        onClick={() => window.scrollTo({ top: 0, behavior: "auto" })}
+        tooltip="回到顶部"
+      />
       <AtCoderProblemEditor
         form={editorForm}
         mode={editorMode}
@@ -525,7 +558,7 @@ function AtCoderProblemEditor({ mode, form, onChange, onCancel, onSubmit }: {
   form: EditorForm;
   onChange: (form: EditorForm) => void;
   onCancel: () => void;
-  onSubmit: () => void;
+  onSubmit: () => void | Promise<void>;
 }) {
   return (
     <Modal
@@ -535,38 +568,133 @@ function AtCoderProblemEditor({ mode, form, onChange, onCancel, onSubmit }: {
       onOk={onSubmit}
       open={Boolean(mode)}
       title={mode === "create" ? "新增 AtCoder 题目" : "编辑题目和答案"}
-      width={720}
+      width={980}
     >
-      <Space className="atcoderEditorForm" orientation="vertical" size={12}>
-        <label>
-          <Typography.Text strong>题号</Typography.Text>
-          <Input disabled={mode === "edit"} value={form.pid} onChange={(event) => onChange({ ...form, pid: event.target.value })} />
-        </label>
-        <label>
-          <Typography.Text strong>原题名</Typography.Text>
-          <Input value={form.title} onChange={(event) => onChange({ ...form, title: event.target.value })} />
-        </label>
-        <label>
-          <Typography.Text strong>中文名称</Typography.Text>
-          <Input value={form.title_zh} onChange={(event) => onChange({ ...form, title_zh: event.target.value })} />
-        </label>
-        <label>
-          <Typography.Text strong>难度</Typography.Text>
-          <Select
-            options={DIFFICULTY_TABS.map((tab) => ({ label: tab.label, value: tab.key }))}
-            value={form.difficulty_label}
-            onChange={(value) => onChange({ ...form, difficulty_label: value })}
-          />
-        </label>
-        <label>
-          <Typography.Text strong>答案区域</Typography.Text>
-          <Input.TextArea rows={4} value={form.answer} onChange={(event) => onChange({ ...form, answer: event.target.value })} />
-        </label>
-        <label>
-          <Typography.Text strong>参考思路</Typography.Text>
-          <Input.TextArea rows={6} value={form.solution_outline} onChange={(event) => onChange({ ...form, solution_outline: event.target.value })} />
-        </label>
-      </Space>
+      <Tabs
+        items={[
+          {
+            key: "basic",
+            label: "基础信息",
+            children: (
+              <Space className="atcoderEditorForm" orientation="vertical" size={12}>
+                <label>
+                  <Typography.Text strong>题号</Typography.Text>
+                  <Input disabled={mode === "edit"} value={form.pid} onChange={(event) => onChange({ ...form, pid: event.target.value })} />
+                </label>
+                <label>
+                  <Typography.Text strong>原题名</Typography.Text>
+                  <Input value={form.title} onChange={(event) => onChange({ ...form, title: event.target.value })} />
+                </label>
+                <label>
+                  <Typography.Text strong>中文名称</Typography.Text>
+                  <Input value={form.title_zh} onChange={(event) => onChange({ ...form, title_zh: event.target.value })} />
+                </label>
+                <label>
+                  <Typography.Text strong>来源链接</Typography.Text>
+                  <Input value={form.source_url} onChange={(event) => onChange({ ...form, source_url: event.target.value })} />
+                </label>
+                <Flex gap={12} wrap="wrap">
+                  <label className="atcoderEditorInlineField">
+                    <Typography.Text strong>难度</Typography.Text>
+                    <Select
+                      options={DIFFICULTY_TABS.map((tab) => ({ label: tab.label, value: tab.key }))}
+                      value={form.difficulty_label}
+                      onChange={(value) => onChange({ ...form, difficulty_label: value })}
+                    />
+                  </label>
+                  <label className="atcoderEditorInlineField">
+                    <Typography.Text strong>提交数</Typography.Text>
+                    <Input value={form.total_submit} onChange={(event) => onChange({ ...form, total_submit: event.target.value })} />
+                  </label>
+                  <label className="atcoderEditorInlineField">
+                    <Typography.Text strong>通过数</Typography.Text>
+                    <Input value={form.total_accepted} onChange={(event) => onChange({ ...form, total_accepted: event.target.value })} />
+                  </label>
+                  <label className="atcoderEditorInlineField">
+                    <Typography.Text strong>通过率</Typography.Text>
+                    <Input placeholder="0.5 或留空" value={form.acceptance_rate} onChange={(event) => onChange({ ...form, acceptance_rate: event.target.value })} />
+                  </label>
+                </Flex>
+                <label>
+                  <Typography.Text strong>算法范畴 JSON</Typography.Text>
+                  <Input.TextArea rows={5} value={form.algorithm_domains_json} onChange={(event) => onChange({ ...form, algorithm_domains_json: event.target.value })} />
+                </label>
+                <label>
+                  <Typography.Text strong>题型标签 JSON</Typography.Text>
+                  <Input.TextArea rows={5} value={form.problem_type_tags_json} onChange={(event) => onChange({ ...form, problem_type_tags_json: event.target.value })} />
+                </label>
+                <label>
+                  <Typography.Text strong>知识点 JSON</Typography.Text>
+                  <Input.TextArea rows={6} value={form.knowledge_points_json} onChange={(event) => onChange({ ...form, knowledge_points_json: event.target.value })} />
+                </label>
+              </Space>
+            )
+          },
+          {
+            key: "statement",
+            label: "题面样例",
+            children: (
+              <Space className="atcoderEditorForm" orientation="vertical" size={12}>
+                <Alert showIcon type="info" message="这里编辑完整 statement 对象，包含题目描述、输入格式、输出格式、说明/提示、样例解释、输入输出样例、时间/内存限制等。" />
+                <label>
+                  <Typography.Text strong>题面 statement JSON</Typography.Text>
+                  <Input.TextArea rows={18} value={form.statement_json} onChange={(event) => onChange({ ...form, statement_json: event.target.value })} />
+                </label>
+                <label>
+                  <Typography.Text strong>图片 visual_assets JSON</Typography.Text>
+                  <Input.TextArea rows={10} value={form.visual_assets_json} onChange={(event) => onChange({ ...form, visual_assets_json: event.target.value })} />
+                </label>
+              </Space>
+            )
+          },
+          {
+            key: "answer",
+            label: "答案代码",
+            children: (
+              <Space className="atcoderEditorForm" orientation="vertical" size={12}>
+                <label>
+                  <Typography.Text strong>答案区域</Typography.Text>
+                  <Input.TextArea rows={4} value={form.answer} onChange={(event) => onChange({ ...form, answer: event.target.value })} />
+                </label>
+                <label>
+                  <Typography.Text strong>参考思路</Typography.Text>
+                  <Input.TextArea rows={5} value={form.solution_outline} onChange={(event) => onChange({ ...form, solution_outline: event.target.value })} />
+                </label>
+                <label>
+                  <Typography.Text strong>复核提示</Typography.Text>
+                  <Input.TextArea rows={3} value={form.review_note} onChange={(event) => onChange({ ...form, review_note: event.target.value })} />
+                </label>
+                <Flex gap={12} wrap="wrap">
+                  <label className="atcoderEditorInlineField">
+                    <Typography.Text strong>算法</Typography.Text>
+                    <Input value={form.solution_algorithm} onChange={(event) => onChange({ ...form, solution_algorithm: event.target.value })} />
+                  </label>
+                  <label className="atcoderEditorInlineField">
+                    <Typography.Text strong>复杂度</Typography.Text>
+                    <Input value={form.solution_complexity} onChange={(event) => onChange({ ...form, solution_complexity: event.target.value })} />
+                  </label>
+                </Flex>
+                <label>
+                  <Typography.Text strong>C++ 参考解</Typography.Text>
+                  <Input.TextArea rows={16} value={form.solution_code} onChange={(event) => onChange({ ...form, solution_code: event.target.value })} />
+                </label>
+                <label>
+                  <Typography.Text strong>AI 生成提示</Typography.Text>
+                  <Input.TextArea rows={3} value={form.solution_notice} onChange={(event) => onChange({ ...form, solution_notice: event.target.value })} />
+                </label>
+                <label>
+                  <Typography.Text strong>参考答案说明</Typography.Text>
+                  <Input.TextArea rows={3} value={form.solution_reference} onChange={(event) => onChange({ ...form, solution_reference: event.target.value })} />
+                </label>
+                <label>
+                  <Typography.Text strong>代码备注，每行一条</Typography.Text>
+                  <Input.TextArea rows={4} value={form.solution_notes} onChange={(event) => onChange({ ...form, solution_notes: event.target.value })} />
+                </label>
+              </Space>
+            )
+          }
+        ]}
+      />
     </Modal>
   );
 }
@@ -605,12 +733,163 @@ function filterDomainsByDifficulty(domains: AtCoderDomainGroup[], difficultyLabe
 }
 
 function emptyEditorForm(difficultyLabel: string): EditorForm {
+  const pid = "";
+  const sourceUrl = "https://www.luogu.com.cn/problem/";
   return {
-    pid: "",
+    pid,
     title: "",
     title_zh: "",
+    source_url: sourceUrl,
     difficulty_label: difficultyLabel,
+    total_submit: "0",
+    total_accepted: "0",
+    acceptance_rate: "",
+    algorithm_domains_json: formatEditorJson([{ id: "user_custom", label: "自定义" }]),
+    problem_type_tags_json: formatEditorJson([{ id: "user_custom", label: "自定义" }]),
+    knowledge_points_json: formatEditorJson([{ id: "user_custom", label: "自定义维护" }]),
+    statement_json: formatEditorJson({
+      status: "source_extracted",
+      locale: "zh-CN",
+      source_terms_status: "needs_review",
+      source_url: sourceUrl,
+      atcoder_url: null,
+      sections: [
+        { id: "description", title: "题目描述", markdown: "" },
+        { id: "input", title: "输入格式", markdown: "" },
+        { id: "output", title: "输出格式", markdown: "" },
+        { id: "hint", title: "说明/提示", markdown: "" }
+      ],
+      samples: [],
+      limits: { time_ms: null, memory_kb: null },
+      notes: ["用户新增题目，题面待完善。"]
+    }),
+    visual_assets_json: formatEditorJson({
+      status: "none_found",
+      assets: [],
+      notes: []
+    }),
     answer: "当前答案是 AI 生成，仅供参考。请在这里补充参考答案或思路。",
-    solution_outline: "当前答案是 AI 生成，仅供参考；不是官方题解，正式提交前请复核。"
+    solution_outline: "当前答案是 AI 生成，仅供参考；不是官方题解，正式提交前请复核。",
+    review_note: "当前答案是 AI 生成，仅供参考；不是官方题解。",
+    solution_code: "",
+    solution_algorithm: "",
+    solution_complexity: "",
+    solution_notice: "当前答案是 AI 生成，仅供参考；不是官方题解。",
+    solution_reference: "当前答案是 AI 生成，仅供参考。",
+    solution_notes: "正式使用前建议继续用洛谷或 AtCoder 评测。"
   };
+}
+
+function problemToEditorForm(problem: AtCoderProblem): EditorForm {
+  return {
+    pid: problem.pid,
+    title: problem.title,
+    title_zh: problem.title_zh,
+    source_url: problem.source_url,
+    difficulty_label: problem.difficulty_label,
+    total_submit: String(problem.total_submit),
+    total_accepted: String(problem.total_accepted),
+    acceptance_rate: problem.acceptance_rate === null ? "" : String(problem.acceptance_rate),
+    algorithm_domains_json: formatEditorJson(problem.algorithm_domains),
+    problem_type_tags_json: formatEditorJson(problem.problem_type_tags),
+    knowledge_points_json: formatEditorJson(problem.knowledge_points),
+    statement_json: formatEditorJson(problem.statement),
+    visual_assets_json: formatEditorJson(problem.visual_assets),
+    answer: problem.answer_guidance.answer,
+    solution_outline: problem.answer_guidance.solution_outline,
+    review_note: problem.answer_guidance.review_note,
+    solution_code: problem.programming_solution.code || "",
+    solution_algorithm: problem.programming_solution.algorithm,
+    solution_complexity: problem.programming_solution.complexity,
+    solution_notice: problem.programming_solution.ai_generation_notice,
+    solution_reference: problem.programming_solution.reference_answer,
+    solution_notes: problem.programming_solution.notes.join("\n")
+  };
+}
+
+function editorFormToProblemPayload(form: EditorForm, currentProblem: AtCoderProblem | null): Partial<AtCoderProblem> {
+  const difficulty = DIFFICULTY_TABS.find((tab) => tab.key === form.difficulty_label)?.difficulty || 3;
+  const sourceUrl = form.source_url.trim() || `https://www.luogu.com.cn/problem/${form.pid}`;
+  const statement = parseEditorJson<AtCoderProblem["statement"]>(form.statement_json, "题面 statement JSON");
+  const visualAssets = parseEditorJson<AtCoderProblem["visual_assets"]>(form.visual_assets_json, "图片 visual_assets JSON");
+  const algorithmDomains = parseEditorJson<AtCoderProblem["algorithm_domains"]>(form.algorithm_domains_json, "算法范畴 JSON");
+  const problemTypeTags = parseEditorJson<AtCoderProblem["problem_type_tags"]>(form.problem_type_tags_json, "题型标签 JSON");
+  const knowledgePoints = parseEditorJson<AtCoderProblem["knowledge_points"]>(form.knowledge_points_json, "知识点 JSON");
+  const solutionCode = form.solution_code.trim();
+
+  return {
+    pid: form.pid.trim(),
+    title: form.title.trim(),
+    title_zh: form.title_zh.trim(),
+    title_zh_source: currentProblem?.title_zh_source || "user_input",
+    source_url: sourceUrl,
+    difficulty: difficulty as AtCoderProblem["difficulty"],
+    difficulty_label: form.difficulty_label as AtCoderProblem["difficulty_label"],
+    total_submit: parseIntegerField(form.total_submit, "提交数"),
+    total_accepted: parseIntegerField(form.total_accepted, "通过数"),
+    acceptance_rate: form.acceptance_rate.trim() ? Number(form.acceptance_rate) : null,
+    algorithm_domains: algorithmDomains,
+    problem_type_tags: problemTypeTags,
+    knowledge_points: knowledgePoints,
+    tags: currentProblem?.tags || [],
+    statement: {
+      ...statement,
+      source_url: statement.source_url || sourceUrl
+    },
+    visual_assets: visualAssets,
+    answer_guidance: {
+      ...(currentProblem?.answer_guidance || {
+        status: "reference_link",
+        source: "luogu_problem_page",
+        knowledge_points: []
+      }),
+      answer: form.answer,
+      source: "luogu_problem_page",
+      source_url: sourceUrl,
+      solution_outline: form.solution_outline,
+      review_note: form.review_note || "当前答案是 AI 生成，仅供参考；不是官方题解。"
+    },
+    programming_solution: {
+      ...(currentProblem?.programming_solution || {
+        status: "needs_review",
+        language: "C++17",
+        content_origin: "local_ai_generated_reference",
+        verification: null
+      }),
+      status: "needs_review",
+      language: "C++17",
+      code: solutionCode || null,
+      content_origin: solutionCode
+        ? currentProblem?.programming_solution.content_origin === "ai_generated_sample_verified"
+          ? "ai_generated_sample_verified"
+          : "local_ai_generated_reference"
+        : "local_ai_generated_reference",
+      ai_generation_notice: form.solution_notice || "当前答案是 AI 生成，仅供参考；不是官方题解。",
+      reference_answer: form.solution_reference || "当前答案是 AI 生成，仅供参考。",
+      algorithm: form.solution_algorithm,
+      complexity: form.solution_complexity,
+      verification: solutionCode ? currentProblem?.programming_solution.verification || null : null,
+      notes: form.solution_notes.split("\n").map((line) => line.trim()).filter(Boolean)
+    }
+  };
+}
+
+function parseEditorJson<T>(value: string, label: string): T {
+  try {
+    return JSON.parse(value) as T;
+  } catch (error) {
+    throw new Error(`${label} 不是合法 JSON：${error instanceof Error ? error.message : "解析失败"}`);
+  }
+}
+
+function parseIntegerField(value: string, label: string) {
+  const numeric = Number(value || 0);
+  if (!Number.isInteger(numeric) || numeric < 0) {
+    throw new Error(`${label} 必须是非负整数`);
+  }
+  return numeric;
+}
+
+function formatEditorJson(value: unknown) {
+  return JSON.stringify(value, null, 2);
 }
