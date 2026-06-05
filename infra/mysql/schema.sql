@@ -106,3 +106,21 @@ CREATE TABLE IF NOT EXISTS review_events (
     REFERENCES classification_records (canonical_problem_id)
     ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS atcoder_problem_bank (
+  pid VARCHAR(80) PRIMARY KEY,
+  difficulty INT NOT NULL,
+  difficulty_label VARCHAR(40) NOT NULL,
+  title VARCHAR(512) NOT NULL,
+  title_zh VARCHAR(512) NOT NULL,
+  problem_json JSON NOT NULL,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_atcoder_difficulty (difficulty, pid),
+  INDEX idx_atcoder_title_zh (title_zh)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS atcoder_catalog_snapshots (
+  snapshot_id VARCHAR(40) PRIMARY KEY,
+  catalog_json JSON NOT NULL,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

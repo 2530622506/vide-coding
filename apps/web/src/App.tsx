@@ -1,5 +1,5 @@
-import { Alert, Button, Card, ConfigProvider, Flex, FloatButton, Input, Modal, Radio, Space, theme, Typography } from "antd";
-import { AlertTriangle, Binary, ChevronDown, ChevronUp, Database, GitBranch, Layers3, ListChecks, Pencil, Plus, RefreshCw, Trash2 } from "lucide-react";
+import { Alert, App as AntApp, Button, Card, ConfigProvider, Flex, FloatButton, Input, Modal, Radio, Space, theme, Typography } from "antd";
+import { AlertTriangle, Binary, ChevronDown, ChevronUp, Database, GitBranch, Layers3, ListChecks, Pencil, Plus, RefreshCw, Trophy, Trash2 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
@@ -11,6 +11,7 @@ import { ProblemEditorModal } from "./components/ProblemEditorModal";
 import { ReviewQueuePane } from "./components/ReviewQueuePane";
 import { emptyEditorForm, formFromProblem, formToPayload } from "./editor";
 import type { EditorMode, ProblemEditorForm } from "./editor";
+import { AtCoderCatalogPage } from "./pages/AtCoderCatalogPage";
 import type { LevelCatalog, LevelSummary, ProblemDetailResponse, ReviewActionResult, ReviewQueueItem, ReviewQueueResponse, ReviewQueueSummary } from "./types";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
@@ -75,6 +76,42 @@ function readStoredDetailColumnWidth() {
 }
 
 export default function App() {
+  const [routePath, setRoutePath] = useState(() => window.location.pathname);
+
+  useEffect(() => {
+    const syncRoute = () => setRoutePath(window.location.pathname);
+    window.addEventListener("popstate", syncRoute);
+    return () => window.removeEventListener("popstate", syncRoute);
+  }, []);
+
+  function navigateTo(path: string) {
+    window.history.pushState(null, "", path);
+    setRoutePath(path);
+  }
+
+  return (
+    <ConfigProvider
+      theme={{
+        algorithm: theme.defaultAlgorithm,
+        token: {
+          borderRadius: 8,
+          colorPrimary: "#188b8b",
+          fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif"
+        }
+      }}
+    >
+      <AntApp>
+        {routePath.startsWith("/atcoder") ? (
+          <AtCoderCatalogPage onBack={() => navigateTo("/")} />
+        ) : (
+          <GespCatalogPage onOpenAtCoder={() => navigateTo("/atcoder")} />
+        )}
+      </AntApp>
+    </ConfigProvider>
+  );
+}
+
+function GespCatalogPage({ onOpenAtCoder }: { onOpenAtCoder: () => void }) {
   const [levels, setLevels] = useState<LevelSummary[]>([]);
   const [selectedLevel, setSelectedLevel] = useState(5);
   const [catalog, setCatalog] = useState<LevelCatalog | null>(null);
@@ -427,23 +464,16 @@ export default function App() {
   }
 
   return (
-    <ConfigProvider
-      theme={{
-        algorithm: theme.defaultAlgorithm,
-        token: {
-          borderRadius: 8,
-          colorPrimary: "#188b8b",
-          fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif"
-        }
-      }}
-    >
       <main className={shellClassName}>
         <Flex className="topbar" align="center" justify="space-between" gap={24}>
           <div>
             <Typography.Text className="eyebrow"><Database size={16} /> C++ 官方真题分类数据</Typography.Text>
             <Typography.Title level={1}>GESP C++ 题型分类目录</Typography.Title>
           </div>
-          <Button icon={<RefreshCw size={18} />} onClick={() => window.location.reload()} title="刷新目录" />
+          <Space className="actionBar" size={8} wrap>
+            <Button icon={<Trophy size={16} />} onClick={onOpenAtCoder}>AtCoder 题库</Button>
+            <Button icon={<RefreshCw size={18} />} onClick={() => window.location.reload()} title="刷新目录" />
+          </Space>
         </Flex>
 
         <div className="stickyControlsSentinel" ref={stickyControlsSentinelRef} />
@@ -581,6 +611,5 @@ export default function App() {
           visibilityHeight={360}
         />
       </main>
-    </ConfigProvider>
   );
 }

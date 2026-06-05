@@ -1,9 +1,12 @@
 import { Menu, Typography } from "antd";
-import type { DomainGroup } from "../types";
 
 type Props = {
   activeDomainId: string | null;
-  domains: DomainGroup[];
+  domains: Array<{
+    domain_id: string;
+    domain_label: string;
+    problem_count: number;
+  }>;
   onSelect: (domainId: string) => void;
 };
 
