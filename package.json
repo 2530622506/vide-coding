@@ -35,6 +35,7 @@
     "generate:atcoder-local-ai": "node scripts/generate-atcoder-local-ai-fields.mjs",
     "generate:atcoder-known-cpp": "node scripts/generate-atcoder-known-cpp-solutions.mjs",
     "generate:atcoder-ai-solutions": "node scripts/generate-atcoder-ai-solutions.mjs",
+    "merge:atcoder-solution-jsonl": "node scripts/merge-atcoder-solution-jsonl.mjs",
     "build:python-learning-paths": "node scripts/build-python-learning-paths.mjs",
     "export:audit": "node scripts/export-audit-dataset.mjs",
     "restore:audit": "node scripts/restore-audit-sources.mjs",
