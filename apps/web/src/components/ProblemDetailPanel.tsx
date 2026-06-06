@@ -54,6 +54,10 @@ export function ProblemDetailPanel({ loading, problem, onClose }: {
   const answer = guidance?.reference_answer;
   const example = guidance?.understanding_example;
   const sourceLinks = uniqueSourceLinks(detail?.source_links || guidance?.reference_links || []);
+  const verification = detail?.programming_solution.verification;
+  const verificationMessage = verification?.status === "not_verified_by_request"
+    ? "未验证：按用户要求跳过编译和样例验证"
+    : `样例验证：${verification?.status} / ${verification?.sample_count ?? 0} 组`;
 
   return (
     <article className="detailCard">
@@ -151,9 +155,9 @@ export function ProblemDetailPanel({ loading, problem, onClose }: {
               ) : null}
               {detail.programming_solution.verification ? (
                 <Alert
-                  message={`样例验证：${detail.programming_solution.verification.status} / ${detail.programming_solution.verification.sample_count} 组`}
+                  message={verificationMessage}
                   showIcon
-                  type="success"
+                  type={verification?.status === "not_verified_by_request" ? "info" : "success"}
                 />
               ) : null}
               <HighlightedCppCode code={detail.programming_solution.code} />

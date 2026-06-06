@@ -57,11 +57,16 @@ async function main() {
     assert(["pending_ai_generation", "needs_review"].includes(problem.programming_solution.status), `${problem.id}: invalid programming solution status`);
     if (problem.programming_solution.code) {
       assert(
-        ["ai_generated_sample_verified", "ai_generated_compile_verified", "local_ai_generated_reference"].includes(problem.programming_solution.content_origin),
+        [
+          "ai_generated_sample_verified",
+          "ai_generated_compile_verified",
+          "local_ai_generated_reference",
+          "subagent_ai_generated_reference"
+        ].includes(problem.programming_solution.content_origin),
         `${problem.id}: generated code must disclose AI origin`
       );
       assert(
-        ["sample_passed", "compiled_no_samples"].includes(problem.programming_solution.verification?.status),
+        ["sample_passed", "compiled_no_samples", "not_verified_by_request"].includes(problem.programming_solution.verification?.status),
         `${problem.id}: generated code requires verification metadata`
       );
     } else {

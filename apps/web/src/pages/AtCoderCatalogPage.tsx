@@ -505,6 +505,9 @@ function MarkdownBlock({ markdown }: { markdown: string }) {
 
 function AtCoderSolutionBlock({ problem }: { problem: AtCoderProblem }) {
   const solution = problem.programming_solution;
+  const verificationMessage = solution.verification?.status === "not_verified_by_request"
+    ? "未验证：按用户要求跳过编译和样例验证"
+    : `样例验证：${solution.verification?.status} / ${solution.verification?.sample_count ?? 0} 组`;
   if (!solution.code) {
     return (
       <Space orientation="vertical" size={8}>
@@ -523,7 +526,11 @@ function AtCoderSolutionBlock({ problem }: { problem: AtCoderProblem }) {
         {solution.complexity ? <Tag>{solution.complexity}</Tag> : null}
       </Flex>
       {solution.verification ? (
-        <Alert showIcon title={`样例验证：${solution.verification.status} / ${solution.verification.sample_count} 组`} type="success" />
+        <Alert
+          showIcon
+          title={verificationMessage}
+          type={solution.verification.status === "not_verified_by_request" ? "info" : "success"}
+        />
       ) : null}
       <HighlightedCppCode code={solution.code} />
     </Space>
