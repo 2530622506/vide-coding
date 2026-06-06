@@ -464,12 +464,13 @@ button {
 .atcoderDetailPane {
   display: flex;
   flex-direction: column;
-  height: auto;
-  max-height: none;
-  overflow: visible;
-  position: relative;
+  align-self: start;
+  height: calc(100vh - var(--sticky-controls-height, 0px) - 32px);
+  max-height: calc(100vh - var(--sticky-controls-height, 0px) - 32px);
+  overflow-y: auto;
+  position: sticky;
   scrollbar-width: thin;
-  top: auto;
+  top: calc(var(--sticky-controls-height, 0px) + 16px);
 }
 
 .atcoderDetailPane .ant-card-body {
@@ -818,11 +819,11 @@ body.isResizingDetailPane .detailPane {
 .detailPane.atcoderDetailPane {
   display: flex;
   flex-direction: column;
-  height: auto;
-  max-height: none;
+  height: calc(100vh - var(--sticky-controls-height, 0px) - 32px);
+  max-height: calc(100vh - var(--sticky-controls-height, 0px) - 32px);
   min-height: 420px;
-  overflow: visible;
-  top: auto;
+  overflow-y: auto;
+  top: calc(var(--sticky-controls-height, 0px) + 16px);
 }
 
 .editorForm {
