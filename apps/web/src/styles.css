@@ -491,6 +491,11 @@ body.isResizingDetailPane {
   user-select: none;
 }
 
+body.isResizingDetailPane .atcoderProblemList,
+body.isResizingDetailPane .atcoderDetailPane .ant-card-body {
+  pointer-events: none;
+}
+
 .domainNav,
 .catalogPane,
 .sidePane,

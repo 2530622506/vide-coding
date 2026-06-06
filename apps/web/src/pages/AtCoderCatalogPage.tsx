@@ -164,15 +164,31 @@ export function AtCoderCatalogPage({ onBack }: Props) {
   function startDetailResize(event: ReactPointerEvent<HTMLButtonElement>) {
     event.preventDefault();
     document.body.classList.add("isResizingDetailPane");
+    const workspaceElement = event.currentTarget.closest<HTMLElement>(".atcoderWorkspace");
     const startX = event.clientX;
     const startWidth = detailColumnWidth;
+    let nextWidth = startWidth;
+    let animationFrame: number | null = null;
+
+    function applyWidth() {
+      animationFrame = null;
+      workspaceElement?.style.setProperty("--detail-column-width", `${nextWidth}px`);
+    }
 
     function resize(moveEvent: PointerEvent) {
-      const nextWidth = Math.min(920, Math.max(360, startWidth - (moveEvent.clientX - startX)));
-      setDetailColumnWidth(nextWidth);
+      moveEvent.preventDefault();
+      nextWidth = Math.min(920, Math.max(360, startWidth - (moveEvent.clientX - startX)));
+      if (animationFrame === null) {
+        animationFrame = window.requestAnimationFrame(applyWidth);
+      }
     }
 
     function stopResize() {
+      if (animationFrame !== null) {
+        window.cancelAnimationFrame(animationFrame);
+        applyWidth();
+      }
+      setDetailColumnWidth(nextWidth);
       document.body.classList.remove("isResizingDetailPane");
       window.removeEventListener("pointermove", resize);
       window.removeEventListener("pointerup", stopResize);
