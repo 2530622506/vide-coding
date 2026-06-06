@@ -41,6 +41,17 @@ type AtCoderWorkspaceStyle = CSSProperties & {
   "--detail-column-width"?: string;
 };
 
+type LabelSelectOption = {
+  label: string;
+  value: string;
+};
+
+type AtCoderLabelOptionGroups = {
+  algorithmDomains: LabelSelectOption[];
+  problemTypeTags: LabelSelectOption[];
+  knowledgePoints: LabelSelectOption[];
+};
+
 const DIFFICULTY_TABS = [
   { key: "普及/提高-", label: "普及/提高-", difficulty: 3 },
   { key: "普及+/提高", label: "普及+/提高", difficulty: 4 },
@@ -58,9 +69,9 @@ type EditorForm = {
   total_submit: string;
   total_accepted: string;
   acceptance_rate: string;
-  algorithm_domains_json: string;
-  problem_type_tags_json: string;
-  knowledge_points_json: string;
+  algorithm_domains: AtCoderProblem["algorithm_domains"];
+  problem_type_tags: AtCoderProblem["problem_type_tags"];
+  knowledge_points: AtCoderProblem["knowledge_points"];
   statement_json: string;
   visual_assets_json: string;
   answer: string;
@@ -90,6 +101,7 @@ export function AtCoderCatalogPage({ onBack }: Props) {
 
   const catalog = catalogRequest.data || null;
   const filteredDomains = useMemo(() => filterDomainsByDifficulty(catalog?.domains || [], activeDifficulty), [activeDifficulty, catalog?.domains]);
+  const labelOptions = useMemo(() => collectAtCoderLabelOptions(catalog?.domains || []), [catalog?.domains]);
   const activeDomain = useMemo(() => {
     if (!filteredDomains.length) {
       return null;
@@ -263,6 +275,7 @@ export function AtCoderCatalogPage({ onBack }: Props) {
       />
       <AtCoderProblemEditor
         form={editorForm}
+        labelOptions={labelOptions}
         mode={editorMode}
         onCancel={() => setEditorMode(null)}
         onChange={setEditorForm}
@@ -560,13 +573,18 @@ function DetailSection({ icon, title, children }: { icon: ReactNode; title: stri
   );
 }
 
-function AtCoderProblemEditor({ mode, form, onChange, onCancel, onSubmit }: {
+function AtCoderProblemEditor({ mode, form, labelOptions, onChange, onCancel, onSubmit }: {
   mode: EditorMode | null;
   form: EditorForm;
+  labelOptions: AtCoderLabelOptionGroups;
   onChange: (form: EditorForm) => void;
   onCancel: () => void;
   onSubmit: () => void | Promise<void>;
 }) {
+  const algorithmDomainOptions = mergeSelectedLabelOptions(labelOptions.algorithmDomains, form.algorithm_domains);
+  const problemTypeOptions = mergeSelectedLabelOptions(labelOptions.problemTypeTags, form.problem_type_tags);
+  const knowledgePointOptions = mergeSelectedLabelOptions(labelOptions.knowledgePoints, form.knowledge_points);
+
   return (
     <Modal
       destroyOnHidden
@@ -623,16 +641,46 @@ function AtCoderProblemEditor({ mode, form, onChange, onCancel, onSubmit }: {
                   </label>
                 </Flex>
                 <label>
-                  <Typography.Text strong>算法范畴 JSON</Typography.Text>
-                  <Input.TextArea rows={5} value={form.algorithm_domains_json} onChange={(event) => onChange({ ...form, algorithm_domains_json: event.target.value })} />
+                  <Typography.Text strong>算法范畴</Typography.Text>
+                  <Select
+                    mode="multiple"
+                    optionFilterProp="label"
+                    options={algorithmDomainOptions}
+                    placeholder="选择算法范畴"
+                    value={form.algorithm_domains.map((item) => item.id)}
+                    onChange={(values) => onChange({
+                      ...form,
+                      algorithm_domains: labelsFromSelectedValues(values, algorithmDomainOptions)
+                    })}
+                  />
                 </label>
                 <label>
-                  <Typography.Text strong>题型标签 JSON</Typography.Text>
-                  <Input.TextArea rows={5} value={form.problem_type_tags_json} onChange={(event) => onChange({ ...form, problem_type_tags_json: event.target.value })} />
+                  <Typography.Text strong>题型标签</Typography.Text>
+                  <Select
+                    mode="multiple"
+                    optionFilterProp="label"
+                    options={problemTypeOptions}
+                    placeholder="选择题型标签"
+                    value={form.problem_type_tags.map((item) => item.id)}
+                    onChange={(values) => onChange({
+                      ...form,
+                      problem_type_tags: labelsFromSelectedValues(values, problemTypeOptions)
+                    })}
+                  />
                 </label>
                 <label>
-                  <Typography.Text strong>知识点 JSON</Typography.Text>
-                  <Input.TextArea rows={6} value={form.knowledge_points_json} onChange={(event) => onChange({ ...form, knowledge_points_json: event.target.value })} />
+                  <Typography.Text strong>知识点</Typography.Text>
+                  <Select
+                    mode="multiple"
+                    optionFilterProp="label"
+                    options={knowledgePointOptions}
+                    placeholder="选择知识点"
+                    value={form.knowledge_points.map((item) => item.id)}
+                    onChange={(values) => onChange({
+                      ...form,
+                      knowledge_points: labelsFromSelectedValues(values, knowledgePointOptions)
+                    })}
+                  />
                 </label>
               </Space>
             )
@@ -739,6 +787,79 @@ function filterDomainsByDifficulty(domains: AtCoderDomainGroup[], difficultyLabe
     });
 }
 
+function collectAtCoderLabelOptions(domains: AtCoderDomainGroup[]): AtCoderLabelOptionGroups {
+  const algorithmDomains = new Map<string, string>();
+  const problemTypeTags = new Map<string, string>();
+  const knowledgePoints = new Map<string, string>();
+
+  for (const domain of domains) {
+    algorithmDomains.set(domain.domain_id, domain.domain_label);
+    for (const type of domain.problem_types) {
+      problemTypeTags.set(type.problem_type_id, type.problem_type_label);
+      for (const point of type.knowledge_points) {
+        knowledgePoints.set(point.id, point.label);
+      }
+      for (const problem of type.problems) {
+        for (const item of problem.algorithm_domains) {
+          algorithmDomains.set(item.id, item.label);
+        }
+        for (const item of problem.problem_type_tags) {
+          problemTypeTags.set(item.id, item.label);
+        }
+        for (const item of problem.knowledge_points) {
+          knowledgePoints.set(item.id, item.label);
+        }
+      }
+    }
+  }
+
+  if (!algorithmDomains.size) {
+    algorithmDomains.set("user_custom", "自定义");
+  }
+  if (!problemTypeTags.size) {
+    problemTypeTags.set("user_custom", "自定义");
+  }
+  if (!knowledgePoints.size) {
+    knowledgePoints.set("user_custom", "自定义维护");
+  }
+
+  return {
+    algorithmDomains: mapToSortedOptions(algorithmDomains),
+    problemTypeTags: mapToSortedOptions(problemTypeTags),
+    knowledgePoints: mapToSortedOptions(knowledgePoints)
+  };
+}
+
+function mapToSortedOptions(values: Map<string, string>): LabelSelectOption[] {
+  return [...values.entries()]
+    .map(([value, label]) => ({ value, label }))
+    .sort((a, b) => {
+      if (a.value === "uncategorized") {
+        return 1;
+      }
+      if (b.value === "uncategorized") {
+        return -1;
+      }
+      return a.label.localeCompare(b.label, "zh-CN");
+    });
+}
+
+function mergeSelectedLabelOptions(options: LabelSelectOption[], selected: AtCoderProblem["knowledge_points"]): LabelSelectOption[] {
+  const merged = new Map(options.map((option) => [option.value, option.label]));
+  for (const item of selected) {
+    merged.set(item.id, item.label);
+  }
+  return mapToSortedOptions(merged);
+}
+
+function labelsFromSelectedValues(values: string[], options: LabelSelectOption[]): AtCoderProblem["knowledge_points"] {
+  const optionLabelByValue = new Map(options.map((option) => [option.value, option.label]));
+  return values.map((value) => ({
+    id: value,
+    label: optionLabelByValue.get(value) || value
+  }));
+}
+
 function emptyEditorForm(difficultyLabel: string): EditorForm {
   const pid = "";
   const sourceUrl = "https://www.luogu.com.cn/problem/";
@@ -751,9 +872,9 @@ function emptyEditorForm(difficultyLabel: string): EditorForm {
     total_submit: "0",
     total_accepted: "0",
     acceptance_rate: "",
-    algorithm_domains_json: formatEditorJson([{ id: "user_custom", label: "自定义" }]),
-    problem_type_tags_json: formatEditorJson([{ id: "user_custom", label: "自定义" }]),
-    knowledge_points_json: formatEditorJson([{ id: "user_custom", label: "自定义维护" }]),
+    algorithm_domains: [{ id: "user_custom", label: "自定义" }],
+    problem_type_tags: [{ id: "user_custom", label: "自定义" }],
+    knowledge_points: [{ id: "user_custom", label: "自定义维护" }],
     statement_json: formatEditorJson({
       status: "source_extracted",
       locale: "zh-CN",
@@ -797,9 +918,9 @@ function problemToEditorForm(problem: AtCoderProblem): EditorForm {
     total_submit: String(problem.total_submit),
     total_accepted: String(problem.total_accepted),
     acceptance_rate: problem.acceptance_rate === null ? "" : String(problem.acceptance_rate),
-    algorithm_domains_json: formatEditorJson(problem.algorithm_domains),
-    problem_type_tags_json: formatEditorJson(problem.problem_type_tags),
-    knowledge_points_json: formatEditorJson(problem.knowledge_points),
+    algorithm_domains: problem.algorithm_domains,
+    problem_type_tags: problem.problem_type_tags,
+    knowledge_points: problem.knowledge_points,
     statement_json: formatEditorJson(problem.statement),
     visual_assets_json: formatEditorJson(problem.visual_assets),
     answer: problem.answer_guidance.answer,
@@ -819,9 +940,6 @@ function editorFormToProblemPayload(form: EditorForm, currentProblem: AtCoderPro
   const sourceUrl = form.source_url.trim() || `https://www.luogu.com.cn/problem/${form.pid}`;
   const statement = parseEditorJson<AtCoderProblem["statement"]>(form.statement_json, "题面 statement JSON");
   const visualAssets = parseEditorJson<AtCoderProblem["visual_assets"]>(form.visual_assets_json, "图片 visual_assets JSON");
-  const algorithmDomains = parseEditorJson<AtCoderProblem["algorithm_domains"]>(form.algorithm_domains_json, "算法范畴 JSON");
-  const problemTypeTags = parseEditorJson<AtCoderProblem["problem_type_tags"]>(form.problem_type_tags_json, "题型标签 JSON");
-  const knowledgePoints = parseEditorJson<AtCoderProblem["knowledge_points"]>(form.knowledge_points_json, "知识点 JSON");
   const solutionCode = form.solution_code.trim();
 
   return {
@@ -835,9 +953,9 @@ function editorFormToProblemPayload(form: EditorForm, currentProblem: AtCoderPro
     total_submit: parseIntegerField(form.total_submit, "提交数"),
     total_accepted: parseIntegerField(form.total_accepted, "通过数"),
     acceptance_rate: form.acceptance_rate.trim() ? Number(form.acceptance_rate) : null,
-    algorithm_domains: algorithmDomains,
-    problem_type_tags: problemTypeTags,
-    knowledge_points: knowledgePoints,
+    algorithm_domains: form.algorithm_domains,
+    problem_type_tags: form.problem_type_tags,
+    knowledge_points: form.knowledge_points,
     tags: currentProblem?.tags || [],
     statement: {
       ...statement,
