@@ -96,3 +96,6 @@
 {"type":"cli","id":"CLI-1780412108371-1","timestamp":"2026-06-02T14:55:08.371Z","command":"spec load","args":{"category":"ui","stdin":false}}
 {"type":"cli","id":"CLI-1780698279287-1","timestamp":"2026-06-05T22:24:39.287Z","command":"spec load","args":{"keyword":"atcoder","stdin":false}}
 {"type":"cli","id":"CLI-1780698609276-1","timestamp":"2026-06-05T22:30:09.276Z","command":"spec load","args":{"keyword":"atcoder","stdin":false}}
+{"type":"cli","id":"CLI-1780755617605-1","timestamp":"2026-06-06T14:20:17.605Z","command":"spec load","args":{"keyword":"deploy","stdin":false}}
+{"type":"cli","id":"CLI-1780755724099-1","timestamp":"2026-06-06T14:22:04.099Z","command":"spec load","args":{"keyword":"atcoder","stdin":false}}
+{"type":"cli","id":"CLI-1780757899852-1","timestamp":"2026-06-06T14:58:19.852Z","command":"spec load","args":{"keyword":"performance","stdin":false}}

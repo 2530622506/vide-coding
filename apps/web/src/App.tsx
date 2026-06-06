@@ -1,20 +1,20 @@
 import { Alert, App as AntApp, Button, Card, ConfigProvider, Flex, FloatButton, Input, Modal, Radio, Space, theme, Typography } from "antd";
 import { AlertTriangle, Binary, ChevronDown, ChevronUp, Database, GitBranch, Layers3, ListChecks, Pencil, Plus, RefreshCw, Trophy, Trash2 } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { DomainPanel } from "./components/DomainPanel";
 import { DomainNav } from "./components/DomainNav";
 import { Metric } from "./components/Metric";
-import { ProblemDetailPanel } from "./components/ProblemDetailPanel";
 import { ProblemEditorModal } from "./components/ProblemEditorModal";
 import { ReviewQueuePane } from "./components/ReviewQueuePane";
 import { emptyEditorForm, formFromProblem, formToPayload } from "./editor";
 import type { EditorMode, ProblemEditorForm } from "./editor";
-import { AtCoderCatalogPage } from "./pages/AtCoderCatalogPage";
 import type { LevelCatalog, LevelSummary, ProblemDetailResponse, ReviewActionResult, ReviewQueueItem, ReviewQueueResponse, ReviewQueueSummary } from "./types";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
+const AtCoderCatalogPage = lazy(() => import("./pages/AtCoderCatalogPage").then((module) => ({ default: module.AtCoderCatalogPage })));
+const ProblemDetailPanel = lazy(() => import("./components/ProblemDetailPanel").then((module) => ({ default: module.ProblemDetailPanel })));
 
 const DETAIL_PANE_WIDTH_KEY = "gesp-detail-pane-width";
 const DETAIL_PANE_DEFAULT_WIDTH = 360;
@@ -102,7 +102,9 @@ export default function App() {
     >
       <AntApp>
         {routePath.startsWith("/atcoder") ? (
-          <AtCoderCatalogPage onBack={() => navigateTo("/")} />
+          <Suspense fallback={<main className="shell"><div className="routeLoading">AtCoder 题库加载中</div></main>}>
+            <AtCoderCatalogPage onBack={() => navigateTo("/")} />
+          </Suspense>
         ) : (
           <GespCatalogPage onOpenAtCoder={() => navigateTo("/atcoder")} />
         )}
@@ -577,14 +579,16 @@ function GespCatalogPage({ onOpenAtCoder }: { onOpenAtCoder: () => void }) {
               type="button"
             />
             <Card className="detailPane" ref={detailPaneRef} size="small" title="题目详情">
-              <ProblemDetailPanel
-                loading={detailLoading}
-                problem={selectedProblem}
-                onClose={() => {
-                  setSelectedProblemId(null);
-                  setSelectedProblem(null);
-                }}
-              />
+              <Suspense fallback={<div className="detailEmpty">详情组件加载中</div>}>
+                <ProblemDetailPanel
+                  loading={detailLoading}
+                  problem={selectedProblem}
+                  onClose={() => {
+                    setSelectedProblemId(null);
+                    setSelectedProblem(null);
+                  }}
+                />
+              </Suspense>
             </Card>
 
             <ReviewQueuePane
