@@ -847,6 +847,9 @@ body.isResizingDetailPane .detailPane {
 .detailCard {
   display: grid;
   gap: 14px;
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
 }
 
 .detailHeader {
@@ -878,7 +881,15 @@ body.isResizingDetailPane .detailPane {
   border-bottom: 1px solid #edf0f2;
   display: grid;
   gap: 8px;
+  min-width: 0;
+  max-width: 100%;
   padding-bottom: 12px;
+  width: 100%;
+}
+
+.detailSection > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .detailSection:last-child {
@@ -946,9 +957,13 @@ body.isResizingDetailPane .detailPane {
   gap: 8px;
   line-height: 1.55;
   min-width: 0;
+  max-width: 100%;
+  width: 100%;
 }
 
 .markdownBody :where(p, ul, ol, pre, blockquote, h1, h2, h3, h4, h5, h6) {
+  min-width: 0;
+  max-width: 100%;
   margin: 0;
 }
 
@@ -1047,7 +1062,26 @@ body.isResizingDetailPane .detailPane {
 }
 
 .statementSectionList {
+  min-width: 0;
+  max-width: 100%;
   width: 100%;
+}
+
+.statementSectionList > .ant-space-item {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+}
+
+.statementSectionCard {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+}
+
+.statementSectionCard .ant-card-body {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .statementSectionCard .ant-card-head {
@@ -1100,6 +1134,14 @@ body.isResizingDetailPane .detailPane {
 }
 
 .sampleList {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+}
+
+.sampleList > .ant-space-item {
+  min-width: 0;
+  max-width: 100%;
   width: 100%;
 }
 
@@ -1136,10 +1178,14 @@ body.isResizingDetailPane .detailPane {
 }
 
 .assetList {
+  min-width: 0;
+  max-width: 100%;
   width: 100%;
 }
 
 .assetItem {
+  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
 }
 
@@ -1167,7 +1213,28 @@ body.isResizingDetailPane .detailPane {
 }
 
 .solutionBlock {
+  min-width: 0;
+  max-width: 100%;
   width: 100%;
+}
+
+.solutionBlock > .ant-space-item {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+}
+
+.solutionBlock .ant-flex {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+}
+
+.solutionBlock .ant-tag {
+  line-height: 1.45;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 .solutionMeta span {
@@ -1185,6 +1252,7 @@ body.isResizingDetailPane .detailPane {
   margin: 0;
   overflow-x: auto;
   padding: 12px;
+  max-width: 100%;
 }
 
 .codeBlock code.hljs {
