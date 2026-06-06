@@ -20,6 +20,7 @@ const WORKER_START_DELAY_MS = Number(process.env.ATCODER_AI_WORKER_START_DELAY_M
 const MAX_TOKENS = Number(process.env.ATCODER_AI_MAX_TOKENS || 4096);
 const REQUIRE_SAMPLES = process.env.ATCODER_AI_REQUIRE_SAMPLES === "1";
 const VERIFY_SAMPLES = process.env.ATCODER_AI_VERIFY_SAMPLES !== "0";
+const SKIP_COMPILE = process.env.ATCODER_AI_SKIP_COMPILE === "1";
 const CONTINUE_ON_ERROR = process.env.ATCODER_AI_CONTINUE_ON_ERROR === "1";
 const RETRIES = Number(process.env.ATCODER_AI_RETRIES || 1);
 const RETRY_BASE_DELAY_MS = Number(process.env.ATCODER_AI_RETRY_BASE_DELAY_MS || 2000);
@@ -372,8 +373,11 @@ async function generateVerifiedSolution(problem, tempRoot) {
     try {
       const solution = await requestSolution(problem);
       solution.code = sanitizeCppCode(solution.code);
+      if (SKIP_COMPILE) {
+        return { solution, sampleResults: [], skippedVerification: true };
+      }
       const sampleResults = await compileAndRun(problem, solution.code, tempRoot);
-      return { solution, sampleResults };
+      return { solution, sampleResults, skippedVerification: false };
     } catch (error) {
       lastError = error;
       if (attempt < RETRIES) {
@@ -421,42 +425,66 @@ function runBinary(binaryPath, input) {
   });
 }
 
-function applySolution(problem, solution, sampleResults) {
+function applySolution(problem, solution, sampleResults, skippedVerification = false) {
   const hasSamples = sampleResults.length > 0;
+  const generatedAt = new Date().toISOString();
   return {
     ...problem,
     programming_solution: {
       status: "needs_review",
       language: "C++17",
       code: solution.code,
-      content_origin: hasSamples ? "ai_generated_sample_verified" : "ai_generated_compile_verified",
-      ai_generation_notice: hasSamples
-        ? "当前答案是 AI 生成，仅供参考。该 C++17 参考解由 AI 根据公开题面生成，并已通过当前题面样例；仍需人工复核或 OJ 评测确认。"
-        : "当前答案是 AI 生成，仅供参考。该 C++17 参考解由 AI 根据公开题面生成，当前采集结果中没有公开样例，仅完成编译校验；仍需人工复核或 OJ 评测确认。",
-      reference_answer: hasSamples
-        ? "AI 生成 C++17 参考解已通过公开样例，仍需复核。"
-        : "AI 生成 C++17 参考解已通过编译校验；当前无公开样例可验证输出。",
+      content_origin: skippedVerification
+        ? "ai_generated_unverified_reference"
+        : hasSamples
+          ? "ai_generated_sample_verified"
+          : "ai_generated_compile_verified",
+      ai_generation_notice: skippedVerification
+        ? "当前答案是 AI 生成，仅供参考。该 C++17 参考解由 AI 根据公开题面生成；按用户要求跳过编译和样例验证，正式提交前请人工复核或通过 OJ 评测确认。"
+        : hasSamples
+          ? "当前答案是 AI 生成，仅供参考。该 C++17 参考解由 AI 根据公开题面生成，并已通过当前题面样例；仍需人工复核或 OJ 评测确认。"
+          : "当前答案是 AI 生成，仅供参考。该 C++17 参考解由 AI 根据公开题面生成，当前采集结果中没有公开样例，仅完成编译校验；仍需人工复核或 OJ 评测确认。",
+      reference_answer: skippedVerification
+        ? "AI 生成 C++17 参考解已直接合并；按用户要求跳过编译和样例验证，仍需人工或 OJ 复核。"
+        : hasSamples
+          ? "AI 生成 C++17 参考解已通过公开样例，仍需复核。"
+          : "AI 生成 C++17 参考解已通过编译校验；当前无公开样例可验证输出。",
       algorithm: solution.algorithm,
       complexity: solution.complexity,
-      verification: {
-        status: hasSamples ? "sample_passed" : "compiled_no_samples",
-        verifier: "scripts/generate-atcoder-ai-solutions.mjs",
-        verified_at: new Date().toISOString(),
-        sample_count: sampleResults.length,
-        sample_results: sampleResults
-      },
+      verification: skippedVerification
+        ? {
+            status: "not_verified_by_request",
+            verifier: "scripts/generate-atcoder-ai-solutions.mjs",
+            checked_at: generatedAt,
+            sample_count: problem.statement.samples.length,
+            sample_passed: null,
+            compile_passed: null
+          }
+        : {
+            status: hasSamples ? "sample_passed" : "compiled_no_samples",
+            verifier: "scripts/generate-atcoder-ai-solutions.mjs",
+            verified_at: generatedAt,
+            sample_count: sampleResults.length,
+            sample_results: sampleResults
+          },
       notes: [
         "AI 生成参考解，不能标记为官方题解。",
-        hasSamples ? "代码已通过当前采集样例。" : "当前采集结果中没有公开样例，代码仅完成编译校验。",
+        skippedVerification
+          ? "按用户要求直接合并，未进行本地编译或样例验证。"
+          : hasSamples
+            ? "代码已通过当前采集样例。"
+            : "当前采集结果中没有公开样例，代码仅完成编译校验。",
         "正式使用前建议继续用洛谷或 AtCoder 评测。"
       ]
     },
     answer_guidance: {
       ...problem.answer_guidance,
       status: "reference_link",
-      answer: hasSamples
-        ? "当前答案是 AI 生成，仅供参考。AI 生成 C++17 参考解已通过公开样例，仍需人工或 OJ 复核。"
-        : "当前答案是 AI 生成，仅供参考。AI 生成 C++17 参考解已通过编译校验；当前无公开样例可验证输出。",
+      answer: skippedVerification
+        ? "当前答案是 AI 生成，仅供参考。AI 生成 C++17 参考解已直接合并；按用户要求跳过编译和样例验证，仍需人工或 OJ 复核。"
+        : hasSamples
+          ? "当前答案是 AI 生成，仅供参考。AI 生成 C++17 参考解已通过公开样例，仍需人工或 OJ 复核。"
+          : "当前答案是 AI 生成，仅供参考。AI 生成 C++17 参考解已通过编译校验；当前无公开样例可验证输出。",
       source: "luogu_problem_page",
       source_url: problem.source_url,
       solution_outline: solution.algorithm,
@@ -486,6 +514,9 @@ function refreshSummary(catalog) {
   catalog.generated_at = new Date().toISOString();
   catalog.summary.ai_sample_verified_solution_count = catalog.problems.filter((problem) => problem.programming_solution?.verification?.status === "sample_passed").length;
   catalog.summary.ai_compile_verified_solution_count = catalog.problems.filter((problem) => problem.programming_solution?.verification?.status === "compiled_no_samples").length;
+  catalog.summary.ai_not_verified_by_request_solution_count = catalog.problems.filter((problem) => problem.programming_solution?.verification?.status === "not_verified_by_request").length;
+  catalog.summary.ai_unverified_reference_solution_count = catalog.problems.filter((problem) => problem.programming_solution?.content_origin === "ai_generated_unverified_reference").length;
+  catalog.summary.subagent_ai_reference_solution_count = catalog.problems.filter((problem) => problem.programming_solution?.content_origin === "subagent_ai_generated_reference").length;
   catalog.summary.pending_ai_generation_count = catalog.problems.filter((problem) => !String(problem.programming_solution?.code || "").trim()).length;
 }
 
@@ -535,10 +566,10 @@ async function main() {
       const problem = nextCandidate();
       if (!problem) return;
       try {
-        const { solution, sampleResults } = await generateVerifiedSolution(problem, tempRoot);
-        await persistReplacement(applySolution(problem, solution, sampleResults));
+        const { solution, sampleResults, skippedVerification } = await generateVerifiedSolution(problem, tempRoot);
+        await persistReplacement(applySolution(problem, solution, sampleResults, skippedVerification));
         solvedCount += 1;
-        console.log(`generated and ${sampleResults.length ? "sample verified" : "compile verified"} ${problem.id}`);
+        console.log(`generated and ${skippedVerification ? "merged without verification" : sampleResults.length ? "sample verified" : "compile verified"} ${problem.id}`);
       } catch (error) {
         if (isTransientGenerationError(error)) {
           transientCount += 1;

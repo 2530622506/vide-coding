@@ -75,6 +75,7 @@ export type AtCoderProgrammingSolution = {
     | "ai_generated_sample_verified"
     | "ai_generated_compile_verified"
     | "local_ai_generated_reference"
+    | "ai_generated_unverified_reference"
     | "subagent_ai_generated_reference";
   ai_generation_notice: string;
   reference_answer: string;

@@ -61,6 +61,7 @@ async function main() {
           "ai_generated_sample_verified",
           "ai_generated_compile_verified",
           "local_ai_generated_reference",
+          "ai_generated_unverified_reference",
           "subagent_ai_generated_reference"
         ].includes(problem.programming_solution.content_origin),
         `${problem.id}: generated code must disclose AI origin`
