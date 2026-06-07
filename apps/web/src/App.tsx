@@ -14,6 +14,7 @@ import type { LevelCatalog, LevelSummary, ProblemDetailResponse, ReviewActionRes
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 const AtCoderCatalogPage = lazy(() => import("./pages/AtCoderCatalogPage").then((module) => ({ default: module.AtCoderCatalogPage })));
+const ProblemIdePage = lazy(() => import("./pages/ProblemIdePage").then((module) => ({ default: module.ProblemIdePage })));
 const ProblemDetailPanel = lazy(() => import("./components/ProblemDetailPanel").then((module) => ({ default: module.ProblemDetailPanel })));
 
 const DETAIL_PANE_WIDTH_KEY = "gesp-detail-pane-width";
@@ -89,6 +90,10 @@ export default function App() {
     setRoutePath(path);
   }
 
+  const ideProblemId = routePath.startsWith("/ide/")
+    ? decodeURIComponent(routePath.slice("/ide/".length).split("/")[0] || "")
+    : null;
+
   return (
     <ConfigProvider
       theme={{
@@ -101,19 +106,23 @@ export default function App() {
       }}
     >
       <AntApp>
-        {routePath.startsWith("/atcoder") ? (
+        {ideProblemId ? (
+          <Suspense fallback={<main className="ideShell"><div className="routeLoading">IDE 加载中</div></main>}>
+            <ProblemIdePage problemId={ideProblemId} onBack={() => navigateTo("/")} />
+          </Suspense>
+        ) : routePath.startsWith("/atcoder") ? (
           <Suspense fallback={<main className="shell"><div className="routeLoading">AtCoder 题库加载中</div></main>}>
             <AtCoderCatalogPage onBack={() => navigateTo("/")} />
           </Suspense>
         ) : (
-          <GespCatalogPage onOpenAtCoder={() => navigateTo("/atcoder")} />
+          <GespCatalogPage onOpenAtCoder={() => navigateTo("/atcoder")} onOpenIde={(problemId) => navigateTo(`/ide/${encodeURIComponent(problemId)}`)} />
         )}
       </AntApp>
     </ConfigProvider>
   );
 }
 
-function GespCatalogPage({ onOpenAtCoder }: { onOpenAtCoder: () => void }) {
+function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => void; onOpenIde: (problemId: string) => void }) {
   const [levels, setLevels] = useState<LevelSummary[]>([]);
   const [selectedLevel, setSelectedLevel] = useState(5);
   const [catalog, setCatalog] = useState<LevelCatalog | null>(null);
@@ -582,6 +591,7 @@ function GespCatalogPage({ onOpenAtCoder }: { onOpenAtCoder: () => void }) {
               <Suspense fallback={<div className="detailEmpty">详情组件加载中</div>}>
                 <ProblemDetailPanel
                   loading={detailLoading}
+                  onOpenIde={onOpenIde}
                   problem={selectedProblem}
                   onClose={() => {
                     setSelectedProblemId(null);

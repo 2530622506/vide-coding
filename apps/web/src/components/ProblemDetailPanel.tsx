@@ -30,9 +30,10 @@ statementMarkdown.renderer.rules.link_open = (tokens, idx, options, env, self) =
     : self.renderToken(tokens, idx, options);
 };
 
-export function ProblemDetailPanel({ loading, problem, onClose }: {
+export function ProblemDetailPanel({ loading, problem, onClose, onOpenIde }: {
   loading: boolean;
   problem: ProblemDetailResponse | null;
+  onOpenIde?: (problemId: string) => void;
   onClose: () => void;
 }) {
   const [previewAsset, setPreviewAsset] = useState<PreviewAsset | null>(null);
@@ -66,7 +67,14 @@ export function ProblemDetailPanel({ loading, problem, onClose }: {
           <Typography.Text className="eyebrow"><FileText size={15} /> {problem.session} / {problem.level} 级 / {typeLabel[problem.question_type]}</Typography.Text>
           <Typography.Title level={2}>{problem.title}</Typography.Title>
         </div>
-        <Button icon={<X size={16} />} onClick={onClose} title="关闭" type="text" />
+        <Space size={6}>
+          {problem.question_type === "programming" && onOpenIde ? (
+            <Button icon={<Code2 size={16} />} onClick={() => onOpenIde(problem.id)}>
+              进入 IDE 模式
+            </Button>
+          ) : null}
+          <Button icon={<X size={16} />} onClick={onClose} title="关闭" type="text" />
+        </Space>
       </Flex>
 
       <DetailSection icon={<CheckCircle2 size={16} />} title="参考答案">

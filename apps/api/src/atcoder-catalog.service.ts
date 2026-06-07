@@ -207,6 +207,15 @@ type AtCoderDomainBucket = Omit<AtCoderDomainIndex, "problem_types"> & {
   problem_types: Map<string, AtCoderProblemTypeBucket>;
 };
 
+const FALLBACK_DOMAIN: AtCoderLabel = { id: "uncategorized", label: "待分类" };
+const FALLBACK_PROBLEM_TYPE: AtCoderLabel = { id: "untagged", label: "待分类" };
+const DIFFICULTY_FILTERS: AtCoderBankData["source"]["difficulty_filter"] = [
+  { difficulty: 2, label: "普及-" },
+  { difficulty: 3, label: "普及/提高-" },
+  { difficulty: 4, label: "普及+/提高" },
+  { difficulty: 5, label: "提高+/省选-" }
+];
+
 @Injectable()
 export class AtCoderCatalogService {
   private readonly dataPath = "data/atcoder/luogu-atcoder-problem-bank.json";
@@ -329,7 +338,20 @@ export class AtCoderCatalogService {
       const [rows] = await connection.execute<Array<RowDataPacket & { catalog_json: AtCoderBankData }>>(
         "SELECT catalog_json FROM atcoder_catalog_snapshots WHERE snapshot_id = 'active'"
       );
-      return rows[0]?.catalog_json || null;
+      const snapshot = rows[0]?.catalog_json || null;
+      if (snapshot && this.isCatalogIndexConsistent(snapshot)) {
+        return snapshot;
+      }
+
+      const jsonBank = this.loadJsonBank();
+      const [problemRows] = await connection.execute<Array<RowDataPacket & { problem_json: AtCoderProblem }>>(
+        "SELECT problem_json FROM atcoder_problem_bank ORDER BY difficulty, pid"
+      );
+      const problems = problemRows.map((row) => row.problem_json).filter((problem): problem is AtCoderProblem => Boolean(problem));
+      if (problems.length) {
+        return this.rebuildCatalog(this.mergeProblems(jsonBank.problems, problems), snapshot || jsonBank);
+      }
+      return jsonBank;
     } catch {
       return null;
     } finally {
@@ -406,19 +428,24 @@ export class AtCoderCatalogService {
     for (const problem of problems) {
       difficultyCounts[problem.difficulty_label] = (difficultyCounts[problem.difficulty_label] || 0) + 1;
     }
+    const domains = this.groupCatalog(problems);
     return {
       ...previousBank,
       generated_at: new Date().toISOString(),
+      source: {
+        ...previousBank.source,
+        difficulty_filter: DIFFICULTY_FILTERS
+      },
       summary: {
         ...previousBank.summary,
         problem_count: problems.length,
         difficulty_counts: difficultyCounts,
-        domain_count: this.groupCatalog(problems).length,
+        domain_count: domains.length,
         knowledge_point_count: new Set(problems.flatMap((problem) => problem.knowledge_points.map((point) => point.id))).size,
         local_ai_answer_count: problems.length,
         title_zh_count: problems.filter((problem) => problem.title_zh).length
       },
-      domains: this.groupCatalog(problems),
+      domains,
       problems
     };
   }
@@ -426,7 +453,9 @@ export class AtCoderCatalogService {
   private groupCatalog(problems: AtCoderProblem[]) {
     const domainMap = new Map<string, AtCoderDomainBucket>();
     for (const problem of problems) {
-      for (const domain of problem.algorithm_domains) {
+      const domains = problem.algorithm_domains.length ? problem.algorithm_domains : [FALLBACK_DOMAIN];
+      const problemTypes = problem.problem_type_tags.length ? problem.problem_type_tags : [FALLBACK_PROBLEM_TYPE];
+      for (const domain of domains) {
         if (!domainMap.has(domain.id)) {
           domainMap.set(domain.id, {
             domain_id: domain.id,
@@ -442,7 +471,7 @@ export class AtCoderCatalogService {
         }
         domainBucket.problem_count += 1;
         domainBucket.difficulty_counts[problem.difficulty_label] = (domainBucket.difficulty_counts[problem.difficulty_label] || 0) + 1;
-        for (const type of problem.problem_type_tags) {
+        for (const type of problemTypes) {
           if (!domainBucket.problem_types.has(type.id)) {
             domainBucket.problem_types.set(type.id, {
               problem_type_id: type.id,
@@ -474,6 +503,74 @@ export class AtCoderCatalogService {
         }))
       }))
       .sort((a, b) => b.problem_count - a.problem_count || a.domain_label.localeCompare(b.domain_label, "zh-CN"));
+  }
+
+  private isCatalogIndexConsistent(bank: AtCoderBankData) {
+    if (!Array.isArray(bank.problems) || !Array.isArray(bank.domains)) {
+      return false;
+    }
+    const expectedByDifficulty = new Map<string, Set<string>>();
+    for (const problem of bank.problems) {
+      if (!expectedByDifficulty.has(problem.difficulty_label)) {
+        expectedByDifficulty.set(problem.difficulty_label, new Set());
+      }
+      expectedByDifficulty.get(problem.difficulty_label)?.add(problem.id);
+    }
+    if (bank.summary.problem_count !== bank.problems.length) {
+      return false;
+    }
+    for (const [difficultyLabel, count] of Object.entries(bank.summary.difficulty_counts || {})) {
+      if ((expectedByDifficulty.get(difficultyLabel)?.size || 0) !== count) {
+        return false;
+      }
+    }
+    for (const filter of DIFFICULTY_FILTERS) {
+      if (!expectedByDifficulty.get(filter.label)?.size) {
+        return false;
+      }
+    }
+
+    const indexedByDifficulty = new Map<string, Set<string>>();
+    const problemById = new Map(bank.problems.map((problem) => [problem.id, problem]));
+    for (const domain of bank.domains) {
+      for (const type of domain.problem_types || []) {
+        for (const problemId of type.problems || []) {
+          const problem = problemById.get(problemId);
+          if (!problem) {
+            continue;
+          }
+          if (!indexedByDifficulty.has(problem.difficulty_label)) {
+            indexedByDifficulty.set(problem.difficulty_label, new Set());
+          }
+          indexedByDifficulty.get(problem.difficulty_label)?.add(problem.id);
+        }
+      }
+    }
+
+    for (const [difficultyLabel, expectedIds] of expectedByDifficulty) {
+      const indexedIds = indexedByDifficulty.get(difficultyLabel);
+      if (!indexedIds || indexedIds.size !== expectedIds.size) {
+        return false;
+      }
+      for (const problemId of expectedIds) {
+        if (!indexedIds.has(problemId)) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  private mergeProblems(baseProblems: AtCoderProblem[], overlayProblems: AtCoderProblem[]) {
+    const problemById = new Map<string, AtCoderProblem>();
+    for (const problem of baseProblems) {
+      problemById.set(problem.id, problem);
+    }
+    for (const problem of overlayProblems) {
+      problemById.set(problem.id, problem);
+    }
+    return [...problemById.values()].sort((a, b) => a.list_order - b.list_order || a.pid.localeCompare(b.pid));
   }
 
   private normalizeEditableProblem(input: Partial<AtCoderProblem>, listOrder: number): AtCoderProblem {

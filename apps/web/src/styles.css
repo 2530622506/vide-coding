@@ -1445,6 +1445,171 @@ body.isResizingDetailPane .detailPane {
   margin-top: 12px;
 }
 
+.ideShell {
+  background: #eef1f3;
+  color: #1d2430;
+  min-height: 100vh;
+  padding: 18px;
+}
+
+.ideTopbar {
+  margin: 0 auto 14px;
+  max-width: 1720px;
+}
+
+.ideTopbar h1 {
+  font-size: 24px;
+  letter-spacing: 0;
+  line-height: 1.22;
+  margin: 0;
+}
+
+.ideTopActions {
+  justify-content: flex-end;
+}
+
+.ideNotice {
+  margin: 0 auto 12px;
+  max-width: 1720px;
+}
+
+.ideWorkspace {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(260px, 340px) minmax(520px, 1fr) minmax(300px, 380px);
+  height: calc(100vh - 106px);
+  margin: 0 auto;
+  max-width: 1720px;
+  min-height: 620px;
+}
+
+.ideProblemPane,
+.ideRunPane {
+  display: grid;
+  gap: 12px;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+}
+
+.ideRunPane {
+  grid-template-rows: auto minmax(0, 1fr) minmax(170px, 0.72fr);
+}
+
+.idePanel.ant-card,
+.ideEditorPane {
+  border: 1px solid #d8dfe5;
+  border-radius: 8px;
+  box-shadow: 0 10px 26px rgb(42 53 65 / 8%);
+  min-height: 0;
+}
+
+.idePanel.ant-card {
+  overflow: hidden;
+}
+
+.idePanel > .ant-card-body {
+  max-height: 100%;
+  min-height: 0;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
+.ideEditorPane {
+  background: #111827;
+  display: grid;
+  grid-template-rows: 44px minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.ideEditorHeader {
+  align-items: center;
+  background: #172033;
+  border-bottom: 1px solid #2b3448;
+  color: #dbe4ee;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  min-width: 0;
+  padding: 0 12px;
+}
+
+.ideEditorHeader .ant-typography {
+  color: #dbe4ee;
+}
+
+.ideStatementSection h4 {
+  margin: 0 0 6px;
+}
+
+.ideStatementSection pre,
+.ideSamplePreview pre,
+.ideOutputBlock pre {
+  background: #f4f7f8;
+  border: 1px solid #dce5e8;
+  border-radius: 6px;
+  color: #24303c;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 12px;
+  line-height: 1.58;
+  margin: 6px 0 10px;
+  max-width: 100%;
+  overflow: auto;
+  padding: 8px;
+  white-space: pre-wrap;
+}
+
+.ideSampleList .ant-list-item {
+  align-items: flex-start;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 82px minmax(0, 1fr);
+}
+
+.ideSampleButton.ant-btn {
+  width: 82px;
+}
+
+.ideSamplePreview {
+  min-width: 0;
+}
+
+.ideStdin {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+.ideResult,
+.ideOutputBlock {
+  min-width: 0;
+  width: 100%;
+}
+
+.idePassedIcon {
+  color: #108a55;
+}
+
+.ideFailedIcon {
+  color: #c24135;
+}
+
+.ideBatchList .ant-list-item {
+  padding: 10px 0;
+}
+
+.ideRouteLoading,
+.ideEmpty {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #d8dfe5;
+  border-radius: 8px;
+  color: #617080;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 24px auto 0;
+  max-width: 720px;
+  min-height: 180px;
+}
+
 @container (max-width: 320px) {
   .queueItem {
     padding: 9px;
@@ -1456,6 +1621,21 @@ body.isResizingDetailPane .detailPane {
 }
 
 @media (max-width: 1100px) {
+  .ideWorkspace {
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+    min-height: 0;
+  }
+
+  .ideProblemPane,
+  .ideRunPane {
+    grid-template-rows: none;
+  }
+
+  .ideEditorPane {
+    height: 620px;
+  }
+
   .workspace {
     grid-template-columns: 190px minmax(0, 1fr);
   }
@@ -1500,6 +1680,36 @@ body.isResizingDetailPane .detailPane {
 }
 
 @media (max-width: 760px) {
+  .ideShell {
+    padding: 12px;
+  }
+
+  .ideTopbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .ideTopbar h1 {
+    font-size: 21px;
+  }
+
+  .ideTopActions {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .ideEditorPane {
+    height: 520px;
+  }
+
+  .ideSampleList .ant-list-item {
+    grid-template-columns: 1fr;
+  }
+
+  .ideSampleButton.ant-btn {
+    width: 100%;
+  }
+
   .shell {
     --sticky-controls-height: 0px;
     padding: 14px;

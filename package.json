@@ -83,6 +83,7 @@
     "validate:sources": "node scripts/validate-source-registry.mjs"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.7.0",
     "@nestjs/common": "^11.1.24",
     "@nestjs/core": "^11.1.24",
     "@nestjs/platform-express": "^11.1.24",
