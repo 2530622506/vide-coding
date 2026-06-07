@@ -4,17 +4,24 @@ import { dirname, extname, join } from "node:path";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 
-const LIST_URL = "https://www.luogu.com.cn/problem/list?type=AT&page=";
+const TARGET_DIFFICULTY = Number(process.env.LUOGU_TARGET_DIFFICULTY || 0);
+const LIST_URL = TARGET_DIFFICULTY
+  ? `https://www.luogu.com.cn/problem/list?type=AT&difficulty=${TARGET_DIFFICULTY}&page=`
+  : "https://www.luogu.com.cn/problem/list?type=AT&page=";
 const TAG_URL = "https://www.luogu.com.cn/_lfe/tags/zh-CN";
 const OUTPUT_PATH = "data/atcoder/luogu-atcoder-problem-bank.json";
 const ASSET_DIR = "data/atcoder/assets";
 const ASSET_ROUTE_PREFIX = "/api/atcoder-catalog/assets";
-const TARGET_DIFFICULTIES = new Set([3, 4, 5]);
+const TARGET_DIFFICULTIES = TARGET_DIFFICULTY ? new Set([TARGET_DIFFICULTY]) : new Set([2, 3, 4, 5]);
 const CRAWL_DELAY_MS = Number(process.env.LUOGU_CRAWL_DELAY_MS || 400);
 const DETAIL_LIMIT = Number(process.env.LUOGU_DETAIL_LIMIT || 0);
 const REUSE_EXISTING_LIST = process.env.LUOGU_REUSE_EXISTING_LIST === "1";
 const CHECKPOINT_INTERVAL = Number(process.env.LUOGU_CHECKPOINT_INTERVAL || 25);
+const CACHE_DIR = process.env.LUOGU_CACHE_DIR || "";
+const OFFLINE_CACHE = process.env.LUOGU_OFFLINE_CACHE === "1";
+const LIST_ONLY = process.env.LUOGU_LIST_ONLY === "1";
 const DIFFICULTY_LABELS = {
+  2: "普及-",
   3: "普及/提高-",
   4: "普及+/提高",
   5: "提高+/省选-"
@@ -143,6 +150,13 @@ function sleep(ms) {
 }
 
 async function fetchText(url) {
+  const cached = await readCachedText(url);
+  if (cached !== null) {
+    return cached;
+  }
+  if (OFFLINE_CACHE) {
+    throw new Error(`${url}: cache file not found`);
+  }
   try {
     const response = await fetch(url, {
       headers: {
@@ -175,6 +189,13 @@ async function fetchText(url) {
 }
 
 async function fetchBuffer(url) {
+  const cached = await readCachedBuffer(url);
+  if (cached) {
+    return cached;
+  }
+  if (OFFLINE_CACHE) {
+    throw new Error(`${url}: cache file not found`);
+  }
   try {
     const response = await fetch(url, {
       headers: {
@@ -210,6 +231,55 @@ async function fetchBuffer(url) {
       buffer: stdout,
       contentType: ""
     };
+  }
+}
+
+function cachePathForUrl(url) {
+  if (!CACHE_DIR) {
+    return null;
+  }
+  const parsed = new URL(url);
+  if (parsed.pathname === "/_lfe/tags/zh-CN") {
+    return join(CACHE_DIR, "tags_zh-CN.json");
+  }
+  if (parsed.pathname === "/problem/list") {
+    const difficulty = parsed.searchParams.get("difficulty");
+    const difficultyPart = difficulty ? `_difficulty_${difficulty}` : "";
+    return join(CACHE_DIR, `problem_list${difficultyPart}_page_${parsed.searchParams.get("page") || "1"}.html`);
+  }
+  const problemMatch = parsed.pathname.match(/^\/problem\/([^/]+)$/);
+  if (problemMatch) {
+    return join(CACHE_DIR, `problem_${problemMatch[1]}.html`);
+  }
+  const hash = createHash("sha256").update(url).digest("hex").slice(0, 24);
+  const extension = extensionFromUrl(url, "") || ".bin";
+  return join(CACHE_DIR, `asset_${hash}${extension}`.replace(/[^a-zA-Z0-9_.-]/g, "_"));
+}
+
+async function readCachedText(url) {
+  const cachePath = cachePathForUrl(url);
+  if (!cachePath) {
+    return null;
+  }
+  try {
+    return await readFile(cachePath, "utf8");
+  } catch {
+    return null;
+  }
+}
+
+async function readCachedBuffer(url) {
+  const cachePath = cachePathForUrl(url);
+  if (!cachePath) {
+    return null;
+  }
+  try {
+    return {
+      buffer: await readFile(cachePath),
+      contentType: ""
+    };
+  } catch {
+    return null;
   }
 }
 
@@ -479,6 +549,49 @@ function buildProgrammingSolution(problem, statement) {
   };
 }
 
+function problemWithPendingDetails(problem) {
+  const statement = pendingStatement(problem.source_url);
+  return {
+    ...problem,
+    statement,
+    visual_assets: {
+      status: "pending_collection",
+      assets: [],
+      notes: ["题面图片尚未抓取。"]
+    },
+    programming_solution: buildProgrammingSolution(problem, statement)
+  };
+}
+
+function mergeExistingProblem(freshProblem, existingProblem) {
+  if (!existingProblem) {
+    return problemWithPendingDetails(freshProblem);
+  }
+  const statement = existingProblem.statement || pendingStatement(freshProblem.source_url);
+  return {
+    ...freshProblem,
+    title_zh: existingProblem.title_zh || freshProblem.title,
+    title_zh_source: existingProblem.title_zh_source,
+    answer_guidance: existingProblem.answer_guidance
+      ? {
+        ...existingProblem.answer_guidance,
+        source_url: freshProblem.source_url
+      }
+      : freshProblem.answer_guidance,
+    statement: {
+      ...statement,
+      source_url: freshProblem.source_url
+    },
+    visual_assets: existingProblem.visual_assets || {
+      status: "pending_collection",
+      assets: [],
+      notes: ["题面图片尚未抓取。"]
+    },
+    programming_solution: existingProblem.programming_solution || buildProgrammingSolution(freshProblem, statement),
+    list_order: freshProblem.list_order
+  };
+}
+
 async function enrichProblemDetail(problem) {
   const html = await fetchText(problem.source_url);
   const context = parseContext(html, problem.source_url);
@@ -620,6 +733,7 @@ async function main() {
     return;
   }
 
+  const existing = await readExistingCatalog();
   const tagData = JSON.parse(await fetchText(TAG_URL));
   const tagById = new Map(tagData.tags.map((tag) => [tag.id, tag]));
   const firstContext = parseContext(await fetchText(`${LIST_URL}1`), `${LIST_URL}1`);
@@ -643,13 +757,51 @@ async function main() {
     .filter((problem) => TARGET_DIFFICULTIES.has(problem.difficulty))
     .map((problem, index) => buildProblem(problem, index + 1, tagById))
     .sort((a, b) => a.difficulty - b.difficulty || a.pid.localeCompare(b.pid));
-  const detailTargets = DETAIL_LIMIT > 0 ? listedProblems.slice(0, DETAIL_LIMIT) : listedProblems;
-  const enrichedById = new Map();
+  const existingById = new Map((existing?.problems || []).map((problem) => [problem.id, problem]));
+  const listedProblemIds = new Set(listedProblems.map((problem) => problem.id));
+  const retainedExistingProblems = TARGET_DIFFICULTY && existing?.problems
+    ? existing.problems.filter((problem) => !TARGET_DIFFICULTIES.has(problem.difficulty) && !listedProblemIds.has(problem.id))
+    : [];
+  const problems = [
+    ...retainedExistingProblems,
+    ...listedProblems.map((problem) => mergeExistingProblem(problem, existingById.get(problem.id)))
+  ].sort((a, b) => a.difficulty - b.difficulty || a.pid.localeCompare(b.pid));
+  await writeCatalogCheckpoint({ existing, problems, firstContext, pageCount });
+  console.log(`wrote list checkpoint ${OUTPUT_PATH}`);
+  if (LIST_ONLY) {
+    console.log("list-only crawl complete");
+    console.log(`kept ${problems.length}/${rawProblems.length} problems`);
+    return;
+  }
+
+  const pendingProblems = problems.filter((problem) => problem.statement?.status !== "source_extracted");
+  const detailTargets = DETAIL_LIMIT > 0 ? pendingProblems.slice(0, DETAIL_LIMIT) : pendingProblems;
+  const problemIndexById = new Map(problems.map((problem, index) => [problem.id, index]));
+  let enrichedCount = 0;
+  let failedCount = 0;
 
   for (const [index, problem] of detailTargets.entries()) {
-    enrichedById.set(problem.id, await enrichProblemDetail(problem));
-    if ((index + 1) % 25 === 0 || index + 1 === detailTargets.length) {
+    try {
+      problems[problemIndexById.get(problem.id)] = await enrichProblemDetail(problem);
+      enrichedCount += 1;
+    } catch (error) {
+      failedCount += 1;
+      console.warn(`${problem.id}: detail fetch failed: ${error.message}`);
+      const failed = failedStatement(problem.source_url, error);
+      problems[problemIndexById.get(problem.id)] = {
+        ...problem,
+        statement: failed,
+        visual_assets: {
+          status: "pending_collection",
+          assets: [],
+          notes: [`题面图片尚未抓取，原因：${error.message}`]
+        },
+        programming_solution: buildProgrammingSolution(problem, failed)
+      };
+    }
+    if ((index + 1) % CHECKPOINT_INTERVAL === 0 || index + 1 === detailTargets.length) {
       console.log(`fetched problem details ${index + 1}/${detailTargets.length}`);
+      await writeCatalogCheckpoint({ existing, problems, firstContext, pageCount });
     }
     // Luogu is an external public site; keep single-problem detail requests deliberately low frequency.
     if (index + 1 < detailTargets.length && CRAWL_DELAY_MS > 0) {
@@ -657,33 +809,40 @@ async function main() {
     }
   }
 
-  const problems = listedProblems.map((problem) => {
-    const enriched = enrichedById.get(problem.id);
-    if (enriched) {
-      return enriched;
-    }
-    const statement = pendingStatement(problem.source_url);
-    return {
-      ...problem,
-      statement,
-      visual_assets: {
-        status: "pending_collection",
-        assets: [],
-        notes: ["题面图片尚未抓取。"]
-      },
-      programming_solution: buildProgrammingSolution(problem, statement)
-    };
-  });
+  await writeCatalogCheckpoint({ existing, problems, firstContext, pageCount });
+  console.log(`enriched ${enrichedCount}/${pendingProblems.length} pending problem details`);
+  console.log(`failed ${failedCount}/${detailTargets.length} problem details`);
+  console.log(`kept ${problems.length}/${rawProblems.length} problems`);
+}
 
+async function readExistingCatalog() {
+  try {
+    return JSON.parse(await readFile(OUTPUT_PATH, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+async function writeCatalogCheckpoint({ existing, problems, firstContext, pageCount }) {
+  await mkdir(dirname(OUTPUT_PATH), { recursive: true });
+  await writeFile(OUTPUT_PATH, `${JSON.stringify(buildCatalogOutput({ existing, problems, firstContext, pageCount }), null, 2)}\n`, "utf8");
+  console.log(`wrote ${OUTPUT_PATH}`);
+}
+
+function buildCatalogOutput({ existing, problems, firstContext, pageCount }) {
   const difficultyCounts = {};
   for (const problem of problems) {
     difficultyCounts[problem.difficulty_label] = (difficultyCounts[problem.difficulty_label] || 0) + 1;
   }
   const catalog = groupCatalog(problems);
-  const output = {
+  return {
+    ...(existing || {}),
     generated_at: new Date().toISOString(),
     source: {
-      list_url: "https://www.luogu.com.cn/problem/list?type=AT&page=1",
+      ...(existing?.source || {}),
+      list_url: TARGET_DIFFICULTY
+        ? `https://www.luogu.com.cn/problem/list?type=AT&page=1&difficulty=${TARGET_DIFFICULTY}`
+        : "https://www.luogu.com.cn/problem/list?type=AT&page=1",
       tag_url: TAG_URL,
       total_source_problem_count: firstContext.data.problems.count,
       pages_crawled: pageCount,
@@ -699,19 +858,25 @@ async function main() {
       ]
     },
     summary: {
+      ...(existing?.summary || {}),
       problem_count: problems.length,
       difficulty_counts: difficultyCounts,
       domain_count: catalog.length,
-      knowledge_point_count: new Set(problems.flatMap((problem) => problem.knowledge_points.map((point) => point.id))).size
+      knowledge_point_count: new Set(problems.flatMap((problem) => problem.knowledge_points.map((point) => point.id))).size,
+      source_extracted_statement_count: problems.filter((problem) => problem.statement?.status === "source_extracted").length,
+      pending_statement_count: problems.filter((problem) => problem.statement?.status !== "source_extracted").length,
+      ai_sample_verified_solution_count: problems.filter((problem) => problem.programming_solution?.verification?.status === "sample_passed").length,
+      ai_compile_verified_solution_count: problems.filter((problem) => problem.programming_solution?.verification?.status === "compiled_no_samples").length,
+      ai_not_verified_by_request_solution_count: problems.filter((problem) => problem.programming_solution?.verification?.status === "not_verified_by_request").length,
+      pending_ai_generation_count: problems.filter((problem) => problem.programming_solution?.status === "pending_ai_generation").length,
+      ai_unverified_reference_solution_count: problems.filter((problem) => problem.programming_solution?.content_origin === "ai_generated_unverified_reference").length,
+      subagent_ai_reference_solution_count: problems.filter((problem) => problem.programming_solution?.content_origin === "subagent_ai_generated_reference").length,
+      local_ai_answer_count: problems.filter((problem) => /AI 生成，仅供参考/.test(problem.answer_guidance?.answer || "")).length,
+      title_zh_count: problems.filter((problem) => problem.title_zh).length
     },
     domains: catalog,
     problems
   };
-
-  await mkdir(dirname(OUTPUT_PATH), { recursive: true });
-  await writeFile(OUTPUT_PATH, `${JSON.stringify(output, null, 2)}\n`, "utf8");
-  console.log(`wrote ${OUTPUT_PATH}`);
-  console.log(`kept ${problems.length}/${rawProblems.length} problems`);
 }
 
 async function enrichExistingCatalog() {

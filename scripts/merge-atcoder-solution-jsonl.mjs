@@ -31,7 +31,7 @@ function applySolution(problem, solution) {
       status: "needs_review",
       language: "C++17",
       code: solution.code,
-      content_origin: "ai_generated_unverified_reference",
+      content_origin: "subagent_ai_generated_reference",
       ai_generation_notice: "当前答案是 AI 生成，仅供参考。该 C++17 参考解由 AI 根据公开题面生成；按用户要求跳过编译和样例验证，正式提交前请人工复核或通过 OJ 评测确认。",
       reference_answer: "AI 生成 C++17 参考解已直接合并；按用户要求跳过编译和样例验证，仍需人工或 OJ 复核。",
       algorithm: solution.algorithm,

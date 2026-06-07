@@ -92,8 +92,8 @@ export type AtCoderProblemSummary = {
   title: string;
   title_zh: string;
   title_zh_source?: string;
-  difficulty: 3 | 4 | 5;
-  difficulty_label: "普及/提高-" | "普及+/提高" | "提高+/省选-";
+  difficulty: 2 | 3 | 4 | 5;
+  difficulty_label: "普及-" | "普及/提高-" | "普及+/提高" | "提高+/省选-";
   total_submit: number;
   total_accepted: number;
   acceptance_rate: number | null;

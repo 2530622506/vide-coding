@@ -270,13 +270,22 @@ function generatedAnswer(problem) {
 
 async function main() {
   const catalog = JSON.parse(await readFile(DATA_PATH, "utf8"));
+  let updatedCount = 0;
   catalog.problems = catalog.problems.map((problem) => {
+    const needsTitle = !problem.title_zh || !/[\u4e00-\u9fff]/.test(problem.title_zh);
+    const needsAnswer = !/AI 生成，仅供参考/.test(problem.answer_guidance?.answer || "");
+    const needsSolutionNotice = !problem.programming_solution?.code && !/AI 生成，仅供参考/.test(problem.programming_solution?.ai_generation_notice || "");
+    if (!needsTitle && !needsAnswer && !needsSolutionNotice) {
+      return problem;
+    }
     const generated = generatedAnswer(problem);
-    const titleZh = generateChineseTitle(problem.title);
+    const titleZh = needsTitle ? generateChineseTitle(problem.title) : problem.title_zh;
+    updatedCount += 1;
+    const shouldFillProgrammingSolution = (needsAnswer || needsSolutionNotice) && !problem.programming_solution?.code;
     return {
       ...problem,
       title_zh: titleZh,
-      title_zh_source: "local_ai_generated_review_required",
+      title_zh_source: needsTitle ? "local_ai_generated_review_required" : problem.title_zh_source,
       answer_guidance: {
         ...problem.answer_guidance,
         content_origin: "local_ai_generated_reference",
@@ -284,18 +293,20 @@ async function main() {
         solution_outline: generated.solution_outline,
         review_note: generated.review_note
       },
-      programming_solution: {
-        ...problem.programming_solution,
-        status: "needs_review",
-        content_origin: "local_ai_generated_reference",
-        ai_generation_notice: "当前答案是 AI 生成，仅供参考；不是官方题解，正式提交前请人工复核或通过 OJ 评测。",
-        reference_answer: generated.answer,
-        algorithm: generated.solution_outline,
-        notes: [
-          "当前为本地 AI 生成的参考思路，不是官方答案。",
-          "尚未生成逐题 C++ 完整代码；如需代码，应基于题面继续补充并做样例验证。"
-        ]
-      }
+      programming_solution: shouldFillProgrammingSolution
+        ? {
+          ...problem.programming_solution,
+          status: "needs_review",
+          content_origin: "local_ai_generated_reference",
+          ai_generation_notice: "当前答案是 AI 生成，仅供参考；不是官方题解，正式提交前请人工复核或通过 OJ 评测。",
+          reference_answer: generated.answer,
+          algorithm: generated.solution_outline,
+          notes: [
+            "当前为本地 AI 生成的参考思路，不是官方答案。",
+            "尚未生成逐题 C++ 完整代码；如需代码，应基于题面继续补充并做样例验证。"
+          ]
+        }
+        : problem.programming_solution
     };
   });
   const problemById = new Map(catalog.problems.map((problem) => [problem.id, problem]));
@@ -308,8 +319,15 @@ async function main() {
   }));
   catalog.summary.local_ai_answer_count = catalog.problems.length;
   catalog.summary.title_zh_count = catalog.problems.filter((problem) => problem.title_zh).length;
+  catalog.summary.pending_ai_generation_count = catalog.problems.filter((problem) => problem.programming_solution?.status === "pending_ai_generation").length;
+  catalog.summary.ai_sample_verified_solution_count = catalog.problems.filter((problem) => problem.programming_solution?.verification?.status === "sample_passed").length;
+  catalog.summary.ai_compile_verified_solution_count = catalog.problems.filter((problem) => problem.programming_solution?.verification?.status === "compiled_no_samples").length;
+  catalog.summary.ai_not_verified_by_request_solution_count = catalog.problems.filter((problem) => problem.programming_solution?.verification?.status === "not_verified_by_request").length;
+  catalog.summary.ai_unverified_reference_solution_count = catalog.problems.filter((problem) => problem.programming_solution?.content_origin === "ai_generated_unverified_reference").length;
+  catalog.summary.subagent_ai_reference_solution_count = catalog.problems.filter((problem) => problem.programming_solution?.content_origin === "subagent_ai_generated_reference").length;
   catalog.generated_at = new Date().toISOString();
   await writeFile(DATA_PATH, `${JSON.stringify(catalog, null, 2)}\n`, "utf8");
+  console.log(`local AI answer fields updated: ${updatedCount}`);
   console.log(`local AI answer fields generated: ${catalog.summary.local_ai_answer_count}`);
   console.log(`Chinese title fields generated: ${catalog.summary.title_zh_count}`);
 }

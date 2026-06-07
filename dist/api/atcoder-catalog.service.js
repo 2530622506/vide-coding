@@ -11,10 +11,14 @@ import { resolve } from "node:path";
 let AtCoderCatalogService = class AtCoderCatalogService {
     dataPath = "data/atcoder/luogu-atcoder-problem-bank.json";
     assetRoot = "data/atcoder/assets";
+    catalogCache = null;
     async getCatalog() {
+        if (this.catalogCache) {
+            return this.catalogCache;
+        }
         const bank = await this.loadBank();
         const problemById = new Map(bank.problems.map((problem) => [problem.id, problem]));
-        return {
+        this.catalogCache = {
             generated_at: bank.generated_at,
             source: bank.source,
             summary: bank.summary,
@@ -29,6 +33,7 @@ let AtCoderCatalogService = class AtCoderCatalogService {
                 }))
             }))
         };
+        return this.catalogCache;
     }
     async getProblem(id) {
         const mysqlProblem = await this.getMysqlProblem(id);
@@ -90,14 +95,10 @@ let AtCoderCatalogService = class AtCoderCatalogService {
             title_zh_source: problem.title_zh_source,
             difficulty: problem.difficulty,
             difficulty_label: problem.difficulty_label,
-            source_url: problem.source_url,
             total_submit: problem.total_submit,
             total_accepted: problem.total_accepted,
             acceptance_rate: problem.acceptance_rate,
-            algorithm_domains: problem.algorithm_domains,
-            problem_type_tags: problem.problem_type_tags,
-            knowledge_points: problem.knowledge_points,
-            answer_guidance: problem.answer_guidance
+            knowledge_points: problem.knowledge_points
         };
     }
     async loadBank() {
@@ -141,6 +142,7 @@ let AtCoderCatalogService = class AtCoderCatalogService {
     }
     async saveProblems(problems, previousBank) {
         const bank = this.rebuildCatalog(problems, previousBank);
+        this.catalogCache = null;
         const connection = await this.mysqlConnection();
         if (!connection) {
             writeFileSync(resolve(process.cwd(), this.dataPath), `${JSON.stringify(bank, null, 2)}\n`, "utf8");
@@ -255,7 +257,7 @@ let AtCoderCatalogService = class AtCoderCatalogService {
     normalizeEditableProblem(input, listOrder) {
         const pid = input.pid || input.id || "";
         const difficulty = input.difficulty || 3;
-        const difficultyLabel = input.difficulty_label || (difficulty === 4 ? "普及+/提高" : difficulty === 5 ? "提高+/省选-" : "普及/提高-");
+        const difficultyLabel = input.difficulty_label || (difficulty === 2 ? "普及-" : difficulty === 4 ? "普及+/提高" : difficulty === 5 ? "提高+/省选-" : "普及/提高-");
         const sourceUrl = input.source_url || `https://www.luogu.com.cn/problem/${pid}`;
         return {
             id: pid,

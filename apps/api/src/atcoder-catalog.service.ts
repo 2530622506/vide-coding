@@ -105,8 +105,8 @@ export type AtCoderProblem = {
   title: string;
   title_zh: string;
   title_zh_source?: string;
-  difficulty: 3 | 4 | 5;
-  difficulty_label: "普及/提高-" | "普及+/提高" | "提高+/省选-";
+  difficulty: 2 | 3 | 4 | 5;
+  difficulty_label: "普及-" | "普及/提高-" | "普及+/提高" | "提高+/省选-";
   source_url: string;
   total_submit: number;
   total_accepted: number;
@@ -479,7 +479,7 @@ export class AtCoderCatalogService {
   private normalizeEditableProblem(input: Partial<AtCoderProblem>, listOrder: number): AtCoderProblem {
     const pid = input.pid || input.id || "";
     const difficulty = input.difficulty || 3;
-    const difficultyLabel = input.difficulty_label || (difficulty === 4 ? "普及+/提高" : difficulty === 5 ? "提高+/省选-" : "普及/提高-");
+    const difficultyLabel = input.difficulty_label || (difficulty === 2 ? "普及-" : difficulty === 4 ? "普及+/提高" : difficulty === 5 ? "提高+/省选-" : "普及/提高-");
     const sourceUrl = input.source_url || `https://www.luogu.com.cn/problem/${pid}`;
     return {
       id: pid,

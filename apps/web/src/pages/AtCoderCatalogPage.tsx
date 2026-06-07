@@ -57,6 +57,7 @@ type AtCoderLabelOptionGroups = {
 };
 
 const DIFFICULTY_TABS = [
+  { key: "普及-", label: "普及-", difficulty: 2 },
   { key: "普及/提高-", label: "普及/提高-", difficulty: 3 },
   { key: "普及+/提高", label: "普及+/提高", difficulty: 4 },
   { key: "提高+/省选-", label: "提高+/省选-", difficulty: 5 }

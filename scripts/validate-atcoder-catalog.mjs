@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 
 const DATA_PATH = "data/atcoder/luogu-atcoder-problem-bank.json";
-const ALLOWED_DIFFICULTIES = new Set([3, 4, 5]);
+const ALLOWED_DIFFICULTIES = new Set([2, 3, 4, 5]);
 
 function assert(condition, message) {
   if (!condition) {
