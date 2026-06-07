@@ -1457,6 +1457,28 @@ body.isResizingDetailPane .detailPane {
   max-width: 1720px;
 }
 
+.ideBackButton.ant-btn {
+  margin-bottom: 8px;
+}
+
+.ideTitleGroup {
+  min-width: 0;
+}
+
+.ideTitleActionRow {
+  margin-bottom: 2px;
+  min-width: 0;
+}
+
+.ideTitleGroup .eyebrow {
+  margin-bottom: 0;
+}
+
+.ideTitleGroup h1.ant-typography {
+  max-width: 1120px;
+  min-width: 0;
+}
+
 .ideTopbar h1 {
   font-size: 24px;
   letter-spacing: 0;
@@ -1474,25 +1496,24 @@ body.isResizingDetailPane .detailPane {
 }
 
 .ideWorkspace {
+  align-items: start;
   display: grid;
   gap: 12px;
   grid-template-columns: minmax(260px, 340px) minmax(520px, 1fr) minmax(300px, 380px);
-  height: calc(100vh - 106px);
   margin: 0 auto;
   max-width: 1720px;
-  min-height: 620px;
 }
 
 .ideProblemPane,
 .ideRunPane {
   display: grid;
   gap: 12px;
-  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-rows: none;
   min-height: 0;
 }
 
 .ideRunPane {
-  grid-template-rows: auto minmax(0, 1fr) minmax(170px, 0.72fr);
+  grid-template-rows: none;
 }
 
 .idePanel.ant-card,
@@ -1508,9 +1529,8 @@ body.isResizingDetailPane .detailPane {
 }
 
 .idePanel > .ant-card-body {
-  max-height: 100%;
   min-height: 0;
-  overflow: auto;
+  overflow: visible;
   scrollbar-width: thin;
 }
 
@@ -1518,7 +1538,11 @@ body.isResizingDetailPane .detailPane {
   background: #111827;
   display: grid;
   grid-template-rows: 44px minmax(0, 1fr);
+  height: calc(100vh - 106px);
+  min-height: 620px;
   overflow: hidden;
+  position: sticky;
+  top: 18px;
 }
 
 .ideEditorHeader {
@@ -1541,7 +1565,6 @@ body.isResizingDetailPane .detailPane {
   margin: 0 0 6px;
 }
 
-.ideStatementSection pre,
 .ideSamplePreview pre,
 .ideOutputBlock pre {
   background: #f4f7f8;
@@ -1623,7 +1646,6 @@ body.isResizingDetailPane .detailPane {
 @media (max-width: 1100px) {
   .ideWorkspace {
     grid-template-columns: minmax(0, 1fr);
-    height: auto;
     min-height: 0;
   }
 
@@ -1634,6 +1656,7 @@ body.isResizingDetailPane .detailPane {
 
   .ideEditorPane {
     height: 620px;
+    position: static;
   }
 
   .workspace {
@@ -1685,12 +1708,16 @@ body.isResizingDetailPane .detailPane {
   }
 
   .ideTopbar {
-    align-items: flex-start;
-    flex-direction: column;
+    margin-bottom: 12px;
   }
 
   .ideTopbar h1 {
     font-size: 21px;
+  }
+
+  .ideTitleActionRow {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .ideTopActions {

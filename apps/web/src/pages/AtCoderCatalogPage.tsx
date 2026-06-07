@@ -39,6 +39,7 @@ statementMarkdown.renderer.rules.link_open = (tokens, idx, options, env, self) =
 
 type Props = {
   onBack: () => void;
+  onOpenIde: (problemId: string) => void;
 };
 
 type AtCoderWorkspaceStyle = CSSProperties & {
@@ -97,7 +98,7 @@ type EditorForm = {
   solution_notes: string;
 };
 
-export function AtCoderCatalogPage({ onBack }: Props) {
+export function AtCoderCatalogPage({ onBack, onOpenIde }: Props) {
   const { message, modal } = AntApp.useApp();
   const [activeDomainId, setActiveDomainId] = useState<string | null>(null);
   const [selectedProblemId, setSelectedProblemId] = useState<string | null>(null);
@@ -291,6 +292,7 @@ export function AtCoderCatalogPage({ onBack }: Props) {
           <AtCoderProblemDetail
             onDelete={confirmDelete}
             onEdit={openEditModal}
+            onOpenIde={onOpenIde}
             problem={problemRequest.data || null}
           />
         </Card>
@@ -416,10 +418,11 @@ function AtCoderProblemRow({ problem, isSelected, onSelect }: {
   );
 }
 
-function AtCoderProblemDetail({ problem, onEdit, onDelete }: {
+function AtCoderProblemDetail({ problem, onEdit, onDelete, onOpenIde }: {
   problem: AtCoderProblem | null;
   onEdit: (problem: AtCoderProblem) => void;
   onDelete: (problem: AtCoderProblem) => void;
+  onOpenIde: (problemId: string) => void;
 }) {
   if (!problem) {
     return <Empty className="detailEmpty" description="选择一道 AtCoder 题目查看详情" image={<FileText size={28} />} />;
@@ -434,6 +437,9 @@ function AtCoderProblemDetail({ problem, onEdit, onDelete }: {
           <Typography.Text className="detailChineseTitle">{problem.title_zh}</Typography.Text>
         </div>
         <Space size={4}>
+          <Tooltip title="进入 IDE 模式">
+            <Button aria-label="进入 IDE 模式" icon={<Code2 size={14} />} onClick={() => onOpenIde(problem.id)} type="text" />
+          </Tooltip>
           <Tooltip title="编辑题目和答案">
             <Button aria-label="编辑题目和答案" icon={<Edit3 size={14} />} onClick={() => onEdit(problem)} type="text" />
           </Tooltip>

@@ -90,9 +90,11 @@ export default function App() {
     setRoutePath(path);
   }
 
+  const atCoderIdePrefix = "/ide/atcoder/";
   const ideProblemId = routePath.startsWith("/ide/")
-    ? decodeURIComponent(routePath.slice("/ide/".length).split("/")[0] || "")
+    ? decodeURIComponent(routePath.slice(routePath.startsWith(atCoderIdePrefix) ? atCoderIdePrefix.length : "/ide/".length).split("/")[0] || "")
     : null;
+  const ideSource = routePath.startsWith(atCoderIdePrefix) ? "atcoder" : "gesp";
 
   return (
     <ConfigProvider
@@ -108,11 +110,11 @@ export default function App() {
       <AntApp>
         {ideProblemId ? (
           <Suspense fallback={<main className="ideShell"><div className="routeLoading">IDE 加载中</div></main>}>
-            <ProblemIdePage problemId={ideProblemId} onBack={() => navigateTo("/")} />
+            <ProblemIdePage problemId={ideProblemId} source={ideSource} onBack={() => navigateTo(ideSource === "atcoder" ? "/atcoder" : "/")} />
           </Suspense>
         ) : routePath.startsWith("/atcoder") ? (
           <Suspense fallback={<main className="shell"><div className="routeLoading">AtCoder 题库加载中</div></main>}>
-            <AtCoderCatalogPage onBack={() => navigateTo("/")} />
+            <AtCoderCatalogPage onBack={() => navigateTo("/")} onOpenIde={(problemId) => navigateTo(`/ide/atcoder/${encodeURIComponent(problemId)}`)} />
           </Suspense>
         ) : (
           <GespCatalogPage onOpenAtCoder={() => navigateTo("/atcoder")} onOpenIde={(problemId) => navigateTo(`/ide/${encodeURIComponent(problemId)}`)} />

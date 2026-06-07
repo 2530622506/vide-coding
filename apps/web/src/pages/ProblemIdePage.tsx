@@ -1,11 +1,30 @@
 import Editor from "@monaco-editor/react";
 import { Alert, App as AntApp, Button, Card, Empty, Flex, Input, List, Space, Spin, Tag, Typography } from "antd";
 import { ArrowLeft, CheckCircle2, FileText, Play, RotateCcw, Terminal, XCircle } from "lucide-react";
+import MarkdownIt from "markdown-it";
+import mathjax3 from "markdown-it-mathjax3";
 import { useEffect, useMemo, useState } from "react";
 import { runCppCode, type CodeRunResponse, type CodeRunStatus } from "../services/codeRun";
 import type { ProblemDetailResponse } from "../types";
+import type { AtCoderProblem } from "../types/atcoder";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
+
+const statementMarkdown = new MarkdownIt({
+  breaks: true,
+  html: false,
+  linkify: true
+}).use(mathjax3);
+
+const defaultLinkOpenRenderer = statementMarkdown.renderer.rules.link_open;
+statementMarkdown.renderer.rules.link_open = (tokens, idx, options, env, self) => {
+  const token = tokens[idx];
+  token.attrSet("target", "_blank");
+  token.attrSet("rel", "noreferrer");
+  return defaultLinkOpenRenderer
+    ? defaultLinkOpenRenderer(tokens, idx, options, env, self)
+    : self.renderToken(tokens, idx, options);
+};
 
 const defaultCppTemplate = `#include <bits/stdc++.h>
 using namespace std;
@@ -36,6 +55,18 @@ const statusColor: Record<CodeRunStatus, string> = {
   judge_error: "default"
 };
 
+type IdeSource = "gesp" | "atcoder";
+
+type IdeProblem = {
+  id: string;
+  title: string;
+  subtitle: string;
+  sourceLabel: string;
+  statementSections: Array<{ id: string; title: string; markdown: string }>;
+  sampleCases: Array<{ id?: string; input: string; output: string }>;
+  referenceCode: string | null;
+};
+
 async function fetchJson<T>(path: string): Promise<T> {
   const response = await fetch(`${API_BASE}${path}`);
   if (!response.ok) {
@@ -44,9 +75,9 @@ async function fetchJson<T>(path: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-export function ProblemIdePage({ problemId, onBack }: { problemId: string; onBack: () => void }) {
+export function ProblemIdePage({ problemId, source = "gesp", onBack }: { problemId: string; source?: IdeSource; onBack: () => void }) {
   const { message } = AntApp.useApp();
-  const [problem, setProblem] = useState<ProblemDetailResponse | null>(null);
+  const [problem, setProblem] = useState<IdeProblem | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [code, setCode] = useState(defaultCppTemplate);
@@ -61,10 +92,10 @@ export function ProblemIdePage({ problemId, onBack }: { problemId: string; onBac
   useEffect(() => {
     setLoading(true);
     setLoadError(null);
-    fetchJson<ProblemDetailResponse>(`/catalog/problems/${encodeURIComponent(problemId)}`)
+    fetchIdeProblem(source, problemId)
       .then((nextProblem) => {
-        const referenceCode = nextProblem.detail?.programming_solution.code || defaultCppTemplate;
-        const firstSample = nextProblem.detail?.sample_cases.cases[0];
+        const referenceCode = nextProblem.referenceCode || defaultCppTemplate;
+        const firstSample = nextProblem.sampleCases[0];
         setProblem(nextProblem);
         setCode(referenceCode);
         setStdin(firstSample?.input || "");
@@ -77,13 +108,13 @@ export function ProblemIdePage({ problemId, onBack }: { problemId: string; onBac
         setLoadError(error instanceof Error ? error.message : "题目加载失败");
       })
       .finally(() => setLoading(false));
-  }, [problemId]);
+  }, [problemId, source]);
 
-  const sampleCases = problem?.detail?.sample_cases.cases || [];
+  const sampleCases = problem?.sampleCases || [];
   const expectedOutput = selectedSampleIndex === null ? undefined : sampleCases[selectedSampleIndex]?.output;
-  const hasReferenceCode = Boolean(problem?.detail?.programming_solution.code);
+  const hasReferenceCode = Boolean(problem?.referenceCode);
   const statementSections = useMemo(() => {
-    return problem?.detail?.statement.sections?.filter((section) => section.markdown.trim()) || [];
+    return problem?.statementSections.filter((section) => section.markdown.trim()) || [];
   }, [problem]);
 
   function selectSample(index: number) {
@@ -94,7 +125,7 @@ export function ProblemIdePage({ problemId, onBack }: { problemId: string; onBac
   }
 
   function resetReferenceCode() {
-    setCode(problem?.detail?.programming_solution.code || defaultCppTemplate);
+    setCode(problem?.referenceCode || defaultCppTemplate);
     message.success("已重置代码");
   }
 
@@ -167,24 +198,24 @@ export function ProblemIdePage({ problemId, onBack }: { problemId: string; onBac
 
   return (
     <main className="ideShell">
-      <Flex className="ideTopbar" align="center" justify="space-between" gap={16}>
-        <Flex align="center" gap={12}>
-          <Button icon={<ArrowLeft size={16} />} onClick={onBack}>返回目录</Button>
-          <div>
+      <header className="ideTopbar">
+        <Button className="ideBackButton" icon={<ArrowLeft size={16} />} onClick={onBack}>返回目录</Button>
+        <div className="ideTitleGroup">
+          <Flex className="ideTitleActionRow" align="center" justify="space-between" gap={12}>
             <Typography.Text className="eyebrow"><Terminal size={15} /> C++17 在线 IDE</Typography.Text>
-            <Typography.Title level={1}>{problem.title}</Typography.Title>
-          </div>
-        </Flex>
-        <Space className="ideTopActions" size={8} wrap>
-          <Button icon={<RotateCcw size={16} />} onClick={resetReferenceCode}>重置为参考解</Button>
-          <Button disabled={sampleCases.length === 0 || batchRunning || running} loading={batchRunning} onClick={runAllSamples}>
-            运行全部样例
-          </Button>
-          <Button icon={<Play size={16} />} loading={running} onClick={runCurrentInput} type="primary">
-            运行
-          </Button>
-        </Space>
-      </Flex>
+            <Space className="ideTopActions" size={8} wrap>
+              <Button icon={<RotateCcw size={16} />} onClick={resetReferenceCode}>重置为参考解</Button>
+              <Button disabled={sampleCases.length === 0 || batchRunning || running} loading={batchRunning} onClick={runAllSamples}>
+                运行全部样例
+              </Button>
+              <Button icon={<Play size={16} />} loading={running} onClick={runCurrentInput} type="primary">
+                运行
+              </Button>
+            </Space>
+          </Flex>
+          <Typography.Title level={1}>{problem.title}</Typography.Title>
+        </div>
+      </header>
 
       {runError ? <Alert className="ideNotice" message={runError} showIcon type="error" /> : null}
       {!hasReferenceCode ? <Alert className="ideNotice" message="当前题目没有参考解，已使用空 C++ 模板。" showIcon type="warning" /> : null}
@@ -193,16 +224,16 @@ export function ProblemIdePage({ problemId, onBack }: { problemId: string; onBac
         <aside className="ideProblemPane">
           <Card className="idePanel" size="small" title="题面">
             <Space direction="vertical" size={12}>
-              <Typography.Text type="secondary">{problem.session} / {problem.level} 级 / #{problem.question_number}</Typography.Text>
+              <Typography.Text type="secondary">{problem.subtitle}</Typography.Text>
               {statementSections.length ? (
                 statementSections.map((section) => (
                   <section className="ideStatementSection" key={section.id}>
                     <Typography.Title level={4}>{section.title}</Typography.Title>
-                    <pre>{section.markdown}</pre>
+                    <MarkdownBlock markdown={section.markdown} />
                   </section>
                 ))
               ) : (
-                <Typography.Paragraph>{problem.detail?.statement.stem || "题面待补"}</Typography.Paragraph>
+                <Typography.Paragraph>题面待补</Typography.Paragraph>
               )}
             </Space>
           </Card>
@@ -305,6 +336,38 @@ export function ProblemIdePage({ problemId, onBack }: { problemId: string; onBac
       </section>
     </main>
   );
+}
+
+async function fetchIdeProblem(source: IdeSource, problemId: string): Promise<IdeProblem> {
+  if (source === "atcoder") {
+    const problem = await fetchJson<AtCoderProblem>(`/atcoder-catalog/problems/${encodeURIComponent(problemId)}`);
+    return {
+      id: problem.id,
+      title: problem.title_zh || problem.title,
+      subtitle: `${problem.pid} / ${problem.difficulty_label} / AtCoder`,
+      sourceLabel: "AtCoder",
+      statementSections: problem.statement.sections,
+      sampleCases: problem.statement.samples,
+      referenceCode: problem.programming_solution.code
+    };
+  }
+  const problem = await fetchJson<ProblemDetailResponse>(`/catalog/problems/${encodeURIComponent(problemId)}`);
+  return {
+    id: problem.id,
+    title: problem.title,
+    subtitle: `${problem.session} / ${problem.level} 级 / #${problem.question_number}`,
+    sourceLabel: "GESP",
+    statementSections: problem.detail?.statement.sections?.length
+      ? problem.detail.statement.sections
+      : [{ id: "statement", title: "题目描述", markdown: problem.detail?.statement.stem || "" }],
+    sampleCases: problem.detail?.sample_cases.cases || [],
+    referenceCode: problem.detail?.programming_solution.code || null
+  };
+}
+
+function MarkdownBlock({ markdown }: { markdown: string }) {
+  const html = useMemo(() => statementMarkdown.render(markdown), [markdown]);
+  return <div className="markdownBody" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
 function RunResult({ result }: { result: CodeRunResponse | null }) {
