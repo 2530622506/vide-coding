@@ -94,14 +94,10 @@ export type AtCoderProblemSummary = {
   title_zh_source?: string;
   difficulty: 3 | 4 | 5;
   difficulty_label: "普及/提高-" | "普及+/提高" | "提高+/省选-";
-  source_url: string;
   total_submit: number;
   total_accepted: number;
   acceptance_rate: number | null;
-  algorithm_domains: AtCoderLabel[];
-  problem_type_tags: AtCoderLabel[];
   knowledge_points: AtCoderLabel[];
-  answer_guidance: AtCoderAnswerGuidance;
 };
 
 export type AtCoderTag = {
@@ -112,6 +108,10 @@ export type AtCoderTag = {
 };
 
 export type AtCoderProblem = AtCoderProblemSummary & {
+  source_url: string;
+  algorithm_domains: AtCoderLabel[];
+  problem_type_tags: AtCoderLabel[];
+  answer_guidance: AtCoderAnswerGuidance;
   tags: AtCoderTag[];
   statement: AtCoderStatement;
   visual_assets: {

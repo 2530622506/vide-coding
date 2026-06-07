@@ -1261,9 +1261,35 @@ body.isResizingDetailPane .detailPane {
   line-height: 1.45;
 }
 
-.codeBlock {
+.codeBlockFrame {
   background: #18212b;
   border-radius: 8px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.codeToolbar {
+  align-items: center;
+  background: #111922;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: flex-end;
+  min-height: 34px;
+  padding: 4px 8px;
+}
+
+.codeToolbar .ant-btn {
+  color: #d9e5e3;
+}
+
+.codeToolbar .ant-btn:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+}
+
+.codeBlock {
+  background: #18212b;
+  border-radius: 0;
   color: #eef5f3;
   font-size: 12px;
   line-height: 1.5;
@@ -1302,6 +1328,93 @@ body.isResizingDetailPane .detailPane {
 
 .atcoderEditorForm .ant-select {
   width: 100%;
+}
+
+.editorListBlock {
+  width: 100%;
+}
+
+.editorListBlock > .ant-space-item {
+  width: 100%;
+}
+
+.editorItemCard {
+  width: 100%;
+}
+
+.editorItemCard .ant-card-head {
+  min-height: 38px;
+}
+
+.editorItemCard .ant-card-head-title {
+  color: #263342;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.editorHalfField {
+  flex: 1 1 280px;
+  min-width: 260px;
+}
+
+.richMarkdownEditor {
+  min-width: 0;
+  width: 100%;
+}
+
+.richMarkdownEditor .w-md-editor {
+  border: 1px solid #dbe3ec;
+  border-radius: 6px;
+  box-shadow: none;
+  min-width: 0;
+}
+
+.richMarkdownEditor .w-md-editor-toolbar {
+  background: #f7f9fc;
+  border-bottom-color: #dbe3ec;
+  border-radius: 6px 6px 0 0;
+}
+
+.richMarkdownEditor .w-md-editor-content,
+.richMarkdownEditor .w-md-editor-area,
+.richMarkdownEditor .w-md-editor-preview {
+  min-width: 0;
+}
+
+.richMarkdownEditor .w-md-editor-text,
+.richMarkdownEditor .w-md-editor-text-input,
+.richMarkdownEditor .w-md-editor-text-pre {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.richMarkdownEditorFallback {
+  align-items: center;
+  background: #f7f9fc;
+  border: 1px solid #dbe3ec;
+  border-radius: 6px;
+  color: #607089;
+  display: flex;
+  font-size: 13px;
+  justify-content: center;
+  width: 100%;
+}
+
+.editorImageRow {
+  align-items: flex-start;
+}
+
+.editorImagePreview {
+  border: 1px solid #dbe3ec;
+  border-radius: 6px;
+  height: 96px;
+  object-fit: contain;
+  width: 128px;
+}
+
+.editorImageFields {
+  flex: 1 1 320px;
+  min-width: 260px;
 }
 
 .atcoderEditorInlineField {

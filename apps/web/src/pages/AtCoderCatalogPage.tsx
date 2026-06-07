@@ -4,9 +4,11 @@ import cpp from "highlight.js/lib/languages/cpp";
 import "highlight.js/styles/github-dark.css";
 import MarkdownIt from "markdown-it";
 import mathjax3 from "markdown-it-mathjax3";
-import { Alert, App as AntApp, Button, Card, Empty, Flex, FloatButton, Image, Input, Modal, Select, Space, Tabs, Tag, Tooltip, Typography } from "antd";
-import { ArrowLeft, ArrowUp, BookOpenCheck, Code2, Database, Edit3, ExternalLink, FileText, GitBranch, Image as ImageIcon, ListChecks, Plus, RefreshCw, Trash2, Trophy } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import "@uiw/react-md-editor/markdown-editor.css";
+import { Alert, App as AntApp, Button, Card, Empty, Flex, FloatButton, Image, Input, Modal, Select, Space, Tabs, Tag, Tooltip, Typography, Upload } from "antd";
+import type { UploadProps } from "antd";
+import { ArrowLeft, ArrowUp, BookOpenCheck, Check, Code2, Copy, Database, Edit3, ExternalLink, FileText, GitBranch, Image as ImageIcon, ListChecks, Plus, RefreshCw, Trash2, Trophy, Upload as UploadIcon } from "lucide-react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import type { CSSProperties, KeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from "react";
 import { DomainNav } from "../components/DomainNav";
 import { Metric } from "../components/Metric";
@@ -22,6 +24,8 @@ const statementMarkdown = new MarkdownIt({
   html: false,
   linkify: true
 }).use(mathjax3);
+
+const LazyMarkdownEditor = lazy(() => import("@uiw/react-md-editor"));
 
 const defaultLinkOpenRenderer = statementMarkdown.renderer.rules.link_open;
 statementMarkdown.renderer.rules.link_open = (tokens, idx, options, env, self) => {
@@ -60,6 +64,8 @@ const DIFFICULTY_TABS = [
 
 type EditorMode = "create" | "edit";
 
+type EditorVisualAsset = AtCoderProblem["visual_assets"]["assets"][number];
+
 type EditorForm = {
   pid: string;
   title: string;
@@ -72,8 +78,13 @@ type EditorForm = {
   algorithm_domains: AtCoderProblem["algorithm_domains"];
   problem_type_tags: AtCoderProblem["problem_type_tags"];
   knowledge_points: AtCoderProblem["knowledge_points"];
-  statement_json: string;
-  visual_assets_json: string;
+  statement_sections: AtCoderStatementSection[];
+  sample_cases: AtCoderProblem["statement"]["samples"];
+  time_ms: string;
+  memory_kb: string;
+  statement_notes: string;
+  visual_assets: EditorVisualAsset[];
+  visual_notes: string;
   answer: string;
   solution_outline: string;
   review_note: string;
@@ -567,16 +578,79 @@ function AtCoderSolutionBlock({ problem }: { problem: AtCoderProblem }) {
 }
 
 function HighlightedCppCode({ code }: { code: string }) {
+  const { message } = AntApp.useApp();
+  const [copied, setCopied] = useState(false);
   const highlighted = useMemo(() => {
     return hljs.highlight(code, {
       language: "cpp"
     }).value;
   }, [code]);
 
+  async function copyCode() {
+    try {
+      await copyTextToClipboard(code);
+      setCopied(true);
+      message.success("代码已复制");
+      window.setTimeout(() => setCopied(false), 1600);
+    } catch {
+      message.error("复制失败，请手动选择代码");
+    }
+  }
+
   return (
-    <pre className="codeBlock">
-      <code className="hljs language-cpp" dangerouslySetInnerHTML={{ __html: highlighted }} />
-    </pre>
+    <div className="codeBlockFrame">
+      <div className="codeToolbar">
+        <Button icon={copied ? <Check size={14} /> : <Copy size={14} />} onClick={copyCode} size="small" type="text">
+          {copied ? "已复制" : "复制代码"}
+        </Button>
+      </div>
+      <pre className="codeBlock">
+        <code className="hljs language-cpp" dangerouslySetInnerHTML={{ __html: highlighted }} />
+      </pre>
+    </div>
+  );
+}
+
+async function copyTextToClipboard(text: string) {
+  if (navigator.clipboard?.writeText && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  textarea.style.top = "0";
+  document.body.appendChild(textarea);
+  textarea.select();
+  const copied = document.execCommand("copy");
+  document.body.removeChild(textarea);
+  if (!copied) {
+    throw new Error("Copy command failed");
+  }
+}
+
+function RichMarkdownEditor({ ariaLabel, height, onChange, preview = "live", value }: {
+  ariaLabel: string;
+  height: number;
+  onChange: (value: string) => void;
+  preview?: "edit" | "live" | "preview";
+  value: string;
+}) {
+  return (
+    <div className="richMarkdownEditor" data-color-mode="light">
+      <Suspense fallback={<div className="richMarkdownEditorFallback" style={{ height }}>编辑器加载中</div>}>
+        <LazyMarkdownEditor
+          height={height}
+          preview={preview}
+          textareaProps={{ "aria-label": ariaLabel }}
+          value={value}
+          onChange={(nextValue) => onChange(nextValue || "")}
+        />
+      </Suspense>
+    </div>
   );
 }
 
@@ -597,12 +671,109 @@ function AtCoderProblemEditor({ mode, form, labelOptions, onChange, onCancel, on
   onCancel: () => void;
   onSubmit: () => void | Promise<void>;
 }) {
+  const { message } = AntApp.useApp();
   const algorithmDomainOptions = mergeSelectedLabelOptions(labelOptions.algorithmDomains, form.algorithm_domains);
   const problemTypeOptions = mergeSelectedLabelOptions(labelOptions.problemTypeTags, form.problem_type_tags);
   const knowledgePointOptions = mergeSelectedLabelOptions(labelOptions.knowledgePoints, form.knowledge_points);
+  const imageUploadProps: UploadProps = {
+    accept: "image/*",
+    beforeUpload(file) {
+      void addUploadedImage(file);
+      return Upload.LIST_IGNORE;
+    },
+    showUploadList: false
+  };
+
+  function updateStatementSection(index: number, patch: Partial<AtCoderStatementSection>) {
+    onChange({
+      ...form,
+      statement_sections: form.statement_sections.map((section, currentIndex) => currentIndex === index ? { ...section, ...patch } : section)
+    });
+  }
+
+  function addStatementSection() {
+    onChange({
+      ...form,
+      statement_sections: [
+        ...form.statement_sections,
+        { id: createEditorId("section"), title: "补充说明", markdown: "" }
+      ]
+    });
+  }
+
+  function removeStatementSection(index: number) {
+    onChange({
+      ...form,
+      statement_sections: form.statement_sections.filter((_, currentIndex) => currentIndex !== index)
+    });
+  }
+
+  function updateSampleCase(index: number, patch: Partial<AtCoderProblem["statement"]["samples"][number]>) {
+    onChange({
+      ...form,
+      sample_cases: form.sample_cases.map((sample, currentIndex) => currentIndex === index ? { ...sample, ...patch } : sample)
+    });
+  }
+
+  function addSampleCase() {
+    onChange({
+      ...form,
+      sample_cases: [
+        ...form.sample_cases,
+        { id: createEditorId("sample"), input: "", output: "" }
+      ]
+    });
+  }
+
+  function removeSampleCase(index: number) {
+    onChange({
+      ...form,
+      sample_cases: form.sample_cases.filter((_, currentIndex) => currentIndex !== index)
+    });
+  }
+
+  async function addUploadedImage(file: File) {
+    try {
+      const dataUrl = await fileToDataUrl(file);
+      onChange({
+        ...form,
+        visual_assets: [
+          ...form.visual_assets,
+          {
+            id: createEditorId("asset"),
+            section_id: "",
+            source_url: dataUrl,
+            alt_text: stripFileExtension(file.name) || "题目图片",
+            status: "downloaded",
+            local_path: null,
+            asset_url: dataUrl,
+            content_type: file.type || null,
+            size_bytes: file.size
+          }
+        ]
+      });
+    } catch {
+      message.error("图片读取失败，请重新选择文件");
+    }
+  }
+
+  function updateVisualAsset(index: number, patch: Partial<EditorVisualAsset>) {
+    onChange({
+      ...form,
+      visual_assets: form.visual_assets.map((asset, currentIndex) => currentIndex === index ? { ...asset, ...patch } : asset)
+    });
+  }
+
+  function removeVisualAsset(index: number) {
+    onChange({
+      ...form,
+      visual_assets: form.visual_assets.filter((_, currentIndex) => currentIndex !== index)
+    });
+  }
 
   return (
     <Modal
+      afterOpenChange={handleEditorOpenChange}
       destroyOnHidden
       okText={mode === "create" ? "新增" : "保存"}
       onCancel={onCancel}
@@ -706,14 +877,142 @@ function AtCoderProblemEditor({ mode, form, labelOptions, onChange, onCancel, on
             label: "题面样例",
             children: (
               <Space className="atcoderEditorForm" orientation="vertical" size={12}>
-                <Alert showIcon type="info" message="这里编辑完整 statement 对象，包含题目描述、输入格式、输出格式、说明/提示、样例解释、输入输出样例、时间/内存限制等。" />
+                <Flex align="center" justify="space-between" gap={12}>
+                  <Typography.Text strong>题面段落</Typography.Text>
+                  <Button icon={<Plus size={14} />} onClick={addStatementSection} size="small">添加段落</Button>
+                </Flex>
+                <Space className="editorListBlock" orientation="vertical" size={10}>
+                  {form.statement_sections.map((section, index) => (
+                    <Card
+                      className="editorItemCard"
+                      key={section.id || index}
+                      size="small"
+                      title={`段落 ${index + 1}`}
+                      extra={(
+                        <Button
+                          aria-label="删除段落"
+                          disabled={form.statement_sections.length <= 1}
+                          icon={<Trash2 size={14} />}
+                          onClick={() => removeStatementSection(index)}
+                          size="small"
+                          type="text"
+                        />
+                      )}
+                    >
+                      <Space orientation="vertical" size={8}>
+                        <label>
+                          <Typography.Text strong>标题</Typography.Text>
+                          <Input value={section.title} onChange={(event) => updateStatementSection(index, { title: event.target.value })} />
+                        </label>
+                        <label>
+                          <Typography.Text strong>内容</Typography.Text>
+                          <RichMarkdownEditor
+                            ariaLabel={`段落 ${index + 1} 内容`}
+                            height={260}
+                            value={section.markdown}
+                            onChange={(markdown) => updateStatementSection(index, { markdown })}
+                          />
+                        </label>
+                      </Space>
+                    </Card>
+                  ))}
+                </Space>
+                <Flex gap={12} wrap="wrap">
+                  <label className="atcoderEditorInlineField">
+                    <Typography.Text strong>时间限制 ms</Typography.Text>
+                    <Input placeholder="留空表示未知" value={form.time_ms} onChange={(event) => onChange({ ...form, time_ms: event.target.value })} />
+                  </label>
+                  <label className="atcoderEditorInlineField">
+                    <Typography.Text strong>内存限制 KB</Typography.Text>
+                    <Input placeholder="留空表示未知" value={form.memory_kb} onChange={(event) => onChange({ ...form, memory_kb: event.target.value })} />
+                  </label>
+                </Flex>
+                <Flex align="center" justify="space-between" gap={12}>
+                  <Typography.Text strong>输入输出样例</Typography.Text>
+                  <Button icon={<Plus size={14} />} onClick={addSampleCase} size="small">添加样例</Button>
+                </Flex>
+                {form.sample_cases.length ? (
+                  <Space className="editorListBlock" orientation="vertical" size={10}>
+                    {form.sample_cases.map((sample, index) => (
+                      <Card
+                        className="editorItemCard"
+                        key={sample.id || index}
+                        size="small"
+                        title={`样例 ${index + 1}`}
+                        extra={(
+                          <Button aria-label="删除样例" icon={<Trash2 size={14} />} onClick={() => removeSampleCase(index)} size="small" type="text" />
+                        )}
+                      >
+                        <Flex gap={12} wrap="wrap">
+                          <label className="editorHalfField">
+                            <Typography.Text strong>输入</Typography.Text>
+                            <RichMarkdownEditor
+                              ariaLabel={`样例 ${index + 1} 输入`}
+                              height={180}
+                              preview="edit"
+                              value={sample.input}
+                              onChange={(input) => updateSampleCase(index, { input })}
+                            />
+                          </label>
+                          <label className="editorHalfField">
+                            <Typography.Text strong>输出</Typography.Text>
+                            <RichMarkdownEditor
+                              ariaLabel={`样例 ${index + 1} 输出`}
+                              height={180}
+                              preview="edit"
+                              value={sample.output}
+                              onChange={(output) => updateSampleCase(index, { output })}
+                            />
+                          </label>
+                        </Flex>
+                      </Card>
+                    ))}
+                  </Space>
+                ) : (
+                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无样例" />
+                )}
+                <Flex align="center" justify="space-between" gap={12}>
+                  <Typography.Text strong>题目图片</Typography.Text>
+                  <Upload {...imageUploadProps}>
+                    <Button icon={<UploadIcon size={14} />} size="small">上传图片</Button>
+                  </Upload>
+                </Flex>
+                {form.visual_assets.length ? (
+                  <Space className="editorListBlock" orientation="vertical" size={10}>
+                    {form.visual_assets.map((asset, index) => (
+                      <Card
+                        className="editorItemCard"
+                        key={asset.id || index}
+                        size="small"
+                        title={`图片 ${index + 1}`}
+                        extra={<Button aria-label="删除图片" icon={<Trash2 size={14} />} onClick={() => removeVisualAsset(index)} size="small" type="text" />}
+                      >
+                        <Flex className="editorImageRow" gap={12} wrap="wrap">
+                          <Image alt={asset.alt_text || "题目图片"} className="editorImagePreview" src={asset.asset_url} />
+                          <Space className="editorImageFields" orientation="vertical" size={8}>
+                            <label>
+                              <Typography.Text strong>图片说明</Typography.Text>
+                              <Input value={asset.alt_text} onChange={(event) => updateVisualAsset(index, { alt_text: event.target.value })} />
+                            </label>
+                            <label>
+                              <Typography.Text strong>来源链接</Typography.Text>
+                              <Input value={asset.source_url} onChange={(event) => updateVisualAsset(index, { source_url: event.target.value })} />
+                            </label>
+                          </Space>
+                        </Flex>
+                      </Card>
+                    ))}
+                  </Space>
+                ) : (
+                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无图片" />
+                )}
                 <label>
-                  <Typography.Text strong>题面 statement JSON</Typography.Text>
-                  <Input.TextArea rows={18} value={form.statement_json} onChange={(event) => onChange({ ...form, statement_json: event.target.value })} />
+                  <Typography.Text strong>题面备注</Typography.Text>
+                  <Input.TextArea rows={3} value={form.statement_notes} onChange={(event) => onChange({ ...form, statement_notes: event.target.value })} />
                 </label>
                 <label>
-                  <Typography.Text strong>图片 visual_assets JSON</Typography.Text>
-                  <Input.TextArea rows={10} value={form.visual_assets_json} onChange={(event) => onChange({ ...form, visual_assets_json: event.target.value })} />
+                  <Typography.Text strong>图片备注</Typography.Text>
+                  <Input.TextArea rows={2} value={form.visual_notes} onChange={(event) => onChange({ ...form, visual_notes: event.target.value })} />
                 </label>
               </Space>
             )
@@ -768,6 +1067,12 @@ function AtCoderProblemEditor({ mode, form, labelOptions, onChange, onCancel, on
       />
     </Modal>
   );
+
+  function handleEditorOpenChange(open: boolean) {
+    if (!open) {
+      restoreDocumentScrollAfterModalClose();
+    }
+  }
 }
 
 function filterDomainsByDifficulty(domains: AtCoderDomainGroup[], difficultyLabel: string): AtCoderDomainGroup[] {
@@ -816,12 +1121,6 @@ function collectAtCoderLabelOptions(domains: AtCoderDomainGroup[]): AtCoderLabel
         knowledgePoints.set(point.id, point.label);
       }
       for (const problem of type.problems) {
-        for (const item of problem.algorithm_domains) {
-          algorithmDomains.set(item.id, item.label);
-        }
-        for (const item of problem.problem_type_tags) {
-          problemTypeTags.set(item.id, item.label);
-        }
         for (const item of problem.knowledge_points) {
           knowledgePoints.set(item.id, item.label);
         }
@@ -891,27 +1190,18 @@ function emptyEditorForm(difficultyLabel: string): EditorForm {
     algorithm_domains: [{ id: "user_custom", label: "自定义" }],
     problem_type_tags: [{ id: "user_custom", label: "自定义" }],
     knowledge_points: [{ id: "user_custom", label: "自定义维护" }],
-    statement_json: formatEditorJson({
-      status: "source_extracted",
-      locale: "zh-CN",
-      source_terms_status: "needs_review",
-      source_url: sourceUrl,
-      atcoder_url: null,
-      sections: [
-        { id: "description", title: "题目描述", markdown: "" },
-        { id: "input", title: "输入格式", markdown: "" },
-        { id: "output", title: "输出格式", markdown: "" },
-        { id: "hint", title: "说明/提示", markdown: "" }
-      ],
-      samples: [],
-      limits: { time_ms: null, memory_kb: null },
-      notes: ["用户新增题目，题面待完善。"]
-    }),
-    visual_assets_json: formatEditorJson({
-      status: "none_found",
-      assets: [],
-      notes: []
-    }),
+    statement_sections: [
+      { id: "description", title: "题目描述", markdown: "" },
+      { id: "input", title: "输入格式", markdown: "" },
+      { id: "output", title: "输出格式", markdown: "" },
+      { id: "hint", title: "说明/提示", markdown: "" }
+    ],
+    sample_cases: [],
+    time_ms: "",
+    memory_kb: "",
+    statement_notes: "用户新增题目，题面待完善。",
+    visual_assets: [],
+    visual_notes: "",
     answer: "当前答案是 AI 生成，仅供参考。请在这里补充参考答案或思路。",
     solution_outline: "当前答案是 AI 生成，仅供参考；不是官方题解，正式提交前请复核。",
     review_note: "当前答案是 AI 生成，仅供参考；不是官方题解。",
@@ -937,8 +1227,13 @@ function problemToEditorForm(problem: AtCoderProblem): EditorForm {
     algorithm_domains: problem.algorithm_domains,
     problem_type_tags: problem.problem_type_tags,
     knowledge_points: problem.knowledge_points,
-    statement_json: formatEditorJson(problem.statement),
-    visual_assets_json: formatEditorJson(problem.visual_assets),
+    statement_sections: problem.statement.sections.length ? problem.statement.sections : [{ id: "description", title: "题目描述", markdown: "" }],
+    sample_cases: problem.statement.samples,
+    time_ms: problem.statement.limits.time_ms === null ? "" : String(problem.statement.limits.time_ms),
+    memory_kb: problem.statement.limits.memory_kb === null ? "" : String(problem.statement.limits.memory_kb),
+    statement_notes: problem.statement.notes.join("\n"),
+    visual_assets: problem.visual_assets.assets,
+    visual_notes: problem.visual_assets.notes.join("\n"),
     answer: problem.answer_guidance.answer,
     solution_outline: problem.answer_guidance.solution_outline,
     review_note: problem.answer_guidance.review_note,
@@ -954,8 +1249,9 @@ function problemToEditorForm(problem: AtCoderProblem): EditorForm {
 function editorFormToProblemPayload(form: EditorForm, currentProblem: AtCoderProblem | null): Partial<AtCoderProblem> {
   const difficulty = DIFFICULTY_TABS.find((tab) => tab.key === form.difficulty_label)?.difficulty || 3;
   const sourceUrl = form.source_url.trim() || `https://www.luogu.com.cn/problem/${form.pid}`;
-  const statement = parseEditorJson<AtCoderProblem["statement"]>(form.statement_json, "题面 statement JSON");
-  const visualAssets = parseEditorJson<AtCoderProblem["visual_assets"]>(form.visual_assets_json, "图片 visual_assets JSON");
+  const statementSections = normalizeStatementSections(form.statement_sections);
+  const sampleCases = normalizeSampleCases(form.sample_cases);
+  const visualAssets = normalizeVisualAssets(form.visual_assets);
   const solutionCode = form.solution_code.trim();
 
   return {
@@ -974,10 +1270,31 @@ function editorFormToProblemPayload(form: EditorForm, currentProblem: AtCoderPro
     knowledge_points: form.knowledge_points,
     tags: currentProblem?.tags || [],
     statement: {
-      ...statement,
-      source_url: statement.source_url || sourceUrl
+      ...(currentProblem?.statement || {
+        status: "source_extracted",
+        locale: "zh-CN",
+        source_terms_status: "needs_review",
+        atcoder_url: null
+      }),
+      status: "source_extracted",
+      locale: currentProblem?.statement.locale || "zh-CN",
+      source_terms_status: "needs_review",
+      source_url: sourceUrl,
+      atcoder_url: currentProblem?.statement.atcoder_url || null,
+      sections: statementSections,
+      samples: sampleCases,
+      limits: {
+        time_ms: parseOptionalIntegerField(form.time_ms, "时间限制"),
+        memory_kb: parseOptionalIntegerField(form.memory_kb, "内存限制")
+      },
+      notes: splitEditorLines(form.statement_notes)
     },
-    visual_assets: visualAssets,
+    visual_assets: {
+      ...(currentProblem?.visual_assets || {}),
+      status: visualAssets.length ? "source_extracted" : "none_found",
+      assets: visualAssets,
+      notes: splitEditorLines(form.visual_notes)
+    },
     answer_guidance: {
       ...(currentProblem?.answer_guidance || {
         status: "reference_link",
@@ -1015,14 +1332,6 @@ function editorFormToProblemPayload(form: EditorForm, currentProblem: AtCoderPro
   };
 }
 
-function parseEditorJson<T>(value: string, label: string): T {
-  try {
-    return JSON.parse(value) as T;
-  } catch (error) {
-    throw new Error(`${label} 不是合法 JSON：${error instanceof Error ? error.message : "解析失败"}`);
-  }
-}
-
 function parseIntegerField(value: string, label: string) {
   const numeric = Number(value || 0);
   if (!Number.isInteger(numeric) || numeric < 0) {
@@ -1031,6 +1340,93 @@ function parseIntegerField(value: string, label: string) {
   return numeric;
 }
 
-function formatEditorJson(value: unknown) {
-  return JSON.stringify(value, null, 2);
+function parseOptionalIntegerField(value: string, label: string) {
+  if (!value.trim()) {
+    return null;
+  }
+  return parseIntegerField(value, label);
+}
+
+function normalizeStatementSections(sections: AtCoderStatementSection[]) {
+  const normalized = sections
+    .map((section, index) => ({
+      id: section.id || `section_${index + 1}`,
+      title: section.title.trim() || `段落 ${index + 1}`,
+      markdown: section.markdown
+    }))
+    .filter((section) => section.title.trim() || section.markdown.trim());
+
+  return normalized.length ? normalized : [{ id: "description", title: "题目描述", markdown: "" }];
+}
+
+function normalizeSampleCases(samples: AtCoderProblem["statement"]["samples"]) {
+  return samples
+    .map((sample, index) => ({
+      id: sample.id || `sample_${index + 1}`,
+      input: sample.input,
+      output: sample.output
+    }))
+    .filter((sample) => sample.input.trim() || sample.output.trim());
+}
+
+function normalizeVisualAssets(assets: EditorVisualAsset[]) {
+  return assets
+    .map((asset, index) => ({
+      ...asset,
+      id: asset.id || `asset_${index + 1}`,
+      section_id: asset.section_id || "",
+      source_url: asset.source_url || asset.asset_url,
+      alt_text: asset.alt_text.trim() || `题目图片 ${index + 1}`,
+      status: asset.status || "downloaded",
+      local_path: asset.local_path ?? null,
+      asset_url: asset.asset_url
+    }))
+    .filter((asset) => asset.asset_url.trim());
+}
+
+function splitEditorLines(value: string) {
+  return value.split("\n").map((line) => line.trim()).filter(Boolean);
+}
+
+function createEditorId(prefix: string) {
+  return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function stripFileExtension(filename: string) {
+  return filename.replace(/\.[^.]+$/, "");
+}
+
+function fileToDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        resolve(reader.result);
+        return;
+      }
+      reject(new Error("FileReader result is not a string"));
+    };
+    reader.onerror = () => reject(reader.error || new Error("FileReader failed"));
+    reader.readAsDataURL(file);
+  });
+}
+
+function restoreDocumentScrollAfterModalClose() {
+  const restore = () => {
+    if (document.querySelector(".ant-modal-wrap") || document.querySelector(".ant-modal-mask")) {
+      return;
+    }
+    if (document.body.style.overflow.includes("hidden")) {
+      document.body.style.overflow = "";
+    }
+    if (document.body.style.width) {
+      document.body.style.width = "";
+    }
+    if (document.body.style.paddingRight) {
+      document.body.style.paddingRight = "";
+    }
+  };
+
+  window.setTimeout(restore, 0);
+  window.setTimeout(restore, 180);
 }

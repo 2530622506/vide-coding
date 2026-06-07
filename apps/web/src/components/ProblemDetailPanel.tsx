@@ -4,8 +4,8 @@ import "highlight.js/styles/github-dark.css";
 import MarkdownIt from "markdown-it";
 import mathjax3 from "markdown-it-mathjax3";
 import { useEffect, useMemo, useState } from "react";
-import { Alert, Button, Card, Empty, Flex, Image, List, Space, Tag, Typography } from "antd";
-import { BookOpenCheck, CheckCircle2, Code2, ExternalLink, FileText, Image as ImageIcon, ListChecks, X } from "lucide-react";
+import { Alert, App as AntApp, Button, Card, Empty, Flex, Image, List, Space, Tag, Typography } from "antd";
+import { BookOpenCheck, Check, CheckCircle2, Code2, Copy, ExternalLink, FileText, Image as ImageIcon, ListChecks, X } from "lucide-react";
 import type { ProblemDetailResponse } from "../types";
 import { AnswerBadge, typeLabel } from "./catalogLabels";
 import { ImagePreviewOverlay, type PreviewAsset } from "./ImagePreviewOverlay";
@@ -271,6 +271,8 @@ function SampleCasesBlock({ detail }: { detail: NonNullable<ProblemDetailRespons
 }
 
 function HighlightedCppCode({ code }: { code: string }) {
+  const { message } = AntApp.useApp();
+  const [copied, setCopied] = useState(false);
   const highlighted = useMemo(() => {
     return hljs.highlight(code, {
       language: "cpp",
@@ -278,11 +280,50 @@ function HighlightedCppCode({ code }: { code: string }) {
     }).value;
   }, [code]);
 
+  async function copyCode() {
+    try {
+      await copyTextToClipboard(code);
+      setCopied(true);
+      message.success("代码已复制");
+      window.setTimeout(() => setCopied(false), 1600);
+    } catch {
+      message.error("复制失败，请手动选择代码");
+    }
+  }
+
   return (
-    <pre className="codeBlock">
-      <code className="hljs language-cpp" dangerouslySetInnerHTML={{ __html: highlighted }} />
-    </pre>
+    <div className="codeBlockFrame">
+      <div className="codeToolbar">
+        <Button icon={copied ? <Check size={14} /> : <Copy size={14} />} onClick={copyCode} size="small" type="text">
+          {copied ? "已复制" : "复制代码"}
+        </Button>
+      </div>
+      <pre className="codeBlock">
+        <code className="hljs language-cpp" dangerouslySetInnerHTML={{ __html: highlighted }} />
+      </pre>
+    </div>
   );
+}
+
+async function copyTextToClipboard(text: string) {
+  if (navigator.clipboard?.writeText && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  textarea.style.top = "0";
+  document.body.appendChild(textarea);
+  textarea.select();
+  const copied = document.execCommand("copy");
+  document.body.removeChild(textarea);
+  if (!copied) {
+    throw new Error("Copy command failed");
+  }
 }
 
 function DataGap({ status, notes }: { status: string; notes: string[] }) {

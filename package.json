@@ -90,6 +90,7 @@
     "@types/node": "^25.9.1",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
+    "@uiw/react-md-editor": "^4.1.1",
     "@vitejs/plugin-react": "^6.0.2",
     "ahooks": "^3.9.7",
     "antd": "^6.4.3",

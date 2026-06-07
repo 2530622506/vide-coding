@@ -135,14 +135,10 @@ export type AtCoderProblemSummary = Pick<
   | "title_zh_source"
   | "difficulty"
   | "difficulty_label"
-  | "source_url"
   | "total_submit"
   | "total_accepted"
   | "acceptance_rate"
-  | "algorithm_domains"
-  | "problem_type_tags"
   | "knowledge_points"
-  | "answer_guidance"
 >;
 
 type AtCoderProblemTypeIndex = {
@@ -188,6 +184,21 @@ type AtCoderBankData = {
   problems: AtCoderProblem[];
 };
 
+type AtCoderProblemTypeResponse = Omit<AtCoderProblemTypeIndex, "problems"> & {
+  problems: AtCoderProblemSummary[];
+};
+
+type AtCoderDomainResponse = Omit<AtCoderDomainIndex, "problem_types"> & {
+  problem_types: AtCoderProblemTypeResponse[];
+};
+
+type AtCoderCatalogResponse = {
+  generated_at: string;
+  source: AtCoderBankData["source"];
+  summary: AtCoderBankData["summary"];
+  domains: AtCoderDomainResponse[];
+};
+
 type AtCoderProblemTypeBucket = Omit<AtCoderProblemTypeIndex, "knowledge_points"> & {
   knowledge_points: Map<string, AtCoderLabel>;
 };
@@ -200,12 +211,17 @@ type AtCoderDomainBucket = Omit<AtCoderDomainIndex, "problem_types"> & {
 export class AtCoderCatalogService {
   private readonly dataPath = "data/atcoder/luogu-atcoder-problem-bank.json";
   private readonly assetRoot = "data/atcoder/assets";
+  private catalogCache: AtCoderCatalogResponse | null = null;
 
   async getCatalog() {
+    if (this.catalogCache) {
+      return this.catalogCache;
+    }
+
     const bank = await this.loadBank();
     const problemById = new Map(bank.problems.map((problem) => [problem.id, problem]));
 
-    return {
+    this.catalogCache = {
       generated_at: bank.generated_at,
       source: bank.source,
       summary: bank.summary,
@@ -220,6 +236,7 @@ export class AtCoderCatalogService {
         }))
       }))
     };
+    return this.catalogCache;
   }
 
   async getProblem(id: string) {
@@ -287,14 +304,10 @@ export class AtCoderCatalogService {
       title_zh_source: problem.title_zh_source,
       difficulty: problem.difficulty,
       difficulty_label: problem.difficulty_label,
-      source_url: problem.source_url,
       total_submit: problem.total_submit,
       total_accepted: problem.total_accepted,
       acceptance_rate: problem.acceptance_rate,
-      algorithm_domains: problem.algorithm_domains,
-      problem_type_tags: problem.problem_type_tags,
-      knowledge_points: problem.knowledge_points,
-      answer_guidance: problem.answer_guidance
+      knowledge_points: problem.knowledge_points
     };
   }
 
@@ -344,6 +357,7 @@ export class AtCoderCatalogService {
 
   private async saveProblems(problems: AtCoderProblem[], previousBank: AtCoderBankData) {
     const bank = this.rebuildCatalog(problems, previousBank);
+    this.catalogCache = null;
     const connection = await this.mysqlConnection();
     if (!connection) {
       writeFileSync(resolve(process.cwd(), this.dataPath), `${JSON.stringify(bank, null, 2)}\n`, "utf8");
