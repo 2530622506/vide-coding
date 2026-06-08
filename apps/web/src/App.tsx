@@ -1,4 +1,4 @@
-import { Alert, App as AntApp, Button, Card, ConfigProvider, Flex, FloatButton, Input, Modal, Radio, Space, theme, Typography } from "antd";
+import { Alert, App as AntApp, Button, Card, ConfigProvider, Empty, Flex, FloatButton, Input, Modal, Radio, Space, theme, Typography } from "antd";
 import { AlertTriangle, Binary, ChevronDown, ChevronUp, Database, GitBranch, Layers3, ListChecks, Pencil, Plus, RefreshCw, Trophy, Trash2 } from "lucide-react";
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
@@ -8,6 +8,7 @@ import { DomainNav } from "./components/DomainNav";
 import { Metric } from "./components/Metric";
 import { ProblemEditorModal } from "./components/ProblemEditorModal";
 import { ReviewQueuePane } from "./components/ReviewQueuePane";
+import { filterLevelCatalogByQuery } from "./catalogSearch";
 import { emptyEditorForm, formFromProblem, formToPayload } from "./editor";
 import type { EditorMode, ProblemEditorForm } from "./editor";
 import type { LevelCatalog, LevelSummary, ProblemDetailResponse, ReviewActionResult, ReviewQueueItem, ReviewQueueResponse, ReviewQueueSummary } from "./types";
@@ -128,6 +129,7 @@ function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => vo
   const [levels, setLevels] = useState<LevelSummary[]>([]);
   const [selectedLevel, setSelectedLevel] = useState(5);
   const [catalog, setCatalog] = useState<LevelCatalog | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [reviewSummary, setReviewSummary] = useState<ReviewQueueSummary | null>(null);
   const [reviewQueue, setReviewQueue] = useState<ReviewQueueItem[]>([]);
   const [activeDomainId, setActiveDomainId] = useState<string | null>(null);
@@ -157,6 +159,7 @@ function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => vo
   } as WorkspaceStyle;
 
   const selectedLevelSummary = levels.find((level) => level.level === selectedLevel);
+  const visibleCatalog = useMemo(() => filterLevelCatalogByQuery(catalog, searchQuery), [catalog, searchQuery]);
   const stickyControlsCollapsed = stickyControlsPinned && !stickyControlsExpanded;
   const stickyControlsClassName = [
     "stickyControls",
@@ -178,6 +181,15 @@ function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => vo
   useEffect(() => {
     void loadCatalogLevel(selectedLevel);
   }, [selectedLevel]);
+
+  useEffect(() => {
+    if (!visibleCatalog) {
+      return;
+    }
+    if (!visibleCatalog.domains.some((domain) => domain.domain_id === activeDomainId)) {
+      setActiveDomainId(visibleCatalog.domains[0]?.domain_id || null);
+    }
+  }, [activeDomainId, visibleCatalog]);
 
   useEffect(() => {
     window.localStorage.setItem(DETAIL_PANE_WIDTH_KEY, String(detailColumnWidth));
@@ -292,11 +304,11 @@ function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => vo
   }
 
   const activeDomain = useMemo(() => {
-    if (!catalog) {
+    if (!visibleCatalog) {
       return null;
     }
-    return catalog.domains.find((domain) => domain.domain_id === activeDomainId) || catalog.domains[0] || null;
-  }, [activeDomainId, catalog]);
+    return visibleCatalog.domains.find((domain) => domain.domain_id === activeDomainId) || visibleCatalog.domains[0] || null;
+  }, [activeDomainId, visibleCatalog]);
 
   const visibleReviewItems = useMemo(() => {
     return reviewQueue
@@ -497,6 +509,13 @@ function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => vo
               <Button disabled={!selectedProblem} icon={<Pencil size={16} />} onClick={startEdit}>修改当前</Button>
               <Button danger disabled={!selectedProblem || saving} icon={<Trash2 size={16} />} onClick={deleteSelectedProblem}>删除当前</Button>
             </Space>
+            <Input.Search
+              allowClear
+              className="catalogSearchInput"
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder="搜索题号、标题、题型、知识点"
+              value={searchQuery}
+            />
 
             {stickyControlsPinned ? (
               <div className="stickyControlsSummary" aria-hidden={stickyControlsExpanded}>
@@ -504,10 +523,10 @@ function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => vo
                   {selectedLevel} 级
                   <strong>{selectedLevelSummary?.problem_count ?? 0}</strong>
                 </span>
-                <span>题目 <strong>{catalog?.summary.problem_count ?? 0}</strong></span>
-                <span>算法 <strong>{catalog?.domains.length ?? 0}</strong></span>
-                <span>题型 <strong>{catalog?.summary.problem_type_count ?? 0}</strong></span>
-                <span>知识点 <strong>{catalog?.summary.knowledge_point_count ?? 0}</strong></span>
+                <span>题目 <strong>{visibleCatalog?.summary.problem_count ?? 0}</strong></span>
+                <span>算法 <strong>{visibleCatalog?.domains.length ?? 0}</strong></span>
+                <span>题型 <strong>{visibleCatalog?.summary.problem_type_count ?? 0}</strong></span>
+                <span>知识点 <strong>{visibleCatalog?.summary.knowledge_point_count ?? 0}</strong></span>
                 <span className="stickyReviewCount">复核 <strong>{reviewSummary?.summary.total_count ?? 0}</strong></span>
                 {error ? <span className="stickyWarning">提示</span> : null}
               </div>
@@ -543,12 +562,17 @@ function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => vo
               </Radio.Group>
 
               {error ? <Alert className="notice" icon={<AlertTriangle size={18} />} message={error} showIcon type="warning" /> : null}
+              {searchQuery.trim() ? (
+                <Typography.Text className="searchSummary">
+                  搜索结果：{visibleCatalog?.summary.problem_count ?? 0} 题
+                </Typography.Text>
+              ) : null}
 
               <section className="metricGrid">
-                <Metric icon={<Layers3 size={18} />} label="题目" value={catalog?.summary.problem_count ?? 0} />
-                <Metric icon={<GitBranch size={18} />} label="算法范畴" value={catalog?.domains.length ?? 0} />
-                <Metric icon={<Binary size={18} />} label="题型" value={catalog?.summary.problem_type_count ?? 0} />
-                <Metric icon={<ListChecks size={18} />} label="知识点" value={catalog?.summary.knowledge_point_count ?? 0} />
+                <Metric icon={<Layers3 size={18} />} label="题目" value={visibleCatalog?.summary.problem_count ?? 0} />
+                <Metric icon={<GitBranch size={18} />} label="算法范畴" value={visibleCatalog?.domains.length ?? 0} />
+                <Metric icon={<Binary size={18} />} label="题型" value={visibleCatalog?.summary.problem_type_count ?? 0} />
+                <Metric icon={<ListChecks size={18} />} label="知识点" value={visibleCatalog?.summary.knowledge_point_count ?? 0} />
                 <Metric icon={<AlertTriangle size={18} />} label="复核项" value={reviewSummary?.summary.total_count ?? 0} tone="warn" />
               </section>
             </div>
@@ -558,12 +582,15 @@ function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => vo
         <section className="workspace" ref={workspaceRef} style={workspaceStyle}>
           <DomainNav
             activeDomainId={activeDomain?.domain_id || null}
-            domains={catalog?.domains || []}
+            domains={visibleCatalog?.domains || []}
             onSelect={setActiveDomainId}
           />
 
           <Card className="catalogPane" loading={loading}>
             {!loading && activeDomain ? <DomainPanel domain={activeDomain} selectedProblemId={selectedProblemId} onProblemSelect={openProblem} /> : null}
+            {!loading && !activeDomain ? (
+              <Empty description={searchQuery.trim() ? "没有匹配的题目" : "暂无题目"} image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            ) : null}
           </Card>
 
           <aside className="sidePane">

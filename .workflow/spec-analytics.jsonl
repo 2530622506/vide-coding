@@ -138,3 +138,4 @@
 {"type":"cli","id":"CLI-1780806228991-1","timestamp":"2026-06-07T04:23:48.991Z","command":"spec load","args":{"keyword":"atcoder","stdin":false}}
 {"type":"cli","id":"CLI-1780836863981-1","timestamp":"2026-06-07T12:54:23.981Z","command":"spec load","args":{"keyword":"online-compiler","stdin":false}}
 {"type":"cli","id":"CLI-1780841846614-1","timestamp":"2026-06-07T14:17:26.614Z","command":"spec load","args":{"keyword":"tab 题目","stdin":false}}
+{"type":"cli","id":"CLI-1780844628442-1","timestamp":"2026-06-07T15:03:48.442Z","command":"spec load","args":{"keyword":"search","stdin":false}}

@@ -139,6 +139,22 @@ button {
   z-index: 2;
 }
 
+.catalogSearchInput.ant-input-search {
+  flex: 1 1 320px;
+  max-width: 520px;
+  min-width: 260px;
+}
+
+.catalogSearchRow {
+  margin: 0 auto 16px;
+  max-width: 1480px;
+}
+
+.searchSummary {
+  color: #617080;
+  white-space: nowrap;
+}
+
 .stickyControls:not(.isPinned) .stickyControlsTop {
   margin-bottom: 16px;
 }
@@ -1767,9 +1783,16 @@ body.isResizingDetailPane .detailPane {
     flex-wrap: wrap;
   }
 
+  .catalogSearchInput.ant-input-search {
+    flex-basis: 100%;
+    max-width: none;
+    min-width: 0;
+    order: 2;
+  }
+
   .stickyControlsSummary {
     flex-basis: 100%;
-    order: 3;
+    order: 4;
   }
 
   .stickyControls.isPinned .actionBar {

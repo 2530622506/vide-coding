@@ -12,6 +12,7 @@ import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import type { CSSProperties, KeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from "react";
 import { DomainNav } from "../components/DomainNav";
 import { Metric } from "../components/Metric";
+import { filterAtCoderDomainsByQuery } from "../catalogSearch";
 import { createAtCoderProblem, deleteAtCoderProblem, fetchAtCoderCatalog, fetchAtCoderProblem, updateAtCoderProblem } from "../services/atcoderCatalog";
 import type { AtCoderDomainGroup, AtCoderProblem, AtCoderProblemSummary, AtCoderStatementSection } from "../types/atcoder";
 
@@ -103,6 +104,7 @@ export function AtCoderCatalogPage({ onBack, onOpenIde }: Props) {
   const [activeDomainId, setActiveDomainId] = useState<string | null>(null);
   const [selectedProblemId, setSelectedProblemId] = useState<string | null>(null);
   const [activeDifficulty, setActiveDifficulty] = useState<string>(DIFFICULTY_TABS[0].key);
+  const [searchQuery, setSearchQuery] = useState("");
   const [editorMode, setEditorMode] = useState<EditorMode | null>(null);
   const [editorForm, setEditorForm] = useState<EditorForm>(emptyEditorForm(DIFFICULTY_TABS[0].key));
   const [detailColumnWidth, setDetailColumnWidth] = useState(480);
@@ -114,19 +116,21 @@ export function AtCoderCatalogPage({ onBack, onOpenIde }: Props) {
 
   const catalog = catalogRequest.data || null;
   const filteredDomains = useMemo(() => filterDomainsByDifficulty(catalog?.domains || [], activeDifficulty), [activeDifficulty, catalog?.domains]);
+  const visibleDomains = useMemo(() => filterAtCoderDomainsByQuery(filteredDomains, searchQuery), [filteredDomains, searchQuery]);
+  const visibleProblemCount = useMemo(() => visibleDomains.reduce((sum, domain) => sum + domain.problem_count, 0), [visibleDomains]);
   const labelOptions = useMemo(() => collectAtCoderLabelOptions(catalog?.domains || []), [catalog?.domains]);
   const activeDomain = useMemo(() => {
-    if (!filteredDomains.length) {
+    if (!visibleDomains.length) {
       return null;
     }
-    return filteredDomains.find((domain) => domain.domain_id === activeDomainId) || filteredDomains[0] || null;
-  }, [activeDomainId, filteredDomains]);
+    return visibleDomains.find((domain) => domain.domain_id === activeDomainId) || visibleDomains[0] || null;
+  }, [activeDomainId, visibleDomains]);
 
   useEffect(() => {
-    if (!filteredDomains.some((domain) => domain.domain_id === activeDomainId)) {
-      setActiveDomainId(filteredDomains[0]?.domain_id || null);
+    if (!visibleDomains.some((domain) => domain.domain_id === activeDomainId)) {
+      setActiveDomainId(visibleDomains[0]?.domain_id || null);
     }
-  }, [activeDomainId, filteredDomains]);
+  }, [activeDomainId, visibleDomains]);
 
   function openProblem(problemId: string) {
     setSelectedProblemId(problemId);
@@ -256,11 +260,23 @@ export function AtCoderCatalogPage({ onBack, onOpenIde }: Props) {
           problemRequest.mutate(undefined);
         }}
       />
+      <Flex className="catalogSearchRow" align="center" gap={12} wrap="wrap">
+        <Input.Search
+          allowClear
+          className="catalogSearchInput"
+          onChange={(event) => setSearchQuery(event.target.value)}
+          placeholder="搜索题号、标题、题型、知识点"
+          value={searchQuery}
+        />
+        {searchQuery.trim() ? (
+          <Typography.Text className="searchSummary">搜索结果：{visibleProblemCount} 题</Typography.Text>
+        ) : null}
+      </Flex>
 
       <section className="workspace atcoderWorkspace" style={workspaceStyle}>
         <DomainNav
           activeDomainId={activeDomain?.domain_id || null}
-          domains={filteredDomains}
+          domains={visibleDomains}
           onSelect={setActiveDomainId}
         />
 
@@ -273,7 +289,7 @@ export function AtCoderCatalogPage({ onBack, onOpenIde }: Props) {
             />
           ) : null}
           {!catalogRequest.loading && !activeDomain ? (
-            <Empty description="暂无 AtCoder 题目数据" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            <Empty description={searchQuery.trim() ? "没有匹配的题目" : "暂无 AtCoder 题目数据"} image={Empty.PRESENTED_IMAGE_SIMPLE} />
           ) : null}
         </Card>
 
