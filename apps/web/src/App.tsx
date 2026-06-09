@@ -7,11 +7,10 @@ import { DomainPanel } from "./components/DomainPanel";
 import { DomainNav } from "./components/DomainNav";
 import { Metric } from "./components/Metric";
 import { ProblemEditorModal } from "./components/ProblemEditorModal";
-import { ReviewQueuePane } from "./components/ReviewQueuePane";
 import { filterLevelCatalogByQuery } from "./catalogSearch";
 import { emptyEditorForm, formFromProblem, formToPayload } from "./editor";
 import type { EditorMode, ProblemEditorForm } from "./editor";
-import type { LevelCatalog, LevelSummary, ProblemDetailResponse, ReviewActionResult, ReviewQueueItem, ReviewQueueResponse, ReviewQueueSummary } from "./types";
+import type { LevelCatalog, LevelSummary, ProblemDetailResponse, ReviewQueueSummary } from "./types";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 const AtCoderCatalogPage = lazy(() => import("./pages/AtCoderCatalogPage").then((module) => ({ default: module.AtCoderCatalogPage })));
@@ -25,14 +24,6 @@ const DETAIL_PANE_MAX_WIDTH = 720;
 
 type WorkspaceStyle = CSSProperties & {
   "--detail-column-width"?: string;
-};
-
-type ReviewAction = "confirm" | "reject" | "merge_duplicate";
-
-const reviewActionLabel: Record<ReviewAction, string> = {
-  confirm: "确认",
-  reject: "拒绝",
-  merge_duplicate: "合并重复"
 };
 
 async function fetchJson<T>(path: string): Promise<T> {
@@ -131,7 +122,6 @@ function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => vo
   const [catalog, setCatalog] = useState<LevelCatalog | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [reviewSummary, setReviewSummary] = useState<ReviewQueueSummary | null>(null);
-  const [reviewQueue, setReviewQueue] = useState<ReviewQueueItem[]>([]);
   const [activeDomainId, setActiveDomainId] = useState<string | null>(null);
   const [selectedProblemId, setSelectedProblemId] = useState<string | null>(null);
   const [selectedProblem, setSelectedProblem] = useState<ProblemDetailResponse | null>(null);
@@ -141,8 +131,6 @@ function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => vo
   const [editorMode, setEditorMode] = useState<EditorMode | null>(null);
   const [editorForm, setEditorForm] = useState<ProblemEditorForm>(() => emptyEditorForm(5));
   const [saving, setSaving] = useState(false);
-  const [reviewActionBusyId, setReviewActionBusyId] = useState<string | null>(null);
-  const [reviewActionMessage, setReviewActionMessage] = useState<string | null>(null);
   const [detailColumnWidth, setDetailColumnWidth] = useState(() => readStoredDetailColumnWidth());
   const [stickyControlsPinned, setStickyControlsPinned] = useState(false);
   const [stickyControlsExpanded, setStickyControlsExpanded] = useState(false);
@@ -267,13 +255,11 @@ function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => vo
   async function loadShell() {
     return Promise.all([
       fetchJson<{ levels: LevelSummary[] }>("/catalog/levels"),
-      fetchJson<ReviewQueueSummary>("/catalog/review-queue/summary"),
-      fetchJson<ReviewQueueResponse>("/catalog/review-queue")
+      fetchJson<ReviewQueueSummary>("/catalog/review-queue/summary")
     ])
-      .then(([levelResponse, reviewResponse, queueResponse]) => {
+      .then(([levelResponse, reviewResponse]) => {
         setLevels(levelResponse.levels);
         setReviewSummary(reviewResponse);
-        setReviewQueue(queueResponse.items);
       })
       .catch((currentError: unknown) => {
         setError(currentError instanceof Error ? currentError.message : "API 请求失败");
@@ -309,12 +295,6 @@ function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => vo
     }
     return visibleCatalog.domains.find((domain) => domain.domain_id === activeDomainId) || visibleCatalog.domains[0] || null;
   }, [activeDomainId, visibleCatalog]);
-
-  const visibleReviewItems = useMemo(() => {
-    return reviewQueue
-      .filter((item) => item.status === "open")
-      .slice(0, 10);
-  }, [reviewQueue]);
 
   function openProblem(problemId: string) {
     setSelectedProblemId(problemId);
@@ -442,50 +422,6 @@ function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => vo
         }
       }
     });
-  }
-
-  function applyReviewAction(item: ReviewQueueItem, action: ReviewAction) {
-    let note = item.recommended_action || item.reason;
-    Modal.confirm({
-      title: `${reviewActionLabel[action]}复核项`,
-      content: (
-        <Space direction="vertical" size={8}>
-          <Typography.Text>{item.title}</Typography.Text>
-          <Input.TextArea defaultValue={note} onChange={(event) => { note = event.target.value; }} rows={4} />
-        </Space>
-      ),
-      okText: reviewActionLabel[action],
-      cancelText: "取消",
-      onOk: () => submitReviewAction(item, action, note)
-    });
-  }
-
-  async function submitReviewAction(item: ReviewQueueItem, action: ReviewAction, note: string) {
-    setReviewActionBusyId(item.id);
-    setReviewActionMessage(null);
-    setError(null);
-    try {
-      const result = await requestJson<ReviewActionResult>(`/catalog/review-queue/${encodeURIComponent(item.id)}/actions`, {
-        method: "POST",
-        body: JSON.stringify({
-          action,
-          reviewer: "local-reviewer",
-          note
-        })
-      });
-      setReviewQueue((items) => items.map((current) => current.id === item.id ? result.item : current));
-      setReviewActionMessage(`${reviewActionLabel[action]}：${item.title}`);
-      await loadShell();
-      await loadCatalogLevel(selectedLevel);
-      if (item.canonical_problem_id && item.canonical_problem_id === selectedProblemId) {
-        openProblem(item.canonical_problem_id);
-      }
-    } catch (currentError) {
-      setError(currentError instanceof Error ? currentError.message : "复核动作提交失败");
-      throw currentError;
-    } finally {
-      setReviewActionBusyId(null);
-    }
   }
 
   return (
@@ -629,14 +565,6 @@ function GespCatalogPage({ onOpenAtCoder, onOpenIde }: { onOpenAtCoder: () => vo
                 />
               </Suspense>
             </Card>
-
-            <ReviewQueuePane
-              busyId={reviewActionBusyId}
-              items={visibleReviewItems}
-              message={reviewActionMessage}
-              onAction={applyReviewAction}
-              summary={reviewSummary}
-            />
           </aside>
         </section>
         <ProblemEditorModal
