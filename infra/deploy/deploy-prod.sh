@@ -4,7 +4,6 @@ set -euo pipefail
 ENV_FILE="${ENV_FILE:-.env.prod}"
 COMPOSE_FILE="${COMPOSE_FILE:-docker-compose.prod.yml}"
 SEED_ON_DEPLOY="${SEED_ON_DEPLOY:-false}"
-IMAGE_REGISTRY="${IMAGE_REGISTRY:-ghcr.io}"
 
 if ! command -v docker >/dev/null 2>&1; then
   echo "Docker is required but was not found." >&2
@@ -24,13 +23,7 @@ if [[ ! -f "$ENV_FILE" ]]; then
   exit 1
 fi
 
-if [[ -n "${GHCR_USERNAME:-}" && -n "${GHCR_TOKEN:-}" ]]; then
-  echo "$GHCR_TOKEN" | docker login "$IMAGE_REGISTRY" -u "$GHCR_USERNAME" --password-stdin
-fi
-
-docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" pull
-
-docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" up -d
+docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" up -d --build
 
 if [[ "$SEED_ON_DEPLOY" == "true" ]]; then
   docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" --profile seed run --rm seed

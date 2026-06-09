@@ -1,7 +1,7 @@
 # 腾讯云轻量服务器 Docker 部署手册
 
-> 当前仓库已新增 `GitHub Actions + GHCR + Docker Compose` 自动部署方案。  
-> 本文档保留“服务器环境准备”和“本机手工部署”参考；如果要使用自动部署，请优先阅读 [github-actions-ghcr-auto-deploy.md](/Users/zz/AI%20learning/vibe%20coding/docs/github-actions-ghcr-auto-deploy.md:1)。
+> 当前仓库已切换到 `GitHub Actions + SSH + 服务器本地构建` 自动部署方案。  
+> 本文档保留“服务器环境准备”和“本机手工部署”参考；如果要使用自动部署，请优先阅读 [github-actions-ssh-build-auto-deploy.md](/Users/zz/AI%20learning/vibe%20coding/docs/github-actions-ssh-build-auto-deploy.md:1)。
 
 本文档记录当前项目部署到腾讯云轻量服务器的完整流程，可作为后续新服务器部署参考。
 
@@ -195,9 +195,9 @@ SSH_KEY=~/.ssh/tencent_lighthouse_gesp DEPLOY_HOST=193.112.176.242 DEPLOY_USER=r
 
 ```text
 push 到 main
--> GitHub Actions 构建并推送 GHCR 镜像
--> 服务器 pull 镜像
--> docker compose up -d
+-> GitHub Actions 构建校验
+-> rsync 同步代码到服务器
+-> 服务器 docker compose up -d --build
 ```
 
 首次需要准备：
@@ -205,8 +205,8 @@ push 到 main
 ```text
 1. GitHub 仓库 Secrets
 2. 服务器 /opt/gesp-catalog/.env.prod
-3. 服务器可访问 ghcr.io
-4. 如镜像私有，服务器需要 docker login ghcr.io
+3. 服务器安装 rsync
+4. 服务器安装 docker compose
 ```
 
 工作流文件：
@@ -219,7 +219,6 @@ push 到 main
 
 ```text
 Deploy Production
-image_tag=main
 seed_on_deploy=true
 ```
 

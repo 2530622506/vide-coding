@@ -1,6 +1,24 @@
-# GitHub Actions + GHCR + 服务器 Pull 镜像自动部署方案
+# GitHub Actions + 镜像仓库 + 服务器 Pull 镜像自动部署方案
 
-本文档给出当前项目基于 `GitHub Actions + GHCR + Docker Compose` 的自动化部署技术方案与实施方案。目标是：当代码 `push` 到 `main` 分支后，自动构建 `api` 与 `web` 镜像并推送到 `GHCR`，再由生产服务器拉取最新镜像并完成部署。
+> 本文档方案已废弃，当前仓库不再使用镜像仓库拉取部署。  
+> 请改用 [github-actions-ssh-build-auto-deploy.md](/Users/zz/AI%20learning/vibe%20coding/docs/github-actions-ssh-build-auto-deploy.md:1)。
+
+本文档给出当前项目基于 `GitHub Actions + Docker Registry + Docker Compose` 的自动化部署技术方案与实施方案。目标是：当代码 `push` 到 `main` 分支后，自动构建 `api` 与 `web` 镜像并推送到镜像仓库，再由生产服务器拉取最新镜像并完成部署。
+
+当前仓库实现已优先适配 `腾讯云 TCR`，同时保留对其他标准 Docker Registry 的兼容能力。
+
+当前仓库的实际配置项以以下 Secrets / 环境变量为准：
+
+```text
+REGISTRY_SERVER        镜像仓库地址，例如 ccr.ccs.tencentyun.com 或企业版实例域名
+REGISTRY_NAMESPACE     镜像命名空间
+REGISTRY_USERNAME      仓库登录用户名
+REGISTRY_PASSWORD      仓库登录密码或访问凭据
+IMAGE_REGISTRY         服务器部署时传入的镜像仓库地址
+IMAGE_NAMESPACE        服务器部署时传入的镜像命名空间
+```
+
+下文中保留的 `GHCR` 示例，主要用于说明“镜像仓库驱动部署”的思路；如果与当前仓库实现不一致，以工作流文件和实际 Secrets 名称为准。
 
 说明：
 

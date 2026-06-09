@@ -1,7 +1,10 @@
 name: gesp-catalog-prod
 
 x-api-image: &api-image
-  image: ${IMAGE_REGISTRY:-ghcr.io}/${IMAGE_OWNER:-2530622506}/${API_IMAGE_NAME:-gesp-catalog-api}:${IMAGE_TAG:-main}
+  image: gesp-catalog-api:prod
+  build:
+    context: .
+    dockerfile: infra/docker/api.Dockerfile
 
 services:
   mysql:
@@ -76,8 +79,11 @@ services:
       - catalog
 
   web:
-    image: ${IMAGE_REGISTRY:-ghcr.io}/${IMAGE_OWNER:-2530622506}/${WEB_IMAGE_NAME:-gesp-catalog-web}:${IMAGE_TAG:-main}
+    image: gesp-catalog-web:prod
     container_name: gesp-catalog-web-prod
+    build:
+      context: .
+      dockerfile: infra/docker/web.Dockerfile
     restart: unless-stopped
     ports:
       - "${WEB_PORT:-80}:80"
