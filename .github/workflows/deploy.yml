@@ -113,6 +113,8 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
+          timeout: 120s
+          command_timeout: 30m
           script: |
             mkdir -p "${{ secrets.DEPLOY_PATH }}/infra/deploy"
 
@@ -122,6 +124,8 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
+          timeout: 120s
+          command_timeout: 30m
           target: ${{ secrets.DEPLOY_PATH }}
           source: "docker-compose.prod.yml,infra/deploy/deploy-prod.sh"
 
@@ -141,6 +145,8 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
+          timeout: 120s
+          command_timeout: 30m
           envs: DEPLOY_PATH,IMAGE_REGISTRY,IMAGE_OWNER,API_IMAGE_NAME,WEB_IMAGE_NAME,IMAGE_TAG,SEED_ON_DEPLOY,GHCR_USERNAME,GHCR_TOKEN
           script: |
             cd "$DEPLOY_PATH"
