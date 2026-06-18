@@ -264,9 +264,6 @@
 .domainRail.ant-card,
 .practiceListPane.ant-card,
 .practiceSidePane.ant-card,
-.builderConfigCard.ant-card,
-.builderListCard.ant-card,
-.builderResultCard.ant-card,
 .tableCard.ant-card,
 .coverageMatrix.ant-card,
 .detailPageCard.ant-card {
@@ -281,10 +278,20 @@
   top: 24px;
 }
 
-.practiceWorkspace .domainRail {
+.domainRail .ant-space,
+.domainRail .ant-space-item {
+  width: 100%;
+}
+
+.practiceWorkspace .domainRail,
+.atcoderWorkspace .domainRail {
   max-height: none;
   overflow: visible;
   position: static;
+}
+
+.practiceWorkspace .domainRail .ant-card-body {
+  padding-inline: 12px;
 }
 
 .domainRailItem {
@@ -364,11 +371,28 @@
   background: #fff;
   border-color: #dfe7ea;
   min-height: 168px;
+  overflow: hidden;
+  position: relative;
+  scroll-margin-block: 96px;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    outline-color 140ms ease;
 }
 
 .problemPracticeCard.active {
-  border-color: #167f7b;
-  box-shadow: 0 8px 18px rgb(22 127 123 / 16%);
+  background: #f1fbfa;
+  border-color: #38aaa4;
+  box-shadow: 0 8px 18px rgb(22 127 123 / 12%);
+}
+
+.problemPracticeCard.active .problemTitle {
+  color: #0e615e;
+}
+
+.problemPracticeCard.returnAnchorFlash.ant-card {
+  animation: returnAnchorFlash 1400ms ease;
 }
 
 .problemPracticeCard .ant-card-body {
@@ -408,6 +432,19 @@
 
 .problemPracticeActions .ant-btn {
   min-width: 0;
+}
+
+.atcoderDifficultySegmented.ant-segmented {
+  max-width: 100%;
+}
+
+.atcoderDifficultySegmented .ant-segmented-group {
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.atcoderDifficultySegmented .ant-segmented-item {
+  min-width: 92px;
 }
 
 .practiceSidePaneWrap {
@@ -528,37 +565,6 @@ body.isResizingPracticeSidePane {
   max-width: none;
 }
 
-.builderWorkspace {
-  align-items: start;
-  display: grid;
-  gap: 14px;
-  grid-template-columns: 280px minmax(0, 1fr) 420px;
-}
-
-.builderConfigCard,
-.builderResultCard {
-  position: sticky;
-  top: 24px;
-}
-
-.builderCheckGroup {
-  width: 100%;
-}
-
-.builderProblemCheck.ant-checkbox-wrapper {
-  align-items: flex-start;
-  background: #fbfcfc;
-  border: 1px solid #dfe7ea;
-  border-radius: 8px;
-  margin-inline-start: 0;
-  padding: 10px;
-  width: 100%;
-}
-
-.compactProblemCard.ant-card {
-  border-color: #dfe7ea;
-}
-
 .coverageChipGrid {
   display: flex;
   flex-wrap: wrap;
@@ -632,13 +638,11 @@ body.isResizingPracticeSidePane {
 }
 
 @media (max-width: 1320px) {
-  .practiceWorkspace,
-  .builderWorkspace {
+  .practiceWorkspace {
     grid-template-columns: 220px minmax(0, 1fr);
   }
 
-  .practiceSidePaneWrap,
-  .builderResultCard {
+  .practiceSidePaneWrap {
     grid-column: 1 / -1;
     max-height: none;
     position: static;
@@ -694,19 +698,21 @@ body.isResizingPracticeSidePane {
 
   .practiceWorkspace,
   .atcoderWorkspace,
-  .builderWorkspace,
   .atcoderDetailGrid {
     grid-template-columns: 1fr;
   }
 
-  .domainRail,
-  .builderConfigCard {
+  .domainRail {
     max-height: none;
     position: static;
   }
 
   .problemCardGrid,
   .sampleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .atcoderSampleList .samplePair.ant-list-item {
     grid-template-columns: 1fr;
   }
 
@@ -969,7 +975,24 @@ button {
   }
 }
 
+@keyframes returnAnchorFlash {
+  0% {
+    border-color: #167f7b;
+    box-shadow: 0 0 0 0 rgb(22 127 123 / 0%);
+  }
+
+  24% {
+    border-color: #167f7b;
+    box-shadow: 0 0 0 4px rgb(22 127 123 / 18%);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgb(22 127 123 / 0%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .problemPracticeCard.returnAnchorFlash.ant-card,
   .stickyControls.isRestoring,
   .stickyControls.isPinning .stickyControlsTop,
   .stickyControls.isPinning .stickyControlsSummary span,
@@ -1887,6 +1910,11 @@ body.isResizingDetailPane .detailPane {
   gap: 2px;
   justify-content: stretch;
   padding: 4px 0;
+}
+
+.atcoderSampleList .samplePair.ant-list-item {
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .sampleList .samplePair.ant-list-item > div {

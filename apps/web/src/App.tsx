@@ -7,8 +7,8 @@ import {
   AtCoderMaintenancePage,
   AtCoderProblemDetailPage
 } from "./pages/AtCoderCatalogPage";
+import type { Navigate, OpenIde, ProblemReturnContext } from "./navigation";
 import {
-  ExerciseBuilderPage,
   GespProblemMaintenancePage,
   GespProblemPracticePage,
   GespWorkbenchPage,
@@ -19,23 +19,86 @@ import { ProblemIdePage } from "./pages/ProblemIdePage";
 
 export default function App() {
   const [routePath, setRoutePath] = useState(() => window.location.pathname);
+  const [pendingReturnContext, setPendingReturnContext] = useState<ProblemReturnContext | null>(null);
 
   useEffect(() => {
-    const syncRoute = () => setRoutePath(window.location.pathname);
+    const syncRoute = (event: PopStateEvent) => {
+      const nextPath = window.location.pathname;
+      const returnContext = readReturnContext(event.state);
+      setRoutePath(nextPath);
+      setPendingReturnContext(returnContext?.sourcePath === nextPath ? returnContext : null);
+    };
     window.addEventListener("popstate", syncRoute);
     return () => window.removeEventListener("popstate", syncRoute);
   }, []);
 
   const router = useMemo(() => createRouter(routePath), [routePath]);
 
-  function navigateTo(path: string) {
-    window.history.pushState(null, "", path);
+  const navigateTo: Navigate = (path, options = {}) => {
+    setPendingReturnContext(null);
+    if (options.returnContext?.sourcePath === window.location.pathname) {
+      window.history.replaceState(createHistoryState(options.returnContext), "", window.location.pathname);
+    }
+    window.history.pushState(createHistoryState(options.returnContext), "", path);
     setRoutePath(path);
-    window.scrollTo({ top: 0, behavior: "instant" });
+    if (options.scroll !== "preserve") {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  };
+
+  function navigateBackToReturnContext(fallbackPath: string) {
+    const returnContext = readReturnContext(window.history.state);
+    if (returnContext?.sourcePath) {
+      setPendingReturnContext(returnContext);
+      window.history.pushState(createHistoryState(returnContext), "", returnContext.sourcePath);
+      setRoutePath(returnContext.sourcePath);
+      return;
+    }
+    navigateTo(fallbackPath);
   }
 
-  const openGespIde = (problemId: string) => navigateTo(`/ide/${encodeURIComponent(problemId)}`);
-  const openAtCoderIde = (problemId: string) => navigateTo(`/ide/atcoder/${encodeURIComponent(problemId)}`);
+  useEffect(() => {
+    if (!pendingReturnContext || routePath !== pendingReturnContext.sourcePath) {
+      return;
+    }
+
+    let cancelled = false;
+    let attempts = 0;
+    const maxAttempts = 40;
+
+    function restorePosition() {
+      if (cancelled || !pendingReturnContext) {
+        return;
+      }
+      const target = findProblemAnchor(pendingReturnContext.problemId);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+        target.classList.add("returnAnchorFlash");
+        window.setTimeout(() => target.classList.remove("returnAnchorFlash"), 1400);
+        setPendingReturnContext(null);
+        return;
+      }
+      attempts += 1;
+      if (attempts >= maxAttempts) {
+        window.scrollTo({ top: pendingReturnContext.scrollY, behavior: "smooth" });
+        setPendingReturnContext(null);
+        return;
+      }
+      window.setTimeout(restorePosition, 80);
+    }
+
+    window.setTimeout(restorePosition, 0);
+    return () => {
+      cancelled = true;
+    };
+  }, [pendingReturnContext, routePath]);
+
+  const openGespIde: OpenIde = (problemId, returnContext) => {
+    navigateTo(`/ide/${encodeURIComponent(problemId)}`, { returnContext: returnContext ?? readReturnContext(window.history.state) ?? undefined });
+  };
+  const openAtCoderIde: OpenIde = (problemId, returnContext) => {
+    navigateTo(`/ide/atcoder/${encodeURIComponent(problemId)}`, { returnContext: returnContext ?? readReturnContext(window.history.state) ?? undefined });
+  };
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
@@ -52,22 +115,20 @@ export default function App() {
       <AntApp>
         {router.kind === "ide" ? (
           <ProblemIdePage
-            onBack={() => navigateTo(router.source === "atcoder" ? "/atcoder" : "/")}
+            onBack={() => navigateBackToReturnContext(router.source === "atcoder" ? "/atcoder" : "/")}
             problemId={router.problemId}
             source={router.source}
           />
         ) : (
           <WorkbenchLayout routePath={routePath} onNavigate={navigateTo}>
             {router.kind === "atcoder-detail" ? (
-              <AtCoderProblemDetailPage navigateTo={navigateTo} onOpenIde={openAtCoderIde} problemId={router.problemId} />
+              <AtCoderProblemDetailPage navigateTo={navigateTo} onBack={() => navigateBackToReturnContext("/atcoder")} onOpenIde={openAtCoderIde} problemId={router.problemId} />
             ) : router.kind === "gesp-detail" ? (
-              <GespProblemPracticePage navigateTo={navigateTo} onOpenIde={openGespIde} problemId={router.problemId} />
+              <GespProblemPracticePage navigateTo={navigateTo} onBack={() => navigateBackToReturnContext("/")} onOpenIde={openGespIde} problemId={router.problemId} />
             ) : router.kind === "atcoder-maintenance" ? (
               <AtCoderMaintenancePage navigateTo={navigateTo} onOpenIde={openAtCoderIde} />
             ) : router.kind === "atcoder" ? (
-              <AtCoderCatalogPage navigateTo={navigateTo} onOpenIde={openAtCoderIde} />
-            ) : router.kind === "exercise-builder" ? (
-              <ExerciseBuilderPage navigateTo={navigateTo} />
+              <AtCoderCatalogPage navigateTo={navigateTo} onOpenIde={openAtCoderIde} returnContext={pendingReturnContext?.source === "atcoder" ? pendingReturnContext : null} />
             ) : router.kind === "coverage" ? (
               <KnowledgeCoveragePage navigateTo={navigateTo} />
             ) : router.kind === "sources" ? (
@@ -75,7 +136,7 @@ export default function App() {
             ) : router.kind === "maintenance" ? (
               <GespProblemMaintenancePage navigateTo={navigateTo} />
             ) : (
-              <GespWorkbenchPage navigateTo={navigateTo} onOpenIde={openGespIde} />
+              <GespWorkbenchPage navigateTo={navigateTo} onOpenIde={openGespIde} returnContext={pendingReturnContext?.source === "gesp" ? pendingReturnContext : null} />
             )}
           </WorkbenchLayout>
         )}
@@ -91,13 +152,41 @@ export default function App() {
   );
 }
 
+function createHistoryState(returnContext?: ProblemReturnContext) {
+  return returnContext ? { returnContext } : null;
+}
+
+function readReturnContext(state: unknown): ProblemReturnContext | null {
+  if (!state || typeof state !== "object" || !("returnContext" in state)) {
+    return null;
+  }
+  const context = (state as { returnContext?: unknown }).returnContext;
+  if (!context || typeof context !== "object") {
+    return null;
+  }
+  const candidate = context as Partial<ProblemReturnContext>;
+  if (
+    (candidate.source !== "gesp" && candidate.source !== "atcoder") ||
+    typeof candidate.sourcePath !== "string" ||
+    typeof candidate.problemId !== "string" ||
+    typeof candidate.scrollY !== "number"
+  ) {
+    return null;
+  }
+  return candidate as ProblemReturnContext;
+}
+
+function findProblemAnchor(problemId: string) {
+  return Array.from(document.querySelectorAll<HTMLElement>("[data-problem-anchor]"))
+    .find((element) => element.dataset.problemAnchor === problemId) || null;
+}
+
 type RouteState =
   | { kind: "ide"; problemId: string; source: "gesp" | "atcoder" }
   | { kind: "atcoder-detail"; problemId: string }
   | { kind: "gesp-detail"; problemId: string }
   | { kind: "atcoder-maintenance" }
   | { kind: "atcoder" }
-  | { kind: "exercise-builder" }
   | { kind: "coverage" }
   | { kind: "sources" }
   | { kind: "maintenance" }
@@ -136,9 +225,6 @@ function createRouter(routePath: string): RouteState {
   }
   if (routePath.startsWith("/atcoder")) {
     return { kind: "atcoder" };
-  }
-  if (routePath.startsWith("/exercise-builder")) {
-    return { kind: "exercise-builder" };
   }
   if (routePath.startsWith("/coverage")) {
     return { kind: "coverage" };

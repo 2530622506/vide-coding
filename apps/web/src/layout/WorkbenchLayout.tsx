@@ -8,18 +8,18 @@ import {
   FileSearch,
   Layers3,
   LayoutDashboard,
-  PencilRuler,
   ShieldCheck,
   Trophy
 } from "lucide-react";
 import type { ReactNode } from "react";
+import type { Navigate } from "../navigation";
 
 const { Content, Sider } = Layout;
 
 type Props = {
   children: ReactNode;
   routePath: string;
-  onNavigate: (path: string) => void;
+  onNavigate: Navigate;
 };
 
 const menuItems: MenuProps["items"] = [
@@ -29,7 +29,6 @@ const menuItems: MenuProps["items"] = [
     type: "group",
     children: [
       { key: "/", icon: <LayoutDashboard size={17} />, label: "练习工作台" },
-      { key: "/exercise-builder", icon: <PencilRuler size={17} />, label: "练习包生成" },
       { key: "/coverage", icon: <ShieldCheck size={17} />, label: "知识覆盖" },
       { key: "/sources", icon: <FileSearch size={17} />, label: "来源证据" },
       { key: "/maintenance", icon: <Database size={17} />, label: "题目维护" }
@@ -90,9 +89,6 @@ function resolveSelectedKey(routePath: string) {
   }
   if (routePath.startsWith("/atcoder")) {
     return "/atcoder";
-  }
-  if (routePath.startsWith("/exercise-builder")) {
-    return "/exercise-builder";
   }
   if (routePath.startsWith("/coverage")) {
     return "/coverage";

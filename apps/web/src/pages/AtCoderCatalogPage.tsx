@@ -8,9 +8,10 @@ import {
   Form,
   Input,
   InputNumber,
+  List,
   Modal,
   Progress,
-  Select,
+  Segmented,
   Space,
   Statistic,
   Table,
@@ -38,6 +39,8 @@ import MarkdownIt from "markdown-it";
 import mathjax3 from "markdown-it-mathjax3";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
+import { HighlightedCppCode } from "../components/HighlightedCppCode";
+import type { Navigate, OpenIde, ProblemReturnContext } from "../navigation";
 import {
   createAtCoderProblem,
   deleteAtCoderProblem,
@@ -46,8 +49,6 @@ import {
   updateAtCoderProblem
 } from "../services/atcoderCatalog";
 import type { AtCoderCatalog, AtCoderDomainGroup, AtCoderLabel, AtCoderProblem, AtCoderProblemSummary, AtCoderProblemTypeGroup } from "../types/atcoder";
-
-type Navigate = (path: string) => void;
 
 type FlatAtCoderProblem = {
   key: string;
@@ -81,9 +82,40 @@ const difficultyOptions = [
   { value: "5", label: "提高+/省选-" }
 ];
 
-export function AtCoderCatalogPage({ navigateTo, onOpenIde }: { navigateTo: Navigate; onOpenIde: (problemId: string) => void }) {
-  const catalogState = useAtCoderCatalog();
-  const { activeDomain, catalog, difficulty, error, flatProblems, loading, searchQuery, setActiveDomainId, setDifficulty, setSearchQuery } = catalogState;
+export function AtCoderCatalogPage({ navigateTo, onOpenIde, returnContext }: { navigateTo: Navigate; onOpenIde: OpenIde; returnContext?: ProblemReturnContext | null }) {
+  const catalogState = useAtCoderCatalog(returnContext?.atcoder);
+  const { activeDomain, activeDomainId, catalog, difficulty, error, flatProblems, loading, searchQuery, setActiveDomainId, setDifficulty, setSearchQuery } = catalogState;
+  const [selectedProblemId, setSelectedProblemId] = useState<string | null>(returnContext?.problemId ?? null);
+
+  useEffect(() => {
+    if (returnContext?.problemId) {
+      setSelectedProblemId(returnContext.problemId);
+    }
+  }, [returnContext?.problemId]);
+
+  function createReturnContext(problemId: string): ProblemReturnContext {
+    return {
+      source: "atcoder",
+      sourcePath: "/atcoder",
+      problemId,
+      scrollY: window.scrollY,
+      atcoder: {
+        activeDomainId,
+        difficulty,
+        searchQuery
+      }
+    };
+  }
+
+  function openDetailPage(problemId: string) {
+    setSelectedProblemId(problemId);
+    navigateTo(`/atcoder/problems/${encodeURIComponent(problemId)}`, { returnContext: createReturnContext(problemId) });
+  }
+
+  function openIde(problemId: string) {
+    setSelectedProblemId(problemId);
+    onOpenIde(problemId, createReturnContext(problemId));
+  }
 
   return (
     <main className="pageSurface">
@@ -158,9 +190,10 @@ export function AtCoderCatalogPage({ navigateTo, onOpenIde }: { navigateTo: Navi
                       .slice(0, 9)
                       .map((problem) => (
                         <AtCoderProblemCard
+                          isSelected={selectedProblemId === problem.id}
                           key={problem.id}
-                          onOpenDetail={() => navigateTo(`/atcoder/problems/${encodeURIComponent(problem.id)}`)}
-                          onOpenIde={() => onOpenIde(problem.id)}
+                          onOpenDetail={() => openDetailPage(problem.id)}
+                          onOpenIde={() => openIde(problem.id)}
                           problem={problem}
                         />
                       ))}
@@ -177,7 +210,7 @@ export function AtCoderCatalogPage({ navigateTo, onOpenIde }: { navigateTo: Navi
   );
 }
 
-export function AtCoderProblemDetailPage({ navigateTo, onOpenIde, problemId }: { navigateTo: Navigate; onOpenIde: (problemId: string) => void; problemId: string }) {
+export function AtCoderProblemDetailPage({ navigateTo, onBack, onOpenIde, problemId }: { navigateTo: Navigate; onBack: () => void; onOpenIde: OpenIde; problemId: string }) {
   const [problem, setProblem] = useState<AtCoderProblem | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -200,7 +233,7 @@ export function AtCoderProblemDetailPage({ navigateTo, onOpenIde, problemId }: {
         description="题面 sections、样例、算法标签、参考思路和 C++17 参考解按 AtCoder 数据结构单独展示。"
         actions={(
           <>
-            <Button onClick={() => navigateTo("/atcoder")}>返回题库</Button>
+            <Button onClick={onBack}>返回题库</Button>
             <Button icon={<Code2 size={16} />} onClick={() => onOpenIde(problemId)} type="primary">进入 IDE</Button>
           </>
         )}
@@ -252,16 +285,22 @@ export function AtCoderProblemDetailPage({ navigateTo, onOpenIde, problemId }: {
 
             <Card className="atcoderSampleCard" title="样例">
               {problem.statement.samples.length ? (
-                <div className="sampleGrid">
-                  {problem.statement.samples.map((sample, index) => (
-                    <Card key={sample.id || index} size="small" title={`样例 ${index + 1}`}>
-                      <Typography.Text type="secondary">输入</Typography.Text>
-                      <pre>{sample.input || "(空)"}</pre>
-                      <Typography.Text type="secondary">输出</Typography.Text>
-                      <pre>{sample.output || "(空)"}</pre>
-                    </Card>
-                  ))}
-                </div>
+                <List
+                  className="sampleList atcoderSampleList"
+                  dataSource={problem.statement.samples}
+                  renderItem={(sample, index) => (
+                    <List.Item className="samplePair">
+                      <div>
+                        <Typography.Text strong>输入 {index + 1}</Typography.Text>
+                        <pre>{sample.input || "(空)"}</pre>
+                      </div>
+                      <div>
+                        <Typography.Text strong>输出 {index + 1}</Typography.Text>
+                        <pre>{sample.output || "(空)"}</pre>
+                      </div>
+                    </List.Item>
+                  )}
+                />
               ) : (
                 <Empty description="暂无样例" image={Empty.PRESENTED_IMAGE_SIMPLE} />
               )}
@@ -270,7 +309,7 @@ export function AtCoderProblemDetailPage({ navigateTo, onOpenIde, problemId }: {
             <Card className="atcoderSolutionCard" title="参考思路">
               <Typography.Paragraph>{problem.answer_guidance.solution_outline || problem.answer_guidance.answer}</Typography.Paragraph>
               {problem.programming_solution.code ? (
-                <pre className="lightCodeBlock">{problem.programming_solution.code}</pre>
+                <HighlightedCppCode code={problem.programming_solution.code} />
               ) : (
                 <Empty description="参考解待补" image={Empty.PRESENTED_IMAGE_SIMPLE} />
               )}
@@ -284,7 +323,7 @@ export function AtCoderProblemDetailPage({ navigateTo, onOpenIde, problemId }: {
   );
 }
 
-export function AtCoderMaintenancePage({ navigateTo, onOpenIde }: { navigateTo: Navigate; onOpenIde: (problemId: string) => void }) {
+export function AtCoderMaintenancePage({ navigateTo, onOpenIde }: { navigateTo: Navigate; onOpenIde: OpenIde }) {
   const { modal, message } = AntApp.useApp();
   const catalogState = useAtCoderCatalog();
   const { flatProblems, loading, searchQuery, setSearchQuery, difficulty, setDifficulty } = catalogState;
@@ -408,11 +447,11 @@ export function AtCoderMaintenancePage({ navigateTo, onOpenIde }: { navigateTo: 
   );
 }
 
-function useAtCoderCatalog() {
+function useAtCoderCatalog(initialState?: ProblemReturnContext["atcoder"]) {
   const [catalog, setCatalog] = useState<AtCoderCatalog | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [difficulty, setDifficulty] = useState("all");
-  const [activeDomainId, setActiveDomainId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState(initialState?.searchQuery ?? "");
+  const [difficulty, setDifficulty] = useState(initialState?.difficulty ?? "all");
+  const [activeDomainId, setActiveDomainId] = useState<string | null>(initialState?.activeDomainId ?? null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -436,7 +475,12 @@ function useAtCoderCatalog() {
     try {
       const nextCatalog = await fetchAtCoderCatalog();
       setCatalog(nextCatalog);
-      setActiveDomainId(nextCatalog.domains[0]?.domain_id || null);
+      setActiveDomainId((currentDomainId) => {
+        if (currentDomainId && nextCatalog.domains.some((domain) => domain.domain_id === currentDomainId)) {
+          return currentDomainId;
+        }
+        return nextCatalog.domains[0]?.domain_id || null;
+      });
     } catch (currentError) {
       setCatalog(null);
       setError(currentError instanceof Error ? currentError.message : "AtCoder 题库加载失败");
@@ -460,6 +504,7 @@ function useAtCoderCatalog() {
 
   return {
     activeDomain: catalog?.domains.find((domain) => domain.domain_id === activeDomainId) || catalog?.domains[0] || null,
+    activeDomainId,
     catalog,
     difficulty,
     error,
@@ -504,7 +549,13 @@ function AtCoderControlBar({ difficulty, loading, onDifficultyChange, onRefresh,
     <Card className="controlBar" size="small">
       <Flex align="center" gap={12} justify="space-between" wrap="wrap">
         <Space wrap>
-          <Select disabled={loading} onChange={onDifficultyChange} options={difficultyOptions} value={difficulty} />
+          <Segmented
+            className="atcoderDifficultySegmented"
+            disabled={loading}
+            onChange={(value) => onDifficultyChange(String(value))}
+            options={difficultyOptions}
+            value={difficulty}
+          />
           <Input
             allowClear
             className="searchInput"
@@ -531,13 +582,14 @@ function AtCoderStat({ icon, label, value }: { icon: ReactNode; label: string; v
   );
 }
 
-function AtCoderProblemCard({ onOpenDetail, onOpenIde, problem }: {
+function AtCoderProblemCard({ isSelected, onOpenDetail, onOpenIde, problem }: {
+  isSelected: boolean;
   onOpenDetail: () => void;
   onOpenIde: () => void;
   problem: AtCoderProblemSummary;
 }) {
   return (
-    <Card className="problemPracticeCard" hoverable onClick={onOpenDetail} size="small">
+    <Card className={isSelected ? "problemPracticeCard active" : "problemPracticeCard"} data-problem-anchor={problem.id} hoverable onClick={onOpenDetail} size="small">
       <Space direction="vertical" size={8}>
         <Flex align="center" justify="space-between" gap={8}>
           <Tag color="purple">{problem.difficulty_label}</Tag>

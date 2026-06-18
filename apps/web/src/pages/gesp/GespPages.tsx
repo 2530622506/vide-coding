@@ -3,19 +3,14 @@ import {
   App as AntApp,
   Button,
   Card,
-  Checkbox,
-  Col,
   Drawer,
   Empty,
   Flex,
-  Form,
   Input,
-  InputNumber,
   Modal,
   Progress,
   Row,
   Segmented,
-  Select,
   Space,
   Statistic,
   Tag,
@@ -35,7 +30,6 @@ import {
   Layers3,
   ListChecks,
   Pencil,
-  Play,
   Plus,
   RefreshCw,
   ShieldCheck,
@@ -48,6 +42,7 @@ import { ProblemDetailPanel } from "../../components/ProblemDetailPanel";
 import { ProblemEditorModal } from "../../components/ProblemEditorModal";
 import { emptyEditorForm, formFromProblem, formToPayload } from "../../editor";
 import type { EditorMode, ProblemEditorForm } from "../../editor";
+import type { Navigate, OpenIde, ProblemReturnContext } from "../../navigation";
 import {
   createProblem,
   deleteProblem,
@@ -57,8 +52,6 @@ import {
   updateProblem
 } from "../../services/catalog";
 import type { DomainGroup, LevelCatalog, LevelSummary, ProblemDetailResponse, ProblemSummary, ProblemTypeGroup } from "../../types";
-
-type Navigate = (path: string) => void;
 
 type FlatProblem = {
   key: string;
@@ -81,10 +74,11 @@ const WORKSPACE_CENTER_MIN_WIDTH = 420;
 const WORKSPACE_DOMAIN_WIDTH = 220;
 const WORKSPACE_GAP = 14;
 
-export function GespWorkbenchPage({ navigateTo, onOpenIde }: { navigateTo: Navigate; onOpenIde: (problemId: string) => void }) {
-  const catalogState = useGespCatalog(5);
+export function GespWorkbenchPage({ navigateTo, onOpenIde, returnContext }: { navigateTo: Navigate; onOpenIde: OpenIde; returnContext?: ProblemReturnContext | null }) {
+  const catalogState = useGespCatalog(5, returnContext?.gesp);
   const {
     activeDomain,
+    activeDomainId,
     catalog,
     error,
     flatProblems,
@@ -97,7 +91,7 @@ export function GespWorkbenchPage({ navigateTo, onOpenIde }: { navigateTo: Navig
     setSelectedLevel,
     visibleCatalog
   } = catalogState;
-  const [selectedProblemId, setSelectedProblemId] = useState<string | null>(null);
+  const [selectedProblemId, setSelectedProblemId] = useState<string | null>(returnContext?.problemId ?? null);
   const [selectedProblem, setSelectedProblem] = useState<ProblemDetailResponse | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
   const [sidePaneWidth, setSidePaneWidth] = useState(SIDE_PANE_WIDTH_DEFAULT);
@@ -113,6 +107,36 @@ export function GespWorkbenchPage({ navigateTo, onOpenIde }: { navigateTo: Navig
     window.addEventListener("resize", clampToWorkspace);
     return () => window.removeEventListener("resize", clampToWorkspace);
   }, []);
+
+  useEffect(() => {
+    if (returnContext?.problemId) {
+      setSelectedProblemId(returnContext.problemId);
+    }
+  }, [returnContext?.problemId]);
+
+  function createReturnContext(problemId: string): ProblemReturnContext {
+    return {
+      source: "gesp",
+      sourcePath: "/",
+      problemId,
+      scrollY: window.scrollY,
+      gesp: {
+        activeDomainId,
+        searchQuery,
+        selectedLevel
+      }
+    };
+  }
+
+  function openDetailPage(problemId: string) {
+    setSelectedProblemId(problemId);
+    navigateTo(`/gesp/problems/${encodeURIComponent(problemId)}`, { returnContext: createReturnContext(problemId) });
+  }
+
+  function openIde(problemId: string) {
+    setSelectedProblemId(problemId);
+    onOpenIde(problemId, createReturnContext(problemId));
+  }
 
   async function openProblem(problemId: string) {
     setSelectedProblemId(problemId);
@@ -234,7 +258,6 @@ export function GespWorkbenchPage({ navigateTo, onOpenIde }: { navigateTo: Navig
               <Typography.Text className="sectionEyebrow">练习地图</Typography.Text>
               <Typography.Title level={2}>{activeDomain?.domain_label || "题型列表"}</Typography.Title>
             </div>
-            <Button icon={<Pencil size={16} />} onClick={() => navigateTo("/exercise-builder")}>生成练习包</Button>
           </Flex>
           {activeDomain ? (
             <Space className="typeColumn" direction="vertical" size={14}>
@@ -255,8 +278,8 @@ export function GespWorkbenchPage({ navigateTo, onOpenIde }: { navigateTo: Navig
                       <ProblemPracticeCard
                         isSelected={selectedProblemId === problem.id}
                         key={`${type.problem_type_id}:${problem.id}`}
-                        onOpenDetail={() => navigateTo(`/gesp/problems/${encodeURIComponent(problem.id)}`)}
-                        onOpenIde={problem.question_type === "programming" ? () => onOpenIde(problem.id) : undefined}
+                        onOpenDetail={() => openDetailPage(problem.id)}
+                        onOpenIde={problem.question_type === "programming" ? () => openIde(problem.id) : undefined}
                         onSelect={() => openProblem(problem.id)}
                         problem={problem}
                       />
@@ -293,7 +316,7 @@ export function GespWorkbenchPage({ navigateTo, onOpenIde }: { navigateTo: Navig
                   setSelectedProblem(null);
                   setSelectedProblemId(null);
                 }}
-                onOpenIde={onOpenIde}
+                onOpenIde={(problemId) => openIde(problemId)}
                 problem={selectedProblem}
               />
             ) : (
@@ -332,7 +355,7 @@ function getWorkspaceSidePaneMaxWidth(workspace: HTMLElement | null) {
   return Math.max(SIDE_PANE_WIDTH_MIN, Math.min(SIDE_PANE_WIDTH_MAX, Math.floor(maxWidth)));
 }
 
-export function GespProblemPracticePage({ problemId, navigateTo, onOpenIde }: { problemId: string; navigateTo: Navigate; onOpenIde: (problemId: string) => void }) {
+export function GespProblemPracticePage({ problemId, navigateTo, onBack, onOpenIde }: { problemId: string; navigateTo: Navigate; onBack: () => void; onOpenIde: OpenIde }) {
   const [problem, setProblem] = useState<ProblemDetailResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -355,7 +378,7 @@ export function GespProblemPracticePage({ problemId, navigateTo, onOpenIde }: { 
         description="题面、样例、知识讲解、参考解和来源信息集中展示，编程题可直接进入 IDE 练习。"
         actions={(
           <>
-            <Button onClick={() => navigateTo("/")}>返回工作台</Button>
+            <Button onClick={onBack}>返回工作台</Button>
             {problem?.question_type === "programming" ? (
               <Button icon={<Code2 size={16} />} onClick={() => onOpenIde(problem.id)} type="primary">进入 IDE</Button>
             ) : null}
@@ -364,115 +387,8 @@ export function GespProblemPracticePage({ problemId, navigateTo, onOpenIde }: { 
       />
       {error ? <Alert className="pageAlert" message={error} showIcon type="warning" /> : null}
       <Card className="detailPageCard" loading={loading}>
-        <ProblemDetailPanel loading={loading} onClose={() => navigateTo("/")} onOpenIde={onOpenIde} problem={problem} />
+        <ProblemDetailPanel loading={loading} onClose={onBack} onOpenIde={onOpenIde} problem={problem} />
       </Card>
-    </main>
-  );
-}
-
-export function ExerciseBuilderPage({ navigateTo }: { navigateTo: Navigate }) {
-  const catalogState = useGespCatalog(5);
-  const { flatProblems, levels, loading, searchQuery, selectedLevel, setSearchQuery, setSelectedLevel } = catalogState;
-  const [questionType, setQuestionType] = useState<string>("all");
-  const [count, setCount] = useState(8);
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-
-  const filteredProblems = useMemo(() => {
-    return flatProblems.filter((entry) => questionType === "all" || entry.problem.question_type === questionType);
-  }, [flatProblems, questionType]);
-  const suggestedIds = useMemo(() => firstUniqueProblemIds(filteredProblems, count), [count, filteredProblems]);
-  const selectedProblems = useMemo(() => {
-    const selectedIdSet = new Set(selectedIds);
-    const seen = new Set<string>();
-    return flatProblems.filter((entry) => {
-      if (!selectedIdSet.has(entry.problem.id) || seen.has(entry.problem.id)) {
-        return false;
-      }
-      seen.add(entry.problem.id);
-      return true;
-    });
-  }, [flatProblems, selectedIds]);
-
-  useEffect(() => {
-    setSelectedIds(suggestedIds);
-  }, [suggestedIds]);
-
-  return (
-    <main className="pageSurface">
-      <PageHeading
-        eyebrow="练习包"
-        icon={<Pencil size={18} />}
-        title="练习包生成"
-        description="从等级、题型和关键词筛出题目，生成一组可以连续查看和练习的题目包。"
-        actions={<Button onClick={() => navigateTo("/")}>返回工作台</Button>}
-      />
-      <ControlBar
-        levels={levels}
-        loading={loading}
-        searchQuery={searchQuery}
-        selectedLevel={selectedLevel}
-        onLevelChange={setSelectedLevel}
-        onRefresh={() => catalogState.reload()}
-        onSearchChange={setSearchQuery}
-      />
-
-      <section className="builderWorkspace">
-        <Card className="builderConfigCard" title="筛选条件">
-          <Form layout="vertical">
-            <Form.Item label="题型">
-              <Select
-                value={questionType}
-                onChange={setQuestionType}
-                options={[
-                  { value: "all", label: "全部题型" },
-                  { value: "programming", label: "编程" },
-                  { value: "selection", label: "选择" },
-                  { value: "judgment", label: "判断" }
-                ]}
-              />
-            </Form.Item>
-            <Form.Item label="题量">
-              <InputNumber min={1} max={30} value={count} onChange={(value) => setCount(value || 1)} />
-            </Form.Item>
-          </Form>
-          <Alert message={`已按当前条件选出 ${selectedIds.length} 题，可在右侧勾选调整。`} showIcon type="info" />
-        </Card>
-
-        <Card className="builderListCard" loading={loading} title="候选题目">
-          <Checkbox.Group className="builderCheckGroup" value={selectedIds} onChange={(values) => setSelectedIds(values.map(String))}>
-            <Space direction="vertical" size={10}>
-              {filteredProblems.slice(0, 40).map((entry) => (
-                <Checkbox className="builderProblemCheck" key={entry.key} value={entry.problem.id}>
-                  <Space direction="vertical" size={2}>
-                    <Typography.Text strong>{entry.problem.title}</Typography.Text>
-                    <Typography.Text type="secondary">{entry.domain.domain_label} / {entry.problemType.problem_type_label}</Typography.Text>
-                  </Space>
-                </Checkbox>
-              ))}
-            </Space>
-          </Checkbox.Group>
-        </Card>
-
-        <Card className="builderResultCard" title="练习包预览">
-          {selectedProblems.length ? (
-            <Space direction="vertical" size={10}>
-              {selectedProblems.map((entry, index) => (
-                <Card className="compactProblemCard" key={entry.key} size="small">
-                  <Flex align="center" justify="space-between" gap={12}>
-                    <Space direction="vertical" size={2}>
-                      <Typography.Text strong>{index + 1}. {entry.problem.title}</Typography.Text>
-                      <Typography.Text type="secondary">{questionTypeLabel[entry.problem.question_type]} / {entry.problemType.problem_type_label}</Typography.Text>
-                    </Space>
-                    <Button icon={<Play size={14} />} onClick={() => navigateTo(`/gesp/problems/${encodeURIComponent(entry.problem.id)}`)}>查看</Button>
-                  </Flex>
-                </Card>
-              ))}
-            </Space>
-          ) : (
-            <Empty description="请选择题目" image={Empty.PRESENTED_IMAGE_SIMPLE} />
-          )}
-        </Card>
-      </section>
     </main>
   );
 }
@@ -791,12 +707,12 @@ export function GespProblemMaintenancePage({ navigateTo }: { navigateTo: Navigat
   );
 }
 
-function useGespCatalog(initialLevel: number) {
+function useGespCatalog(initialLevel: number, initialState?: ProblemReturnContext["gesp"]) {
   const [levels, setLevels] = useState<LevelSummary[]>([]);
-  const [selectedLevel, setSelectedLevel] = useState(initialLevel);
+  const [selectedLevel, setSelectedLevel] = useState(initialState?.selectedLevel ?? initialLevel);
   const [catalog, setCatalog] = useState<LevelCatalog | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeDomainId, setActiveDomainId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState(initialState?.searchQuery ?? "");
+  const [activeDomainId, setActiveDomainId] = useState<string | null>(initialState?.activeDomainId ?? null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -830,7 +746,12 @@ function useGespCatalog(initialLevel: number) {
     try {
       const nextCatalog = await fetchLevelCatalog(level);
       setCatalog(nextCatalog);
-      setActiveDomainId(nextCatalog.domains[0]?.domain_id || null);
+      setActiveDomainId((currentDomainId) => {
+        if (currentDomainId && nextCatalog.domains.some((domain) => domain.domain_id === currentDomainId)) {
+          return currentDomainId;
+        }
+        return nextCatalog.domains[0]?.domain_id || null;
+      });
     } catch (currentError) {
       setCatalog(null);
       setError(currentError instanceof Error ? currentError.message : "目录加载失败");
@@ -855,22 +776,6 @@ function useGespCatalog(initialLevel: number) {
     setSelectedLevel,
     visibleCatalog
   };
-}
-
-function firstUniqueProblemIds(entries: FlatProblem[], count: number) {
-  const ids: string[] = [];
-  const seen = new Set<string>();
-  for (const entry of entries) {
-    if (seen.has(entry.problem.id)) {
-      continue;
-    }
-    seen.add(entry.problem.id);
-    ids.push(entry.problem.id);
-    if (ids.length >= count) {
-      break;
-    }
-  }
-  return ids;
 }
 
 function flattenCatalog(catalog: LevelCatalog | null): FlatProblem[] {
@@ -962,7 +867,7 @@ function ProblemPracticeCard({ isSelected, onOpenDetail, onOpenIde, onSelect, pr
   problem: ProblemSummary;
 }) {
   return (
-    <Card className={isSelected ? "problemPracticeCard active" : "problemPracticeCard"} hoverable onClick={onSelect} size="small">
+    <Card className={isSelected ? "problemPracticeCard active" : "problemPracticeCard"} data-problem-anchor={problem.id} hoverable onClick={onSelect} size="small">
       <Space direction="vertical" size={8}>
         <Flex align="center" justify="space-between" gap={8}>
           <Tag>{questionTypeLabel[problem.question_type]}</Tag>
