@@ -139,3 +139,13 @@
 {"type":"cli","id":"CLI-1780836863981-1","timestamp":"2026-06-07T12:54:23.981Z","command":"spec load","args":{"keyword":"online-compiler","stdin":false}}
 {"type":"cli","id":"CLI-1780841846614-1","timestamp":"2026-06-07T14:17:26.614Z","command":"spec load","args":{"keyword":"tab 题目","stdin":false}}
 {"type":"cli","id":"CLI-1780844628442-1","timestamp":"2026-06-07T15:03:48.442Z","command":"spec load","args":{"keyword":"search","stdin":false}}
+{"type":"cli","id":"CLI-1780887292915-1","timestamp":"2026-06-08T02:54:52.915Z","command":"spec load","args":{"keyword":"反爬","stdin":false}}
+{"type":"cli","id":"CLI-1780994715779-1","timestamp":"2026-06-09T08:45:15.779Z","command":"spec load","args":{"keyword":"部署","stdin":false}}
+{"type":"cli","id":"CLI-1780995027740-1","timestamp":"2026-06-09T08:50:27.740Z","command":"spec load","args":{"keyword":"Docker","stdin":false}}
+{"type":"cli","id":"CLI-1780995770733-1","timestamp":"2026-06-09T09:02:50.733Z","command":"spec load","args":{"keyword":"GitHub","stdin":false}}
+{"type":"cli","id":"CLI-1781004686705-1","timestamp":"2026-06-09T11:31:26.705Z","command":"spec load","args":{"keyword":"review","stdin":false}}
+{"type":"cli","id":"CLI-1781162414135-1","timestamp":"2026-06-11T07:20:14.135Z","command":"spec load","args":{"keyword":"atcoder","stdin":false}}
+{"type":"cli","id":"CLI-1781163301756-1","timestamp":"2026-06-11T07:35:01.756Z","command":"spec load","args":{"keyword":"问题文档","stdin":false}}
+{"type":"cli","id":"CLI-1781163333492-1","timestamp":"2026-06-11T07:35:33.492Z","command":"spec load","args":{"category":"debug","stdin":false}}
+{"type":"cli","id":"CLI-1781163369445-1","timestamp":"2026-06-11T07:36:09.445Z","command":"spec add","args":{"category":"debug","keywords":"atcoder,production,mysql,seed,er-no-such-table","stdin":false}}
+{"type":"cli","id":"CLI-1781163378401-1","timestamp":"2026-06-11T07:36:18.401Z","command":"spec load","args":{"keyword":"atcoder","stdin":false}}
