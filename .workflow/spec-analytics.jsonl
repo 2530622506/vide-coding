@@ -160,3 +160,15 @@
 {"type":"cli","id":"CLI-1781787134708-1","timestamp":"2026-06-18T12:52:14.708Z","command":"spec load","args":{"keyword":"AtCoder","stdin":false}}
 {"type":"cli","id":"CLI-1781787523722-1","timestamp":"2026-06-18T12:58:43.722Z","command":"spec load","args":{"keyword":"frontend","stdin":false}}
 {"type":"cli","id":"CLI-1781787523722-1","timestamp":"2026-06-18T12:58:43.722Z","command":"spec load","args":{"keyword":"AtCoder","stdin":false}}
+{"type":"cli","id":"CLI-1781790284421-1","timestamp":"2026-06-18T13:44:44.421Z","command":"spec load","args":{"keyword":"sidebar","stdin":false}}
+{"type":"cli","id":"CLI-1781790301574-1","timestamp":"2026-06-18T13:45:01.574Z","command":"spec load","args":{"category":"ui","stdin":false}}
+{"type":"cli","id":"CLI-1781791028003-1","timestamp":"2026-06-18T13:57:08.003Z","command":"spec load","args":{"keyword":"resizable","stdin":false}}
+{"type":"cli","id":"CLI-1781791037417-1","timestamp":"2026-06-18T13:57:17.417Z","command":"spec load","args":{"category":"ui","stdin":false}}
+{"type":"cli","id":"CLI-1781791862609-1","timestamp":"2026-06-18T14:11:02.609Z","command":"spec load","args":{"keyword":"算法范畴","stdin":false}}
+{"type":"cli","id":"CLI-1781792429970-1","timestamp":"2026-06-18T14:20:29.970Z","command":"spec load","args":{"keyword":"frontend","stdin":false}}
+{"type":"cli","id":"CLI-1781792443427-1","timestamp":"2026-06-18T14:20:43.427Z","command":"spec load","args":{"category":"ui","stdin":false}}
+{"type":"cli","id":"CLI-1781793366485-1","timestamp":"2026-06-18T14:36:06.485Z","command":"spec load","args":{"keyword":"选中","stdin":false}}
+{"type":"cli","id":"CLI-1781793530961-1","timestamp":"2026-06-18T14:38:50.961Z","command":"spec load","args":{"keyword":"选中","stdin":false}}
+{"type":"cli","id":"CLI-1781794397661-1","timestamp":"2026-06-18T14:53:17.661Z","command":"spec load","args":{"keyword":"AtCoder","stdin":false}}
+{"type":"cli","id":"CLI-1781794920985-1","timestamp":"2026-06-18T15:02:00.985Z","command":"spec load","args":{"keyword":"练习包","stdin":false}}
+{"type":"cli","id":"CLI-1781795241004-1","timestamp":"2026-06-18T15:07:21.004Z","command":"spec load","args":{"keyword":"部署","stdin":false}}
