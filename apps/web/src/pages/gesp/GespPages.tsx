@@ -41,8 +41,8 @@ import {
   ShieldCheck,
   Trash2
 } from "lucide-react";
-import type { ReactNode } from "react";
-import { useEffect, useMemo, useState } from "react";
+import type { CSSProperties, KeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { filterLevelCatalogByQuery } from "../../catalogSearch";
 import { ProblemDetailPanel } from "../../components/ProblemDetailPanel";
 import { ProblemEditorModal } from "../../components/ProblemEditorModal";
@@ -74,6 +74,13 @@ const questionTypeLabel: Record<string, string> = {
   programming: "编程"
 };
 
+const SIDE_PANE_WIDTH_DEFAULT = 420;
+const SIDE_PANE_WIDTH_MAX = 560;
+const SIDE_PANE_WIDTH_MIN = 320;
+const WORKSPACE_CENTER_MIN_WIDTH = 420;
+const WORKSPACE_DOMAIN_WIDTH = 220;
+const WORKSPACE_GAP = 14;
+
 export function GespWorkbenchPage({ navigateTo, onOpenIde }: { navigateTo: Navigate; onOpenIde: (problemId: string) => void }) {
   const catalogState = useGespCatalog(5);
   const {
@@ -93,6 +100,19 @@ export function GespWorkbenchPage({ navigateTo, onOpenIde }: { navigateTo: Navig
   const [selectedProblemId, setSelectedProblemId] = useState<string | null>(null);
   const [selectedProblem, setSelectedProblem] = useState<ProblemDetailResponse | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
+  const [sidePaneWidth, setSidePaneWidth] = useState(SIDE_PANE_WIDTH_DEFAULT);
+  const workspaceRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const clampToWorkspace = () => {
+      const maxWidth = getWorkspaceSidePaneMaxWidth(workspaceRef.current);
+      setSidePaneWidth((currentWidth) => clampSidePaneWidth(currentWidth, maxWidth));
+    };
+
+    clampToWorkspace();
+    window.addEventListener("resize", clampToWorkspace);
+    return () => window.removeEventListener("resize", clampToWorkspace);
+  }, []);
 
   async function openProblem(problemId: string) {
     setSelectedProblemId(problemId);
@@ -107,6 +127,55 @@ export function GespWorkbenchPage({ navigateTo, onOpenIde }: { navigateTo: Navig
   }
 
   const featuredProblems = flatProblems.slice(0, 8);
+  const workspaceStyle = {
+    "--practice-side-width": `${sidePaneWidth}px`
+  } as CSSProperties;
+
+  function resizeSidePaneBy(delta: number) {
+    const maxWidth = getWorkspaceSidePaneMaxWidth(workspaceRef.current);
+    setSidePaneWidth((currentWidth) => clampSidePaneWidth(currentWidth + delta, maxWidth));
+  }
+
+  function handleResizeKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      resizeSidePaneBy(20);
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      resizeSidePaneBy(-20);
+    }
+    if (event.key === "Home") {
+      event.preventDefault();
+      setSidePaneWidth(SIDE_PANE_WIDTH_MIN);
+    }
+    if (event.key === "End") {
+      event.preventDefault();
+      setSidePaneWidth(SIDE_PANE_WIDTH_MAX);
+    }
+  }
+
+  function startSidePaneResize(event: ReactPointerEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    const startX = event.clientX;
+    const startWidth = sidePaneWidth;
+    const maxWidth = getWorkspaceSidePaneMaxWidth(workspaceRef.current);
+
+    document.body.classList.add("isResizingPracticeSidePane");
+
+    function handlePointerMove(moveEvent: PointerEvent) {
+      const nextWidth = startWidth + startX - moveEvent.clientX;
+      setSidePaneWidth(clampSidePaneWidth(nextWidth, maxWidth));
+    }
+
+    function stopResize() {
+      document.body.classList.remove("isResizingPracticeSidePane");
+      window.removeEventListener("pointermove", handlePointerMove);
+    }
+
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", stopResize, { once: true });
+  }
 
   return (
     <main className="pageSurface">
@@ -142,7 +211,7 @@ export function GespWorkbenchPage({ navigateTo, onOpenIde }: { navigateTo: Navig
         <WorkbenchStat icon={<ShieldCheck size={18} />} label="知识点" value={visibleCatalog?.summary.knowledge_point_count ?? 0} />
       </section>
 
-      <section className="practiceWorkspace">
+      <section className="practiceWorkspace" ref={workspaceRef} style={workspaceStyle}>
         <Card className="domainRail" title="算法范畴" loading={loading}>
           <Space direction="vertical" size={8}>
             {(visibleCatalog?.domains || []).map((domain) => (
@@ -185,7 +254,7 @@ export function GespWorkbenchPage({ navigateTo, onOpenIde }: { navigateTo: Navig
                     {type.problems.slice(0, 6).map((problem) => (
                       <ProblemPracticeCard
                         isSelected={selectedProblemId === problem.id}
-                        key={problem.id}
+                        key={`${type.problem_type_id}:${problem.id}`}
                         onOpenDetail={() => navigateTo(`/gesp/problems/${encodeURIComponent(problem.id)}`)}
                         onOpenIde={problem.question_type === "programming" ? () => onOpenIde(problem.id) : undefined}
                         onSelect={() => openProblem(problem.id)}
@@ -201,36 +270,66 @@ export function GespWorkbenchPage({ navigateTo, onOpenIde }: { navigateTo: Navig
           )}
         </Card>
 
-        <Card className="practiceSidePane" title="当前题目" loading={detailLoading}>
-          {selectedProblem ? (
-            <ProblemDetailPanel
-              loading={detailLoading}
-              onClose={() => {
-                setSelectedProblem(null);
-                setSelectedProblemId(null);
-              }}
-              onOpenIde={onOpenIde}
-              problem={selectedProblem}
-            />
-          ) : (
-            <Space className="sideEmpty" direction="vertical" size={12}>
-              <Empty description="从中间列表选择题目查看练习内容" image={Empty.PRESENTED_IMAGE_SIMPLE} />
-              {featuredProblems.length ? (
-                <Space direction="vertical" size={8}>
-                  <Typography.Text strong>推荐先看</Typography.Text>
-                  {featuredProblems.slice(0, 3).map((entry) => (
-                    <Button block key={entry.problem.id} onClick={() => openProblem(entry.problem.id)}>
-                      {entry.problem.title}
-                    </Button>
-                  ))}
-                </Space>
-              ) : null}
-            </Space>
-          )}
-        </Card>
+        <div className="practiceSidePaneWrap">
+          <button
+            aria-label="调整当前题目宽度"
+            aria-orientation="vertical"
+            aria-valuemax={SIDE_PANE_WIDTH_MAX}
+            aria-valuemin={SIDE_PANE_WIDTH_MIN}
+            aria-valuenow={sidePaneWidth}
+            className="practiceSideResizeHandle"
+            onDoubleClick={() => setSidePaneWidth(SIDE_PANE_WIDTH_DEFAULT)}
+            onKeyDown={handleResizeKeyDown}
+            onPointerDown={startSidePaneResize}
+            role="separator"
+            title="拖动调整当前题目宽度，双击恢复默认"
+            type="button"
+          />
+          <Card className="practiceSidePane" title="当前题目" loading={detailLoading}>
+            {selectedProblem ? (
+              <ProblemDetailPanel
+                loading={detailLoading}
+                onClose={() => {
+                  setSelectedProblem(null);
+                  setSelectedProblemId(null);
+                }}
+                onOpenIde={onOpenIde}
+                problem={selectedProblem}
+              />
+            ) : (
+              <Space className="sideEmpty" direction="vertical" size={12}>
+                <Empty description="从中间列表选择题目查看练习内容" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                {featuredProblems.length ? (
+                  <Space className="recommendList" direction="vertical" size={8}>
+                    <Typography.Text strong>推荐先看</Typography.Text>
+                    {featuredProblems.slice(0, 3).map((entry) => (
+                      <Button block className="recommendButton" key={entry.key} onClick={() => openProblem(entry.problem.id)}>
+                        {entry.problem.title}
+                      </Button>
+                    ))}
+                  </Space>
+                ) : null}
+              </Space>
+            )}
+          </Card>
+        </div>
       </section>
     </main>
   );
+}
+
+function clampSidePaneWidth(width: number, maxWidth = SIDE_PANE_WIDTH_MAX) {
+  return Math.min(maxWidth, Math.max(SIDE_PANE_WIDTH_MIN, Math.round(width)));
+}
+
+function getWorkspaceSidePaneMaxWidth(workspace: HTMLElement | null) {
+  if (!workspace) {
+    return SIDE_PANE_WIDTH_MAX;
+  }
+
+  const availableWidth = workspace.getBoundingClientRect().width;
+  const maxWidth = availableWidth - WORKSPACE_DOMAIN_WIDTH - WORKSPACE_CENTER_MIN_WIDTH - WORKSPACE_GAP * 2;
+  return Math.max(SIDE_PANE_WIDTH_MIN, Math.min(SIDE_PANE_WIDTH_MAX, Math.floor(maxWidth)));
 }
 
 export function GespProblemPracticePage({ problemId, navigateTo, onOpenIde }: { problemId: string; navigateTo: Navigate; onOpenIde: (problemId: string) => void }) {
@@ -281,12 +380,22 @@ export function ExerciseBuilderPage({ navigateTo }: { navigateTo: Navigate }) {
   const filteredProblems = useMemo(() => {
     return flatProblems.filter((entry) => questionType === "all" || entry.problem.question_type === questionType);
   }, [flatProblems, questionType]);
-  const suggestedIds = filteredProblems.slice(0, count).map((entry) => entry.problem.id);
-  const selectedProblems = flatProblems.filter((entry) => selectedIds.includes(entry.problem.id));
+  const suggestedIds = useMemo(() => firstUniqueProblemIds(filteredProblems, count), [count, filteredProblems]);
+  const selectedProblems = useMemo(() => {
+    const selectedIdSet = new Set(selectedIds);
+    const seen = new Set<string>();
+    return flatProblems.filter((entry) => {
+      if (!selectedIdSet.has(entry.problem.id) || seen.has(entry.problem.id)) {
+        return false;
+      }
+      seen.add(entry.problem.id);
+      return true;
+    });
+  }, [flatProblems, selectedIds]);
 
   useEffect(() => {
     setSelectedIds(suggestedIds);
-  }, [count, selectedLevel, questionType, searchQuery]);
+  }, [suggestedIds]);
 
   return (
     <main className="pageSurface">
@@ -333,7 +442,7 @@ export function ExerciseBuilderPage({ navigateTo }: { navigateTo: Navigate }) {
           <Checkbox.Group className="builderCheckGroup" value={selectedIds} onChange={(values) => setSelectedIds(values.map(String))}>
             <Space direction="vertical" size={10}>
               {filteredProblems.slice(0, 40).map((entry) => (
-                <Checkbox className="builderProblemCheck" key={entry.problem.id} value={entry.problem.id}>
+                <Checkbox className="builderProblemCheck" key={entry.key} value={entry.problem.id}>
                   <Space direction="vertical" size={2}>
                     <Typography.Text strong>{entry.problem.title}</Typography.Text>
                     <Typography.Text type="secondary">{entry.domain.domain_label} / {entry.problemType.problem_type_label}</Typography.Text>
@@ -348,7 +457,7 @@ export function ExerciseBuilderPage({ navigateTo }: { navigateTo: Navigate }) {
           {selectedProblems.length ? (
             <Space direction="vertical" size={10}>
               {selectedProblems.map((entry, index) => (
-                <Card className="compactProblemCard" key={entry.problem.id} size="small">
+                <Card className="compactProblemCard" key={entry.key} size="small">
                   <Flex align="center" justify="space-between" gap={12}>
                     <Space direction="vertical" size={2}>
                       <Typography.Text strong>{index + 1}. {entry.problem.title}</Typography.Text>
@@ -450,7 +559,7 @@ export function KnowledgeCoveragePage({ navigateTo }: { navigateTo: Navigate }) 
       <Card className="coverageMatrix" title="题型覆盖矩阵">
         <div className="coverageChipGrid">
           {flatProblems.slice(0, 60).map((entry) => (
-            <Tag key={entry.problem.id}>{entry.problemType.problem_type_label}</Tag>
+            <Tag key={entry.key}>{entry.problemType.problem_type_label}</Tag>
           ))}
         </div>
       </Card>
@@ -713,6 +822,8 @@ function useGespCatalog(initialLevel: number) {
     }
   }, [activeDomainId, visibleCatalog]);
 
+  const flatProblems = useMemo(() => flattenCatalog(visibleCatalog), [visibleCatalog]);
+
   async function loadCatalog(level: number) {
     setLoading(true);
     setError(null);
@@ -733,7 +844,7 @@ function useGespCatalog(initialLevel: number) {
     activeDomainId,
     catalog,
     error,
-    flatProblems: flattenCatalog(visibleCatalog),
+    flatProblems,
     levels,
     loading,
     reload: () => loadCatalog(selectedLevel),
@@ -746,6 +857,22 @@ function useGespCatalog(initialLevel: number) {
   };
 }
 
+function firstUniqueProblemIds(entries: FlatProblem[], count: number) {
+  const ids: string[] = [];
+  const seen = new Set<string>();
+  for (const entry of entries) {
+    if (seen.has(entry.problem.id)) {
+      continue;
+    }
+    seen.add(entry.problem.id);
+    ids.push(entry.problem.id);
+    if (ids.length >= count) {
+      break;
+    }
+  }
+  return ids;
+}
+
 function flattenCatalog(catalog: LevelCatalog | null): FlatProblem[] {
   if (!catalog) {
     return [];
@@ -753,7 +880,7 @@ function flattenCatalog(catalog: LevelCatalog | null): FlatProblem[] {
   return catalog.domains.flatMap((domain) => (
     domain.problem_types.flatMap((problemType) => (
       problemType.problems.map((problem) => ({
-        key: problem.id,
+        key: `${domain.domain_id}:${problemType.problem_type_id}:${problem.id}`,
         level: catalog.level,
         domain,
         problemType,
@@ -845,7 +972,7 @@ function ProblemPracticeCard({ isSelected, onOpenDetail, onOpenIde, onSelect, pr
         <Flex className="tagWrap" gap={6} wrap="wrap">
           {problem.knowledge_point_tags.slice(0, 3).map((tag) => <Tag key={tag.value}>{tag.label}</Tag>)}
         </Flex>
-        <Space size={6}>
+        <Space className="problemPracticeActions" size={6}>
           <Button size="small" onClick={(event) => { event.stopPropagation(); onOpenDetail(); }}>查看练习</Button>
           {onOpenIde ? (
             <Button icon={<Code2 size={13} />} size="small" onClick={(event) => { event.stopPropagation(); onOpenIde(); }}>IDE</Button>

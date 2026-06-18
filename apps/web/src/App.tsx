@@ -1,4 +1,5 @@
-import { App as AntApp, ConfigProvider, theme } from "antd";
+import { App as AntApp, ConfigProvider, FloatButton, theme } from "antd";
+import { ArrowUp } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { WorkbenchLayout } from "./layout/WorkbenchLayout";
 import {
@@ -35,6 +36,7 @@ export default function App() {
 
   const openGespIde = (problemId: string) => navigateTo(`/ide/${encodeURIComponent(problemId)}`);
   const openAtCoderIde = (problemId: string) => navigateTo(`/ide/atcoder/${encodeURIComponent(problemId)}`);
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
     <ConfigProvider
@@ -77,6 +79,13 @@ export default function App() {
             )}
           </WorkbenchLayout>
         )}
+        <FloatButton
+          aria-label="回到顶部"
+          className="globalBackTop"
+          icon={<ArrowUp size={18} />}
+          onClick={scrollToTop}
+          tooltip="回到顶部"
+        />
       </AntApp>
     </ConfigProvider>
   );

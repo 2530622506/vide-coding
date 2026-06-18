@@ -231,7 +231,7 @@ function StatementBlock({ detail }: { detail: NonNullable<ProblemDetailResponse[
   }
   return (
     <Space className="statementBlock" direction="vertical" size={10}>
-      {detail.statement.source_terms_status ? <Tag>来源条款：{detail.statement.source_terms_status}</Tag> : null}
+      {detail.statement.source_terms_status ? <Tag>来源条款：{formatSourceTermsStatus(detail.statement.source_terms_status)}</Tag> : null}
       {sections.map((section) => (
         <section key={section.id}>
           <Typography.Title level={4}>{section.title}</Typography.Title>
@@ -359,4 +359,13 @@ function DataGap({ status, notes }: { status: string; notes: string[] }) {
       type="warning"
     />
   );
+}
+
+function formatSourceTermsStatus(status: string) {
+  const statusText: Record<string, string> = {
+    needs_review: "待完善",
+    source_extracted: "已抽取",
+    confirmed: "已确认"
+  };
+  return statusText[status] || status;
 }

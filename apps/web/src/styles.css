@@ -20,8 +20,9 @@
 }
 
 .workbenchSider.ant-layout-sider {
-  background: #17212b;
-  border-right: 1px solid rgb(255 255 255 / 8%);
+  background: #eff9f7;
+  border-right: 1px solid #cfe4df;
+  box-shadow: 8px 0 28px rgb(77 124 119 / 8%);
   min-height: 100vh;
   padding: 18px 12px;
   position: sticky;
@@ -30,17 +31,20 @@
 
 .brandBlock {
   align-items: center;
+  background: rgb(255 255 255 / 62%);
+  border: 1px solid #d8ebe7;
+  border-radius: 12px;
   display: flex;
   gap: 12px;
   margin-bottom: 22px;
-  padding: 8px 10px;
+  padding: 10px;
 }
 
 .brandMark {
   align-items: center;
-  background: #e7f7f5;
+  background: #d9f3ee;
   border-radius: 8px;
-  color: #167f7b;
+  color: #0d7772;
   display: flex;
   height: 42px;
   justify-content: center;
@@ -48,7 +52,7 @@
 }
 
 .brandEyebrow.ant-typography {
-  color: rgb(255 255 255 / 62%);
+  color: #647b79;
   display: block;
   font-size: 12px;
   line-height: 1;
@@ -56,7 +60,7 @@
 }
 
 .brandBlock h1.ant-typography {
-  color: #fff;
+  color: #173333;
   font-size: 18px;
   line-height: 1.25;
   margin: 0;
@@ -65,46 +69,66 @@
 .workbenchMenu.ant-menu {
   background: transparent;
   border-inline-end: 0;
-  color: rgb(255 255 255 / 72%);
+  color: #395351;
 }
 
 .workbenchMenu .ant-menu-item,
 .workbenchMenu .ant-menu-submenu-title {
   border-radius: 8px;
-  color: rgb(255 255 255 / 78%);
+  color: #395351;
   height: 40px;
   line-height: 40px;
 }
 
+.workbenchMenu .ant-menu-item .ant-menu-item-icon,
+.workbenchMenu .ant-menu-title-content {
+  color: inherit;
+}
+
+.workbenchMenu .ant-menu-item:not(.ant-menu-item-selected):hover,
+.workbenchMenu .ant-menu-submenu-title:hover {
+  background: #e0f1ee;
+  color: #0d6764;
+}
+
 .workbenchMenu .ant-menu-item-selected {
-  background: #e7f7f5;
-  color: #0c5c5a;
+  background: #d5f0eb;
+  border: 1px solid #a9dcd4;
+  color: #075d5a;
   font-weight: 700;
 }
 
+.workbenchMenu .ant-menu-item-selected:hover {
+  background: #c8ebe5;
+  color: #075d5a;
+}
+
 .workbenchMenu .ant-menu-item-group-title {
-  color: rgb(255 255 255 / 42%);
+  color: #6f8785;
   font-size: 12px;
+  font-weight: 700;
 }
 
 .siderFootnote {
-  border-top: 1px solid rgb(255 255 255 / 10%);
+  background: rgb(255 255 255 / 52%);
+  border: 1px solid #d8ebe7;
+  border-radius: 10px;
   bottom: 16px;
-  color: rgb(255 255 255 / 62%);
+  color: #647b79;
   left: 16px;
-  padding-top: 14px;
+  padding: 12px;
   position: absolute;
   right: 16px;
 }
 
 .siderFootnote .ant-typography {
-  color: rgb(255 255 255 / 70%);
+  color: #647b79;
 }
 
 .siderFootnote strong,
 .siderFootnote .ant-typography strong {
   align-items: center;
-  color: #fff;
+  color: #173333;
   display: inline-flex;
   gap: 6px;
 }
@@ -112,6 +136,24 @@
 .workbenchMain {
   background: #eef1f3;
   min-width: 0;
+}
+
+.globalBackTop.ant-float-btn {
+  border: 1px solid #a9dcd4;
+  box-shadow: 0 12px 28px rgb(40 102 98 / 18%);
+  height: 44px;
+  inset-block-end: 28px;
+  inset-inline-end: 28px;
+  width: 44px;
+}
+
+.globalBackTop.ant-float-btn .ant-float-btn-body {
+  background: #167f7b;
+  color: #fff;
+}
+
+.globalBackTop.ant-float-btn:hover .ant-float-btn-body {
+  background: #0f6f6b;
 }
 
 .pageSurface {
@@ -211,6 +253,10 @@
   grid-template-columns: 240px minmax(0, 1fr) 420px;
 }
 
+.practiceWorkspace {
+  grid-template-columns: 220px minmax(420px, 1fr) var(--practice-side-width, 420px);
+}
+
 .atcoderWorkspace {
   grid-template-columns: 260px minmax(0, 1fr);
 }
@@ -233,6 +279,12 @@
   overflow: auto;
   position: sticky;
   top: 24px;
+}
+
+.practiceWorkspace .domainRail {
+  max-height: none;
+  overflow: visible;
+  position: static;
 }
 
 .domainRailItem {
@@ -304,7 +356,7 @@
 .problemCardGrid {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(184px, 1fr));
   margin-top: 12px;
 }
 
@@ -320,6 +372,8 @@
 }
 
 .problemPracticeCard .ant-card-body {
+  display: flex;
+  flex-direction: column;
   height: 100%;
 }
 
@@ -344,29 +398,125 @@
   -webkit-line-clamp: 2;
 }
 
-.practiceSidePane {
+.problemPracticeActions {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin-top: auto;
+  width: 100%;
+}
+
+.problemPracticeActions .ant-btn {
+  min-width: 0;
+}
+
+.practiceSidePaneWrap {
   max-height: calc(100vh - 120px);
-  overflow: auto;
+  min-width: 0;
   position: sticky;
   top: 24px;
+}
+
+.practiceSidePane {
+  max-height: calc(100vh - 120px);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .practiceSidePane .detailCard {
   min-width: 0;
 }
 
+.practiceSidePane .ant-card-body,
+.practiceSidePane .ant-alert,
+.practiceSidePane .ant-alert-content,
+.practiceSidePane .ant-alert-message,
+.practiceSidePane .ant-alert-description,
+.practiceSidePane .ant-space,
+.practiceSidePane .ant-space-item,
+.practiceSidePane .ant-typography,
+.practiceSidePane .detailHeader,
+.practiceSidePane .detailHeader > div,
+.practiceSidePane .detailSection,
+.practiceSidePane .markdownBody,
+.practiceSidePane .statementBlock,
+.practiceSidePane .answerLine,
+.practiceSidePane .explainBlock,
+.practiceSidePane .solutionBlock {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.practiceSidePane :where(p, li, a, .ant-typography, .ant-alert-message, .ant-alert-description, .ant-tag) {
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.practiceSidePane .codeBlock,
+.practiceSidePane .codeBlock code,
+.practiceSidePane .codeBlock span {
+  overflow-wrap: normal;
+  white-space: pre;
+  word-break: normal;
+}
+
+.practiceSideResizeHandle {
+  background: transparent;
+  border: 0;
+  bottom: 14px;
+  cursor: col-resize;
+  left: -12px;
+  padding: 0;
+  position: absolute;
+  top: 14px;
+  width: 12px;
+  z-index: 2;
+}
+
+.practiceSideResizeHandle::before {
+  background: #c7dad7;
+  border-radius: 999px;
+  content: "";
+  height: 64px;
+  left: 5px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: background 0.16s ease, box-shadow 0.16s ease;
+  width: 3px;
+}
+
+.practiceSideResizeHandle:hover::before,
+.practiceSideResizeHandle:focus-visible::before,
+body.isResizingPracticeSidePane .practiceSideResizeHandle::before {
+  background: #167f7b;
+  box-shadow: 0 0 0 4px rgb(22 127 123 / 10%);
+}
+
+body.isResizingPracticeSidePane {
+  cursor: col-resize;
+  user-select: none;
+}
+
 .sideEmpty {
   width: 100%;
 }
 
-.sideEmpty .ant-btn {
-  height: auto;
-  min-height: 32px;
-  text-align: left;
-  white-space: normal;
+.recommendList {
+  min-width: 0;
+  width: 100%;
 }
 
-.sideEmpty .ant-btn > span {
+.recommendButton.ant-btn {
+  justify-content: flex-start;
+  height: auto;
+  min-height: 32px;
+  max-width: 100%;
+  text-align: left;
+  width: 100%;
+}
+
+.recommendButton.ant-btn > span {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -487,11 +637,19 @@
     grid-template-columns: 220px minmax(0, 1fr);
   }
 
-  .practiceSidePane,
+  .practiceSidePaneWrap,
   .builderResultCard {
     grid-column: 1 / -1;
     max-height: none;
     position: static;
+  }
+
+  .practiceSidePane {
+    max-height: none;
+  }
+
+  .practiceSideResizeHandle {
+    display: none;
   }
 
   .problemCardGrid {
