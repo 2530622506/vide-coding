@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "generatedAt": 1781163301821,
+  "generatedAt": 1781785391448,
   "entries": [
     {
       "id": "project-project",
@@ -262,12 +262,38 @@
       ],
       "status": "active",
       "created": "2026-05-31T14:21:27.095Z",
-      "updated": "2026-05-31T14:21:27.095Z",
+      "updated": "2026-06-11T07:36:09.505Z",
       "scope": "project",
       "category": "debug",
       "createdBy": null,
       "sourceRef": null,
       "parent": null,
+      "related": [],
+      "source": {
+        "kind": "file",
+        "path": "specs/debug-notes.md"
+      }
+    },
+    {
+      "id": "spec:project:debug-notes-001",
+      "type": "spec",
+      "title": "AtCoder 保存 500：生产库缺少 atcoder_problem_bank",
+      "summary": "### AtCoder 保存 500：生产库缺少 atcoder_problem_bank 症状：线上 http://193.112.176.242/atcoder 页面新增或编辑 AtCoder 题目时，保存接口 PUT /api/atcoder-catalog/problems/:id 返回 500，响应为 {statusCode:500,message:'Internal server error'}；但 GET /api/atcoder-catalog 和 GET ",
+      "tags": [
+        "atcoder",
+        "production",
+        "mysql",
+        "seed",
+        "er-no-such-table"
+      ],
+      "status": "active",
+      "created": "2026-05-31T14:21:27.095Z",
+      "updated": "2026-06-11T07:36:09.505Z",
+      "scope": "project",
+      "category": "debug",
+      "createdBy": null,
+      "sourceRef": null,
+      "parent": "spec:project:debug-notes",
       "related": [],
       "source": {
         "kind": "file",

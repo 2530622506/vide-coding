@@ -1,0 +1,1655 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GESP Practice Prototype</title>
+    <style>
+      :root {
+        --primary: #2563eb;
+        --primary-strong: #1d4ed8;
+        --cyan: #0891b2;
+        --green: #059669;
+        --gold: #d97706;
+        --pink: #db2777;
+        --red: #dc2626;
+        --ink: #0f172a;
+        --text: #334155;
+        --subtle: #64748b;
+        --muted: #f6f8fc;
+        --surface: #ffffff;
+        --line: #dbe4f0;
+        --line-strong: #cbd5e1;
+        --shadow: 0 18px 50px rgba(15, 23, 42, 0.09);
+        --radius: 8px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #eef4ff;
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+
+      .screen {
+        width: 1440px;
+        min-height: 1100px;
+        margin: 0 auto;
+        background:
+          linear-gradient(180deg, rgba(239, 246, 255, 0.92), rgba(248, 250, 252, 1) 280px),
+          #f8fafc;
+        overflow: hidden;
+      }
+
+      .mobile-screen {
+        width: 390px;
+        min-height: 844px;
+        margin: 0;
+        background: #f8fafc;
+        overflow: hidden;
+      }
+
+      .app-shell {
+        display: grid;
+        grid-template-columns: 236px 1fr;
+        min-height: 1100px;
+      }
+
+      .sider {
+        background: #0f172a;
+        color: #e2e8f0;
+        padding: 24px 16px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 44px;
+        margin-bottom: 26px;
+        padding: 0 8px;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border-radius: 8px;
+        background: #2563eb;
+        color: #fff;
+        font-weight: 800;
+      }
+
+      .brand-title {
+        display: grid;
+        gap: 2px;
+      }
+
+      .brand-title strong {
+        color: #fff;
+        font-size: 15px;
+      }
+
+      .brand-title span {
+        color: #94a3b8;
+        font-size: 12px;
+      }
+
+      .nav-section {
+        margin-top: 18px;
+      }
+
+      .nav-label {
+        padding: 0 10px 8px;
+        color: #718096;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 40px;
+        margin-bottom: 4px;
+        padding: 0 10px;
+        border-radius: 8px;
+        color: #cbd5e1;
+        font-size: 14px;
+      }
+
+      .nav-item.active {
+        background: #1d4ed8;
+        color: #fff;
+      }
+
+      .nav-item svg {
+        width: 17px;
+        height: 17px;
+        stroke-width: 2;
+      }
+
+      .main {
+        padding: 22px 28px 32px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+      }
+
+      .page-title {
+        display: grid;
+        gap: 4px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--primary);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .page-title h1,
+      .mobile-title h1 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 28px;
+        line-height: 1.18;
+      }
+
+      .page-title p {
+        margin: 0;
+        color: var(--subtle);
+        font-size: 14px;
+      }
+
+      .actions,
+      .row-actions,
+      .inline-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        min-height: 34px;
+        padding: 0 14px;
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--text);
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .btn.primary {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .btn.text {
+        border-color: transparent;
+        background: transparent;
+        color: var(--primary);
+      }
+
+      .btn.ghost-primary {
+        border-color: #bfdbfe;
+        background: #eff6ff;
+        color: var(--primary-strong);
+      }
+
+      .btn.danger {
+        border-color: #fecaca;
+        background: #fff1f2;
+        color: #be123c;
+      }
+
+      .icon-btn {
+        width: 34px;
+        height: 34px;
+        padding: 0;
+      }
+
+      .card,
+      .panel,
+      .ant-card {
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--surface);
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      }
+
+      .panel {
+        padding: 16px;
+      }
+
+      .panel-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .panel-title h2,
+      .panel-title h3,
+      .section-title h2,
+      .section-title h3 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 17px;
+        line-height: 1.25;
+      }
+
+      .panel-title p,
+      .section-title p {
+        margin: 4px 0 0;
+        color: var(--subtle);
+        font-size: 13px;
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .metric {
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: #fff;
+      }
+
+      .metric span {
+        color: var(--subtle);
+        font-size: 12px;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 6px;
+        color: var(--ink);
+        font-size: 24px;
+        line-height: 1;
+      }
+
+      .metric em {
+        display: block;
+        margin-top: 8px;
+        color: var(--green);
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 700;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        min-height: 22px;
+        padding: 0 8px;
+        border: 1px solid #bfdbfe;
+        border-radius: 6px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .tag.green {
+        border-color: #bbf7d0;
+        background: #f0fdf4;
+        color: #047857;
+      }
+
+      .tag.gold {
+        border-color: #fde68a;
+        background: #fffbeb;
+        color: #b45309;
+      }
+
+      .tag.pink {
+        border-color: #fbcfe8;
+        background: #fdf2f8;
+        color: #be185d;
+      }
+
+      .tag.gray {
+        border-color: #e2e8f0;
+        background: #f8fafc;
+        color: #475569;
+      }
+
+      .tag.cyan {
+        border-color: #a5f3fc;
+        background: #ecfeff;
+        color: #0e7490;
+      }
+
+      .segmented {
+        display: inline-flex;
+        padding: 3px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f8fafc;
+      }
+
+      .segmented span {
+        min-width: 66px;
+        padding: 6px 11px;
+        border-radius: 6px;
+        color: var(--subtle);
+        font-size: 13px;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .segmented span.active {
+        background: #fff;
+        color: var(--primary);
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+      }
+
+      .search-row {
+        display: grid;
+        grid-template-columns: 1fr 160px 150px 140px;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .input,
+      .select,
+      .textarea {
+        width: 100%;
+        min-height: 36px;
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--text);
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .input {
+        padding: 0 12px;
+      }
+
+      .select {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        color: var(--text);
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .input span,
+      .select span {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .workspace-grid {
+        display: grid;
+        grid-template-columns: 242px minmax(0, 1fr) 340px;
+        gap: 14px;
+        align-items: start;
+      }
+
+      .domain-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .domain-item {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .domain-item.active {
+        border-color: #93c5fd;
+        background: #eff6ff;
+      }
+
+      .domain-item strong {
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .domain-item small {
+        color: var(--subtle);
+        font-size: 12px;
+      }
+
+      .type-card {
+        margin-bottom: 12px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .type-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .type-header h3 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 16px;
+      }
+
+      .knowledge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+
+      .problem-row {
+        display: grid;
+        grid-template-columns: 54px 1fr 94px;
+        gap: 12px;
+        padding: 11px 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfdff;
+      }
+
+      .problem-row + .problem-row {
+        margin-top: 8px;
+      }
+
+      .problem-row.active {
+        border-color: #93c5fd;
+        background: #eff6ff;
+      }
+
+      .problem-index {
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        background: #e0f2fe;
+        color: #0369a1;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .problem-main strong {
+        display: block;
+        margin-bottom: 7px;
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .problem-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      .mini-chart {
+        display: grid;
+        gap: 8px;
+      }
+
+      .bar-row {
+        display: grid;
+        grid-template-columns: 78px 1fr 38px;
+        align-items: center;
+        gap: 8px;
+        color: var(--subtle);
+        font-size: 12px;
+      }
+
+      .bar {
+        height: 8px;
+        border-radius: 999px;
+        background: #e2e8f0;
+        overflow: hidden;
+      }
+
+      .bar span {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: var(--primary);
+      }
+
+      .bar.green span {
+        background: var(--green);
+      }
+
+      .bar.gold span {
+        background: var(--gold);
+      }
+
+      .detail-stack {
+        display: grid;
+        gap: 12px;
+      }
+
+      .answer-card {
+        padding: 14px;
+        border-radius: 8px;
+        background: #f8fafc;
+        border: 1px solid var(--line);
+      }
+
+      .answer-card h3 {
+        margin: 0 0 8px;
+        color: var(--ink);
+        font-size: 16px;
+      }
+
+      .answer-card p {
+        margin: 0;
+        color: var(--text);
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      .step-list {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--text);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .queue-card {
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .queue-card + .queue-card {
+        margin-top: 8px;
+      }
+
+      .queue-card strong {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .queue-card p {
+        margin: 0 0 8px;
+        color: var(--subtle);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .practice-grid {
+        display: grid;
+        grid-template-columns: 380px minmax(0, 1fr) 320px;
+        gap: 14px;
+      }
+
+      .statement-box {
+        display: grid;
+        gap: 12px;
+      }
+
+      .problem-hero {
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .problem-hero h2 {
+        margin: 6px 0 8px;
+        color: var(--ink);
+        font-size: 22px;
+      }
+
+      .problem-hero p {
+        margin: 0;
+        color: var(--subtle);
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      .code-window {
+        overflow: hidden;
+        border: 1px solid #1e293b;
+        border-radius: 8px;
+        background: #0b1220;
+      }
+
+      .code-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 42px;
+        padding: 0 12px;
+        border-bottom: 1px solid #1e293b;
+        color: #cbd5e1;
+        font-size: 13px;
+      }
+
+      pre {
+        margin: 0;
+        white-space: pre-wrap;
+        font-family: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+
+      .code-window pre {
+        min-height: 520px;
+        padding: 18px;
+        color: #dbeafe;
+        font-size: 13px;
+        line-height: 1.62;
+      }
+
+      .sample-box {
+        display: grid;
+        gap: 10px;
+      }
+
+      .sample-card {
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .sample-card strong {
+        display: block;
+        color: var(--ink);
+        font-size: 13px;
+        margin-bottom: 7px;
+      }
+
+      .sample-card pre {
+        padding: 10px;
+        border-radius: 6px;
+        background: #f1f5f9;
+        color: #334155;
+        font-size: 12px;
+      }
+
+      .builder-grid {
+        display: grid;
+        grid-template-columns: 330px minmax(0, 1fr) 360px;
+        gap: 14px;
+      }
+
+      .checkbox-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .checkbox-row:last-child {
+        border-bottom: 0;
+      }
+
+      .check {
+        width: 16px;
+        height: 16px;
+        border: 1px solid var(--line-strong);
+        border-radius: 4px;
+      }
+
+      .check.on {
+        border-color: var(--primary);
+        background: var(--primary);
+        box-shadow: inset 0 0 0 3px #fff;
+      }
+
+      .paper-preview {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .paper-preview h3 {
+        margin: 0 0 12px;
+        color: var(--ink);
+        font-size: 18px;
+      }
+
+      .paper-item {
+        padding: 12px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .paper-item strong {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .paper-item p {
+        margin: 0;
+        color: var(--subtle);
+        font-size: 12px;
+        line-height: 1.55;
+      }
+
+      .coverage-grid {
+        display: grid;
+        grid-template-columns: 320px minmax(0, 1fr);
+        gap: 14px;
+      }
+
+      .heatmap {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 8px;
+      }
+
+      .heat-cell {
+        height: 42px;
+        border-radius: 8px;
+        border: 1px solid #bfdbfe;
+        background: #eff6ff;
+      }
+
+      .heat-cell.level-2 {
+        background: #dbeafe;
+      }
+
+      .heat-cell.level-3 {
+        background: #93c5fd;
+      }
+
+      .heat-cell.level-4 {
+        background: #2563eb;
+      }
+
+      .evidence-table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .evidence-table th,
+      .evidence-table td {
+        padding: 12px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        font-size: 13px;
+      }
+
+      .evidence-table th {
+        background: #f8fafc;
+        color: var(--subtle);
+        font-weight: 700;
+      }
+
+      .evidence-table td {
+        color: var(--text);
+      }
+
+      .evidence-table tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .source-grid {
+        display: grid;
+        grid-template-columns: 310px minmax(0, 1fr) 330px;
+        gap: 14px;
+        align-items: start;
+      }
+
+      .source-card {
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .source-card + .source-card {
+        margin-top: 8px;
+      }
+
+      .source-card.active {
+        border-color: #93c5fd;
+        background: #eff6ff;
+      }
+
+      .source-card strong {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .source-card p {
+        margin: 0 0 8px;
+        color: var(--subtle);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .source-map {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+
+      .map-node {
+        min-height: 112px;
+        padding: 13px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .map-node strong {
+        display: block;
+        margin: 8px 0 6px;
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .map-node p {
+        margin: 0;
+        color: var(--subtle);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .timeline {
+        display: grid;
+        gap: 10px;
+      }
+
+      .timeline-step {
+        display: grid;
+        grid-template-columns: 26px 1fr auto;
+        gap: 10px;
+        align-items: start;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .step-dot {
+        display: grid;
+        width: 26px;
+        height: 26px;
+        place-items: center;
+        border-radius: 50%;
+        background: #dbeafe;
+        color: var(--primary);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .timeline-step strong {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .timeline-step p {
+        margin: 0;
+        color: var(--subtle);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .maintenance-grid {
+        display: grid;
+        grid-template-columns: 310px minmax(0, 1fr) 340px;
+        gap: 14px;
+        align-items: start;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+
+      .field.full {
+        grid-column: 1 / -1;
+      }
+
+      .field label {
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .textarea {
+        min-height: 92px;
+        padding: 10px 12px;
+        color: var(--text);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .mock-editor {
+        min-height: 180px;
+        padding: 12px;
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--text);
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      .asset-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .asset-tile {
+        min-height: 92px;
+        padding: 12px;
+        border: 1px dashed #93c5fd;
+        border-radius: 8px;
+        background: #eff6ff;
+      }
+
+      .asset-tile strong {
+        display: block;
+        color: var(--ink);
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+
+      .asset-tile p {
+        margin: 0;
+        color: var(--subtle);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .preview-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .mobile-top {
+        padding: 16px 16px 10px;
+        background: #ffffff;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .mobile-status {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 28px;
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .mobile-title {
+        display: grid;
+        gap: 8px;
+        padding-top: 12px;
+      }
+
+      .mobile-title h1 {
+        font-size: 24px;
+      }
+
+      .mobile-body {
+        padding: 14px 14px 90px;
+      }
+
+      .mobile-card {
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        margin-bottom: 12px;
+      }
+
+      .mobile-card h2,
+      .mobile-card h3 {
+        margin: 0 0 8px;
+        color: var(--ink);
+        font-size: 16px;
+      }
+
+      .mobile-card p {
+        margin: 0;
+        color: var(--subtle);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .mobile-domain {
+        display: grid;
+        gap: 8px;
+      }
+
+      .mobile-domain-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .mobile-bottom-nav {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        width: 390px;
+        border-top: 1px solid var(--line);
+        background: #fff;
+      }
+
+      .mobile-bottom-nav span {
+        display: grid;
+        gap: 4px;
+        place-items: center;
+        min-height: 58px;
+        color: var(--subtle);
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .mobile-bottom-nav span.active {
+        color: var(--primary);
+      }
+
+      .mobile-bottom-nav svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .progress-ring {
+        display: grid;
+        place-items: center;
+        width: 82px;
+        height: 82px;
+        border-radius: 50%;
+        background:
+          conic-gradient(var(--primary) 0 72%, #e2e8f0 72% 100%);
+        color: var(--ink);
+        font-size: 19px;
+        font-weight: 800;
+      }
+
+      .progress-ring::before {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #fff;
+      }
+
+      .progress-ring span {
+        position: relative;
+      }
+
+      svg {
+        flex: none;
+        width: 16px;
+        height: 16px;
+        stroke-width: 2;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      const icon = {
+        book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/></svg>',
+        layers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>',
+        play: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>',
+        chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="M7 15l3-3 4 4 5-8"/></svg>',
+        source: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+        plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14"/><path d="M5 12h14"/></svg>',
+        search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
+        code: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg>',
+        file: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v6h6"/></svg>',
+        check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6 9 17l-5-5"/></svg>',
+        more: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>',
+        home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 10 9-7 9 7"/><path d="M5 10v10h14V10"/></svg>',
+        user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21a7 7 0 0 0-14 0"/><circle cx="12" cy="7" r="4"/></svg>',
+        calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>'
+      };
+
+      function layout(content, active = "题库练习") {
+        const navItem = (label, svg) => `<div class="nav-item${label === active ? " active" : ""}">${svg}<span>${label}</span></div>`;
+        const sidebar = `
+          <aside class="sider">
+            <div class="brand"><div class="brand-mark">G</div><div class="brand-title"><strong>GESP 练习台</strong><span>C++ 题库与知识对齐</span></div></div>
+            <div class="nav-section">
+              <div class="nav-label">练习</div>
+              ${navItem("题库练习", icon.book)}
+              ${navItem("试做记录", icon.play)}
+              ${navItem("练习包", icon.layers)}
+            </div>
+            <div class="nav-section">
+              <div class="nav-label">题库</div>
+              ${navItem("知识点覆盖", icon.chart)}
+              ${navItem("来源证据", icon.source)}
+              ${navItem("题目维护", icon.file)}
+            </div>
+          </aside>
+        `;
+        return `<div class="screen"><div class="app-shell">${sidebar}<main class="main">${content}</main></div></div>`;
+      }
+
+      function topbar(title, sub, badge, actions = "") {
+        return `
+          <div class="topbar">
+            <div class="page-title">
+              <span class="eyebrow">${icon.layers}${badge}</span>
+              <h1>${title}</h1>
+              <p>${sub}</p>
+            </div>
+            <div class="actions">${actions || `<button class="btn ghost-primary">${icon.calendar}今日练习</button><button class="btn primary">${icon.plus}新建练习包</button>`}</div>
+          </div>
+        `;
+      }
+
+      function metrics() {
+        return `
+          <section class="metric-grid">
+            <div class="metric"><span>可练习题目</span><strong>411</strong><em>覆盖 1-8 级 C++</em></div>
+            <div class="metric"><span>五级核心题型</span><strong>10</strong><em>数论 / 二分 / 链表</em></div>
+            <div class="metric"><span>已补题面</span><strong>128</strong><em>含样例与图片资产</em></div>
+            <div class="metric"><span>可运行 C++ 解</span><strong>16</strong><em>样例通过后展示</em></div>
+            <div class="metric"><span>知识点标签</span><strong>80</strong><em>用于筛题和讲解</em></div>
+          </section>
+        `;
+      }
+
+      function workbench() {
+        return layout(`
+          ${topbar("B 端练习工作台", "围绕题库浏览、选题试做、讲解查看和练习包组装的一体化工作流。", "统一练习入口")}
+          ${metrics()}
+          <div class="search-row">
+            <div class="input" style="display:flex;align-items:center;gap:8px;color:#94a3b8">${icon.search}<span>搜索题号、题型、知识点、来源</span></div>
+            <div class="select">C++ 五级 <span>⌄</span></div>
+            <div class="select">算法范畴 <span>⌄</span></div>
+            <div class="select">题目状态 <span>⌄</span></div>
+          </div>
+          <section class="workspace-grid">
+            <aside class="panel">
+              <div class="panel-title"><div><h3>算法范畴</h3><p>按大纲和题源聚合</p></div></div>
+              <div class="domain-list">
+                <div class="domain-item active"><div><strong>数论</strong><br><small>质因数 / gcd / 筛法</small></div><span class="tag">42</span></div>
+                <div class="domain-item"><div><strong>二分</strong><br><small>lower_bound / 单调性</small></div><span class="tag gray">18</span></div>
+                <div class="domain-item"><div><strong>链表</strong><br><small>指针重连 / 模拟</small></div><span class="tag gray">16</span></div>
+                <div class="domain-item"><div><strong>递归 / 分治</strong><br><small>调用栈 / 复杂度</small></div><span class="tag gray">29</span></div>
+                <div class="domain-item"><div><strong>排序 / 模拟</strong><br><small>关键字 / 稳定性</small></div><span class="tag gray">36</span></div>
+                <div class="domain-item"><div><strong>高精度</strong><br><small>大整数除法</small></div><span class="tag gray">9</span></div>
+              </div>
+            </aside>
+            <section>
+              <div class="type-card">
+                <div class="type-header"><div><span class="eyebrow">${icon.book} number_theory.factorization</span><h3>质因数分解型</h3></div><span class="tag green">12 题可练</span></div>
+                <div class="knowledge-row"><span class="tag green">唯一分解定理</span><span class="tag green">质因数枚举</span><span class="tag green">有限小数判定</span><span class="tag gray">复杂度估计</span></div>
+                <div class="problem-row active"><div class="problem-index">选择<br>#7</div><div class="problem-main"><strong>2026-03 C++ 五级 · 有限小数判断</strong><div class="problem-meta"><span class="tag green">答案已确认</span><span class="tag">可信度 0.92</span><span class="tag cyan">含讲解</span></div></div><button class="btn primary">试做</button></div>
+                <div class="problem-row"><div class="problem-index">编程<br>#2</div><div class="problem-main"><strong>五级 · 找数</strong><div class="problem-meta"><span class="tag gold">公开 OJ 题面</span><span class="tag cyan">C++ 样例通过</span></div></div><button class="btn">加入</button></div>
+                <div class="problem-row"><div class="problem-index">判断<br>#11</div><div class="problem-main"><strong>质数筛法填空判断</strong><div class="problem-meta"><span class="tag green">官方 PDF 证据</span><span class="tag gray">选项待补全</span></div></div><button class="btn">查看</button></div>
+              </div>
+              <div class="type-card">
+                <div class="type-header"><div><span class="eyebrow">${icon.book} number_theory.gcd_lcm</span><h3>gcd / lcm 变形型</h3></div><span class="tag green">8 题可练</span></div>
+                <div class="knowledge-row"><span class="tag green">欧几里得算法</span><span class="tag green">最大公约数</span><span class="tag green">最小公倍数</span></div>
+                <div class="problem-row"><div class="problem-index">选择<br>#4</div><div class="problem-main"><strong>最大公约数循环过程分析</strong><div class="problem-meta"><span class="tag green">答案已确认</span><span class="tag">可信度 0.90</span></div></div><button class="btn">试做</button></div>
+              </div>
+            </section>
+            <aside class="detail-stack">
+              <div class="panel">
+                <div class="panel-title"><div><h3>当前题目</h3><p>2026-03 / C++ 五级 / 选择题</p></div><span class="tag green">可练</span></div>
+                <div class="answer-card"><h3>有限小数判断</h3><p>判断分母去除所有 2 和 5 因子后是否为 1。适合训练质因数分解和循环不变量。</p></div>
+                <div class="knowledge-row" style="margin-top:10px"><span class="tag green">质因数</span><span class="tag green">有限小数</span><span class="tag cyan">复杂度 O(log n)</span></div>
+                <div class="inline-actions" style="margin-top:12px"><button class="btn primary">${icon.play}开始试做</button><button class="btn">${icon.plus}加入练习包</button></div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>练习包草稿</h3><p>按题型和知识点自动汇总</p></div><span class="tag">6 题</span></div>
+                <div class="queue-card"><strong>五级数论强化</strong><p>质因数 2 题，gcd 2 题，筛法 1 题，编程 1 题</p><span class="tag green">预计 38 分钟</span></div>
+                <div class="queue-card"><strong>本页已选</strong><p>有限小数判断、找数、gcd 循环过程</p><span class="tag cyan">含 1 道可运行编程题</span></div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>覆盖概览</h3><p>当前筛选下的训练密度</p></div></div>
+                <div class="mini-chart">
+                  <div class="bar-row"><span>质因数</span><div class="bar green"><span style="width:82%"></span></div><b>82%</b></div>
+                  <div class="bar-row"><span>gcd/lcm</span><div class="bar"><span style="width:68%"></span></div><b>68%</b></div>
+                  <div class="bar-row"><span>筛法</span><div class="bar gold"><span style="width:45%"></span></div><b>45%</b></div>
+                  <div class="bar-row"><span>编程题</span><div class="bar"><span style="width:36%"></span></div><b>36%</b></div>
+                </div>
+              </div>
+            </aside>
+          </section>
+        `, "题库练习");
+      }
+
+      function problemPractice() {
+        return layout(`
+          ${topbar("题目详情与试做", "点进题目后的完整练习页：题面、样例、C++17 试做、运行结果和知识点讲解。", "题目练习", `<button class="btn">${icon.book}返回题库</button><button class="btn ghost-primary">${icon.plus}加入练习包</button><button class="btn primary">${icon.play}运行全部样例</button>`)}
+          <section class="practice-grid">
+            <aside class="statement-box">
+              <div class="problem-hero">
+                <span class="eyebrow">${icon.file}2026-03 / C++ 五级 / 编程题</span>
+                <h2>找数</h2>
+                <p>给定一个有序序列和若干查询，判断目标数是否出现。页面突出二分查找的单调性、边界收缩和样例验证，不把 AI 参考解当作官方答案。</p>
+                <div class="knowledge-row" style="margin-top:12px"><span class="tag green">二分查找</span><span class="tag green">lower_bound</span><span class="tag cyan">样例已通过</span></div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>题面片段</h3><p>结构化题面，来源条款仍保留提示</p></div><span class="tag gold">公开 OJ</span></div>
+                <p style="font-size:13px;line-height:1.7;margin:0;color:#334155">输入 n 个升序整数，随后输入 q 个查询。对每个查询输出是否存在。要求使用更高效的方法完成查询。</p>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>样例</h3><p>点击样例可填充到运行输入</p></div></div>
+                <div class="sample-box">
+                  <div class="sample-card"><strong>样例 1 输入</strong><pre>5 3
+1 3 5 7 9
+3 4 9</pre></div>
+                  <div class="sample-card"><strong>样例 1 输出</strong><pre>YES
+NO
+YES</pre></div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>来源证据</h3><p>练习入口和题面来源</p></div></div>
+                <div class="knowledge-row"><span class="tag cyan">公开 OJ 题面</span><span class="tag gray">官方题名对齐</span><span class="tag gold">需人工甄别 AI 讲解</span></div>
+              </div>
+            </aside>
+            <section class="code-window">
+              <div class="code-toolbar"><span>C++17 在线试做</span><div class="inline-actions"><span class="tag gray">main.cpp</span><button class="btn primary" style="min-height:28px">${icon.play}运行</button></div></div>
+              <pre>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+
+  int n, q;
+  cin &gt;&gt; n &gt;&gt; q;
+  vector&lt;int&gt; a(n);
+  for (int &amp;x : a) cin &gt;&gt; x;
+
+  while (q--) {
+    int x;
+    cin &gt;&gt; x;
+    auto it = lower_bound(a.begin(), a.end(), x);
+    cout &lt;&lt; (it != a.end() &amp;&amp; *it == x ? "YES" : "NO") &lt;&lt; '\\n';
+  }
+  return 0;
+}</pre>
+            </section>
+            <aside class="detail-stack">
+              <div class="panel">
+                <div class="panel-title"><div><h3>运行结果</h3><p>使用当前输入运行</p></div><span class="tag green">${icon.check}通过</span></div>
+                <div class="sample-card"><strong>stdout</strong><pre>YES
+NO
+YES</pre></div>
+                <div class="knowledge-row" style="margin-top:10px"><span class="tag green">Accepted</span><span class="tag gray">12 ms</span><span class="tag gray">1.8 MB</span></div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>知识点讲解</h3><p>面向练习理解</p></div></div>
+                <ol class="step-list">
+                  <li>序列已排序，查询答案具备单调位置。</li>
+                  <li>用 lower_bound 找到第一个大于等于目标的位置。</li>
+                  <li>检查位置未越界且值等于目标。</li>
+                  <li>每次查询复杂度从 O(n) 降到 O(log n)。</li>
+                </ol>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>练习动作</h3><p>围绕当前题继续训练</p></div></div>
+                <button class="btn primary" style="width:100%;margin-bottom:8px">${icon.plus}加入五级二分练习包</button>
+                <button class="btn" style="width:100%;margin-bottom:8px">${icon.book}查看同题型 18 题</button>
+                <button class="btn" style="width:100%">${icon.source}查看来源和对齐依据</button>
+              </div>
+            </aside>
+          </section>
+        `, "试做记录");
+      }
+
+      function exerciseBuilder() {
+        return layout(`
+          ${topbar("练习包组装", "从题型、知识点、难度和题目状态快速生成一组可练习内容。", "练习包", `<button class="btn">${icon.book}保存草稿</button><button class="btn primary">${icon.play}发布练习包</button>`)}
+          <section class="builder-grid">
+            <aside class="panel">
+              <div class="panel-title"><div><h3>组包条件</h3><p>Ant Design 表单式筛选</p></div></div>
+              <div style="display:grid;gap:10px">
+                <div><label class="eyebrow">等级</label><div class="select">C++ 五级 <span>⌄</span></div></div>
+                <div><label class="eyebrow">题量</label><div class="select">12 题 · 40 分钟 <span>⌄</span></div></div>
+                <div><label class="eyebrow">题型占比</label><div class="segmented" style="width:100%"><span class="active">均衡</span><span>编程多</span><span>选择多</span></div></div>
+                <div><label class="eyebrow">内容范围</label>
+                  <div class="checkbox-row"><span>只使用有题面的题</span><span class="check on"></span></div>
+                  <div class="checkbox-row"><span>优先包含样例</span><span class="check on"></span></div>
+                  <div class="checkbox-row"><span>包含 AI 辅助讲解</span><span class="check"></span></div>
+                </div>
+              </div>
+            </aside>
+            <section class="panel">
+              <div class="panel-title"><div><h3>候选题列表</h3><p>可拖拽排序，当前为静态原型展示</p></div><div class="segmented"><span class="active">题型</span><span>知识点</span><span>来源</span></div></div>
+              <div class="type-card">
+                <div class="type-header"><div><h3>五级数论强化</h3><p style="margin:4px 0 0;color:#64748b;font-size:13px">系统按覆盖度推荐 12 题</p></div><span class="tag green">覆盖 6 个知识点</span></div>
+                <div class="problem-row active"><div class="problem-index">1</div><div class="problem-main"><strong>有限小数判断</strong><div class="problem-meta"><span class="tag green">质因数</span><span class="tag">选择题</span><span class="tag cyan">含讲解</span></div></div><button class="btn danger">移除</button></div>
+                <div class="problem-row active"><div class="problem-index">2</div><div class="problem-main"><strong>最大公约数循环过程</strong><div class="problem-meta"><span class="tag green">gcd</span><span class="tag">选择题</span></div></div><button class="btn danger">移除</button></div>
+                <div class="problem-row active"><div class="problem-index">3</div><div class="problem-main"><strong>找数</strong><div class="problem-meta"><span class="tag green">二分</span><span class="tag cyan">编程题</span><span class="tag cyan">可试做</span></div></div><button class="btn danger">移除</button></div>
+                <div class="problem-row"><div class="problem-index">候选</div><div class="problem-main"><strong>筛法填空 / 判断</strong><div class="problem-meta"><span class="tag green">筛法</span><span class="tag gold">补足弱项</span></div></div><button class="btn primary">加入</button></div>
+              </div>
+              <div class="panel" style="box-shadow:none;background:#f8fafc">
+                <div class="panel-title"><div><h3>覆盖度预估</h3><p>保证练习不是只堆同类题</p></div></div>
+                <div class="mini-chart">
+                  <div class="bar-row"><span>质因数</span><div class="bar green"><span style="width:88%"></span></div><b>3 题</b></div>
+                  <div class="bar-row"><span>gcd/lcm</span><div class="bar"><span style="width:72%"></span></div><b>2 题</b></div>
+                  <div class="bar-row"><span>二分</span><div class="bar"><span style="width:64%"></span></div><b>2 题</b></div>
+                  <div class="bar-row"><span>筛法</span><div class="bar gold"><span style="width:42%"></span></div><b>1 题</b></div>
+                </div>
+              </div>
+            </section>
+            <aside class="paper-preview">
+              <h3>练习包预览</h3>
+              <div class="knowledge-row"><span class="tag green">12 题</span><span class="tag cyan">40 分钟</span><span class="tag">C++ 五级</span></div>
+              <div class="paper-item"><strong>一、选择题 · 6 题</strong><p>覆盖质因数、gcd、复杂度判断，展示答案但默认折叠讲解。</p></div>
+              <div class="paper-item"><strong>二、判断题 · 3 题</strong><p>用于快速检查概念边界，包括筛法和有限小数判定。</p></div>
+              <div class="paper-item"><strong>三、编程题 · 3 题</strong><p>包含“找数”等可运行样例题，支持进入 C++17 试做页。</p></div>
+              <div class="paper-item"><strong>练习后反馈</strong><p>按知识点统计正确率，回到题库页继续补弱项。</p></div>
+              <button class="btn primary" style="width:100%;margin-top:16px">${icon.play}开始预览练习</button>
+            </aside>
+          </section>
+        `, "练习包");
+      }
+
+      function coverage() {
+        return layout(`
+          ${topbar("知识点覆盖与来源证据", "不做复核队列，也不展示冲突标签；这里只呈现可用于练习筛选的覆盖、证据和可信度说明。", "题库覆盖", `<button class="btn">${icon.file}导出清单</button><button class="btn primary">${icon.plus}按弱项建练习包</button>`)}
+          <section class="coverage-grid">
+            <aside class="panel">
+              <div class="panel-title"><div><h3>覆盖总览</h3><p>按 C++ 五级核心范围</p></div></div>
+              <div class="mini-chart">
+                <div class="bar-row"><span>数论</span><div class="bar green"><span style="width:84%"></span></div><b>84%</b></div>
+                <div class="bar-row"><span>二分</span><div class="bar"><span style="width:72%"></span></div><b>72%</b></div>
+                <div class="bar-row"><span>链表</span><div class="bar"><span style="width:64%"></span></div><b>64%</b></div>
+                <div class="bar-row"><span>递归分治</span><div class="bar gold"><span style="width:58%"></span></div><b>58%</b></div>
+                <div class="bar-row"><span>高精度</span><div class="bar gold"><span style="width:36%"></span></div><b>36%</b></div>
+              </div>
+              <div class="answer-card" style="margin-top:14px"><h3>弱项建议</h3><p>高精度和筛法题量较少，适合优先补充练习题或从 AtCoder / 洛谷公开题库中筛选等价训练题。</p></div>
+            </aside>
+            <section class="detail-stack">
+              <div class="panel">
+                <div class="panel-title"><div><h3>知识点热力图</h3><p>颜色越深表示可练题更多</p></div><div class="segmented"><span class="active">五级</span><span>全部</span></div></div>
+                <div class="heatmap">
+                  ${Array.from({ length: 50 }, (_, i) => `<div class="heat-cell level-${[1,2,3,4,2,1,3,2,4,1][i % 10]}"></div>`).join("")}
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>来源证据表</h3><p>面向练习选择，不进入审批流程</p></div></div>
+                <table class="evidence-table">
+                  <thead><tr><th>题目</th><th>来源</th><th>可练内容</th><th>标签依据</th><th>可信度</th><th>动作</th></tr></thead>
+                  <tbody>
+                    <tr><td>有限小数判断</td><td>官方 PDF</td><td>题面 / 答案 / 讲解</td><td>质因数、有限小数</td><td><span class="tag green">0.92</span></td><td><button class="btn text">试做</button></td></tr>
+                    <tr><td>找数</td><td>公开 OJ</td><td>题面 / 样例 / C++ 解</td><td>二分、lower_bound</td><td><span class="tag">0.86</span></td><td><button class="btn text">打开</button></td></tr>
+                    <tr><td>链表重连</td><td>官方题名 + 题单</td><td>题型 / 知识点</td><td>单链表、指针重连</td><td><span class="tag gold">0.76</span></td><td><button class="btn text">加入练习</button></td></tr>
+                    <tr><td>大整数除法</td><td>训练题单</td><td>题目入口</td><td>高精度、模拟</td><td><span class="tag gold">0.74</span></td><td><button class="btn text">补弱项</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </section>
+        `, "知识点覆盖");
+      }
+
+      function sourceEvidence() {
+        return layout(`
+          ${topbar("来源证据", "查看题目从官方 PDF、公开 OJ、训练题单到练习入口的证据链，帮助判断哪些内容可以直接用于练习。", "来源证据", `<button class="btn">${icon.file}导出来源表</button><button class="btn ghost-primary">${icon.source}校验来源</button><button class="btn primary">${icon.play}打开练习入口</button>`)}
+          <section class="metric-grid">
+            <div class="metric"><span>官方来源</span><strong>18</strong><em>canonical evidence</em></div>
+            <div class="metric"><span>二级来源</span><strong>130</strong><em>训练题单 / OJ / GitHub</em></div>
+            <div class="metric"><span>来源映射</span><strong>634</strong><em>source versions</em></div>
+            <div class="metric"><span>已抽取题面</span><strong>197</strong><em>公开内容可练</em></div>
+            <div class="metric"><span>图片资产</span><strong>224</strong><em>含 PDF 裁剪与题面图</em></div>
+          </section>
+          <div class="search-row">
+            <div class="input" style="display:flex;align-items:center;gap:8px;color:#94a3b8">${icon.search}<span>搜索 source id、URL、题目、OJ ID</span></div>
+            <div class="select">全部来源 <span>⌄</span></div>
+            <div class="select">信任等级 <span>⌄</span></div>
+            <div class="select">可练内容 <span>⌄</span></div>
+          </div>
+          <section class="source-grid">
+            <aside class="panel">
+              <div class="panel-title"><div><h3>来源注册表</h3><p>metadata-first，不保存完整题面仓库</p></div></div>
+              <div class="source-card active"><strong>official-gesp-true-questions</strong><p>官方真题索引和附件，决定等级、考试场次和官方范围。</p><span class="tag green">canonical</span> <span class="tag gray">PDF</span></div>
+              <div class="source-card"><strong>luogu-gesp-level5-training</strong><p>洛谷 CCF GESP C++ 五级公开题单，用作练习入口和映射线索。</p><span class="tag cyan">practice</span> <span class="tag gray">200 entries</span></div>
+              <div class="source-card"><strong>zqiceberg-gesp-level5</strong><p>五级页面可解析洛谷题目链接，辅助定位同题训练入口。</p><span class="tag gold">mirror</span></div>
+              <div class="source-card"><strong>jonaslgtm-gesp-exam-questions</strong><p>GitHub C++ PDF 路径 metadata，仅记录 sha、路径和文件大小。</p><span class="tag cyan">auxiliary</span></div>
+              <div class="source-card"><strong>public-oj-programming-pages</strong><p>公开 OJ 页面补齐编程题题面、样例和可运行入口。</p><span class="tag cyan">practice</span></div>
+            </aside>
+            <section class="detail-stack">
+              <div class="panel">
+                <div class="panel-title"><div><h3>证据链路</h3><p>当前选中：2026-03 C++ 五级 · 找数</p></div><div class="segmented"><span class="active">链路</span><span>表格</span><span>资产</span></div></div>
+                <div class="source-map">
+                  <div class="map-node"><span class="tag green">官方</span><strong>官方题名 / 等级</strong><p>来自官方 C++ PDF metadata，确认考试场次和等级。</p></div>
+                  <div class="map-node"><span class="tag cyan">OJ</span><strong>公开题面 / 样例</strong><p>补齐编程题题面和输入输出样例，可用于试做。</p></div>
+                  <div class="map-node"><span class="tag">练习</span><strong>题库目录 / 标签</strong><p>挂到二分、lower_bound 和样例验证入口。</p></div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>采集与使用流程</h3><p>每一步都保留 URL、hash、页码或入口 ID</p></div></div>
+                <div class="timeline">
+                  <div class="timeline-step"><div class="step-dot">1</div><div><strong>发现来源</strong><p>从官方真题索引和二级来源注册表读取 URL、crawl strategy、license status。</p></div><span class="tag green">通过</span></div>
+                  <div class="timeline-step"><div class="step-dot">2</div><div><strong>抽取 metadata</strong><p>保存题名、场次、等级、短证据片段、source hash，不保存未授权全文。</p></div><span class="tag green">通过</span></div>
+                  <div class="timeline-step"><div class="step-dot">3</div><div><strong>对齐 canonical problem</strong><p>官方题作为主记录，公开 OJ 和训练题单作为练习入口挂载。</p></div><span class="tag cyan">可练</span></div>
+                  <div class="timeline-step"><div class="step-dot">4</div><div><strong>进入练习工作台</strong><p>只展示可用于练习的题面、样例、图片资产、来源链接和标签依据。</p></div><span class="tag">展示</span></div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>来源映射表</h3><p>面向练习工作流的可读证据</p></div></div>
+                <table class="evidence-table">
+                  <thead><tr><th>题目</th><th>主来源</th><th>二级入口</th><th>可练内容</th><th>存储策略</th><th>动作</th></tr></thead>
+                  <tbody>
+                    <tr><td>找数</td><td>官方 C++ PDF</td><td>洛谷公开题面</td><td>题面 / 样例 / C++ 解</td><td><span class="tag gray">metadata + 片段</span></td><td><button class="btn text">打开</button></td></tr>
+                    <tr><td>有限小数判断</td><td>官方 PDF 文本层</td><td>无</td><td>题干 / 答案 / 讲解</td><td><span class="tag gray">短证据</span></td><td><button class="btn text">试做</button></td></tr>
+                    <tr><td>大整数除法</td><td>训练题单</td><td>洛谷入口</td><td>练习入口</td><td><span class="tag gray">URL metadata</span></td><td><button class="btn text">加入</button></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+            <aside class="detail-stack">
+              <div class="panel">
+                <div class="panel-title"><div><h3>来源详情</h3><p>official-gesp-true-questions</p></div><span class="tag green">canonical</span></div>
+                <div class="answer-card"><h3>存储策略</h3><p>默认不保存完整官方 HTML、PDF 字节或完整题面；仅保留 URL、hash、页码、短证据片段和练习展示所需结构化字段。</p></div>
+                <div class="knowledge-row" style="margin-top:12px"><span class="tag green">can_store_full_text: false</span><span class="tag gray">C++ only</span></div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>来源健康</h3><p>最近一次采集摘要</p></div></div>
+                <div class="mini-chart">
+                  <div class="bar-row"><span>状态码</span><div class="bar green"><span style="width:96%"></span></div><b>96%</b></div>
+                  <div class="bar-row"><span>hash</span><div class="bar"><span style="width:100%"></span></div><b>100%</b></div>
+                  <div class="bar-row"><span>附件</span><div class="bar"><span style="width:82%"></span></div><b>82%</b></div>
+                  <div class="bar-row"><span>C++ 覆盖</span><div class="bar gold"><span style="width:74%"></span></div><b>74%</b></div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>练习可用性</h3><p>当前来源能提供什么</p></div></div>
+                <div class="preview-list">
+                  <div class="source-card"><strong>题名与等级</strong><p>用于目录和练习包筛选。</p><span class="tag green">可用</span></div>
+                  <div class="source-card"><strong>题面片段</strong><p>用于题目详情页展示短证据和题干概要。</p><span class="tag cyan">可用</span></div>
+                  <div class="source-card"><strong>完整题面</strong><p>仅在公开 OJ 或授权来源明确可用时进入练习页。</p><span class="tag gold">按来源展示</span></div>
+                </div>
+              </div>
+            </aside>
+          </section>
+        `, "来源证据");
+      }
+
+      function problemMaintenance() {
+        return layout(`
+          ${topbar("题目维护", "维护练习工作台里可展示和可试做的题目内容：基础信息、标签、题面、样例、图片资产和参考解。", "题目维护", `<button class="btn">${icon.book}预览练习页</button><button class="btn">${icon.file}保存草稿</button><button class="btn primary">${icon.check}保存题目</button>`)}
+          <section class="maintenance-grid">
+            <aside class="panel">
+              <div class="panel-title"><div><h3>题目列表</h3><p>按最近维护排序</p></div><button class="btn icon-btn">${icon.plus}</button></div>
+              <div class="input" style="display:flex;align-items:center;gap:8px;color:#94a3b8;margin-bottom:10px">${icon.search}<span>搜索题号 / 标题</span></div>
+              <div class="source-card active"><strong>找数</strong><p>编程题 · C++ 五级 · 二分</p><span class="tag cyan">题面完整</span> <span class="tag green">样例可运行</span></div>
+              <div class="source-card"><strong>有限小数判断</strong><p>选择题 · C++ 五级 · 数论</p><span class="tag green">答案已填</span></div>
+              <div class="source-card"><strong>链表重连</strong><p>判断题 · C++ 五级 · 链表</p><span class="tag gold">题面待补</span></div>
+              <div class="source-card"><strong>大整数除法</strong><p>编程题 · 高精度 · 模拟</p><span class="tag cyan">来源入口</span></div>
+              <div class="source-card"><strong>筛法填空</strong><p>选择题 · 数论 · 筛法</p><span class="tag gold">选项待补</span></div>
+            </aside>
+            <section class="panel">
+              <div class="panel-title"><div><h3>编辑题目</h3><p>ProForm 风格，保存后进入练习工作台展示</p></div><div class="segmented"><span class="active">基础</span><span>题面</span><span>答案</span></div></div>
+              <div class="form-grid">
+                <div class="field"><label>题目标题</label><div class="input" style="display:flex;align-items:center">找数</div></div>
+                <div class="field"><label>官方题号 / OJ ID</label><div class="input" style="display:flex;align-items:center">GESP-L5-2026-03-P2</div></div>
+                <div class="field"><label>等级</label><div class="select">C++ 五级 <span>⌄</span></div></div>
+                <div class="field"><label>题型</label><div class="select">编程题 <span>⌄</span></div></div>
+                <div class="field"><label>算法范畴</label><div class="select">二分 <span>⌄</span></div></div>
+                <div class="field"><label>来源链接</label><div class="input" style="display:flex;align-items:center;color:#64748b">https://www.luogu.com.cn/problem/...</div></div>
+                <div class="field full"><label>知识点标签</label><div class="knowledge-row" style="margin:0"><span class="tag green">二分查找</span><span class="tag green">lower_bound</span><span class="tag green">单调性</span><span class="tag gray">复杂度 O(log n)</span><button class="btn" style="min-height:28px">${icon.plus}添加</button></div></div>
+                <div class="field full"><label>题面 Markdown</label><div class="mock-editor">给定一个有序序列和若干查询，判断目标数是否出现。要求输出 YES / NO。<br><br>输入包含 n、q、n 个升序整数，以及 q 个待查询整数。</div></div>
+                <div class="field"><label>样例输入</label><div class="textarea">5 3<br>1 3 5 7 9<br>3 4 9</div></div>
+                <div class="field"><label>样例输出</label><div class="textarea">YES<br>NO<br>YES</div></div>
+                <div class="field full"><label>C++ 参考解摘要</label><div class="mock-editor" style="min-height:105px">使用 lower_bound 找到第一个大于等于 x 的位置。如果位置未越界且值等于 x，则存在。每次查询 O(log n)。</div></div>
+              </div>
+            </section>
+            <aside class="detail-stack">
+              <div class="panel">
+                <div class="panel-title"><div><h3>练习页预览</h3><p>保存前确认展示效果</p></div><span class="tag cyan">预览</span></div>
+                <div class="answer-card"><h3>找数</h3><p>编程题 · C++ 五级 · 二分。可进入 C++17 在线试做，样例会自动填入运行面板。</p></div>
+                <div class="knowledge-row" style="margin-top:12px"><span class="tag green">二分查找</span><span class="tag cyan">可试做</span><span class="tag gray">公开 OJ</span></div>
+                <button class="btn primary" style="width:100%;margin-top:4px">${icon.play}预览试做页</button>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>图片资产</h3><p>题面图、PDF 裁剪图、代码截图</p></div><button class="btn icon-btn">${icon.plus}</button></div>
+                <div class="asset-grid">
+                  <div class="asset-tile"><strong>statement-1.png</strong><p>公开 OJ 题面图，绑定到题面区域。</p></div>
+                  <div class="asset-tile"><strong>pdf-crop-07.png</strong><p>官方 PDF 第 12 页裁剪资产。</p></div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>保存检查</h3><p>避免题目进入练习台后缺字段</p></div></div>
+                <div class="timeline">
+                  <div class="timeline-step"><div class="step-dot">1</div><div><strong>基础信息</strong><p>标题、等级、题型、来源链接齐全。</p></div><span class="tag green">通过</span></div>
+                  <div class="timeline-step"><div class="step-dot">2</div><div><strong>试做内容</strong><p>题面、样例和参考解摘要可用于练习页。</p></div><span class="tag green">通过</span></div>
+                  <div class="timeline-step"><div class="step-dot">3</div><div><strong>展示资产</strong><p>图片可选；没有图片时练习页显示文本题面。</p></div><span class="tag cyan">可保存</span></div>
+                </div>
+              </div>
+            </aside>
+          </section>
+        `, "题目维护");
+      }
+
+      function mobile() {
+        return `
+          <div class="mobile-screen">
+            <header class="mobile-top">
+              <div class="mobile-status"><span>9:41</span><span>GESP Learn</span><span>72%</span></div>
+              <div class="mobile-title">
+                <span class="eyebrow">${icon.book}C 端学习入口</span>
+                <h1>C++ 五级练习</h1>
+                <p style="margin:0;color:#64748b;font-size:13px;line-height:1.5">学生侧只突出继续学习、知识点进度和题目练习。</p>
+              </div>
+            </header>
+            <main class="mobile-body">
+              <div class="mobile-card" style="display:grid;grid-template-columns:1fr 92px;gap:12px;align-items:center">
+                <div><h2>今日进度</h2><p>已完成 8 / 12 题，薄弱点集中在筛法和高精度。</p><div class="knowledge-row" style="margin-top:10px"><span class="tag green">继续练习</span><span class="tag cyan">38 分钟</span></div></div>
+                <div class="progress-ring"><span>72%</span></div>
+              </div>
+              <div class="mobile-card">
+                <h3>推荐练习</h3>
+                <p>五级数论强化 · 质因数 / gcd / 有限小数</p>
+                <button class="btn primary" style="width:100%;margin-top:12px">${icon.play}开始</button>
+              </div>
+              <div class="mobile-card">
+                <h3>知识点</h3>
+                <div class="mobile-domain">
+                  <div class="mobile-domain-row"><div><strong>数论</strong><br><small>质因数、gcd、筛法</small></div><span class="tag green">84%</span></div>
+                  <div class="mobile-domain-row"><div><strong>二分</strong><br><small>lower_bound、单调性</small></div><span class="tag">72%</span></div>
+                  <div class="mobile-domain-row"><div><strong>链表</strong><br><small>指针重连、模拟</small></div><span class="tag gold">64%</span></div>
+                </div>
+              </div>
+              <div class="mobile-card">
+                <h3>最近题目</h3>
+                <p><strong style="color:#0f172a">找数</strong><br>编程题 · 可运行样例 · 二分查找</p>
+                <div class="knowledge-row" style="margin-top:10px"><span class="tag cyan">继续试做</span><span class="tag green">样例通过</span></div>
+              </div>
+            </main>
+            <nav class="mobile-bottom-nav">
+              <span class="active">${icon.home}首页</span>
+              <span>${icon.book}题库</span>
+              <span>${icon.chart}进度</span>
+              <span>${icon.user}我的</span>
+            </nav>
+          </div>
+        `;
+      }
+
+      const screens = {
+        "b-workbench": workbench,
+        "b-practice": problemPractice,
+        "b-builder": exerciseBuilder,
+        "b-coverage": coverage,
+        "b-source": sourceEvidence,
+        "b-maintenance": problemMaintenance,
+        "c-mobile": mobile
+      };
+      const params = new URLSearchParams(location.search);
+      const screen = params.get("screen") || "b-workbench";
+      document.getElementById("app").innerHTML = (screens[screen] || workbench)();
+    </script>
+  </body>
+</html>

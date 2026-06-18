@@ -149,3 +149,5 @@
 {"type":"cli","id":"CLI-1781163333492-1","timestamp":"2026-06-11T07:35:33.492Z","command":"spec load","args":{"category":"debug","stdin":false}}
 {"type":"cli","id":"CLI-1781163369445-1","timestamp":"2026-06-11T07:36:09.445Z","command":"spec add","args":{"category":"debug","keywords":"atcoder,production,mysql,seed,er-no-such-table","stdin":false}}
 {"type":"cli","id":"CLI-1781163378401-1","timestamp":"2026-06-11T07:36:18.401Z","command":"spec load","args":{"keyword":"atcoder","stdin":false}}
+{"type":"cli","id":"CLI-1781780836020-1","timestamp":"2026-06-18T11:07:16.020Z","command":"spec load","args":{"keyword":"prototype","stdin":false}}
+{"type":"cli","id":"CLI-1781785391373-1","timestamp":"2026-06-18T12:23:11.373Z","command":"spec load","args":{"keyword":"来源证据","stdin":false}}
