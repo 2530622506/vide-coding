@@ -1,0 +1,16 @@
+{
+  "scope_verdict": "large",
+  "go_no_go": "go",
+  "summary": "可以执行，但必须分阶段。优先引入 ProComponents 和 B 端布局，再清理旧复核/冲突可见概念，随后按 GESP 和 AtCoder 两条链路逐页落地。",
+  "implementation_scope": [
+    "dependency-and-layout",
+    "remove-review-conflict-visible-ui",
+    "gesp-practice-workbench",
+    "gesp-maintenance-source-coverage",
+    "atcoder-catalog-detail-maintenance",
+    "ide-polish",
+    "optional-backend-aggregates",
+    "build-and-browser-verification"
+  ],
+  "recommended_next_step": "执行 P0 + P1：安装 @ant-design/pro-components、建立 WorkbenchLayout、移除 B 端可见复核/冲突文案。"
+}

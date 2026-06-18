@@ -154,3 +154,9 @@
 {"type":"cli","id":"CLI-1781785904589-1","timestamp":"2026-06-18T12:31:44.589Z","command":"spec load","args":{"keyword":"AtCoder","stdin":false}}
 {"type":"cli","id":"CLI-1781786224600-1","timestamp":"2026-06-18T12:37:04.600Z","command":"spec load","args":{"keyword":"AtCoder","stdin":false}}
 {"type":"cli","id":"CLI-1781786286020-1","timestamp":"2026-06-18T12:38:06.021Z","command":"spec load","args":{"keyword":"AtCoder","stdin":false}}
+{"type":"cli","id":"CLI-1781786846512-1","timestamp":"2026-06-18T12:47:26.512Z","command":"spec load","args":{"keyword":"AtCoder","stdin":false}}
+{"type":"cli","id":"CLI-1781786846511-1","timestamp":"2026-06-18T12:47:26.511Z","command":"spec load","args":{"keyword":"frontend","stdin":false}}
+{"type":"cli","id":"CLI-1781787134692-1","timestamp":"2026-06-18T12:52:14.692Z","command":"spec load","args":{"keyword":"frontend","stdin":false}}
+{"type":"cli","id":"CLI-1781787134708-1","timestamp":"2026-06-18T12:52:14.708Z","command":"spec load","args":{"keyword":"AtCoder","stdin":false}}
+{"type":"cli","id":"CLI-1781787523722-1","timestamp":"2026-06-18T12:58:43.722Z","command":"spec load","args":{"keyword":"frontend","stdin":false}}
+{"type":"cli","id":"CLI-1781787523722-1","timestamp":"2026-06-18T12:58:43.722Z","command":"spec load","args":{"keyword":"AtCoder","stdin":false}}

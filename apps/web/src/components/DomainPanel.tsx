@@ -145,9 +145,6 @@ function ProblemRow({
               {problem.visual_asset_thumbnails.length ? (
                 <Tag icon={<ImageIcon size={12} />}>含图片</Tag>
               ) : null}
-              {problem.review_queue_count > 0 ? (
-                <Tag color="red">{problem.review_queue_count} 复核</Tag>
-              ) : null}
             </Flex>
           </div>
           <Flex className="problemTags" gap={6} wrap="wrap">

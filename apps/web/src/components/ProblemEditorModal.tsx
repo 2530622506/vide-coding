@@ -68,7 +68,7 @@ export function ProblemEditorModal({ form, mode, onCancel, onChange, onSave, sav
       title={mode === "create" ? "新增题目" : "修改题目"}
       width={920}
     >
-      <Typography.Paragraph type="secondary">用户维护内容默认保留待复核，不作为官方答案。</Typography.Paragraph>
+      <Typography.Paragraph type="secondary">用户维护内容会作为学习材料保存，来源与答案可继续补充完善。</Typography.Paragraph>
       <Form className="editorForm" layout="vertical">
         <Form.Item label="题目 ID">
           <Input disabled={mode === "edit"} name="canonical_problem_id" value={form.canonical_problem_id} onChange={(event) => update("canonical_problem_id", event.target.value)} placeholder="留空自动生成" />

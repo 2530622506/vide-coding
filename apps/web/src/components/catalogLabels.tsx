@@ -4,8 +4,8 @@ import type { EffectiveStatus, ProblemSummary, StatusCounts } from "../types";
 export const statusLabel: Record<EffectiveStatus, string> = {
   confirmed: "已确认",
   candidate: "候选",
-  needs_review: "待复核",
-  conflict: "冲突"
+  needs_review: "待完善",
+  conflict: "需合并"
 };
 
 export const typeLabel: Record<string, string> = {
@@ -24,7 +24,7 @@ const statusColor: Record<EffectiveStatus, string> = {
 const answerStatusLabel: Record<string, string> = {
   confirmed: "官方答案",
   reference_link: "参考入口",
-  needs_review: "答案待复核"
+  needs_review: "答案待完善"
 };
 
 const answerColor: Record<string, string> = {
@@ -48,8 +48,8 @@ export function StatusStrip({ counts }: { counts: StatusCounts }) {
   return (
     <Flex gap={8} wrap="wrap">
       <Badge color="green" count={counts.candidate} overflowCount={999} title="候选" />
-      <Badge color="gold" count={counts.needs_review} overflowCount={999} title="待复核" />
-      <Badge color="red" count={counts.conflict} overflowCount={999} title="冲突" />
+      <Badge color="gold" count={counts.needs_review} overflowCount={999} title="待完善" />
+      <Badge color="blue" count={counts.conflict} overflowCount={999} title="需合并" />
     </Flex>
   );
 }

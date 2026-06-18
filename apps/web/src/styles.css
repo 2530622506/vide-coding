@@ -13,6 +13,551 @@
   text-rendering: optimizeLegibility;
 }
 
+/* Redesign workbench */
+.workbenchShell {
+  background: #eef1f3;
+  min-height: 100vh;
+}
+
+.workbenchSider.ant-layout-sider {
+  background: #17212b;
+  border-right: 1px solid rgb(255 255 255 / 8%);
+  min-height: 100vh;
+  padding: 18px 12px;
+  position: sticky;
+  top: 0;
+}
+
+.brandBlock {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 22px;
+  padding: 8px 10px;
+}
+
+.brandMark {
+  align-items: center;
+  background: #e7f7f5;
+  border-radius: 8px;
+  color: #167f7b;
+  display: flex;
+  height: 42px;
+  justify-content: center;
+  width: 42px;
+}
+
+.brandEyebrow.ant-typography {
+  color: rgb(255 255 255 / 62%);
+  display: block;
+  font-size: 12px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.brandBlock h1.ant-typography {
+  color: #fff;
+  font-size: 18px;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.workbenchMenu.ant-menu {
+  background: transparent;
+  border-inline-end: 0;
+  color: rgb(255 255 255 / 72%);
+}
+
+.workbenchMenu .ant-menu-item,
+.workbenchMenu .ant-menu-submenu-title {
+  border-radius: 8px;
+  color: rgb(255 255 255 / 78%);
+  height: 40px;
+  line-height: 40px;
+}
+
+.workbenchMenu .ant-menu-item-selected {
+  background: #e7f7f5;
+  color: #0c5c5a;
+  font-weight: 700;
+}
+
+.workbenchMenu .ant-menu-item-group-title {
+  color: rgb(255 255 255 / 42%);
+  font-size: 12px;
+}
+
+.siderFootnote {
+  border-top: 1px solid rgb(255 255 255 / 10%);
+  bottom: 16px;
+  color: rgb(255 255 255 / 62%);
+  left: 16px;
+  padding-top: 14px;
+  position: absolute;
+  right: 16px;
+}
+
+.siderFootnote .ant-typography {
+  color: rgb(255 255 255 / 70%);
+}
+
+.siderFootnote strong,
+.siderFootnote .ant-typography strong {
+  align-items: center;
+  color: #fff;
+  display: inline-flex;
+  gap: 6px;
+}
+
+.workbenchMain {
+  background: #eef1f3;
+  min-width: 0;
+}
+
+.pageSurface {
+  margin: 0 auto;
+  max-width: 1600px;
+  padding: 24px;
+}
+
+.pageHeading {
+  align-items: flex-start;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.pageHeading h1.ant-typography {
+  color: #1a2733;
+  font-size: 30px;
+  line-height: 1.18;
+  margin: 0 0 8px;
+}
+
+.pageHeading .ant-typography + .ant-typography {
+  margin-top: 0;
+}
+
+.pageHeading p.ant-typography {
+  color: #64717f;
+  margin: 0;
+  max-width: 780px;
+}
+
+.eyebrowLine {
+  align-items: center;
+  color: #167f7b;
+  display: inline-flex;
+  font-size: 13px;
+  font-weight: 700;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.pageActions {
+  justify-content: flex-end;
+  min-width: 280px;
+}
+
+.controlBar.ant-card {
+  border-color: #d8e1e5;
+  margin-bottom: 16px;
+}
+
+.controlBar .ant-card-body {
+  padding: 12px;
+}
+
+.searchInput.ant-input-affix-wrapper {
+  min-width: 320px;
+}
+
+.pageAlert {
+  margin-bottom: 16px;
+}
+
+.statGrid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 16px;
+}
+
+.statCard.ant-card {
+  border-color: #d8e1e5;
+}
+
+.statCard .ant-card-body {
+  padding: 16px;
+}
+
+.statIcon {
+  align-items: center;
+  background: #e7f7f5;
+  border-radius: 8px;
+  color: #167f7b;
+  display: inline-flex;
+  height: 36px;
+  justify-content: center;
+  width: 36px;
+}
+
+.practiceWorkspace,
+.atcoderWorkspace {
+  align-items: start;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 240px minmax(0, 1fr) 420px;
+}
+
+.atcoderWorkspace {
+  grid-template-columns: 260px minmax(0, 1fr);
+}
+
+.domainRail.ant-card,
+.practiceListPane.ant-card,
+.practiceSidePane.ant-card,
+.builderConfigCard.ant-card,
+.builderListCard.ant-card,
+.builderResultCard.ant-card,
+.tableCard.ant-card,
+.coverageMatrix.ant-card,
+.detailPageCard.ant-card {
+  border-color: #d8e1e5;
+  border-radius: 8px;
+}
+
+.domainRail {
+  max-height: calc(100vh - 160px);
+  overflow: auto;
+  position: sticky;
+  top: 24px;
+}
+
+.domainRailItem {
+  align-items: center;
+  background: #f8fafb;
+  border: 1px solid #dce5e8;
+  border-radius: 8px;
+  color: #263543;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  min-height: 42px;
+  padding: 9px 10px;
+  text-align: left;
+  width: 100%;
+}
+
+.domainRailItem.active {
+  background: #e7f7f5;
+  border-color: #9ed8d2;
+  color: #0c5c5a;
+}
+
+.domainRailItem strong {
+  color: #167f7b;
+}
+
+.sectionTitleRow {
+  margin-bottom: 14px;
+}
+
+.sectionTitleRow h2.ant-typography,
+.typePracticeCard h3.ant-typography {
+  color: #1d2b37;
+  letter-spacing: 0;
+  margin: 0;
+}
+
+.sectionTitleRow h2.ant-typography {
+  font-size: 24px;
+}
+
+.typePracticeCard h3.ant-typography {
+  font-size: 18px;
+}
+
+.sectionEyebrow {
+  color: #71808d;
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.typeColumn {
+  width: 100%;
+}
+
+.typePracticeCard.ant-card {
+  background: #fbfcfc;
+  border-color: #dde5e8;
+}
+
+.tagWrap {
+  min-height: 24px;
+}
+
+.problemCardGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 12px;
+}
+
+.problemPracticeCard.ant-card {
+  background: #fff;
+  border-color: #dfe7ea;
+  min-height: 168px;
+}
+
+.problemPracticeCard.active {
+  border-color: #167f7b;
+  box-shadow: 0 8px 18px rgb(22 127 123 / 16%);
+}
+
+.problemPracticeCard .ant-card-body {
+  height: 100%;
+}
+
+.problemTitle {
+  color: #1d2b37;
+  display: -webkit-box;
+  line-height: 1.38;
+  min-height: 40px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.problemPracticeCard .problemTitle {
+  color: #1d2b37;
+  display: -webkit-box;
+  font-size: 15px;
+  line-height: 1.38;
+  min-height: 40px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.practiceSidePane {
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+  position: sticky;
+  top: 24px;
+}
+
+.practiceSidePane .detailCard {
+  min-width: 0;
+}
+
+.sideEmpty {
+  width: 100%;
+}
+
+.sideEmpty .ant-btn {
+  height: auto;
+  min-height: 32px;
+  text-align: left;
+  white-space: normal;
+}
+
+.sideEmpty .ant-btn > span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.detailPageCard .detailCard {
+  max-width: none;
+}
+
+.builderWorkspace {
+  align-items: start;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 280px minmax(0, 1fr) 420px;
+}
+
+.builderConfigCard,
+.builderResultCard {
+  position: sticky;
+  top: 24px;
+}
+
+.builderCheckGroup {
+  width: 100%;
+}
+
+.builderProblemCheck.ant-checkbox-wrapper {
+  align-items: flex-start;
+  background: #fbfcfc;
+  border: 1px solid #dfe7ea;
+  border-radius: 8px;
+  margin-inline-start: 0;
+  padding: 10px;
+  width: 100%;
+}
+
+.compactProblemCard.ant-card {
+  border-color: #dfe7ea;
+}
+
+.coverageChipGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.detailDrawer .ant-drawer-body {
+  background: #f3f6f7;
+}
+
+.atcoderDetailGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) 340px;
+}
+
+.atcoderStatementCard {
+  grid-row: span 2;
+}
+
+.atcoderSampleCard,
+.atcoderSolutionCard {
+  grid-column: 1 / -1;
+}
+
+.atcoderDetailAside {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.markdownSection h3.ant-typography {
+  font-size: 18px;
+  margin-top: 0;
+}
+
+.sampleGrid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sampleGrid pre,
+.lightCodeBlock {
+  background: #17212b;
+  border-radius: 8px;
+  color: #e8eef2;
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 6px 0 12px;
+  overflow: auto;
+  padding: 12px;
+  white-space: pre-wrap;
+}
+
+.lightCodeBlock {
+  margin-bottom: 0;
+  max-height: 420px;
+}
+
+.formGridTwo {
+  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 1fr 160px;
+  width: 100%;
+}
+
+.formGridTwo .ant-form-item {
+  margin-bottom: 0;
+  width: 100%;
+}
+
+@media (max-width: 1320px) {
+  .practiceWorkspace,
+  .builderWorkspace {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+
+  .practiceSidePane,
+  .builderResultCard {
+    grid-column: 1 / -1;
+    max-height: none;
+    position: static;
+  }
+
+  .problemCardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 960px) {
+  .workbenchShell {
+    display: block;
+  }
+
+  .workbenchSider.ant-layout-sider {
+    max-width: none !important;
+    min-height: auto;
+    min-width: 0 !important;
+    position: static;
+    width: 100% !important;
+  }
+
+  .siderFootnote {
+    display: none;
+  }
+
+  .pageSurface {
+    padding: 16px;
+  }
+
+  .pageHeading {
+    display: block;
+  }
+
+  .pageActions {
+    justify-content: flex-start;
+    margin-top: 12px;
+    min-width: 0;
+  }
+
+  .statGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .practiceWorkspace,
+  .atcoderWorkspace,
+  .builderWorkspace,
+  .atcoderDetailGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .domainRail,
+  .builderConfigCard {
+    max-height: none;
+    position: static;
+  }
+
+  .problemCardGrid,
+  .sampleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .searchInput.ant-input-affix-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
 * {
   box-sizing: border-box;
 }

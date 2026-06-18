@@ -1,0 +1,57 @@
+{
+  "source": {
+    "type": "analyze",
+    "id": "20260618-analyze-frontend-prototype-redesign",
+    "scope_verdict": "large"
+  },
+  "requirements": [
+    "根据 prototypes/gesp-redesign 下的 PNG 优化真实前端页面",
+    "B 端优先，C 端不是重点",
+    "不展示复核队列和冲突标签",
+    "不区分教师、教研、助教角色",
+    "AtCoder 作为同一 B 端工作台下的独立算法题库入口",
+    "AtCoder 与 GESP 数据结构不同，不能复用 GESP 题目目录组件",
+    "优先使用 @ant-design/pro-components，其次 antd，最后自定义"
+  ],
+  "constraints": [
+    "React + Nest 是项目默认技术栈",
+    "页面请求优先使用 ahooks useRequest",
+    "前端单文件应控制在 1000 行以内",
+    "AtCoder 保存依赖 atcoder_problem_bank 和 atcoder_catalog_snapshots",
+    "来源注册表坚持 metadata-first，不把来源页变成全文题库"
+  ],
+  "implementation_scope": [
+    "安装 @ant-design/pro-components",
+    "新增 ProLayout 驱动的 B 端工作台布局",
+    "重构 GESP 工作台、题目详情、练习包草稿、题目维护、来源证据、知识点覆盖",
+    "拆分并重构 AtCoder 列表、详情、维护、IDE 链路",
+    "必要时新增只读聚合后端接口"
+  ],
+  "locked_decisions": [
+    "用 ProComponents 承担布局、卡片、表格、表单、描述列表",
+    "Monaco IDE 保留，不用 ProComponents 替代",
+    "后端现有 CRUD 优先复用，聚合接口按需新增",
+    "先计划和拆任务，再进入执行"
+  ],
+  "deferred_decisions": [
+    "练习包草稿是否落后端持久化",
+    "是否引入 react-router 替代当前手写 pathname 路由",
+    "是否在后端新增 workbench/source-evidence 聚合接口",
+    "是否增加 ProComponents 国际化配置"
+  ],
+  "evidence": [
+    "apps/web/src/App.tsx:71 手写路由入口",
+    "apps/web/src/App.tsx:119 GESP 页面逻辑集中",
+    "apps/web/src/App.tsx:466 仍展示复核统计",
+    "apps/web/src/components/DomainPanel.tsx:148 题目行仍展示复核 tag",
+    "apps/web/src/components/catalogLabels.tsx:4 状态文案含待复核和冲突",
+    "apps/web/src/pages/AtCoderCatalogPage.tsx:102 AtCoder 页面单文件聚合过多职责",
+    "apps/web/src/pages/ProblemIdePage.tsx:341 IDE 已支持 AtCoder source",
+    "apps/api/src/atcoder-catalog.service.ts:225 AtCoder catalog 接口已有",
+    "apps/api/src/atcoder-catalog.service.ts:380 AtCoder 保存依赖独立表"
+  ],
+  "open_questions": [
+    "是否允许下一步直接安装 @ant-design/pro-components 并进入 P0/P1？",
+    "练习包草稿第一版是否接受 localStorage？"
+  ]
+}

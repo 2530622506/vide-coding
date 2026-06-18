@@ -338,7 +338,7 @@ function DataGap({ status, notes }: { status: string; notes: string[] }) {
   const statusText: Record<string, string> = {
     pending_collection: "待采集",
     reference_link: "参考入口",
-    needs_review: "待复核",
+    needs_review: "待完善",
     not_applicable: "不适用",
     source_extracted: "已抽取",
     none_found: "未发现",
