@@ -151,3 +151,6 @@
 {"type":"cli","id":"CLI-1781163378401-1","timestamp":"2026-06-11T07:36:18.401Z","command":"spec load","args":{"keyword":"atcoder","stdin":false}}
 {"type":"cli","id":"CLI-1781780836020-1","timestamp":"2026-06-18T11:07:16.020Z","command":"spec load","args":{"keyword":"prototype","stdin":false}}
 {"type":"cli","id":"CLI-1781785391373-1","timestamp":"2026-06-18T12:23:11.373Z","command":"spec load","args":{"keyword":"来源证据","stdin":false}}
+{"type":"cli","id":"CLI-1781785904589-1","timestamp":"2026-06-18T12:31:44.589Z","command":"spec load","args":{"keyword":"AtCoder","stdin":false}}
+{"type":"cli","id":"CLI-1781786224600-1","timestamp":"2026-06-18T12:37:04.600Z","command":"spec load","args":{"keyword":"AtCoder","stdin":false}}
+{"type":"cli","id":"CLI-1781786286020-1","timestamp":"2026-06-18T12:38:06.021Z","command":"spec load","args":{"keyword":"AtCoder","stdin":false}}

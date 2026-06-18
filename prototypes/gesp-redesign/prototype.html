@@ -991,6 +991,14 @@
         line-height: 1.65;
       }
 
+      .mock-editor.compact {
+        min-height: 54px;
+      }
+
+      .mock-editor.medium {
+        min-height: 82px;
+      }
+
       .asset-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -1022,6 +1030,249 @@
       .preview-list {
         display: grid;
         gap: 8px;
+      }
+
+      .atcoder-grid {
+        display: grid;
+        grid-template-columns: 250px minmax(0, 1fr) 360px;
+        gap: 14px;
+        align-items: start;
+      }
+
+      .difficulty-tabs {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 14px;
+        padding: 4px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f8fafc;
+      }
+
+      .difficulty-tabs span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 34px;
+        padding: 0 14px;
+        border-radius: 6px;
+        color: var(--subtle);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .difficulty-tabs span.active {
+        background: #fff;
+        color: var(--primary);
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+      }
+
+      .atcoder-row {
+        display: grid;
+        grid-template-columns: 82px 1fr 112px;
+        gap: 12px;
+        align-items: center;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .atcoder-row + .atcoder-row {
+        margin-top: 8px;
+      }
+
+      .atcoder-row.active {
+        border-color: #93c5fd;
+        background: #eff6ff;
+      }
+
+      .pid-badge {
+        display: grid;
+        gap: 4px;
+        place-items: center;
+        min-height: 58px;
+        border-radius: 8px;
+        background: #e0f2fe;
+        color: #0369a1;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .pid-badge strong {
+        color: #0f172a;
+        font-size: 14px;
+      }
+
+      .atcoder-title strong {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .atcoder-title p {
+        margin: 0 0 7px;
+        color: var(--subtle);
+        font-size: 12px;
+      }
+
+      .stat-line {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .stat-pill {
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f8fafc;
+      }
+
+      .stat-pill span {
+        display: block;
+        color: var(--subtle);
+        font-size: 11px;
+      }
+
+      .stat-pill strong {
+        display: block;
+        margin-top: 4px;
+        color: var(--ink);
+        font-size: 16px;
+      }
+
+      .atcoder-detail-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 350px;
+        gap: 14px;
+        align-items: start;
+      }
+
+      .detail-hero {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .detail-hero h2 {
+        margin: 8px 0 8px;
+        color: var(--ink);
+        font-size: 24px;
+        line-height: 1.18;
+      }
+
+      .detail-hero p {
+        margin: 0;
+        color: var(--subtle);
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      .source-strip {
+        display: grid;
+        grid-template-columns: 120px 1fr auto;
+        gap: 10px;
+        align-items: center;
+        padding: 12px;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        background: #eff6ff;
+      }
+
+      .source-strip strong {
+        color: var(--ink);
+        font-size: 13px;
+      }
+
+      .source-strip span {
+        color: var(--subtle);
+        font-size: 12px;
+        word-break: break-all;
+      }
+
+      .meta-table {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .meta-cell {
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #f8fafc;
+      }
+
+      .meta-cell span {
+        display: block;
+        color: var(--subtle);
+        font-size: 11px;
+      }
+
+      .meta-cell strong {
+        display: block;
+        margin-top: 4px;
+        color: var(--ink);
+        font-size: 14px;
+      }
+
+      .statement-section {
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .statement-section + .statement-section {
+        margin-top: 10px;
+      }
+
+      .statement-section h3 {
+        margin: 0 0 10px;
+        color: var(--ink);
+        font-size: 16px;
+      }
+
+      .statement-section p {
+        margin: 0;
+        color: var(--text);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .limit-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .asset-preview {
+        min-height: 128px;
+        padding: 14px;
+        border: 1px dashed #93c5fd;
+        border-radius: 8px;
+        background:
+          linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(8, 145, 178, 0.1)),
+          #f8fafc;
+      }
+
+      .asset-preview strong {
+        display: block;
+        color: var(--ink);
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+
+      .asset-preview p {
+        margin: 0;
+        color: var(--subtle);
+        font-size: 12px;
+        line-height: 1.55;
       }
 
       .mobile-top {
@@ -1191,6 +1442,7 @@
               ${navItem("知识点覆盖", icon.chart)}
               ${navItem("来源证据", icon.source)}
               ${navItem("题目维护", icon.file)}
+              ${navItem("算法题库", icon.code)}
             </div>
           </aside>
         `;
@@ -1417,7 +1669,7 @@ YES</pre></div>
 
       function coverage() {
         return layout(`
-          ${topbar("知识点覆盖与来源证据", "不做复核队列，也不展示冲突标签；这里只呈现可用于练习筛选的覆盖、证据和可信度说明。", "题库覆盖", `<button class="btn">${icon.file}导出清单</button><button class="btn primary">${icon.plus}按弱项建练习包</button>`)}
+          ${topbar("知识点覆盖与来源证据", "这里只呈现可用于练习筛选的覆盖、证据和可信度说明，帮助 B 端快速补齐练习内容。", "题库覆盖", `<button class="btn">${icon.file}导出清单</button><button class="btn primary">${icon.plus}按弱项建练习包</button>`)}
           <section class="coverage-grid">
             <aside class="panel">
               <div class="panel-title"><div><h3>覆盖总览</h3><p>按 C++ 五级核心范围</p></div></div>
@@ -1593,6 +1845,356 @@ YES</pre></div>
         `, "题目维护");
       }
 
+      function atcoderCatalog() {
+        return layout(`
+          ${topbar("AtCoder 算法题库", "作为 B 端练习台里的独立算法题库入口，保留 AtCoder 自己的难度、提交统计、题面样例和 C++17 解法结构。", "算法题库", `<button class="btn">${icon.book}返回 GESP 题库</button><button class="btn">${icon.file}新增题目</button><button class="btn primary">${icon.play}进入 IDE 试做</button>`)}
+          <section class="metric-grid">
+            <div class="metric"><span>目标难度题目</span><strong>286</strong><em>洛谷 AtCoder 公开题库</em></div>
+            <div class="metric"><span>算法范畴</span><strong>14</strong><em>DP / 图论 / 贪心 / 数论</em></div>
+            <div class="metric"><span>知识点</span><strong>97</strong><em>按 AtCoder 标签归并</em></div>
+            <div class="metric"><span>来源总题量</span><strong>3,892</strong><em>按难度过滤后接入</em></div>
+            <div class="metric"><span>样例验证 C++</span><strong>64</strong><em>C++17 解法可试跑</em></div>
+          </section>
+          <div class="difficulty-tabs">
+            <span class="active">普及- 84</span>
+            <span>普及/提高- 96</span>
+            <span>普及+/提高 71</span>
+            <span>提高+/省选- 35</span>
+          </div>
+          <div class="search-row">
+            <div class="input" style="display:flex;align-items:center;gap:8px;color:#94a3b8">${icon.search}<span>搜索题号、英文题名、中文题名、算法标签</span></div>
+            <div class="select">算法范畴 <span>⌄</span></div>
+            <div class="select">题型标签 <span>⌄</span></div>
+            <div class="select">解法状态 <span>⌄</span></div>
+          </div>
+          <section class="atcoder-grid">
+            <aside class="panel">
+              <div class="panel-title"><div><h3>算法范畴</h3><p>AtCoder 专属标签体系</p></div></div>
+              <div class="domain-list">
+                <div class="domain-item active"><div><strong>Dynamic Programming</strong><br><small>dp / knapsack / interval</small></div><span class="tag">42</span></div>
+                <div class="domain-item"><div><strong>Graph</strong><br><small>BFS / DFS / shortest path</small></div><span class="tag gray">36</span></div>
+                <div class="domain-item"><div><strong>Greedy</strong><br><small>sorting / exchange</small></div><span class="tag gray">31</span></div>
+                <div class="domain-item"><div><strong>Math</strong><br><small>mod / gcd / combinatorics</small></div><span class="tag gray">28</span></div>
+                <div class="domain-item"><div><strong>Data Structure</strong><br><small>heap / set / fenwick</small></div><span class="tag gray">22</span></div>
+                <div class="domain-item"><div><strong>Implementation</strong><br><small>simulation / string</small></div><span class="tag gray">48</span></div>
+              </div>
+              <div class="answer-card" style="margin-top:12px"><h3>接入方式</h3><p>侧栏入口进入 AtCoder 专属路由。只共享练习包、IDE、来源入口和整体视觉，不复用 GESP 的等级目录组件。</p></div>
+            </aside>
+            <section>
+              <div class="type-card">
+                <div class="type-header"><div><span class="eyebrow">${icon.code} atcoder.dp.basic</span><h3>DP 基础转移</h3><p style="margin:4px 0 0;color:#64748b;font-size:13px">按题型标签和知识点聚合，不使用 GESP 官方等级链路。</p></div><span class="tag green">18 题</span></div>
+                <div class="knowledge-row"><span class="tag green">一维 DP</span><span class="tag green">状态转移</span><span class="tag green">前缀最优</span><span class="tag cyan">C++17</span></div>
+                <div class="atcoder-row active">
+                  <div class="pid-badge"><span>普及-</span><strong>ABC022 A</strong></div>
+                  <div class="atcoder-title"><strong>Best Body · 最佳体重</strong><p>读入体重变化，统计落在区间内的天数。</p><div class="problem-meta"><span class="tag">AT_abc022_a</span><span class="tag green">题面已抽取</span><span class="tag cyan">样例通过</span></div></div>
+                  <button class="btn primary">详情</button>
+                </div>
+                <div class="atcoder-row">
+                  <div class="pid-badge"><span>普及-</span><strong>ABC032 C</strong></div>
+                  <div class="atcoder-title"><strong>AtCoder · 尺取法乘积</strong><p>连续子数组乘积不超过 K，训练双指针和边界处理。</p><div class="problem-meta"><span class="tag">two pointers</span><span class="tag gold">待生成解法</span></div></div>
+                  <button class="btn">加入</button>
+                </div>
+                <div class="atcoder-row">
+                  <div class="pid-badge"><span>普及-</span><strong>ABC038 D</strong></div>
+                  <div class="atcoder-title"><strong>Snuke's Coloring · LIS 变形</strong><p>排序后做最长上升子序列，适合接入提高练习包。</p><div class="problem-meta"><span class="tag">LIS</span><span class="tag cyan">含样例</span></div></div>
+                  <button class="btn">加入</button>
+                </div>
+              </div>
+              <div class="type-card">
+                <div class="type-header"><div><span class="eyebrow">${icon.code} atcoder.graph.search</span><h3>图搜索 / 最短路</h3></div><span class="tag">11 题</span></div>
+                <div class="knowledge-row"><span class="tag green">BFS</span><span class="tag green">DFS</span><span class="tag green">Dijkstra</span><span class="tag gray">grid graph</span></div>
+                <div class="atcoder-row">
+                  <div class="pid-badge"><span>普及/提高-</span><strong>ABC007 C</strong></div>
+                  <div class="atcoder-title"><strong>幅优先搜索迷宫</strong><p>网格图最短路，可与 GESP 网格模拟题形成扩展练习。</p><div class="problem-meta"><span class="tag green">题面已抽取</span><span class="tag">通过率 63.2%</span></div></div>
+                  <button class="btn">详情</button>
+                </div>
+              </div>
+            </section>
+            <aside class="detail-stack">
+              <div class="panel">
+                <div class="panel-title"><div><h3>当前题目</h3><p>AtCoderProblem 独立详情</p></div><span class="tag cyan">AtCoder</span></div>
+                <div class="answer-card"><h3>Best Body · 最佳体重</h3><p>包含英文题名、中文题名、难度标签、提交数、通过数、通过率、题面 section、样例和 C++17 解法状态。</p></div>
+                <div class="knowledge-row" style="margin-top:12px"><span class="tag green">Implementation</span><span class="tag green">prefix sum</span><span class="tag">通过率 48.7%</span></div>
+                <div class="stat-line">
+                  <div class="stat-pill"><span>提交</span><strong>18,240</strong></div>
+                  <div class="stat-pill"><span>通过</span><strong>8,887</strong></div>
+                  <div class="stat-pill"><span>限制</span><strong>2s / 256MB</strong></div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>题面与样例</h3><p>来自洛谷 AtCoder 公开题面</p></div><span class="tag green">source_extracted</span></div>
+                <div class="sample-card"><strong>Statement</strong><p style="margin:0;color:#334155;font-size:12px;line-height:1.55">给定初始体重和每天变化量，统计体重处于目标区间 [S, T] 的天数。</p></div>
+                <div class="sample-card" style="margin-top:8px"><strong>Sample</strong><pre>5 60 70
+65
+-5
+10
+-3
+2</pre></div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>后台结合点</h3><p>同一工作台，不同数据模型</p></div></div>
+                <div class="timeline">
+                  <div class="timeline-step"><div class="step-dot">1</div><div><strong>统一入口</strong><p>左侧“算法题库”打开 AtCoder 专属页。</p></div><span class="tag green">清晰</span></div>
+                  <div class="timeline-step"><div class="step-dot">2</div><div><strong>统一动作</strong><p>加入练习包、进入 IDE、查看来源保持一致。</p></div><span class="tag cyan">复用</span></div>
+                  <div class="timeline-step"><div class="step-dot">3</div><div><strong>独立维护</strong><p>保存依赖 atcoder_problem_bank 和 atcoder_catalog_snapshots。</p></div><span class="tag gold">独立表</span></div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>练习包草稿</h3><p>可和 GESP 练习包并列，但来源标明 AtCoder</p></div><span class="tag">4 题</span></div>
+                <button class="btn primary" style="width:100%;margin-bottom:8px">${icon.plus}加入算法拓展练习包</button>
+                <button class="btn" style="width:100%">${icon.play}进入 C++17 IDE</button>
+              </div>
+            </aside>
+          </section>
+        `, "算法题库");
+      }
+
+      function atcoderProblemDetail() {
+        return layout(`
+          ${topbar("AtCoder 题目详情", "从算法题库列表进入后的题目主页面，完整展示 AtCoderProblem 独立字段，并提供加入练习包与 IDE 试做入口。", "算法题库 / 题目详情", `<button class="btn">${icon.book}返回算法题库</button><button class="btn">${icon.file}编辑题目</button><button class="btn">${icon.plus}加入练习包</button><button class="btn primary">${icon.play}进入 IDE 试做</button>`)}
+          <section class="atcoder-detail-grid">
+            <main class="detail-stack">
+              <div class="detail-hero">
+                <span class="eyebrow">${icon.code} AT_abc022_a</span>
+                <h2>Best Body · 最佳体重</h2>
+                <p>AtCoder Beginner Contest 022 A。给定初始体重和每天体重变化，统计体重处于目标区间内的天数。这个页面不复用 GESP 题目结构，而是围绕 AtCoder 的 pid、难度、提交统计、题面 sections、samples 和 programming_solution 展开。</p>
+                <div class="knowledge-row" style="margin-top:12px">
+                  <span class="tag cyan">普及-</span>
+                  <span class="tag green">Implementation</span>
+                  <span class="tag green">simulation</span>
+                  <span class="tag">C++17</span>
+                  <span class="tag gold">洛谷 AtCoder</span>
+                </div>
+                <div class="meta-table">
+                  <div class="meta-cell"><span>题号</span><strong>ABC022 A</strong></div>
+                  <div class="meta-cell"><span>提交</span><strong>18,240</strong></div>
+                  <div class="meta-cell"><span>通过</span><strong>8,887</strong></div>
+                  <div class="meta-cell"><span>通过率</span><strong>48.7%</strong></div>
+                  <div class="meta-cell"><span>时间限制</span><strong>2 sec</strong></div>
+                  <div class="meta-cell"><span>内存限制</span><strong>256 MB</strong></div>
+                  <div class="meta-cell"><span>题面状态</span><strong>已抽取</strong></div>
+                  <div class="meta-cell"><span>解法状态</span><strong>样例通过</strong></div>
+                </div>
+              </div>
+
+              <div class="source-strip">
+                <strong>source_url</strong>
+                <span>https://www.luogu.com.cn/problem/AT_abc022_a</span>
+                <button class="btn ghost-primary">${icon.source}打开原题</button>
+              </div>
+
+              <div class="statement-section">
+                <h3>题目描述</h3>
+                <p>高桥正在记录自己的体重。第一天早晨体重为 W，之后连续 N - 1 天每天都会发生一个整数变化。请统计从第 1 天到第 N 天中，体重处于区间 [S, T] 内的天数。</p>
+              </div>
+              <div class="statement-section">
+                <h3>输入格式</h3>
+                <p>第一行包含三个整数 N、S、T。第二行包含整数 W。接下来 N - 1 行每行一个整数，表示当天体重相对前一天的变化量。</p>
+              </div>
+              <div class="statement-section">
+                <h3>输出格式</h3>
+                <p>输出一个整数，表示体重在目标区间内的天数。</p>
+              </div>
+              <div class="statement-section">
+                <h3>样例</h3>
+                <div class="sample-box">
+                  <div class="sample-card"><strong>Sample Input 1</strong><pre>5 60 70
+65
+-5
+10
+-3
+2</pre></div>
+                  <div class="sample-card"><strong>Sample Output 1</strong><pre>4</pre></div>
+                </div>
+              </div>
+            </main>
+
+            <aside class="detail-stack">
+              <div class="panel">
+                <div class="panel-title"><div><h3>练习动作</h3><p>和 B 端练习台保持一致</p></div><span class="tag cyan">AtCoder</span></div>
+                <button class="btn primary" style="width:100%;margin-bottom:8px">${icon.play}进入 C++17 IDE</button>
+                <button class="btn" style="width:100%;margin-bottom:8px">${icon.plus}加入算法拓展练习包</button>
+                <button class="btn" style="width:100%">${icon.file}生成讲解卡片</button>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>算法标签</h3><p>AtCoder 独立标签体系</p></div></div>
+                <div class="knowledge-row">
+                  <span class="tag green">Implementation</span>
+                  <span class="tag green">prefix accumulation</span>
+                  <span class="tag cyan">condition count</span>
+                  <span class="tag gray">beginner</span>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>限制与样例</h3><p>进入 IDE 时自动带入</p></div></div>
+                <div class="limit-grid">
+                  <div class="stat-pill"><span>samples</span><strong>2 组</strong></div>
+                  <div class="stat-pill"><span>sections</span><strong>4 段</strong></div>
+                  <div class="stat-pill"><span>visual_assets</span><strong>1 个</strong></div>
+                  <div class="stat-pill"><span>language</span><strong>C++17</strong></div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>题面资产</h3><p>AtCoder 题面图片或辅助图</p></div></div>
+                <div class="asset-preview">
+                  <strong>statement-abc022-a.png</strong>
+                  <p>展示题面中的原始说明图或从来源页面截取的关键区域；没有图片时详情页显示纯文本 sections。</p>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>数据落点</h3><p>保存和 GESP 分开</p></div><span class="tag gold">独立表</span></div>
+                <div class="timeline">
+                  <div class="timeline-step"><div class="step-dot">1</div><div><strong>atcoder_problem_bank</strong><p>保存题目、题面、样例、标签、统计和解法。</p></div><span class="tag green">写入</span></div>
+                  <div class="timeline-step"><div class="step-dot">2</div><div><strong>atcoder_catalog_snapshots</strong><p>按 difficulty_label 和算法范畴生成目录快照。</p></div><span class="tag cyan">同步</span></div>
+                </div>
+              </div>
+            </aside>
+          </section>
+        `, "算法题库");
+      }
+
+      function atcoderIdePractice() {
+        return layout(`
+          ${topbar("AtCoder IDE 试做", "从题目详情进入的练习页面。IDE、运行面板和练习动作可与 GESP 共用，但题目数据读取 AtCoderProblem。", "算法题库 / IDE 试做", `<button class="btn">${icon.book}返回题目详情</button><button class="btn">${icon.plus}加入练习包</button><button class="btn primary">${icon.play}运行样例</button>`)}
+          <section class="practice-grid">
+            <aside class="statement-box">
+              <div class="problem-hero">
+                <span class="eyebrow">${icon.code} AT_abc022_a</span>
+                <h2>Best Body</h2>
+                <p>统计 N 天中体重在 [S, T] 区间内的天数。当前页会自动带入 AtCoder 的样例、限制、标签和来源链接。</p>
+                <div class="knowledge-row" style="margin-top:12px"><span class="tag cyan">普及-</span><span class="tag green">Implementation</span><span class="tag">通过率 48.7%</span></div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>题面摘要</h3><p>完整题面可展开</p></div><span class="tag">sections 4</span></div>
+                <p style="margin:0;color:#334155;font-size:13px;line-height:1.7">第一天体重为 W，之后每天发生整数变化。每一天计算更新后的体重，并判断是否处在闭区间 [S, T] 内。</p>
+              </div>
+              <div class="sample-card"><strong>Sample Input</strong><pre>5 60 70
+65
+-5
+10
+-3
+2</pre></div>
+              <div class="sample-card"><strong>Sample Output</strong><pre>4</pre></div>
+            </aside>
+
+            <main class="code-window">
+              <div class="code-toolbar"><span>C++17 · main.cpp</span><div class="inline-actions"><button class="btn">格式化</button><button class="btn primary">${icon.play}运行</button></div></div>
+              <pre>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+  ios::sync_with_stdio(false);
+  cin.tie(nullptr);
+
+  int n, s, t;
+  cin &gt;&gt; n &gt;&gt; s &gt;&gt; t;
+
+  int w;
+  cin &gt;&gt; w;
+  int answer = (s &lt;= w &amp;&amp; w &lt;= t);
+
+  for (int day = 1; day &lt; n; ++day) {
+    int delta;
+    cin &gt;&gt; delta;
+    w += delta;
+    if (s &lt;= w &amp;&amp; w &lt;= t) {
+      ++answer;
+    }
+  }
+
+  cout &lt;&lt; answer &lt;&lt; "\\n";
+  return 0;
+}</pre>
+            </main>
+
+            <aside class="detail-stack">
+              <div class="panel">
+                <div class="panel-title"><div><h3>运行结果</h3><p>样例与自定义输入</p></div><span class="tag green">通过</span></div>
+                <div class="sample-card"><strong>Sample 1</strong><pre>输出 4
+耗时 7 ms
+内存 3.4 MB</pre></div>
+                <div class="sample-card" style="margin-top:8px"><strong>自定义输入</strong><pre>等待运行</pre></div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>知识点提示</h3><p>不直接暴露完整答案</p></div></div>
+                <ol class="step-list">
+                  <li>先判断初始体重是否在目标区间。</li>
+                  <li>每天读入变化量后更新当前体重。</li>
+                  <li>闭区间判断要包含 S 和 T 两个边界。</li>
+                </ol>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>来源与练习包</h3><p>AtCoder 来源单独标识</p></div><span class="tag cyan">source=AtCoder</span></div>
+                <div class="source-strip" style="grid-template-columns:1fr">
+                  <span>https://www.luogu.com.cn/problem/AT_abc022_a</span>
+                </div>
+                <button class="btn primary" style="width:100%;margin-top:10px">${icon.plus}加入当前练习包</button>
+              </div>
+            </aside>
+          </section>
+        `, "算法题库");
+      }
+
+      function atcoderMaintenance() {
+        return layout(`
+          ${topbar("AtCoder 题目维护", "面向 B 端练习台运营的 AtCoder 专属维护页，字段与 GESP 题库分开，保存后同步算法题库目录。", "算法题库 / 题目维护", `<button class="btn">${icon.book}返回算法题库</button><button class="btn">${icon.file}导入 JSON</button><button class="btn primary">${icon.check}保存 AtCoder 题目</button>`)}
+          <section class="maintenance-grid">
+            <aside class="panel">
+              <div class="panel-title"><div><h3>AtCoder 题目</h3><p>按 pid 和 difficulty 维护</p></div><button class="btn icon-btn">${icon.plus}</button></div>
+              <div class="domain-list">
+                <div class="domain-item active"><div><strong>AT_abc022_a</strong><br><small>Best Body · 普及-</small></div><span class="tag green">可练</span></div>
+                <div class="domain-item"><div><strong>AT_abc032_c</strong><br><small>尺取法乘积 · 普及-</small></div><span class="tag gold">待解法</span></div>
+                <div class="domain-item"><div><strong>AT_abc038_d</strong><br><small>LIS 变形 · 普及/提高-</small></div><span class="tag cyan">含样例</span></div>
+                <div class="domain-item"><div><strong>AT_abc007_c</strong><br><small>网格 BFS · 普及/提高-</small></div><span class="tag green">可练</span></div>
+              </div>
+              <div class="answer-card" style="margin-top:12px"><h3>为什么单独维护</h3><p>AtCoder 题目没有 GESP 的 level-domain-type 目录链路，主要依赖 difficulty_label、algorithm_domains、problem_type_tags 和 pid。</p></div>
+            </aside>
+
+            <main class="panel">
+              <div class="panel-title"><div><h3>基础信息</h3><p>AtCoderProblem 字段</p></div><span class="tag cyan">AT_abc022_a</span></div>
+              <div class="form-grid">
+                <div class="field"><label>pid</label><div class="input">AT_abc022_a</div></div>
+                <div class="field"><label>contest / problem</label><div class="input">ABC022 / A</div></div>
+                <div class="field"><label>title</label><div class="input">Best Body</div></div>
+                <div class="field"><label>title_zh</label><div class="input">最佳体重</div></div>
+                <div class="field"><label>difficulty_label</label><div class="select">普及- <span>⌄</span></div></div>
+                <div class="field"><label>acceptance_rate</label><div class="input">48.7%</div></div>
+                <div class="field full"><label>source_url</label><div class="input">https://www.luogu.com.cn/problem/AT_abc022_a</div></div>
+                <div class="field full"><label>algorithm_domains</label><div class="mock-editor compact">Implementation, Simulation, Prefix accumulation</div></div>
+                <div class="field full"><label>problem_type_tags</label><div class="mock-editor compact">condition count, simple loop, integer update</div></div>
+                <div class="field full"><label>knowledge_points</label><div class="mock-editor compact">闭区间判断、累计更新、样例模拟、C++ 输入输出</div></div>
+                <div class="field full"><label>statement.sections</label><div class="mock-editor medium">题目描述、输入格式、输出格式、约束条件。每段作为独立 section 保存，详情页按顺序渲染。</div></div>
+                <div class="field full"><label>samples</label><div class="mock-editor compact">Sample Input 1 / Sample Output 1；支持多组样例，并在 IDE 中一键运行。</div></div>
+                <div class="field full"><label>programming_solution</label><div class="mock-editor medium">C++17 参考解、复杂度说明、样例运行状态。保存后详情页和 IDE 可读取。</div></div>
+              </div>
+            </main>
+
+            <aside class="detail-stack">
+              <div class="panel">
+                <div class="panel-title"><div><h3>练习页预览</h3><p>保存前检查可用性</p></div><span class="tag green">可试做</span></div>
+                <div class="answer-card"><h3>Best Body</h3><p>题面、样例、限制和 C++17 解法已满足进入 IDE 的最低字段要求。</p></div>
+                <button class="btn primary" style="width:100%;margin-top:10px">${icon.play}预览 IDE</button>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>visual_assets</h3><p>题面图或辅助图</p></div><button class="btn icon-btn">${icon.plus}</button></div>
+                <div class="asset-grid">
+                  <div class="asset-tile"><strong>abc022-a-statement.png</strong><p>来源页面截取图，可绑定到题面 section。</p></div>
+                  <div class="asset-tile"><strong>sample-table.png</strong><p>样例说明图，可选。</p></div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-title"><div><h3>保存检查</h3><p>AtCoder 独立落库</p></div></div>
+                <div class="timeline">
+                  <div class="timeline-step"><div class="step-dot">1</div><div><strong>题目字段</strong><p>pid、标题、难度、来源、题面和样例完整。</p></div><span class="tag green">通过</span></div>
+                  <div class="timeline-step"><div class="step-dot">2</div><div><strong>目录快照</strong><p>保存后更新 difficulty 和算法范畴目录。</p></div><span class="tag cyan">同步</span></div>
+                  <div class="timeline-step"><div class="step-dot">3</div><div><strong>生产初始化</strong><p>部署时需要初始化 AtCoder 两张表。</p></div><span class="tag gold">注意</span></div>
+                </div>
+              </div>
+            </aside>
+          </section>
+        `, "算法题库");
+      }
+
       function mobile() {
         return `
           <div class="mobile-screen">
@@ -1645,6 +2247,10 @@ YES</pre></div>
         "b-coverage": coverage,
         "b-source": sourceEvidence,
         "b-maintenance": problemMaintenance,
+        "b-atcoder": atcoderCatalog,
+        "b-atcoder-detail": atcoderProblemDetail,
+        "b-atcoder-ide": atcoderIdePractice,
+        "b-atcoder-maintenance": atcoderMaintenance,
         "c-mobile": mobile
       };
       const params = new URLSearchParams(location.search);
