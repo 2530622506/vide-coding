@@ -8,8 +8,8 @@ import "./ConsumerMobilePage.css";
 export function ConsumerMobilePage() {
   const [view, setView] = useState<ConsumerView>(() => readInitialConsumerView());
   const contentState = useConsumerMobileContent();
-  const progressStyle = useMemo(() => ({ "--consumer-progress": `${contentState.content?.learning.progress_pct ?? 0}%` }) as React.CSSProperties, [contentState.content?.learning.progress_pct]);
-  const profileProgressStyle = useMemo(() => ({ "--consumer-progress": `${contentState.content?.learning.progress_pct ?? 0}%` }) as React.CSSProperties, [contentState.content?.learning.progress_pct]);
+  const progressStyle = useMemo(() => ({ "--consumer-progress": `${contentState.progress?.progress_pct ?? 0}%` }) as React.CSSProperties, [contentState.progress?.progress_pct]);
+  const profileProgressStyle = useMemo(() => ({ "--consumer-progress": `${contentState.progress?.progress_pct ?? 0}%` }) as React.CSSProperties, [contentState.progress?.progress_pct]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -30,11 +30,6 @@ export function ConsumerMobilePage() {
   return (
     <main className="consumerPage">
       <section className="consumerPhone" aria-label="GESP C 端移动页面">
-        <header className="consumerStatus">
-          <span>9:41</span>
-          <span>GESP Learn</span>
-          <span>{contentState.loading ? "加载中" : `${contentState.content?.learning.progress_pct ?? 0}%`}</span>
-        </header>
         <ConsumerHeader content={contentState.content} selectedProblem={contentState.selectedProblem} view={view} setView={setView} />
         <section className="consumerContent">{renderConsumerView(view, setView, contentState, progressStyle, profileProgressStyle)}</section>
         <ConsumerBottomNav view={view} setView={setView} />
@@ -45,7 +40,7 @@ export function ConsumerMobilePage() {
 
 function readInitialConsumerView(): ConsumerView {
   const view = new URLSearchParams(window.location.search).get("view");
-  return view === "catalog" || view === "atcoder" || view === "problem" || view === "code" || view === "evidence" || view === "progress" || view === "profile" ? view : "home";
+  return view === "catalog" || view === "atcoder" || view === "problem" || view === "code" || view === "progress" || view === "profile" ? view : "home";
 }
 
 function ConsumerHeader({
@@ -60,24 +55,30 @@ function ConsumerHeader({
   view: ConsumerView;
 }) {
   const { description, eyebrow, title } = getConsumerHeader(view, content, selectedProblem);
-  const canGoBack = view === "problem" || view === "code" || view === "evidence";
+  const canGoBack = view === "problem" || view === "code";
 
   return (
     <section className="consumerHero">
-      <div className="consumerEyebrow">
-        {canGoBack ? (
-          <button aria-label="返回题库" className="consumerBackButton" onClick={() => setView(view === "code" || view === "evidence" ? "problem" : "catalog")} type="button">
+      {eyebrow ? (
+        <div className="consumerEyebrow">
+          {canGoBack ? (
+            <button aria-label="返回题库" className="consumerBackButton" onClick={() => setView(view === "code" ? "problem" : "catalog")} type="button">
+              <ChevronLeft size={17} />
+            </button>
+          ) : view === "catalog" ? (
+            <Layers3 size={17} />
+          ) : (
+            <BookOpen size={17} />
+          )}
+          <span>{eyebrow}</span>
+        </div>
+      ) : canGoBack ? (
+        <button aria-label="返回题目" className="consumerBackButton consumerHeaderBackButton" onClick={() => setView("problem")} type="button">
             <ChevronLeft size={17} />
-          </button>
-        ) : view === "catalog" ? (
-          <Layers3 size={17} />
-        ) : (
-          <BookOpen size={17} />
-        )}
-        <span>{eyebrow}</span>
-      </div>
+        </button>
+      ) : null}
       <h1>{title}</h1>
-      <p>{description}</p>
+      {description ? <p>{description}</p> : null}
     </section>
   );
 }
@@ -93,16 +94,9 @@ function getConsumerHeader(view: ConsumerView, content: ConsumerMobileContent | 
   }
   if (featured && view === "code") {
     return {
-      eyebrow: "Read only",
-      title: "只读代码讲解",
-      description: `${featured.title} · ${featured.code ? "后端已返回 C++ 参考代码" : "后端暂未返回代码"}`
-    };
-  }
-  if (featured && view === "evidence") {
-    return {
-      eyebrow: "证据链",
-      title: `${featured.title} 来源`,
-      description: `${featured.source_links.length} 条后端来源记录，保留题目版权边界。`
+      eyebrow: "",
+      title: featured.title,
+      description: ""
     };
   }
   if (content && view === "atcoder") {
@@ -115,7 +109,7 @@ function getConsumerHeader(view: ConsumerView, content: ConsumerMobileContent | 
 }
 
 function ConsumerBottomNav({ setView, view }: { setView: (view: ConsumerView) => void; view: ConsumerView }) {
-  const isCatalogActive = view === "catalog" || view === "atcoder" || view === "problem" || view === "code" || view === "evidence";
+  const isCatalogActive = view === "catalog" || view === "atcoder" || view === "problem" || view === "code";
 
   return (
     <nav className="consumerBottomNav" aria-label="C 端主导航">

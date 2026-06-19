@@ -1,4 +1,4 @@
-export type ConsumerView = "home" | "catalog" | "atcoder" | "problem" | "code" | "evidence" | "progress" | "profile";
+export type ConsumerView = "home" | "catalog" | "atcoder" | "problem" | "code" | "progress" | "profile";
 
 export type Tone = "good" | "normal" | "weak";
 
@@ -99,9 +99,14 @@ export type MobileProgressEvent = {
 export type MobileProgress = {
   data_source: "mysql" | "memory";
   user_key: string;
+  activity_count: number;
+  progress_pct: number;
   viewed_count: number;
   favorite_count: number;
   reviewed_count: number;
+  weekly_viewed_count: number;
+  weekly_favorite_count: number;
+  weekly_reviewed_count: number;
   viewed: MobileProgressEvent[];
   favorites: MobileProgressEvent[];
   reviewed: MobileProgressEvent[];
@@ -159,14 +164,9 @@ export const consumerHeaders: Record<ConsumerView, { eyebrow: string; title: str
     description: "选择题 · 质因数分解型 · 官方题源对齐。"
   },
   code: {
-    eyebrow: "Read only",
-    title: "只读代码讲解",
-    description: "移动端只做查看、复制和标注，不提供在线编辑器。"
-  },
-  evidence: {
-    eyebrow: "证据链",
-    title: "为什么它属于五级数论",
-    description: "展示官方来源、镜像入口和分类证据，避免把非官方标签当结论。"
+    eyebrow: "",
+    title: "参考代码",
+    description: ""
   },
   progress: {
     eyebrow: "学习进度",

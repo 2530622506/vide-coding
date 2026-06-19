@@ -110,9 +110,14 @@ type StoredProgressEvent = Required<ProgressEvent> & {
 type ProgressStore = {
   data_source: "mysql" | "memory";
   user_key: string;
+  activity_count: number;
+  progress_pct: number;
   viewed_count: number;
   favorite_count: number;
   reviewed_count: number;
+  weekly_viewed_count: number;
+  weekly_favorite_count: number;
+  weekly_reviewed_count: number;
   viewed: StoredProgressEvent[];
   favorites: StoredProgressEvent[];
   reviewed: StoredProgressEvent[];
@@ -337,16 +342,7 @@ export class ConsumerMobileService {
       [userKey]
     );
     const events = rows.map((row) => this.progressRowToEvent(row));
-    return {
-      data_source: "mysql",
-      user_key: userKey,
-      viewed_count: events.filter((event) => event.type === "view").length,
-      favorite_count: events.filter((event) => event.type === "favorite").length,
-      reviewed_count: events.filter((event) => event.type === "review").length,
-      viewed: events.filter((event) => event.type === "view"),
-      favorites: events.filter((event) => event.type === "favorite"),
-      reviewed: events.filter((event) => event.type === "review")
-    };
+    return this.buildProgressStore("mysql", userKey, events);
   }
 
   private recordMemoryProgressEvent(event: ProgressEvent) {
@@ -363,12 +359,28 @@ export class ConsumerMobileService {
     const viewed = [...this.viewedProblems.values()].map((event) => this.toStoredProgressEvent(event, new Date()));
     const favorites = [...this.favoriteProblems.values()].map((event) => this.toStoredProgressEvent(event, new Date()));
     const reviewed = [...this.reviewedProblems.values()].map((event) => this.toStoredProgressEvent(event, new Date()));
+    return this.buildProgressStore("memory", userKey, [...viewed, ...favorites, ...reviewed]);
+  }
+
+  private buildProgressStore(dataSource: ProgressStore["data_source"], userKey: string, events: StoredProgressEvent[]): ProgressStore {
+    const viewed = events.filter((event) => event.type === "view");
+    const favorites = events.filter((event) => event.type === "favorite");
+    const reviewed = events.filter((event) => event.type === "review");
+    const weeklyViewed = viewed.filter((event) => this.isCurrentWeek(event.recordedAt));
+    const weeklyFavorites = favorites.filter((event) => this.isCurrentWeek(event.recordedAt));
+    const weeklyReviewed = reviewed.filter((event) => this.isCurrentWeek(event.recordedAt));
+    const weeklyScore = weeklyViewed.length + weeklyFavorites.length * 2 + weeklyReviewed.length * 3;
     return {
-      data_source: "memory",
+      data_source: dataSource,
       user_key: userKey,
+      activity_count: events.length,
+      progress_pct: Math.min(100, Math.round((weeklyScore / 12) * 100)),
       viewed_count: viewed.length,
       favorite_count: favorites.length,
       reviewed_count: reviewed.length,
+      weekly_viewed_count: weeklyViewed.length,
+      weekly_favorite_count: weeklyFavorites.length,
+      weekly_reviewed_count: weeklyReviewed.length,
       viewed,
       favorites,
       reviewed
@@ -393,6 +405,19 @@ export class ConsumerMobileService {
       type: event.type === "favorite" || event.type === "review" ? event.type : "view",
       recordedAt: this.toIsoString(recordedAt)
     };
+  }
+
+  private isCurrentWeek(recordedAt: string) {
+    const date = new Date(recordedAt);
+    if (Number.isNaN(date.getTime())) {
+      return false;
+    }
+    const now = new Date();
+    const startOfWeek = new Date(now);
+    const day = startOfWeek.getDay() || 7;
+    startOfWeek.setHours(0, 0, 0, 0);
+    startOfWeek.setDate(startOfWeek.getDate() - day + 1);
+    return date >= startOfWeek && date <= now;
   }
 
   private async ensureProgressSchema(connection: mysql.Connection) {
