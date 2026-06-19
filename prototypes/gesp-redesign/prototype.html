@@ -1275,56 +1275,207 @@
         line-height: 1.55;
       }
 
+      .mobile-board {
+        width: 1440px;
+        min-height: 2050px;
+        margin: 0 auto;
+        padding: 44px 54px 58px;
+        background:
+          radial-gradient(circle at 18% 10%, rgba(20, 184, 166, 0.14), transparent 30%),
+          radial-gradient(circle at 86% 5%, rgba(79, 70, 229, 0.1), transparent 28%),
+          linear-gradient(180deg, #f7fbff 0%, #eef6f2 100%);
+        color: #172033;
+      }
+
+      .mobile-board-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 28px;
+      }
+
+      .mobile-board-title {
+        max-width: 760px;
+      }
+
+      .mobile-board-title span {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 8px;
+        color: #0f766e;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .mobile-board-title h1 {
+        margin: 0;
+        color: #102033;
+        font-size: 34px;
+        line-height: 1.16;
+      }
+
+      .mobile-board-title p {
+        margin: 10px 0 0;
+        color: #5b6b7d;
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .mobile-board-note {
+        display: grid;
+        gap: 8px;
+        min-width: 300px;
+        padding: 14px;
+        border: 1px solid rgba(15, 118, 110, 0.16);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.74);
+      }
+
+      .mobile-board-note strong {
+        color: #102033;
+        font-size: 14px;
+      }
+
+      .mobile-board-note span {
+        color: #607083;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .phone-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 390px);
+        gap: 34px 38px;
+      }
+
+      .phone-case {
+        width: 390px;
+      }
+
+      .phone-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 34px;
+        margin-bottom: 10px;
+        color: #476174;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .phone-label small {
+        color: #7a8a99;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .mobile-screen {
+        position: relative;
+        width: 390px;
+        height: 844px;
+        margin: 0;
+        overflow: hidden;
+        border: 10px solid #111827;
+        border-radius: 34px;
+        background: #f8fbff;
+        box-shadow: 0 24px 70px rgba(17, 24, 39, 0.16);
+      }
+
+      .mobile-screen::before {
+        content: "";
+        position: absolute;
+        top: 9px;
+        left: 50%;
+        z-index: 5;
+        width: 118px;
+        height: 28px;
+        border-radius: 999px;
+        background: #111827;
+        transform: translateX(-50%);
+      }
+
       .mobile-top {
-        padding: 16px 16px 10px;
-        background: #ffffff;
-        border-bottom: 1px solid var(--line);
+        padding: 18px 18px 12px;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(241, 252, 248, 0.94)),
+          #fff;
+        border-bottom: 1px solid rgba(203, 213, 225, 0.72);
       }
 
       .mobile-status {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 28px;
-        color: var(--ink);
+        height: 22px;
+        padding: 0 2px;
+        color: #102033;
         font-size: 12px;
-        font-weight: 700;
+        font-weight: 800;
       }
 
       .mobile-title {
         display: grid;
         gap: 8px;
-        padding-top: 12px;
+        padding-top: 22px;
       }
 
       .mobile-title h1 {
-        font-size: 24px;
+        margin: 0;
+        color: #102033;
+        font-size: 25px;
+        line-height: 1.18;
+      }
+
+      .mobile-title p {
+        margin: 0;
+        color: #64758a;
+        font-size: 13px;
+        line-height: 1.55;
       }
 
       .mobile-body {
-        padding: 14px 14px 90px;
+        height: 690px;
+        padding: 14px 14px 88px;
+        overflow: hidden;
       }
 
       .mobile-card {
-        padding: 14px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: #fff;
         margin-bottom: 12px;
+        padding: 14px;
+        border: 1px solid rgba(203, 213, 225, 0.9);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+      }
+
+      .mobile-card.tint {
+        border-color: rgba(20, 184, 166, 0.24);
+        background: #ecfdf5;
       }
 
       .mobile-card h2,
       .mobile-card h3 {
         margin: 0 0 8px;
-        color: var(--ink);
+        color: #102033;
         font-size: 16px;
+        line-height: 1.25;
       }
 
-      .mobile-card p {
+      .mobile-card p,
+      .mobile-copy {
         margin: 0;
-        color: var(--subtle);
+        color: #607083;
         font-size: 13px;
-        line-height: 1.6;
+        line-height: 1.62;
+      }
+
+      .mobile-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: center;
       }
 
       .mobile-domain {
@@ -1336,21 +1487,199 @@
         display: grid;
         grid-template-columns: 1fr auto;
         gap: 8px;
-        padding: 12px;
-        border: 1px solid var(--line);
+        padding: 11px;
+        border: 1px solid #dce7f1;
         border-radius: 8px;
         background: #fff;
       }
 
+      .mobile-domain-row strong {
+        color: #102033;
+        font-size: 14px;
+      }
+
+      .mobile-domain-row small {
+        color: #718096;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      .mobile-search {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 42px;
+        padding: 0 12px;
+        border: 1px solid #d7e3ef;
+        border-radius: 8px;
+        background: #fff;
+        color: #7a8a99;
+        font-size: 13px;
+      }
+
+      .mobile-segment {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
+        padding: 4px;
+        border: 1px solid #dbe6ef;
+        border-radius: 8px;
+        background: #edf4f7;
+      }
+
+      .mobile-segment span {
+        display: grid;
+        place-items: center;
+        min-height: 30px;
+        border-radius: 6px;
+        color: #657589;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .mobile-segment span.active {
+        background: #fff;
+        color: #0f766e;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1);
+      }
+
+      .problem-mobile-row {
+        display: grid;
+        grid-template-columns: 42px 1fr auto;
+        gap: 10px;
+        align-items: center;
+        padding: 11px 0;
+        border-bottom: 1px solid #e5edf5;
+      }
+
+      .problem-mobile-row:last-child {
+        border-bottom: 0;
+      }
+
+      .problem-badge {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border-radius: 8px;
+        background: #e0f2fe;
+        color: #0369a1;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .mini-tabs {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .mini-tabs span {
+        display: inline-flex;
+        align-items: center;
+        min-height: 26px;
+        padding: 0 9px;
+        border: 1px solid #d7e3ef;
+        border-radius: 999px;
+        background: #fff;
+        color: #607083;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .mini-tabs span.active {
+        border-color: #99f6e4;
+        background: #ccfbf1;
+        color: #0f766e;
+      }
+
+      .read-block {
+        padding: 12px;
+        border: 1px solid #e1e8f0;
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .read-block h3 {
+        margin: 0 0 8px;
+        color: #102033;
+        font-size: 15px;
+      }
+
+      .read-block p {
+        margin: 0;
+        color: #4b5c70;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .code-readonly {
+        overflow: hidden;
+        border: 1px solid #1e293b;
+        border-radius: 8px;
+        background: #0b1220;
+      }
+
+      .code-readonly-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 36px;
+        padding: 0 12px;
+        border-bottom: 1px solid #1e293b;
+        color: #cbd5e1;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .code-readonly pre {
+        max-height: 420px;
+        padding: 14px;
+        overflow: hidden;
+        color: #dbeafe;
+        font-size: 11px;
+        line-height: 1.65;
+      }
+
+      .source-mini {
+        display: grid;
+        gap: 8px;
+      }
+
+      .source-mini-row {
+        display: grid;
+        grid-template-columns: 28px 1fr auto;
+        gap: 9px;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #dce7f1;
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .source-dot {
+        display: grid;
+        width: 28px;
+        height: 28px;
+        place-items: center;
+        border-radius: 50%;
+        background: #ccfbf1;
+        color: #0f766e;
+        font-size: 12px;
+        font-weight: 900;
+      }
+
       .mobile-bottom-nav {
-        position: fixed;
+        position: absolute;
         left: 0;
+        right: 0;
         bottom: 0;
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        width: 390px;
-        border-top: 1px solid var(--line);
-        background: #fff;
+        min-height: 70px;
+        padding-bottom: 6px;
+        border-top: 1px solid #dbe6ef;
+        background: rgba(255, 255, 255, 0.98);
       }
 
       .mobile-bottom-nav span {
@@ -1358,13 +1687,13 @@
         gap: 4px;
         place-items: center;
         min-height: 58px;
-        color: var(--subtle);
+        color: #7a8a99;
         font-size: 11px;
-        font-weight: 700;
+        font-weight: 800;
       }
 
       .mobile-bottom-nav span.active {
-        color: var(--primary);
+        color: #0f766e;
       }
 
       .mobile-bottom-nav svg {
@@ -1373,16 +1702,17 @@
       }
 
       .progress-ring {
+        position: relative;
         display: grid;
         place-items: center;
         width: 82px;
         height: 82px;
         border-radius: 50%;
         background:
-          conic-gradient(var(--primary) 0 72%, #e2e8f0 72% 100%);
-        color: var(--ink);
+          conic-gradient(#14b8a6 0 72%, #dbe6ef 72% 100%);
+        color: #102033;
         font-size: 19px;
-        font-weight: 800;
+        font-weight: 900;
       }
 
       .progress-ring::before {
@@ -2197,45 +2527,283 @@ int main() {
 
       function mobile() {
         return `
-          <div class="mobile-screen">
-            <header class="mobile-top">
-              <div class="mobile-status"><span>9:41</span><span>GESP Learn</span><span>72%</span></div>
-              <div class="mobile-title">
-                <span class="eyebrow">${icon.book}C 端学习入口</span>
-                <h1>C++ 五级练习</h1>
-                <p style="margin:0;color:#64748b;font-size:13px;line-height:1.5">学生侧只突出继续学习、知识点进度和题目练习。</p>
+          <div class="mobile-board">
+            <header class="mobile-board-head">
+              <div class="mobile-board-title">
+                <span>${icon.book}GESP C 端移动原型</span>
+                <h1>面向学生的题目与代码阅读 App</h1>
+                <p>C 端不进入代码 IDE，重点是查看分类目录、题目详情、只读参考代码、来源证据与学习进度。界面保持轻量、清晰、适合移动端碎片化学习。</p>
+              </div>
+              <div class="mobile-board-note">
+                <strong>设计边界</strong>
+                <span>官方来源优先，题面只展示概要与短证据；代码区域提供阅读、标注、复制，不提供在线编辑。</span>
               </div>
             </header>
-            <main class="mobile-body">
-              <div class="mobile-card" style="display:grid;grid-template-columns:1fr 92px;gap:12px;align-items:center">
-                <div><h2>今日进度</h2><p>已完成 8 / 12 题，薄弱点集中在筛法和高精度。</p><div class="knowledge-row" style="margin-top:10px"><span class="tag green">继续练习</span><span class="tag cyan">38 分钟</span></div></div>
-                <div class="progress-ring"><span>72%</span></div>
-              </div>
-              <div class="mobile-card">
-                <h3>推荐练习</h3>
-                <p>五级数论强化 · 质因数 / gcd / 有限小数</p>
-                <button class="btn primary" style="width:100%;margin-top:12px">${icon.play}开始</button>
-              </div>
-              <div class="mobile-card">
-                <h3>知识点</h3>
-                <div class="mobile-domain">
-                  <div class="mobile-domain-row"><div><strong>数论</strong><br><small>质因数、gcd、筛法</small></div><span class="tag green">84%</span></div>
-                  <div class="mobile-domain-row"><div><strong>二分</strong><br><small>lower_bound、单调性</small></div><span class="tag">72%</span></div>
-                  <div class="mobile-domain-row"><div><strong>链表</strong><br><small>指针重连、模拟</small></div><span class="tag gold">64%</span></div>
+            <section class="phone-grid">
+              <div class="phone-case">
+                <div class="phone-label"><span>01 首页 / 继续学习</span><small>Home</small></div>
+                <div class="mobile-screen">
+                  <header class="mobile-top">
+                    <div class="mobile-status"><span>9:41</span><span>GESP Learn</span><span>72%</span></div>
+                    <div class="mobile-title">
+                      <span class="eyebrow">${icon.book}C++ 五级</span>
+                      <h1>今天先把数论补齐</h1>
+                      <p>继续上次的题型目录，优先看质因数、gcd 和有限小数。</p>
+                    </div>
+                  </header>
+                  <main class="mobile-body">
+                    <div class="mobile-card tint mobile-row">
+                      <div>
+                        <h2>本周学习进度</h2>
+                        <p>已查看 18 道题，收藏 6 段参考代码，薄弱点是筛法和高精度。</p>
+                        <div class="knowledge-row" style="margin-top:10px"><span class="tag green">继续学习</span><span class="tag cyan">预计 24 分钟</span></div>
+                      </div>
+                      <div class="progress-ring"><span>72%</span></div>
+                    </div>
+                    <div class="mobile-card">
+                      <h3>推荐路径</h3>
+                      <p>五级数论强化 · 质因数分解型、gcd/lcm 变形型、有限小数判断。</p>
+                      <button class="btn primary" style="width:100%;margin-top:12px">${icon.play}继续查看</button>
+                    </div>
+                    <div class="mobile-card">
+                      <h3>知识点覆盖</h3>
+                      <div class="mobile-domain">
+                        <div class="mobile-domain-row"><div><strong>数论</strong><br><small>质因数、gcd、筛法</small></div><span class="tag green">84%</span></div>
+                        <div class="mobile-domain-row"><div><strong>二分</strong><br><small>lower_bound、单调性</small></div><span class="tag">72%</span></div>
+                        <div class="mobile-domain-row"><div><strong>链表</strong><br><small>指针重连、模拟</small></div><span class="tag gold">64%</span></div>
+                      </div>
+                    </div>
+                    <div class="mobile-card">
+                      <h3>最近查看</h3>
+                      <p><strong style="color:#102033">有限小数判断</strong><br>选择题 · 质因数 · 官方证据已确认</p>
+                      <div class="mini-tabs" style="margin-top:10px"><span class="active">题目详情</span><span>参考代码</span></div>
+                    </div>
+                  </main>
+                  <nav class="mobile-bottom-nav"><span class="active">${icon.home}首页</span><span>${icon.book}题库</span><span>${icon.chart}进度</span><span>${icon.user}我的</span></nav>
                 </div>
               </div>
-              <div class="mobile-card">
-                <h3>最近题目</h3>
-                <p><strong style="color:#0f172a">找数</strong><br>编程题 · 可运行样例 · 二分查找</p>
-                <div class="knowledge-row" style="margin-top:10px"><span class="tag cyan">继续试做</span><span class="tag green">样例通过</span></div>
+
+              <div class="phone-case">
+                <div class="phone-label"><span>02 题库 / 分类目录</span><small>Catalog</small></div>
+                <div class="mobile-screen">
+                  <header class="mobile-top">
+                    <div class="mobile-status"><span>9:41</span><span>题库</span><span>Wi-Fi</span></div>
+                    <div class="mobile-title">
+                      <span class="eyebrow">${icon.layers}分类目录</span>
+                      <h1>从等级到题型</h1>
+                      <p>不做搜索优先，先按等级、算法范畴和题型模板浏览。</p>
+                    </div>
+                  </header>
+                  <main class="mobile-body">
+                    <div class="mobile-search">${icon.search}<span>搜索题名、知识点、来源</span></div>
+                    <div class="mobile-segment" style="margin:12px 0"><span class="active">五级</span><span>数论</span><span>题型</span></div>
+                    <div class="mobile-card">
+                      <h3>算法范畴</h3>
+                      <div class="mobile-domain">
+                        <div class="mobile-domain-row"><div><strong>数论</strong><br><small>42 题 · 质因数 / gcd / 筛法</small></div><span class="tag green">核心</span></div>
+                        <div class="mobile-domain-row"><div><strong>二分</strong><br><small>18 题 · 单调性 / 边界</small></div><span class="tag cyan">可读</span></div>
+                        <div class="mobile-domain-row"><div><strong>链表</strong><br><small>16 题 · 指针重连 / 模拟</small></div><span class="tag gold">待补</span></div>
+                      </div>
+                    </div>
+                    <div class="mobile-card">
+                      <h3>数论题型</h3>
+                      <div class="problem-mobile-row">
+                        <div class="problem-badge">12</div>
+                        <div><strong>质因数分解型</strong><p class="mobile-copy">有限小数、约数拆分、复杂度估计</p></div>
+                        <span class="tag green">84%</span>
+                      </div>
+                      <div class="problem-mobile-row">
+                        <div class="problem-badge">8</div>
+                        <div><strong>gcd / lcm 变形</strong><p class="mobile-copy">欧几里得、循环过程、边界值</p></div>
+                        <span class="tag">72%</span>
+                      </div>
+                      <div class="problem-mobile-row">
+                        <div class="problem-badge">5</div>
+                        <div><strong>筛法判断</strong><p class="mobile-copy">埃氏筛、质数表、标记过程</p></div>
+                        <span class="tag gold">弱项</span>
+                      </div>
+                    </div>
+                  </main>
+                  <nav class="mobile-bottom-nav"><span>${icon.home}首页</span><span class="active">${icon.book}题库</span><span>${icon.chart}进度</span><span>${icon.user}我的</span></nav>
+                </div>
               </div>
-            </main>
-            <nav class="mobile-bottom-nav">
-              <span class="active">${icon.home}首页</span>
-              <span>${icon.book}题库</span>
-              <span>${icon.chart}进度</span>
-              <span>${icon.user}我的</span>
-            </nav>
+
+              <div class="phone-case">
+                <div class="phone-label"><span>03 题目详情 / 阅读</span><small>Problem</small></div>
+                <div class="mobile-screen">
+                  <header class="mobile-top">
+                    <div class="mobile-status"><span>9:41</span><span>题目详情</span><span>68%</span></div>
+                    <div class="mobile-title">
+                      <span class="eyebrow">${icon.file}2026-03 · C++ 五级</span>
+                      <h1>有限小数判断</h1>
+                      <p>选择题 · 质因数分解型 · 官方题源对齐。</p>
+                    </div>
+                  </header>
+                  <main class="mobile-body">
+                    <div class="mobile-card">
+                      <div class="mini-tabs"><span class="active">题目</span><span>知识点</span><span>来源</span></div>
+                    </div>
+                    <div class="read-block">
+                      <h3>题目概要</h3>
+                      <p>判断一个分数能否化为有限小数。核心思路是分母约分后只含质因数 2 和 5。</p>
+                    </div>
+                    <div class="mobile-card" style="margin-top:12px">
+                      <h3>标签与可信度</h3>
+                      <div class="knowledge-row"><span class="tag green">官方等级：五级</span><span class="tag green">质因数</span><span class="tag">可信度 0.92</span></div>
+                    </div>
+                    <div class="mobile-card">
+                      <h3>解题要点</h3>
+                      <ol class="step-list">
+                        <li>先用 gcd 对分子分母约分。</li>
+                        <li>不断除去分母中的 2 和 5。</li>
+                        <li>剩余为 1 时可以写成有限小数。</li>
+                      </ol>
+                    </div>
+                    <div class="mobile-card tint">
+                      <h3>学习动作</h3>
+                      <button class="btn primary" style="width:100%;margin-bottom:8px">${icon.code}查看参考代码</button>
+                      <button class="btn" style="width:100%">${icon.plus}加入收藏夹</button>
+                    </div>
+                  </main>
+                  <nav class="mobile-bottom-nav"><span>${icon.home}首页</span><span class="active">${icon.book}题库</span><span>${icon.chart}进度</span><span>${icon.user}我的</span></nav>
+                </div>
+              </div>
+
+              <div class="phone-case">
+                <div class="phone-label"><span>04 代码只读 / 不进入 IDE</span><small>Code Read</small></div>
+                <div class="mobile-screen">
+                  <header class="mobile-top">
+                    <div class="mobile-status"><span>9:41</span><span>参考代码</span><span>63%</span></div>
+                    <div class="mobile-title">
+                      <span class="eyebrow">${icon.code}Read only</span>
+                      <h1>只读代码讲解</h1>
+                      <p>移动端只做查看、复制和标注，不提供在线编辑器。</p>
+                    </div>
+                  </header>
+                  <main class="mobile-body">
+                    <div class="mobile-card">
+                      <div class="mini-tabs"><span class="active">C++17</span><span>思路</span><span>复杂度</span></div>
+                    </div>
+                    <div class="code-readonly">
+                      <div class="code-readonly-head"><span>finite_decimal.cpp</span><span>只读</span></div>
+                      <pre>int gcd(int a, int b) {
+  while (b) {
+    int t = a % b;
+    a = b;
+    b = t;
+  }
+  return a;
+}
+
+bool finiteDecimal(int p, int q) {
+  int g = gcd(p, q);
+  q /= g;
+  while (q % 2 == 0) q /= 2;
+  while (q % 5 == 0) q /= 5;
+  return q == 1;
+}</pre>
+                    </div>
+                    <div class="mobile-card" style="margin-top:12px">
+                      <h3>行级讲解</h3>
+                      <p>第 9 行先约分，避免分母中保留可消去因子；第 11-12 行只移除 2 和 5。</p>
+                    </div>
+                    <div class="mobile-card tint">
+                      <h3>可用操作</h3>
+                      <div class="mini-tabs"><span class="active">复制代码</span><span>收藏</span><span>反馈错误</span></div>
+                    </div>
+                  </main>
+                  <nav class="mobile-bottom-nav"><span>${icon.home}首页</span><span class="active">${icon.book}题库</span><span>${icon.chart}进度</span><span>${icon.user}我的</span></nav>
+                </div>
+              </div>
+
+              <div class="phone-case">
+                <div class="phone-label"><span>05 来源证据 / 版权安全</span><small>Evidence</small></div>
+                <div class="mobile-screen">
+                  <header class="mobile-top">
+                    <div class="mobile-status"><span>9:41</span><span>来源</span><span>5G</span></div>
+                    <div class="mobile-title">
+                      <span class="eyebrow">${icon.source}证据链</span>
+                      <h1>为什么它属于五级数论</h1>
+                      <p>展示官方来源、镜像入口和分类证据，避免把非官方标签当结论。</p>
+                    </div>
+                  </header>
+                  <main class="mobile-body">
+                    <div class="source-mini">
+                      <div class="source-mini-row">
+                        <div class="source-dot">1</div>
+                        <div><strong>官方真题 PDF</strong><p class="mobile-copy">等级、题型和题号来源</p></div>
+                        <span class="tag green">canonical</span>
+                      </div>
+                      <div class="source-mini-row">
+                        <div class="source-dot">2</div>
+                        <div><strong>OJ 练习入口</strong><p class="mobile-copy">用于练习跳转和样例核验</p></div>
+                        <span class="tag cyan">mirror</span>
+                      </div>
+                      <div class="source-mini-row">
+                        <div class="source-dot">3</div>
+                        <div><strong>题解文章</strong><p class="mobile-copy">辅助理解，不覆盖官方结论</p></div>
+                        <span class="tag gold">aux</span>
+                      </div>
+                    </div>
+                    <div class="mobile-card" style="margin-top:12px">
+                      <h3>版权策略</h3>
+                      <p>未确认授权前，C 端只展示题目概要、短证据片段、来源链接和 hash，不默认转载完整题面。</p>
+                    </div>
+                    <div class="mobile-card">
+                      <h3>分类依据</h3>
+                      <div class="knowledge-row"><span class="tag green">官方五级</span><span class="tag green">质因数</span><span class="tag">reviewed</span></div>
+                    </div>
+                    <button class="btn primary" style="width:100%">${icon.source}打开原始来源</button>
+                  </main>
+                  <nav class="mobile-bottom-nav"><span>${icon.home}首页</span><span class="active">${icon.book}题库</span><span>${icon.chart}进度</span><span>${icon.user}我的</span></nav>
+                </div>
+              </div>
+
+              <div class="phone-case">
+                <div class="phone-label"><span>06 我的 / 收藏与进度</span><small>Profile</small></div>
+                <div class="mobile-screen">
+                  <header class="mobile-top">
+                    <div class="mobile-status"><span>9:41</span><span>我的</span><span>76%</span></div>
+                    <div class="mobile-title">
+                      <span class="eyebrow">${icon.user}学习档案</span>
+                      <h1>收藏夹与弱项</h1>
+                      <p>把看过的题目、代码和知识点沉淀成复习入口。</p>
+                    </div>
+                  </header>
+                  <main class="mobile-body">
+                    <div class="mobile-card tint mobile-row">
+                      <div>
+                        <h2>五级掌握度</h2>
+                        <p>本月查看 38 个条目，完成 9 个知识点复盘。</p>
+                      </div>
+                      <div class="progress-ring"><span>68%</span></div>
+                    </div>
+                    <div class="mobile-card">
+                      <h3>收藏夹</h3>
+                      <div class="problem-mobile-row">
+                        <div class="problem-badge">码</div>
+                        <div><strong>有限小数判断代码</strong><p class="mobile-copy">gcd + 分母因子剔除</p></div>
+                        <span class="tag green">已标注</span>
+                      </div>
+                      <div class="problem-mobile-row">
+                        <div class="problem-badge">题</div>
+                        <div><strong>二分查找边界题</strong><p class="mobile-copy">lower_bound、闭区间</p></div>
+                        <span class="tag">待复习</span>
+                      </div>
+                    </div>
+                    <div class="mobile-card">
+                      <h3>弱项提醒</h3>
+                      <div class="mobile-domain">
+                        <div class="mobile-domain-row"><div><strong>筛法</strong><br><small>题量少，建议先看模板题</small></div><span class="tag gold">45%</span></div>
+                        <div class="mobile-domain-row"><div><strong>高精度</strong><br><small>代码阅读次数不足</small></div><span class="tag gold">39%</span></div>
+                      </div>
+                    </div>
+                    <button class="btn primary" style="width:100%">${icon.chart}生成复习清单</button>
+                  </main>
+                  <nav class="mobile-bottom-nav"><span>${icon.home}首页</span><span>${icon.book}题库</span><span>${icon.chart}进度</span><span class="active">${icon.user}我的</span></nav>
+                </div>
+              </div>
+            </section>
           </div>
         `;
       }

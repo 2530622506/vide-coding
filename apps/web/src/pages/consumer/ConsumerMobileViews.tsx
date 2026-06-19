@@ -1,0 +1,257 @@
+import type { CSSProperties } from "react";
+import { BarChart3, BookOpen, Code2, FileSearch, Link2, Search, Star } from "lucide-react";
+import { ConsumerCodeBlock } from "./ConsumerCodeBlock";
+import { consumerDomains, consumerProblemTypes, finiteDecimalCode, type ConsumerView, type Domain } from "./ConsumerMobileData";
+
+export function renderConsumerView(
+  view: ConsumerView,
+  setView: (view: ConsumerView) => void,
+  progressStyle: CSSProperties,
+  profileProgressStyle: CSSProperties
+) {
+  switch (view) {
+    case "catalog":
+      return <CatalogView setView={setView} />;
+    case "problem":
+      return <ProblemView setView={setView} />;
+    case "code":
+      return <CodeView />;
+    case "evidence":
+      return <EvidenceView />;
+    case "progress":
+      return <ProgressView />;
+    case "profile":
+      return <ProfileView progressStyle={profileProgressStyle} />;
+    default:
+      return <HomeView progressStyle={progressStyle} setView={setView} />;
+  }
+}
+
+function HomeView({ progressStyle, setView }: { progressStyle: CSSProperties; setView: (view: ConsumerView) => void }) {
+  return (
+    <>
+      <section className="consumerCard consumerCardTint consumerProgressCard">
+        <div>
+          <h2>本周学习进度</h2>
+          <p>已查看 18 道题，收藏 6 段参考代码，薄弱点是筛法和高精度。</p>
+          <div className="consumerTagRow">
+            <span className="consumerTag good">继续学习</span>
+            <span className="consumerTag info">预计 24 分钟</span>
+          </div>
+        </div>
+        <div className="consumerRing" style={progressStyle}><span>72%</span></div>
+      </section>
+      <section className="consumerCard">
+        <h2>推荐路径</h2>
+        <p>五级数论强化 · 质因数分解型、gcd/lcm 变形型、有限小数判断。</p>
+        <button className="consumerPrimaryButton" onClick={() => setView("catalog")} type="button">
+          <BookOpen size={17} />继续查看
+        </button>
+      </section>
+      <DomainList title="知识点覆盖" />
+      <section className="consumerCard">
+        <h2>最近查看</h2>
+        <p><strong>有限小数判断</strong><br />选择题 · 质因数 · 官方证据已确认</p>
+        <div className="consumerPillRow">
+          <button className="active" onClick={() => setView("problem")} type="button">题目详情</button>
+          <button onClick={() => setView("code")} type="button">参考代码</button>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function CatalogView({ setView }: { setView: (view: ConsumerView) => void }) {
+  return (
+    <>
+      <div className="consumerSearch"><Search size={17} /><span>搜索题名、知识点、来源</span></div>
+      <div className="consumerSegment"><span className="active">五级</span><span>数论</span><span>题型</span></div>
+      <DomainList title="算法范畴" />
+      <section className="consumerCard">
+        <h2>数论题型</h2>
+        {consumerProblemTypes.map((type) => (
+          <button className="consumerProblemRow" key={type.name} onClick={() => setView("problem")} type="button">
+            <span className="consumerBadge">{type.count}</span>
+            <span>
+              <strong>{type.name}</strong>
+              <small>{type.description}</small>
+            </span>
+            <em>{type.progress}%</em>
+          </button>
+        ))}
+      </section>
+    </>
+  );
+}
+
+function ProblemView({ setView }: { setView: (view: ConsumerView) => void }) {
+  return (
+    <>
+      <section className="consumerCard">
+        <div className="consumerPillRow">
+          <button className="active" type="button">题目</button>
+          <button type="button">知识点</button>
+          <button onClick={() => setView("evidence")} type="button">来源</button>
+        </div>
+      </section>
+      <section className="consumerReadBlock">
+        <h2>题目概要</h2>
+        <p>判断一个分数能否化为有限小数。核心思路是分母约分后只含质因数 2 和 5。</p>
+      </section>
+      <section className="consumerCard">
+        <h2>标签与可信度</h2>
+        <div className="consumerTagRow">
+          <span className="consumerTag good">官方等级：五级</span>
+          <span className="consumerTag good">质因数</span>
+          <span className="consumerTag info">可信度 0.92</span>
+        </div>
+      </section>
+      <section className="consumerCard">
+        <h2>解题要点</h2>
+        <ol className="consumerSteps">
+          <li>先用 gcd 对分子分母约分。</li>
+          <li>不断除去分母中的 2 和 5。</li>
+          <li>剩余为 1 时可以写成有限小数。</li>
+        </ol>
+      </section>
+      <section className="consumerCard consumerCardTint">
+        <h2>学习动作</h2>
+        <button className="consumerPrimaryButton" onClick={() => setView("code")} type="button"><Code2 size={17} />查看参考代码</button>
+        <button className="consumerSecondaryButton" type="button"><Star size={17} />加入收藏夹</button>
+      </section>
+    </>
+  );
+}
+
+function CodeView() {
+  return (
+    <>
+      <section className="consumerCard">
+        <div className="consumerPillRow">
+          <button className="active" type="button">C++17</button>
+          <button type="button">思路</button>
+          <button type="button">复杂度</button>
+        </div>
+      </section>
+      <ConsumerCodeBlock code={finiteDecimalCode} filename="finite_decimal.cpp" />
+      <section className="consumerCard">
+        <h2>行级讲解</h2>
+        <p>第 9 行先约分，避免分母中保留可消去因子；第 11-12 行只移除 2 和 5。</p>
+      </section>
+      <section className="consumerCard consumerCardTint">
+        <h2>可用操作</h2>
+        <div className="consumerActionGrid">
+          <button type="button"><Code2 size={16} />只读查看</button>
+          <button type="button"><Star size={16} />收藏</button>
+          <button type="button"><FileSearch size={16} />反馈错误</button>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function EvidenceView() {
+  return (
+    <>
+      <section className="consumerSourceList">
+        <SourceItem index="1" label="官方真题 PDF" description="等级、题型和题号来源" tag="canonical" tone="good" />
+        <SourceItem index="2" label="OJ 练习入口" description="用于练习跳转和样例核验" tag="mirror" tone="info" />
+        <SourceItem index="3" label="题解文章" description="辅助理解，不覆盖官方结论" tag="aux" tone="weak" />
+      </section>
+      <section className="consumerCard">
+        <h2>版权策略</h2>
+        <p>未确认授权前，C 端只展示题目概要、短证据片段、来源链接和 hash，不默认转载完整题面。</p>
+      </section>
+      <section className="consumerCard">
+        <h2>分类依据</h2>
+        <div className="consumerTagRow">
+          <span className="consumerTag good">官方五级</span>
+          <span className="consumerTag good">质因数</span>
+          <span className="consumerTag info">reviewed</span>
+        </div>
+      </section>
+      <button className="consumerPrimaryButton" type="button"><Link2 size={17} />打开原始来源</button>
+    </>
+  );
+}
+
+function ProgressView() {
+  return (
+    <>
+      <DomainList title="知识点掌握度" />
+      <section className="consumerCard">
+        <h2>本周复盘</h2>
+        <div className="consumerMetricGrid">
+          <div><strong>18</strong><span>查看题目</span></div>
+          <div><strong>6</strong><span>代码收藏</span></div>
+          <div><strong>9</strong><span>完成复盘</span></div>
+        </div>
+      </section>
+      <section className="consumerCard">
+        <h2>下一步建议</h2>
+        <p>先看筛法模板题，再复盘高精度代码。每个弱项保留 2 道题和 1 段参考代码即可。</p>
+      </section>
+    </>
+  );
+}
+
+function ProfileView({ progressStyle }: { progressStyle: CSSProperties }) {
+  return (
+    <>
+      <section className="consumerCard consumerCardTint consumerProgressCard">
+        <div>
+          <h2>五级掌握度</h2>
+          <p>本月查看 38 个条目，完成 9 个知识点复盘。</p>
+        </div>
+        <div className="consumerRing" style={progressStyle}><span>68%</span></div>
+      </section>
+      <section className="consumerCard">
+        <h2>收藏夹</h2>
+        <div className="consumerSavedRow"><span>码</span><div><strong>有限小数判断代码</strong><small>gcd + 分母因子剔除</small></div><em>已标注</em></div>
+        <div className="consumerSavedRow"><span>题</span><div><strong>二分查找边界题</strong><small>lower_bound、闭区间</small></div><em>待复习</em></div>
+      </section>
+      <section className="consumerCard">
+        <h2>弱项提醒</h2>
+        <DomainRow domain={consumerDomains[2]} />
+        <DomainRow domain={consumerDomains[3]} />
+      </section>
+      <button className="consumerPrimaryButton" type="button"><BarChart3 size={17} />生成复习清单</button>
+    </>
+  );
+}
+
+function DomainList({ title }: { title: string }) {
+  return (
+    <section className="consumerCard">
+      <h2>{title}</h2>
+      <div className="consumerDomainList">
+        {consumerDomains.slice(0, 3).map((domain) => <DomainRow domain={domain} key={domain.name} />)}
+      </div>
+    </section>
+  );
+}
+
+function DomainRow({ domain }: { domain: Domain }) {
+  return (
+    <div className="consumerDomainRow">
+      <div>
+        <strong>{domain.name}</strong>
+        <small>{domain.description}</small>
+      </div>
+      <span className={`consumerTag ${domain.tone}`}>{domain.progress}%</span>
+    </div>
+  );
+}
+
+function SourceItem({ description, index, label, tag, tone }: { description: string; index: string; label: string; tag: string; tone: "good" | "info" | "weak" }) {
+  return (
+    <article className="consumerSourceItem">
+      <span>{index}</span>
+      <div>
+        <strong>{label}</strong>
+        <small>{description}</small>
+      </div>
+      <em className={`consumerTag ${tone}`}>{tag}</em>
+    </article>
+  );
+}

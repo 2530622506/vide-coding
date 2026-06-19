@@ -15,6 +15,7 @@ import {
   KnowledgeCoveragePage,
   SourceEvidencePage
 } from "./pages/gesp/GespPages";
+import { ConsumerMobilePage } from "./pages/ConsumerMobilePage";
 import { ProblemIdePage } from "./pages/ProblemIdePage";
 
 const RETURN_CONTEXT_STORAGE_KEY = "practice-lab:return-context";
@@ -123,7 +124,9 @@ export default function App() {
       }}
     >
       <AntApp>
-        {router.kind === "ide" ? (
+        {router.kind === "mobile" ? (
+          <ConsumerMobilePage />
+        ) : router.kind === "ide" ? (
           <ProblemIdePage
             onBack={() => navigateBackToReturnContext(router.source === "atcoder" ? "/atcoder" : "/")}
             problemId={router.problemId}
@@ -150,13 +153,15 @@ export default function App() {
             )}
           </WorkbenchLayout>
         )}
-        <FloatButton
-          aria-label="回到顶部"
-          className="globalBackTop"
-          icon={<ArrowUp size={18} />}
-          onClick={scrollToTop}
-          tooltip="回到顶部"
-        />
+        {router.kind === "mobile" ? null : (
+          <FloatButton
+            aria-label="回到顶部"
+            className="globalBackTop"
+            icon={<ArrowUp size={18} />}
+            onClick={scrollToTop}
+            tooltip="回到顶部"
+          />
+        )}
       </AntApp>
     </ConfigProvider>
   );
@@ -281,9 +286,13 @@ type RouteState =
   | { kind: "coverage" }
   | { kind: "sources" }
   | { kind: "maintenance" }
+  | { kind: "mobile" }
   | { kind: "workbench" };
 
 function createRouter(routePath: string): RouteState {
+  if (routePath.startsWith("/mobile")) {
+    return { kind: "mobile" };
+  }
   const atCoderIdePrefix = "/ide/atcoder/";
   if (routePath.startsWith(atCoderIdePrefix)) {
     return {

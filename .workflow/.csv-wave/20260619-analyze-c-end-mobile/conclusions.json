@@ -1,0 +1,23 @@
+{
+  "artifact_id": "ANL-20260619-c-end-mobile",
+  "scope_verdict": "medium",
+  "go_no_go": "go",
+  "confidence": 86,
+  "implementation_scope": [
+    "apps/web/src/App.tsx",
+    "apps/web/src/pages/ConsumerMobilePage.tsx",
+    "apps/web/src/styles.css"
+  ],
+  "locked_decisions": [
+    "Use /mobile as the C-end route.",
+    "Render outside WorkbenchLayout.",
+    "Do not expose IDE entry on C-end mobile page.",
+    "Show code as read-only.",
+    "Keep official-source and copyright-safe evidence visible."
+  ],
+  "deferred": [
+    "Live API integration",
+    "Persistent bookmarks",
+    "Authentication and personal history"
+  ]
+}

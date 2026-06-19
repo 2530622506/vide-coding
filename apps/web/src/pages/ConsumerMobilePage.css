@@ -1,0 +1,645 @@
+.consumerPage {
+  align-items: center;
+  background:
+    radial-gradient(circle at 16% 0%, rgba(20, 184, 166, 0.15), transparent 32%),
+    radial-gradient(circle at 92% 4%, rgba(79, 70, 229, 0.1), transparent 30%),
+    linear-gradient(180deg, #f7fbff 0%, #eef6f2 100%);
+  color: #102033;
+  display: flex;
+  justify-content: center;
+  min-height: 100dvh;
+  max-width: 100vw;
+  overflow-x: hidden;
+  padding: 0;
+  width: 100vw;
+}
+
+.consumerPhone {
+  background: #f8fbff;
+  border: 1.9231px solid #dbe6ef;
+  box-shadow: 0 46.1538px 134.6154px rgb(17 24 39 / 16%);
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-height: 1623.0769px;
+  max-width: 100vw;
+  overflow: hidden;
+  position: relative;
+  width: 100vw;
+}
+
+.consumerStatus {
+  align-items: center;
+  background: rgb(255 255 255 / 84%);
+  color: #102033;
+  display: flex;
+  font-size: 23.0769px;
+  font-weight: 800;
+  height: 65.3846px;
+  justify-content: space-between;
+  padding: 0 34.6154px;
+}
+
+.consumerHero {
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 96%), rgb(241 252 248 / 94%)),
+    #fff;
+  border-bottom: 1.9231px solid rgb(203 213 225 / 72%);
+  padding: 34.6154px 34.6154px 26.9231px;
+}
+
+.consumerEyebrow {
+  align-items: center;
+  color: #2563eb;
+  display: flex;
+  font-size: 25px;
+  font-weight: 800;
+  gap: 13.4615px;
+  margin-bottom: 15.3846px;
+}
+
+.consumerBackButton {
+  align-items: center;
+  background: #eff6ff;
+  border: 1.9231px solid #bfdbfe;
+  border-radius: 15.3846px;
+  color: #2563eb;
+  display: inline-flex;
+  height: 61.5385px;
+  justify-content: center;
+  margin-right: 1.9231px;
+  padding: 0;
+  width: 61.5385px;
+}
+
+.consumerHero h1 {
+  color: #102033;
+  font-size: 48.0769px;
+  line-height: 1.18;
+  margin: 0;
+}
+
+.consumerHero p {
+  color: #64758a;
+  font-size: 25px;
+  line-height: 1.55;
+  margin: 15.3846px 0 0;
+}
+
+.consumerContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 26.9231px 26.9231px 169.2308px;
+  scrollbar-width: none;
+}
+
+.consumerContent::-webkit-scrollbar {
+  display: none;
+}
+
+.consumerCard,
+.consumerReadBlock {
+  background: rgb(255 255 255 / 96%);
+  border: 1.9231px solid rgb(203 213 225 / 90%);
+  border-radius: 15.3846px;
+  box-shadow: 0 1.9231px 3.8462px rgb(15 23 42 / 4%);
+  margin-bottom: 23.0769px;
+  padding: 26.9231px;
+}
+
+.consumerCardTint {
+  background: #ecfdf5;
+  border-color: rgb(20 184 166 / 24%);
+}
+
+.consumerCard h2,
+.consumerReadBlock h2 {
+  color: #102033;
+  font-size: 30.7692px;
+  line-height: 1.25;
+  margin: 0 0 15.3846px;
+}
+
+.consumerCard p,
+.consumerReadBlock p {
+  color: #607083;
+  font-size: 25px;
+  line-height: 1.62;
+  margin: 0;
+}
+
+.consumerCard strong,
+.consumerReadBlock strong {
+  color: #102033;
+}
+
+.consumerProgressCard {
+  align-items: center;
+  display: grid;
+  gap: 23.0769px;
+  grid-template-columns: 1fr auto;
+}
+
+.consumerProgressCard > div:first-child,
+.consumerDomainRow > div,
+.consumerProblemRow > span:nth-child(2),
+.consumerSavedRow > div,
+.consumerSourceItem > div {
+  min-width: 0;
+}
+
+.consumerRing {
+  align-items: center;
+  background: conic-gradient(#14b8a6 0 var(--consumer-progress), #dbe6ef var(--consumer-progress) 100%);
+  border-radius: 50%;
+  color: #102033;
+  display: flex;
+  font-size: 38.4615px;
+  font-weight: 900;
+  height: 157.6923px;
+  justify-content: center;
+  position: relative;
+  width: 157.6923px;
+}
+
+.consumerRing::before {
+  background: #fff;
+  border-radius: 50%;
+  content: "";
+  height: 115.3846px;
+  position: absolute;
+  width: 115.3846px;
+}
+
+.consumerRing span {
+  position: relative;
+}
+
+.consumerTagRow,
+.consumerPillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11.5385px;
+  margin-top: 19.2308px;
+}
+
+.consumerTag {
+  align-items: center;
+  background: #eff6ff;
+  border: 1.9231px solid #bfdbfe;
+  border-radius: 11.5385px;
+  color: #1d4ed8;
+  display: inline-flex;
+  font-size: 23.0769px;
+  font-style: normal;
+  font-weight: 800;
+  min-height: 46.1538px;
+  padding: 0 15.3846px;
+  white-space: nowrap;
+}
+
+.consumerTag.good {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #047857;
+}
+
+.consumerTag.info {
+  background: #ecfeff;
+  border-color: #a5f3fc;
+  color: #0e7490;
+}
+
+.consumerTag.weak {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #b45309;
+}
+
+.consumerPrimaryButton,
+.consumerSecondaryButton {
+  align-items: center;
+  border-radius: 15.3846px;
+  display: inline-flex;
+  font-size: 26.9231px;
+  font-weight: 800;
+  gap: 15.3846px;
+  justify-content: center;
+  min-height: 84.6154px;
+  width: 100%;
+}
+
+.consumerPrimaryButton {
+  background: #2563eb;
+  border: 1.9231px solid #2563eb;
+  color: #fff;
+  margin-top: 23.0769px;
+}
+
+.consumerSecondaryButton {
+  background: #fff;
+  border: 1.9231px solid #cbd5e1;
+  color: #334155;
+  margin-top: 15.3846px;
+}
+
+.consumerDomainList {
+  display: grid;
+  gap: 15.3846px;
+}
+
+.consumerDomainRow {
+  align-items: center;
+  background: #fff;
+  border: 1.9231px solid #dce7f1;
+  border-radius: 15.3846px;
+  display: grid;
+  gap: 15.3846px;
+  grid-template-columns: 1fr auto;
+  padding: 21.1538px;
+}
+
+.consumerDomainRow strong {
+  color: #102033;
+  display: block;
+  font-size: 26.9231px;
+}
+
+.consumerDomainRow small {
+  color: #718096;
+  display: block;
+  font-size: 23.0769px;
+  line-height: 1.45;
+  margin-top: 5.7692px;
+}
+
+.consumerPillRow button {
+  align-items: center;
+  background: #fff;
+  border: 1.9231px solid #d7e3ef;
+  border-radius: 1921.1538px;
+  color: #607083;
+  display: inline-flex;
+  font-size: 23.0769px;
+  font-weight: 800;
+  min-height: 57.6923px;
+  padding: 0 19.2308px;
+}
+
+.consumerPillRow button.active {
+  background: #ccfbf1;
+  border-color: #99f6e4;
+  color: #0f766e;
+}
+
+.consumerSearch {
+  align-items: center;
+  background: #fff;
+  border: 1.9231px solid #d7e3ef;
+  border-radius: 15.3846px;
+  color: #7a8a99;
+  display: flex;
+  font-size: 25px;
+  gap: 15.3846px;
+  height: 80.7692px;
+  padding: 0 23.0769px;
+}
+
+.consumerSegment {
+  background: #edf4f7;
+  border: 1.9231px solid #dbe6ef;
+  border-radius: 15.3846px;
+  display: grid;
+  gap: 7.6923px;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 23.0769px 0;
+  padding: 7.6923px;
+}
+
+.consumerSegment span {
+  align-items: center;
+  border-radius: 11.5385px;
+  color: #657589;
+  display: flex;
+  font-size: 23.0769px;
+  font-weight: 800;
+  justify-content: center;
+  min-height: 61.5385px;
+}
+
+.consumerSegment span.active {
+  background: #fff;
+  box-shadow: 0 1.9231px 5.7692px rgb(15 23 42 / 10%);
+  color: #0f766e;
+}
+
+.consumerProblemRow {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-bottom: 1.9231px solid #e5edf5;
+  color: inherit;
+  display: grid;
+  gap: 19.2308px;
+  grid-template-columns: 80.7692px 1fr auto;
+  padding: 21.1538px 0;
+  text-align: left;
+  width: 100%;
+}
+
+.consumerProblemRow:last-child {
+  border-bottom: 0;
+}
+
+.consumerBadge {
+  align-items: center;
+  background: #e0f2fe;
+  border-radius: 15.3846px;
+  color: #0369a1;
+  display: flex;
+  font-size: 23.0769px;
+  font-weight: 900;
+  height: 80.7692px;
+  justify-content: center;
+  width: 80.7692px;
+}
+
+.consumerProblemRow strong {
+  color: #102033;
+  display: block;
+  font-size: 28.8462px;
+}
+
+.consumerProblemRow small {
+  color: #718096;
+  display: block;
+  font-size: 23.0769px;
+  line-height: 1.45;
+  margin-top: 5.7692px;
+}
+
+.consumerProblemRow em {
+  color: #0f766e;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.consumerSteps {
+  color: #334155;
+  font-size: 25px;
+  line-height: 1.7;
+  margin: 0;
+  padding-left: 34.6154px;
+}
+
+.consumerCodeBlock {
+  background: #0b1220;
+  border: 1.9231px solid #1e293b;
+  border-radius: 15.3846px;
+  margin-bottom: 23.0769px;
+  overflow: hidden;
+}
+
+.consumerCodeBlock header {
+  align-items: center;
+  border-bottom: 1.9231px solid #1e293b;
+  color: #cbd5e1;
+  display: flex;
+  font-size: 23.0769px;
+  font-weight: 800;
+  height: 69.2308px;
+  justify-content: space-between;
+  padding: 0 23.0769px;
+}
+
+.consumerCodeBlock header > span {
+  color: #e2e8f0;
+  font-weight: 900;
+}
+
+.consumerCodeBlock header button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #cbd5e1;
+  display: inline-flex;
+  font-size: 23.0769px;
+  font-weight: 900;
+  gap: 9.6154px;
+  justify-content: center;
+  min-height: 46.1538px;
+  padding: 0;
+}
+
+.consumerCodeBlock header button.copied {
+  color: #86efac;
+}
+
+.consumerCodeBlock pre {
+  font-family: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 26.9231px;
+  white-space: pre;
+}
+
+.consumerCodeBlock code.hljs {
+  background: transparent;
+  color: #dbeafe;
+  display: block;
+  font-size: 23.0769px;
+  min-width: max-content;
+  padding: 0;
+}
+
+.consumerActionGrid {
+  display: grid;
+  gap: 15.3846px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.consumerActionGrid button {
+  align-items: center;
+  background: #fff;
+  border: 1.9231px solid #cbd5e1;
+  border-radius: 15.3846px;
+  color: #334155;
+  display: flex;
+  flex-direction: column;
+  font-size: 23.0769px;
+  font-weight: 800;
+  gap: 9.6154px;
+  justify-content: center;
+  min-height: 119.2308px;
+}
+
+.consumerSourceList {
+  display: grid;
+  gap: 15.3846px;
+  margin-bottom: 23.0769px;
+}
+
+.consumerSourceItem {
+  align-items: center;
+  background: #fff;
+  border: 1.9231px solid #dce7f1;
+  border-radius: 15.3846px;
+  display: grid;
+  gap: 17.3077px;
+  grid-template-columns: 57.6923px 1fr auto;
+  padding: 19.2308px;
+}
+
+.consumerSourceItem > span {
+  align-items: center;
+  background: #ccfbf1;
+  border-radius: 50%;
+  color: #0f766e;
+  display: flex;
+  font-size: 23.0769px;
+  font-weight: 900;
+  height: 57.6923px;
+  justify-content: center;
+  width: 57.6923px;
+}
+
+.consumerSourceItem strong {
+  color: #102033;
+  display: block;
+  font-size: 26.9231px;
+}
+
+.consumerSourceItem small {
+  color: #718096;
+  display: block;
+  font-size: 23.0769px;
+  line-height: 1.45;
+  margin-top: 5.7692px;
+}
+
+.consumerMetricGrid {
+  display: grid;
+  gap: 15.3846px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.consumerMetricGrid div {
+  background: #f8fafc;
+  border: 1.9231px solid #e2e8f0;
+  border-radius: 15.3846px;
+  padding: 19.2308px;
+}
+
+.consumerMetricGrid strong {
+  color: #0f766e;
+  display: block;
+  font-size: 42.3077px;
+  line-height: 1;
+}
+
+.consumerMetricGrid span {
+  color: #64748b;
+  display: block;
+  font-size: 23.0769px;
+  margin-top: 11.5385px;
+}
+
+.consumerSavedRow {
+  align-items: center;
+  border-bottom: 1.9231px solid #e5edf5;
+  display: grid;
+  gap: 19.2308px;
+  grid-template-columns: 80.7692px 1fr auto;
+  padding: 23.0769px 0;
+}
+
+.consumerSavedRow:last-child {
+  border-bottom: 0;
+}
+
+.consumerSavedRow > span {
+  align-items: center;
+  background: #e0f2fe;
+  border-radius: 15.3846px;
+  color: #0369a1;
+  display: flex;
+  font-size: 25px;
+  font-weight: 900;
+  height: 80.7692px;
+  justify-content: center;
+  width: 80.7692px;
+}
+
+.consumerSavedRow strong {
+  color: #102033;
+  display: block;
+  font-size: 26.9231px;
+}
+
+.consumerSavedRow small {
+  color: #718096;
+  display: block;
+  font-size: 23.0769px;
+  line-height: 1.45;
+  margin-top: 5.7692px;
+}
+
+.consumerSavedRow em {
+  background: #f0fdf4;
+  border: 1.9231px solid #bbf7d0;
+  border-radius: 11.5385px;
+  color: #047857;
+  font-size: 23.0769px;
+  font-style: normal;
+  font-weight: 800;
+  padding: 7.6923px 13.4615px;
+  white-space: nowrap;
+}
+
+.consumerBottomNav {
+  background: rgb(255 255 255 / 98%);
+  border-top: 1.9231px solid #dbe6ef;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  left: 0;
+  min-height: 138.4615px;
+  padding-bottom: max(11.5385px, env(safe-area-inset-bottom));
+  position: absolute;
+  right: 0;
+}
+
+.consumerBottomNav button {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #7a8a99;
+  display: flex;
+  flex-direction: column;
+  font-size: 21.1538px;
+  font-weight: 800;
+  gap: 7.6923px;
+  justify-content: center;
+  min-height: 111.5385px;
+}
+
+.consumerBottomNav button.active {
+  color: #0f766e;
+}
+
+@media (min-width: 768px) {
+  .consumerPage {
+    padding: 34.6154px;
+  }
+
+  .consumerPhone {
+    border: 19.2308px solid #111827;
+    border-radius: 65.3846px;
+    height: min(1623.0769px, calc(100dvh - 69.2308px));
+    max-width: 826.9231px;
+    width: min(100%, 826.9231px);
+  }
+}

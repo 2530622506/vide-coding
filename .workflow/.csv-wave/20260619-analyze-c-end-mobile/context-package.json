@@ -1,0 +1,27 @@
+{
+  "source": {
+    "type": "analyze",
+    "id": "ANL-20260619-c-end-mobile",
+    "scope_verdict": "medium"
+  },
+  "requirements": [
+    "Implement the C-end prototype as a usable frontend route.",
+    "Preserve mobile-first reading experience.",
+    "Do not route mobile users into the code IDE.",
+    "Verify with screenshots after implementation."
+  ],
+  "constraints": [
+    "Official GESP sources determine level and official knowledge scope.",
+    "Copyright-sensitive problem statements must not be fully republished by default.",
+    "Avoid coupling the C-end page to B-end WorkbenchLayout."
+  ],
+  "insights": [
+    "A standalone static page is sufficient for first implementation.",
+    "The existing router can support /mobile with a small RouteState extension.",
+    "Screenshot verification should cover 390px mobile viewport and desktop view."
+  ],
+  "open_questions": [
+    "When to connect live catalog/progress APIs.",
+    "Whether /mobile should become the root route for public users later."
+  ]
+}

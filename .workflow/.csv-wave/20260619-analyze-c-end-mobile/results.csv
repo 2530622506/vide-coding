@@ -1,0 +1,11 @@
+id,result_status,findings,score,evidence,error
+"1","completed","App.tsx uses hand-rolled pathname routing; WorkbenchLayout owns B-end shell; a standalone mobile route can bypass WorkbenchLayout and avoid touching IDE.","","apps/web/src/App.tsx:1; apps/web/src/layout/WorkbenchLayout.tsx:1",""
+"2","completed","Existing UI uses React function components, lucide-react icons, Ant Design only where useful, and styles.css global class naming. Prototype requires Home, Catalog, Problem, Code Read, Evidence, Profile.","","apps/web/src/styles.css:1; prototypes/gesp-redesign/prototype.html:2528",""
+"3","completed","The first version can be static/read-only and avoids API blocking. Main risk is large CSS and heavy Ant components; using plain React markup and existing lucide icons keeps it light.","","apps/web/src/services/catalog.ts:1; apps/web/src/services/atcoderCatalog.ts:1",""
+"4","completed","Single frontend subsystem, no backend contract required, route integration is small.","92","tasks 1-3",""
+"5","completed","Converts PNG prototype into usable app surface and validates C-end information architecture early.","86","prototypes/gesp-redesign/c-01-mobile-learning.png",""
+"6","completed","Risk is mainly visual regression and accidental B-end shell coupling. Avoided by standalone route and screenshot verification.","78","apps/web/src/App.tsx:127",""
+"7","completed","One new page and CSS section, one router branch. No database/API changes.","84","apps/web/src/App.tsx:286",""
+"8","completed","Matches classified catalog first, official evidence first, copyright-safe summaries, and C++ level-5 MVP.","95","wiki:project-project; spec:project:architecture-constraints-002",""
+"9","completed","Maintainable if page data is structured arrays and class names are isolated. Risk grows if static markup becomes duplicated.","80","apps/web/src/pages/gesp/GespPages.tsx:79",""
+"10","completed","Go. scope_verdict=medium: one frontend subsystem with screenshot verification. Implement /mobile route, mobile page, CSS, build verification, screenshot verification.","","analysis.md",""

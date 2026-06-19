@@ -172,3 +172,16 @@
 {"type":"cli","id":"CLI-1781794397661-1","timestamp":"2026-06-18T14:53:17.661Z","command":"spec load","args":{"keyword":"AtCoder","stdin":false}}
 {"type":"cli","id":"CLI-1781794920985-1","timestamp":"2026-06-18T15:02:00.985Z","command":"spec load","args":{"keyword":"练习包","stdin":false}}
 {"type":"cli","id":"CLI-1781795241004-1","timestamp":"2026-06-18T15:07:21.004Z","command":"spec load","args":{"keyword":"部署","stdin":false}}
+{"type":"cli","id":"CLI-1781824067930-1","timestamp":"2026-06-18T23:07:47.930Z","command":"spec load","args":{"keyword":"index.html","stdin":false}}
+{"type":"cli","id":"CLI-1781824081625-1","timestamp":"2026-06-18T23:08:01.625Z","command":"spec load","args":{"category":"ui","stdin":false}}
+{"type":"cli","id":"CLI-1781824292111-1","timestamp":"2026-06-18T23:11:32.111Z","command":"spec load","args":{"keyword":"返回定位","stdin":false}}
+{"type":"cli","id":"CLI-1781824824534-1","timestamp":"2026-06-18T23:20:24.534Z","command":"spec load","args":{"keyword":"AtCoder","stdin":false}}
+{"type":"cli","id":"CLI-1781825242899-1","timestamp":"2026-06-18T23:27:22.899Z","command":"spec load","args":{"keyword":"虚拟滚动","stdin":false}}
+{"type":"cli","id":"CLI-1781826037179-1","timestamp":"2026-06-18T23:40:37.179Z","command":"spec load","args":{"keyword":"AtCoder题库维护操作列","stdin":false}}
+{"type":"cli","id":"CLI-1781826334266-1","timestamp":"2026-06-18T23:45:34.266Z","command":"spec load","args":{"keyword":"AtCoder题卡高度按钮隐藏","stdin":false}}
+{"type":"cli","id":"CLI-1781826621728-1","timestamp":"2026-06-18T23:50:21.728Z","command":"spec load","args":{"keyword":"按钮颜色区分度AntD","stdin":false}}
+{"type":"cli","id":"CLI-1781826637128-1","timestamp":"2026-06-18T23:50:37.128Z","command":"spec load","args":{"category":"ui","stdin":false}}
+{"type":"cli","id":"CLI-1781826783034-1","timestamp":"2026-06-18T23:53:03.034Z","command":"spec load","args":{"keyword":"按钮语义色区分度","stdin":false}}
+{"type":"cli","id":"CLI-1781827354306-1","timestamp":"2026-06-19T00:02:34.306Z","command":"spec load","args":{"keyword":"推荐先看按钮颜色","stdin":false}}
+{"type":"cli","id":"CLI-1781829078280-1","timestamp":"2026-06-19T00:31:18.280Z","command":"spec load","args":{"keyword":"c端","stdin":false}}
+{"type":"cli","id":"CLI-1781830691114-1","timestamp":"2026-06-19T00:58:11.114Z","command":"spec load","args":{"keyword":"c端","stdin":false}}
