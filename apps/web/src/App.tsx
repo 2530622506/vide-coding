@@ -23,6 +23,7 @@ const RETURN_CONTEXT_MAX_AGE = 30 * 60 * 1000;
 
 export default function App() {
   const [routePath, setRoutePath] = useState(() => window.location.pathname);
+  const [isMobileEntrypoint, setIsMobileEntrypoint] = useState(() => detectMobileEntrypoint());
   const [pendingReturnContext, setPendingReturnContext] = useState<ProblemReturnContext | null>(null);
 
   useEffect(() => {
@@ -36,7 +37,17 @@ export default function App() {
     return () => window.removeEventListener("popstate", syncRoute);
   }, []);
 
-  const router = useMemo(() => createRouter(routePath), [routePath]);
+  useEffect(() => {
+    const syncDeviceMode = () => setIsMobileEntrypoint(detectMobileEntrypoint());
+    window.addEventListener("resize", syncDeviceMode);
+    window.addEventListener("orientationchange", syncDeviceMode);
+    return () => {
+      window.removeEventListener("resize", syncDeviceMode);
+      window.removeEventListener("orientationchange", syncDeviceMode);
+    };
+  }, []);
+
+  const router = useMemo(() => createRouter(routePath, isMobileEntrypoint), [isMobileEntrypoint, routePath]);
 
   const navigateTo: Navigate = (path, options = {}) => {
     setPendingReturnContext(null);
@@ -289,8 +300,16 @@ type RouteState =
   | { kind: "mobile" }
   | { kind: "workbench" };
 
-function createRouter(routePath: string): RouteState {
+function detectMobileEntrypoint() {
+  const coarsePointer = window.matchMedia?.("(hover: none) and (pointer: coarse)").matches ?? false;
+  return window.innerWidth < 768 || coarsePointer;
+}
+
+function createRouter(routePath: string, isMobileEntrypoint: boolean): RouteState {
   if (routePath.startsWith("/mobile")) {
+    return { kind: "mobile" };
+  }
+  if (routePath === "/" && isMobileEntrypoint) {
     return { kind: "mobile" };
   }
   const atCoderIdePrefix = "/ide/atcoder/";
