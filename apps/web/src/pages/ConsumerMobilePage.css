@@ -133,6 +133,29 @@
   color: #102033;
 }
 
+.consumerSectionHead {
+  align-items: center;
+  display: flex;
+  gap: 15.3846px;
+  justify-content: space-between;
+  margin-bottom: 15.3846px;
+}
+
+.consumerSectionHead h2 {
+  margin: 0;
+}
+
+.consumerSectionHead span {
+  background: #f1f5f9;
+  border: 1.9231px solid #dbe6ef;
+  border-radius: 1921.1538px;
+  color: #64748b;
+  flex: 0 0 auto;
+  font-size: 21.1538px;
+  font-weight: 900;
+  padding: 7.6923px 13.4615px;
+}
+
 .consumerProgressCard {
   align-items: center;
   display: grid;
@@ -144,7 +167,9 @@
 .consumerDomainRow > div,
 .consumerProblemRow > span:nth-child(2),
 .consumerSavedRow > div,
-.consumerSourceItem > div {
+.consumerSourceItem > div,
+.consumerAtCoderRow > div,
+.consumerLibraryCard {
   min-width: 0;
 }
 
@@ -216,6 +241,52 @@
   color: #b45309;
 }
 
+.consumerLibraryGrid {
+  display: grid;
+  gap: 15.3846px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 23.0769px;
+}
+
+.consumerLibraryCard {
+  background: #fff;
+  border: 1.9231px solid #dbe6ef;
+  border-radius: 15.3846px;
+  color: #102033;
+  display: flex;
+  flex-direction: column;
+  gap: 9.6154px;
+  min-height: 211.5385px;
+  padding: 23.0769px;
+  text-align: left;
+}
+
+.consumerLibraryCard.active {
+  background: #ecfdf5;
+  border-color: #99f6e4;
+}
+
+.consumerLibraryCard svg {
+  color: #0f766e;
+}
+
+.consumerLibraryCard span {
+  color: #64748b;
+  font-size: 21.1538px;
+  font-weight: 900;
+}
+
+.consumerLibraryCard strong {
+  font-size: 36.5385px;
+  line-height: 1.08;
+}
+
+.consumerLibraryCard small {
+  color: #718096;
+  font-size: 21.1538px;
+  line-height: 1.35;
+}
+
 .consumerPrimaryButton,
 .consumerSecondaryButton {
   align-items: center;
@@ -246,6 +317,58 @@
 .consumerDomainList {
   display: grid;
   gap: 15.3846px;
+}
+
+.consumerLevelGrid {
+  display: grid;
+  gap: 13.4615px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.consumerLevelChip {
+  background: #f8fafc;
+  border: 1.9231px solid #dbe6ef;
+  border-radius: 15.3846px;
+  min-width: 0;
+  padding: 17.3077px;
+}
+
+.consumerLevelChip.good {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.consumerLevelChip.normal {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.consumerLevelChip.weak {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.consumerLevelChip strong {
+  color: #102033;
+  display: block;
+  font-size: 28.8462px;
+  line-height: 1.15;
+}
+
+.consumerLevelChip span {
+  color: #0f766e;
+  display: block;
+  font-size: 21.1538px;
+  font-weight: 900;
+  margin-top: 5.7692px;
+}
+
+.consumerLevelChip small {
+  color: #64748b;
+  display: block;
+  font-size: 21.1538px;
+  line-height: 1.35;
+  margin-top: 7.6923px;
 }
 
 .consumerDomainRow {
@@ -331,6 +454,29 @@
   background: #fff;
   box-shadow: 0 1.9231px 5.7692px rgb(15 23 42 / 10%);
   color: #0f766e;
+}
+
+.consumerSplitCard {
+  align-items: center;
+  display: grid;
+  gap: 19.2308px;
+  grid-template-columns: 1fr 73.0769px;
+}
+
+.consumerSplitCard h2 {
+  margin-bottom: 9.6154px;
+}
+
+.consumerSplitCard button {
+  align-items: center;
+  background: #0f766e;
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  height: 73.0769px;
+  justify-content: center;
+  width: 73.0769px;
 }
 
 .consumerProblemRow {
@@ -474,6 +620,71 @@
   gap: 9.6154px;
   justify-content: center;
   min-height: 119.2308px;
+}
+
+.consumerAtCoderHero {
+  background:
+    linear-gradient(135deg, rgb(239 246 255 / 96%), rgb(236 253 245 / 96%)),
+    #fff;
+}
+
+.consumerAtCoderHero > svg {
+  color: #2563eb;
+  margin-bottom: 13.4615px;
+}
+
+.consumerAtCoderHero .consumerMetricGrid {
+  margin-top: 23.0769px;
+}
+
+.consumerAtCoderRow {
+  align-items: center;
+  border-bottom: 1.9231px solid #e5edf5;
+  display: grid;
+  gap: 19.2308px;
+  grid-template-columns: 80.7692px 1fr auto;
+  padding: 23.0769px 0;
+}
+
+.consumerAtCoderRow:last-child {
+  border-bottom: 0;
+}
+
+.consumerAtCoderRow > span {
+  align-items: center;
+  background: #eff6ff;
+  border: 1.9231px solid #bfdbfe;
+  border-radius: 15.3846px;
+  color: #1d4ed8;
+  display: flex;
+  font-size: 23.0769px;
+  font-weight: 900;
+  height: 80.7692px;
+  justify-content: center;
+  text-align: center;
+}
+
+.consumerAtCoderRow strong {
+  color: #102033;
+  display: block;
+  font-size: 28.8462px;
+}
+
+.consumerAtCoderRow small {
+  color: #718096;
+  display: block;
+  font-size: 23.0769px;
+  line-height: 1.45;
+  margin-top: 5.7692px;
+}
+
+.consumerAtCoderRow .consumerTagRow {
+  margin-top: 13.4615px;
+}
+
+.consumerAtCoderRow b {
+  color: #0f766e;
+  font-size: 28.8462px;
 }
 
 .consumerSourceList {

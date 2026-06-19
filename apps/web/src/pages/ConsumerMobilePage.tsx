@@ -43,7 +43,7 @@ export function ConsumerMobilePage() {
 
 function readInitialConsumerView(): ConsumerView {
   const view = new URLSearchParams(window.location.search).get("view");
-  return view === "catalog" || view === "problem" || view === "code" || view === "evidence" || view === "progress" || view === "profile" ? view : "home";
+  return view === "catalog" || view === "atcoder" || view === "problem" || view === "code" || view === "evidence" || view === "progress" || view === "profile" ? view : "home";
 }
 
 function ConsumerHeader({ setView, view }: { setView: (view: ConsumerView) => void; view: ConsumerView }) {
@@ -71,7 +71,7 @@ function ConsumerHeader({ setView, view }: { setView: (view: ConsumerView) => vo
 }
 
 function ConsumerBottomNav({ setView, view }: { setView: (view: ConsumerView) => void; view: ConsumerView }) {
-  const isCatalogActive = view === "catalog" || view === "problem" || view === "code" || view === "evidence";
+  const isCatalogActive = view === "catalog" || view === "atcoder" || view === "problem" || view === "code" || view === "evidence";
 
   return (
     <nav className="consumerBottomNav" aria-label="C 端主导航">

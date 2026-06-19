@@ -1,7 +1,17 @@
 import type { CSSProperties } from "react";
-import { BarChart3, BookOpen, Code2, FileSearch, Link2, Search, Star } from "lucide-react";
+import { ArrowRight, BarChart3, BookOpen, Code2, Database, FileSearch, Link2, Search, Star, Trophy } from "lucide-react";
 import { ConsumerCodeBlock } from "./ConsumerCodeBlock";
-import { consumerDomains, consumerProblemTypes, finiteDecimalCode, type ConsumerView, type Domain } from "./ConsumerMobileData";
+import {
+  atCoderTracks,
+  consumerDomains,
+  consumerLevels,
+  consumerProblemTypes,
+  finiteDecimalCode,
+  type AtCoderTrack,
+  type ConsumerView,
+  type Domain,
+  type LevelSummary
+} from "./ConsumerMobileData";
 
 export function renderConsumerView(
   view: ConsumerView,
@@ -12,6 +22,8 @@ export function renderConsumerView(
   switch (view) {
     case "catalog":
       return <CatalogView setView={setView} />;
+    case "atcoder":
+      return <AtCoderView />;
     case "problem":
       return <ProblemView setView={setView} />;
     case "code":
@@ -33,7 +45,7 @@ function HomeView({ progressStyle, setView }: { progressStyle: CSSProperties; se
       <section className="consumerCard consumerCardTint consumerProgressCard">
         <div>
           <h2>本周学习进度</h2>
-          <p>已查看 18 道题，收藏 6 段参考代码，薄弱点是筛法和高精度。</p>
+          <p>已查看 18 道 GESP 题，收藏 6 段参考代码；AtCoder 练习入口已并入移动端。</p>
           <div className="consumerTagRow">
             <span className="consumerTag good">继续学习</span>
             <span className="consumerTag info">预计 24 分钟</span>
@@ -41,13 +53,28 @@ function HomeView({ progressStyle, setView }: { progressStyle: CSSProperties; se
         </div>
         <div className="consumerRing" style={progressStyle}><span>72%</span></div>
       </section>
+      <section className="consumerLibraryGrid" aria-label="题库入口">
+        <button className="consumerLibraryCard active" onClick={() => setView("catalog")} type="button">
+          <BookOpen size={20} />
+          <span>GESP 全等级</span>
+          <strong>345 题</strong>
+          <small>一级到八级 · 官方等级链路</small>
+        </button>
+        <button className="consumerLibraryCard" onClick={() => setView("atcoder")} type="button">
+          <Trophy size={20} />
+          <span>AtCoder 题库</span>
+          <strong>240 题</strong>
+          <small>A-B / C / D / E+ · 算法标签</small>
+        </button>
+      </section>
       <section className="consumerCard">
         <h2>推荐路径</h2>
-        <p>五级数论强化 · 质因数分解型、gcd/lcm 变形型、有限小数判断。</p>
+        <p>先完成 GESP 五级数论，再用 AtCoder C 难度补二分、前缀和和贪心。</p>
         <button className="consumerPrimaryButton" onClick={() => setView("catalog")} type="button">
           <BookOpen size={17} />继续查看
         </button>
       </section>
+      <LevelOverview />
       <DomainList title="知识点覆盖" />
       <section className="consumerCard">
         <h2>最近查看</h2>
@@ -65,20 +92,70 @@ function CatalogView({ setView }: { setView: (view: ConsumerView) => void }) {
   return (
     <>
       <div className="consumerSearch"><Search size={17} /><span>搜索题名、知识点、来源</span></div>
-      <div className="consumerSegment"><span className="active">五级</span><span>数论</span><span>题型</span></div>
+      <div className="consumerSegment"><span className="active">GESP</span><span>全等级</span><span>题型</span></div>
+      <section className="consumerCard">
+        <div className="consumerSectionHead">
+          <h2>等级目录</h2>
+          <span>1-8 级</span>
+        </div>
+        <div className="consumerLevelGrid">
+          {consumerLevels.map((level) => <LevelChip key={level.level} level={level} />)}
+        </div>
+      </section>
+      <section className="consumerCard consumerCardTint consumerSplitCard">
+        <div>
+          <h2>AtCoder 算法题库</h2>
+          <p>不混入 GESP 官方等级，用难度和算法标签单独筛选。</p>
+        </div>
+        <button aria-label="查看 AtCoder 题库" onClick={() => setView("atcoder")} type="button">
+          <ArrowRight size={20} />
+        </button>
+      </section>
       <DomainList title="算法范畴" />
       <section className="consumerCard">
-        <h2>数论题型</h2>
+        <div className="consumerSectionHead">
+          <h2>题型分布</h2>
+          <span>{consumerProblemTypes.length} 类</span>
+        </div>
         {consumerProblemTypes.map((type) => (
           <button className="consumerProblemRow" key={type.name} onClick={() => setView("problem")} type="button">
             <span className="consumerBadge">{type.count}</span>
             <span>
               <strong>{type.name}</strong>
-              <small>{type.description}</small>
+              <small>{type.level} · {type.source} · {type.description}</small>
             </span>
             <em>{type.progress}%</em>
           </button>
         ))}
+      </section>
+    </>
+  );
+}
+
+function AtCoderView() {
+  return (
+    <>
+      <div className="consumerSearch"><Search size={17} /><span>搜索 AtCoder 题号、算法标签、难度</span></div>
+      <section className="consumerCard consumerAtCoderHero">
+        <Database size={22} />
+        <h2>独立题库，不套 GESP 等级</h2>
+        <p>AtCoder 题目按 A-B / C / D / E+ 难度、算法范畴、样例完整度和参考解状态展示。</p>
+        <div className="consumerMetricGrid">
+          <div><strong>240</strong><span>题目</span></div>
+          <div><strong>89</strong><span>标签</span></div>
+          <div><strong>126</strong><span>中文题面</span></div>
+        </div>
+      </section>
+      <section className="consumerCard">
+        <div className="consumerSectionHead">
+          <h2>难度轨道</h2>
+          <span>AtCoder</span>
+        </div>
+        {atCoderTracks.map((track) => <AtCoderTrackRow key={track.name} track={track} />)}
+      </section>
+      <section className="consumerCard">
+        <h2>推荐衔接</h2>
+        <p>GESP 五级学完二分和数论后，优先看 AtCoder C 的 binary search、greedy、prefix sum；六级以后再进入 DP / graph。</p>
       </section>
     </>
   );
@@ -225,9 +302,33 @@ function DomainList({ title }: { title: string }) {
     <section className="consumerCard">
       <h2>{title}</h2>
       <div className="consumerDomainList">
-        {consumerDomains.slice(0, 3).map((domain) => <DomainRow domain={domain} key={domain.name} />)}
+        {consumerDomains.slice(0, 5).map((domain) => <DomainRow domain={domain} key={domain.name} />)}
       </div>
     </section>
+  );
+}
+
+function LevelOverview() {
+  return (
+    <section className="consumerCard">
+      <div className="consumerSectionHead">
+        <h2>GESP 等级覆盖</h2>
+        <span>345 题</span>
+      </div>
+      <div className="consumerLevelGrid">
+        {consumerLevels.slice(0, 6).map((level) => <LevelChip key={level.level} level={level} />)}
+      </div>
+    </section>
+  );
+}
+
+function LevelChip({ level }: { level: LevelSummary }) {
+  return (
+    <article className={`consumerLevelChip ${level.tone}`}>
+      <strong>{level.level}</strong>
+      <span>{level.count} 题</span>
+      <small>{level.title}</small>
+    </article>
   );
 }
 
@@ -252,6 +353,22 @@ function SourceItem({ description, index, label, tag, tone }: { description: str
         <small>{description}</small>
       </div>
       <em className={`consumerTag ${tone}`}>{tag}</em>
+    </article>
+  );
+}
+
+function AtCoderTrackRow({ track }: { track: AtCoderTrack }) {
+  return (
+    <article className="consumerAtCoderRow">
+      <span>{track.difficulty}</span>
+      <div>
+        <strong>{track.name}</strong>
+        <small>{track.description}</small>
+        <div className="consumerTagRow">
+          {track.tags.map((tag) => <em className="consumerTag info" key={tag}>{tag}</em>)}
+        </div>
+      </div>
+      <b>{track.count}</b>
     </article>
   );
 }
