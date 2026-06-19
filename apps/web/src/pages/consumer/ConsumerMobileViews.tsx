@@ -1,94 +1,110 @@
 import type { CSSProperties } from "react";
-import { ArrowRight, BarChart3, BookOpen, Code2, Database, FileSearch, Link2, Search, Star, Trophy } from "lucide-react";
+import { ArrowRight, BarChart3, BookOpen, Code2, Database, FileSearch, Link2, RefreshCw, Search, Star, Trophy } from "lucide-react";
 import { ConsumerCodeBlock } from "./ConsumerCodeBlock";
-import {
-  atCoderTracks,
-  consumerDomains,
-  consumerLevels,
-  consumerProblemTypes,
-  finiteDecimalCode,
-  type AtCoderTrack,
-  type ConsumerView,
-  type Domain,
-  type LevelSummary
-} from "./ConsumerMobileData";
+import type { AtCoderTrack, ConsumerMobileContent, ConsumerProblem, ConsumerView, Domain, LevelSummary } from "./ConsumerMobileData";
+
+type ConsumerRenderState = {
+  content: ConsumerMobileContent | null;
+  error: string | null;
+  loading: boolean;
+  reload: () => void;
+};
 
 export function renderConsumerView(
   view: ConsumerView,
   setView: (view: ConsumerView) => void,
+  renderState: ConsumerRenderState,
   progressStyle: CSSProperties,
   profileProgressStyle: CSSProperties
 ) {
+  const { content, error, loading, reload } = renderState;
+  if (loading) {
+    return <StateCard label="正在从后端加载 C 端内容" />;
+  }
+  if (error) {
+    return <StateCard actionLabel="重试" label={`后端内容加载失败：${error}`} onAction={reload} />;
+  }
+  if (!content) {
+    return <StateCard actionLabel="重新加载" label="后端没有返回 C 端内容" onAction={reload} />;
+  }
+
   switch (view) {
     case "catalog":
-      return <CatalogView setView={setView} />;
+      return <CatalogView content={content} setView={setView} />;
     case "atcoder":
-      return <AtCoderView />;
+      return <AtCoderView content={content} />;
     case "problem":
-      return <ProblemView setView={setView} />;
+      return <ProblemView problem={content.gesp.featured_problem} setView={setView} />;
     case "code":
-      return <CodeView />;
+      return <CodeView problem={content.gesp.featured_problem} />;
     case "evidence":
-      return <EvidenceView />;
+      return <EvidenceView problem={content.gesp.featured_problem} />;
     case "progress":
-      return <ProgressView />;
+      return <ProgressView content={content} />;
     case "profile":
-      return <ProfileView progressStyle={profileProgressStyle} />;
+      return <ProfileView content={content} progressStyle={profileProgressStyle} />;
     default:
-      return <HomeView progressStyle={progressStyle} setView={setView} />;
+      return <HomeView content={content} progressStyle={progressStyle} setView={setView} />;
   }
 }
 
-function HomeView({ progressStyle, setView }: { progressStyle: CSSProperties; setView: (view: ConsumerView) => void }) {
+function HomeView({ content, progressStyle, setView }: { content: ConsumerMobileContent; progressStyle: CSSProperties; setView: (view: ConsumerView) => void }) {
+  const featured = content.gesp.featured_problem;
   return (
     <>
       <section className="consumerCard consumerCardTint consumerProgressCard">
         <div>
           <h2>本周学习进度</h2>
-          <p>已查看 18 道 GESP 题，收藏 6 段参考代码；AtCoder 练习入口已并入移动端。</p>
+          <p>已接入后端题库：GESP {content.gesp.total_count} 题，AtCoder {content.atcoder.total_count} 题；移动端以查看、收藏和复习为主。</p>
           <div className="consumerTagRow">
-            <span className="consumerTag good">继续学习</span>
-            <span className="consumerTag info">预计 24 分钟</span>
+            <span className="consumerTag good">后端数据</span>
+            <span className="consumerTag info">弱项 {content.learning.weak_points.length || 0} 个</span>
           </div>
         </div>
-        <div className="consumerRing" style={progressStyle}><span>72%</span></div>
+        <div className="consumerRing" style={progressStyle}><span>{content.learning.progress_pct}%</span></div>
       </section>
       <section className="consumerLibraryGrid" aria-label="题库入口">
         <button className="consumerLibraryCard active" onClick={() => setView("catalog")} type="button">
           <BookOpen size={20} />
           <span>GESP 全等级</span>
-          <strong>345 题</strong>
-          <small>一级到八级 · 官方等级链路</small>
+          <strong>{content.gesp.total_count} 题</strong>
+          <small>{content.gesp.levels.length} 个等级 · 后端目录</small>
         </button>
         <button className="consumerLibraryCard" onClick={() => setView("atcoder")} type="button">
           <Trophy size={20} />
           <span>AtCoder 题库</span>
-          <strong>240 题</strong>
-          <small>A-B / C / D / E+ · 算法标签</small>
+          <strong>{content.atcoder.total_count} 题</strong>
+          <small>{content.atcoder.tracks.map((track) => track.difficulty).join(" / ") || "难度轨道"}</small>
         </button>
       </section>
       <section className="consumerCard">
         <h2>推荐路径</h2>
-        <p>先完成 GESP 五级数论，再用 AtCoder C 难度补二分、前缀和和贪心。</p>
+        <p>{content.learning.recommendation}</p>
         <button className="consumerPrimaryButton" onClick={() => setView("catalog")} type="button">
           <BookOpen size={17} />继续查看
         </button>
       </section>
-      <LevelOverview />
-      <DomainList title="知识点覆盖" />
+      <LevelOverview content={content} />
+      <DomainList domains={content.gesp.domains} title="知识点覆盖" />
       <section className="consumerCard">
         <h2>最近查看</h2>
-        <p><strong>有限小数判断</strong><br />选择题 · 质因数 · 官方证据已确认</p>
-        <div className="consumerPillRow">
-          <button className="active" onClick={() => setView("problem")} type="button">题目详情</button>
-          <button onClick={() => setView("code")} type="button">参考代码</button>
-        </div>
+        {featured ? (
+          <>
+            <p><strong>{featured.title}</strong><br />{featured.subtitle}</p>
+            <div className="consumerPillRow">
+              <button className="active" onClick={() => setView("problem")} type="button">题目详情</button>
+              <button onClick={() => setView("code")} type="button">参考代码</button>
+            </div>
+          </>
+        ) : (
+          <p>后端暂未返回推荐题目。</p>
+        )}
       </section>
     </>
   );
 }
 
-function CatalogView({ setView }: { setView: (view: ConsumerView) => void }) {
+function CatalogView({ content, setView }: { content: ConsumerMobileContent; setView: (view: ConsumerView) => void }) {
   return (
     <>
       <div className="consumerSearch"><Search size={17} /><span>搜索题名、知识点、来源</span></div>
@@ -96,10 +112,10 @@ function CatalogView({ setView }: { setView: (view: ConsumerView) => void }) {
       <section className="consumerCard">
         <div className="consumerSectionHead">
           <h2>等级目录</h2>
-          <span>1-8 级</span>
+          <span>{content.gesp.levels.length} 级</span>
         </div>
         <div className="consumerLevelGrid">
-          {consumerLevels.map((level) => <LevelChip key={level.level} level={level} />)}
+          {content.gesp.levels.map((level) => <LevelChip key={level.level} level={level} />)}
         </div>
       </section>
       <section className="consumerCard consumerCardTint consumerSplitCard">
@@ -111,14 +127,14 @@ function CatalogView({ setView }: { setView: (view: ConsumerView) => void }) {
           <ArrowRight size={20} />
         </button>
       </section>
-      <DomainList title="算法范畴" />
+      <DomainList domains={content.gesp.domains} title="算法范畴" />
       <section className="consumerCard">
         <div className="consumerSectionHead">
           <h2>题型分布</h2>
-          <span>{consumerProblemTypes.length} 类</span>
+          <span>{content.gesp.problem_types.length} 类</span>
         </div>
-        {consumerProblemTypes.map((type) => (
-          <button className="consumerProblemRow" key={type.name} onClick={() => setView("problem")} type="button">
+        {content.gesp.problem_types.map((type) => (
+          <button className="consumerProblemRow" key={type.id} onClick={() => setView("problem")} type="button">
             <span className="consumerBadge">{type.count}</span>
             <span>
               <strong>{type.name}</strong>
@@ -132,18 +148,18 @@ function CatalogView({ setView }: { setView: (view: ConsumerView) => void }) {
   );
 }
 
-function AtCoderView() {
+function AtCoderView({ content }: { content: ConsumerMobileContent }) {
   return (
     <>
       <div className="consumerSearch"><Search size={17} /><span>搜索 AtCoder 题号、算法标签、难度</span></div>
       <section className="consumerCard consumerAtCoderHero">
         <Database size={22} />
         <h2>独立题库，不套 GESP 等级</h2>
-        <p>AtCoder 题目按 A-B / C / D / E+ 难度、算法范畴、样例完整度和参考解状态展示。</p>
+        <p>AtCoder 题目按难度、算法范畴、样例完整度和参考解状态展示，数据来自后端 AtCoder catalog。</p>
         <div className="consumerMetricGrid">
-          <div><strong>240</strong><span>题目</span></div>
-          <div><strong>89</strong><span>标签</span></div>
-          <div><strong>126</strong><span>中文题面</span></div>
+          <div><strong>{content.atcoder.total_count}</strong><span>题目</span></div>
+          <div><strong>{content.atcoder.tag_count}</strong><span>标签</span></div>
+          <div><strong>{content.atcoder.statement_count}</strong><span>中文题面</span></div>
         </div>
       </section>
       <section className="consumerCard">
@@ -151,17 +167,25 @@ function AtCoderView() {
           <h2>难度轨道</h2>
           <span>AtCoder</span>
         </div>
-        {atCoderTracks.map((track) => <AtCoderTrackRow key={track.name} track={track} />)}
+        {content.atcoder.tracks.map((track) => <AtCoderTrackRow key={track.difficulty} track={track} />)}
       </section>
-      <section className="consumerCard">
-        <h2>推荐衔接</h2>
-        <p>GESP 五级学完二分和数论后，优先看 AtCoder C 的 binary search、greedy、prefix sum；六级以后再进入 DP / graph。</p>
-      </section>
+      {content.atcoder.featured_problem ? (
+        <section className="consumerCard">
+          <h2>推荐题目</h2>
+          <p><strong>{content.atcoder.featured_problem.title}</strong><br />{content.atcoder.featured_problem.subtitle}</p>
+          <div className="consumerTagRow">
+            {content.atcoder.featured_problem.knowledge_points.slice(0, 3).map((point) => <span className="consumerTag info" key={point}>{point}</span>)}
+          </div>
+        </section>
+      ) : null}
     </>
   );
 }
 
-function ProblemView({ setView }: { setView: (view: ConsumerView) => void }) {
+function ProblemView({ problem, setView }: { problem: ConsumerProblem | null; setView: (view: ConsumerView) => void }) {
+  if (!problem) {
+    return <StateCard label="后端暂未返回推荐题目详情" />;
+  }
   return (
     <>
       <section className="consumerCard">
@@ -172,24 +196,26 @@ function ProblemView({ setView }: { setView: (view: ConsumerView) => void }) {
         </div>
       </section>
       <section className="consumerReadBlock">
-        <h2>题目概要</h2>
-        <p>判断一个分数能否化为有限小数。核心思路是分母约分后只含质因数 2 和 5。</p>
+        <h2>{problem.title}</h2>
+        <p>{problem.statement}</p>
       </section>
       <section className="consumerCard">
         <h2>标签与可信度</h2>
         <div className="consumerTagRow">
-          <span className="consumerTag good">官方等级：五级</span>
-          <span className="consumerTag good">质因数</span>
-          <span className="consumerTag info">可信度 0.92</span>
+          <span className="consumerTag good">官方等级：{problem.level}</span>
+          <span className="consumerTag good">{problem.domain}</span>
+          {problem.confidence == null ? null : <span className="consumerTag info">可信度 {Math.round(problem.confidence * 100)}%</span>}
         </div>
       </section>
       <section className="consumerCard">
         <h2>解题要点</h2>
-        <ol className="consumerSteps">
-          <li>先用 gcd 对分子分母约分。</li>
-          <li>不断除去分母中的 2 和 5。</li>
-          <li>剩余为 1 时可以写成有限小数。</li>
-        </ol>
+        {problem.steps.length ? (
+          <ol className="consumerSteps">
+            {problem.steps.slice(0, 5).map((step) => <li key={step}>{step}</li>)}
+          </ol>
+        ) : (
+          <p>{problem.algorithm || "后端暂未返回详细解题步骤。"}</p>
+        )}
       </section>
       <section className="consumerCard consumerCardTint">
         <h2>学习动作</h2>
@@ -200,20 +226,30 @@ function ProblemView({ setView }: { setView: (view: ConsumerView) => void }) {
   );
 }
 
-function CodeView() {
+function CodeView({ problem }: { problem: ConsumerProblem | null }) {
+  if (!problem) {
+    return <StateCard label="后端暂未返回推荐题目代码" />;
+  }
   return (
     <>
       <section className="consumerCard">
         <div className="consumerPillRow">
-          <button className="active" type="button">C++17</button>
+          <button className="active" type="button">C++</button>
           <button type="button">思路</button>
           <button type="button">复杂度</button>
         </div>
       </section>
-      <ConsumerCodeBlock code={finiteDecimalCode} filename="finite_decimal.cpp" />
+      {problem.code ? (
+        <ConsumerCodeBlock code={problem.code} filename={problem.code_filename} />
+      ) : (
+        <section className="consumerCard">
+          <h2>暂无本地代码</h2>
+          <p>后端已返回题目信息，但这道题暂时没有可直接展示的参考代码。</p>
+        </section>
+      )}
       <section className="consumerCard">
         <h2>行级讲解</h2>
-        <p>第 9 行先约分，避免分母中保留可消去因子；第 11-12 行只移除 2 和 5。</p>
+        <p>{problem.algorithm || "后端暂未返回算法讲解。"}{problem.complexity ? ` 复杂度：${problem.complexity}` : ""}</p>
       </section>
       <section className="consumerCard consumerCardTint">
         <h2>可用操作</h2>
@@ -227,13 +263,23 @@ function CodeView() {
   );
 }
 
-function EvidenceView() {
+function EvidenceView({ problem }: { problem: ConsumerProblem | null }) {
+  if (!problem) {
+    return <StateCard label="后端暂未返回来源证据" />;
+  }
   return (
     <>
       <section className="consumerSourceList">
-        <SourceItem index="1" label="官方真题 PDF" description="等级、题型和题号来源" tag="canonical" tone="good" />
-        <SourceItem index="2" label="OJ 练习入口" description="用于练习跳转和样例核验" tag="mirror" tone="info" />
-        <SourceItem index="3" label="题解文章" description="辅助理解，不覆盖官方结论" tag="aux" tone="weak" />
+        {problem.source_links.length ? problem.source_links.map((source, index) => (
+          <SourceItem
+            description={source.url || "后端未返回来源 URL"}
+            index={String(index + 1)}
+            key={`${source.title}:${index}`}
+            label={source.title}
+            tag={source.tag}
+            tone={source.tone}
+          />
+        )) : <SourceItem description="后端暂无来源链接" index="1" label="来源待补充" tag="pending" tone="weak" />}
       </section>
       <section className="consumerCard">
         <h2>版权策略</h2>
@@ -242,81 +288,87 @@ function EvidenceView() {
       <section className="consumerCard">
         <h2>分类依据</h2>
         <div className="consumerTagRow">
-          <span className="consumerTag good">官方五级</span>
-          <span className="consumerTag good">质因数</span>
-          <span className="consumerTag info">reviewed</span>
+          <span className="consumerTag good">{problem.level}</span>
+          <span className="consumerTag good">{problem.problem_type}</span>
+          <span className="consumerTag info">{problem.answer_status}</span>
         </div>
       </section>
-      <button className="consumerPrimaryButton" type="button"><Link2 size={17} />打开原始来源</button>
+      {problem.source_links[0]?.url ? <button className="consumerPrimaryButton" type="button"><Link2 size={17} />打开原始来源</button> : null}
     </>
   );
 }
 
-function ProgressView() {
+function ProgressView({ content }: { content: ConsumerMobileContent }) {
   return (
     <>
-      <DomainList title="知识点掌握度" />
+      <DomainList domains={content.gesp.domains} title="知识点掌握度" />
       <section className="consumerCard">
         <h2>本周复盘</h2>
         <div className="consumerMetricGrid">
-          <div><strong>18</strong><span>查看题目</span></div>
-          <div><strong>6</strong><span>代码收藏</span></div>
-          <div><strong>9</strong><span>完成复盘</span></div>
+          <div><strong>{content.learning.viewed_count}</strong><span>后端题目</span></div>
+          <div><strong>{content.learning.saved_code_count}</strong><span>可复习题型</span></div>
+          <div><strong>{content.learning.reviewed_count}</strong><span>高可信题型</span></div>
         </div>
       </section>
       <section className="consumerCard">
         <h2>下一步建议</h2>
-        <p>先看筛法模板题，再复盘高精度代码。每个弱项保留 2 道题和 1 段参考代码即可。</p>
+        <p>{content.learning.recommendation}</p>
       </section>
     </>
   );
 }
 
-function ProfileView({ progressStyle }: { progressStyle: CSSProperties }) {
+function ProfileView({ content, progressStyle }: { content: ConsumerMobileContent; progressStyle: CSSProperties }) {
+  const featured = content.gesp.featured_problem;
   return (
     <>
       <section className="consumerCard consumerCardTint consumerProgressCard">
         <div>
-          <h2>五级掌握度</h2>
-          <p>本月查看 38 个条目，完成 9 个知识点复盘。</p>
+          <h2>后端题库掌握度</h2>
+          <p>当前接入 GESP {content.gesp.total_count} 题，AtCoder {content.atcoder.total_count} 题。</p>
         </div>
-        <div className="consumerRing" style={progressStyle}><span>68%</span></div>
+        <div className="consumerRing" style={progressStyle}><span>{content.learning.progress_pct}%</span></div>
       </section>
       <section className="consumerCard">
         <h2>收藏夹</h2>
-        <div className="consumerSavedRow"><span>码</span><div><strong>有限小数判断代码</strong><small>gcd + 分母因子剔除</small></div><em>已标注</em></div>
-        <div className="consumerSavedRow"><span>题</span><div><strong>二分查找边界题</strong><small>lower_bound、闭区间</small></div><em>待复习</em></div>
+        {featured ? (
+          <>
+            <div className="consumerSavedRow"><span>题</span><div><strong>{featured.title}</strong><small>{featured.problem_type}</small></div><em>{featured.answer_status}</em></div>
+            <div className="consumerSavedRow"><span>码</span><div><strong>{featured.code_filename}</strong><small>{featured.code ? "后端已返回代码" : "暂无代码"}</small></div><em>只读</em></div>
+          </>
+        ) : (
+          <p>后端暂未返回收藏推荐。</p>
+        )}
       </section>
       <section className="consumerCard">
         <h2>弱项提醒</h2>
-        <DomainRow domain={consumerDomains[2]} />
-        <DomainRow domain={consumerDomains[3]} />
+        {content.gesp.domains.filter((domain) => domain.tone !== "good").slice(0, 2).map((domain) => <DomainRow domain={domain} key={domain.id} />)}
       </section>
       <button className="consumerPrimaryButton" type="button"><BarChart3 size={17} />生成复习清单</button>
     </>
   );
 }
 
-function DomainList({ title }: { title: string }) {
+function DomainList({ domains, title }: { domains: Domain[]; title: string }) {
   return (
     <section className="consumerCard">
       <h2>{title}</h2>
       <div className="consumerDomainList">
-        {consumerDomains.slice(0, 5).map((domain) => <DomainRow domain={domain} key={domain.name} />)}
+        {domains.slice(0, 5).map((domain) => <DomainRow domain={domain} key={domain.id} />)}
       </div>
     </section>
   );
 }
 
-function LevelOverview() {
+function LevelOverview({ content }: { content: ConsumerMobileContent }) {
   return (
     <section className="consumerCard">
       <div className="consumerSectionHead">
         <h2>GESP 等级覆盖</h2>
-        <span>345 题</span>
+        <span>{content.gesp.total_count} 题</span>
       </div>
       <div className="consumerLevelGrid">
-        {consumerLevels.slice(0, 6).map((level) => <LevelChip key={level.level} level={level} />)}
+        {content.gesp.levels.slice(0, 6).map((level) => <LevelChip key={level.level} level={level} />)}
       </div>
     </section>
   );
@@ -325,7 +377,7 @@ function LevelOverview() {
 function LevelChip({ level }: { level: LevelSummary }) {
   return (
     <article className={`consumerLevelChip ${level.tone}`}>
-      <strong>{level.level}</strong>
+      <strong>{level.label}</strong>
       <span>{level.count} 题</span>
       <small>{level.title}</small>
     </article>
@@ -344,7 +396,7 @@ function DomainRow({ domain }: { domain: Domain }) {
   );
 }
 
-function SourceItem({ description, index, label, tag, tone }: { description: string; index: string; label: string; tag: string; tone: "good" | "info" | "weak" }) {
+function SourceItem({ description, index, label, tag, tone }: { description: string; index: string; label: string; tag: string; tone: "good" | "normal" | "weak" }) {
   return (
     <article className="consumerSourceItem">
       <span>{index}</span>
@@ -370,5 +422,15 @@ function AtCoderTrackRow({ track }: { track: AtCoderTrack }) {
       </div>
       <b>{track.count}</b>
     </article>
+  );
+}
+
+function StateCard({ actionLabel, label, onAction }: { actionLabel?: string; label: string; onAction?: () => void }) {
+  return (
+    <section className="consumerCard consumerStateCard">
+      <RefreshCw size={22} />
+      <h2>{label}</h2>
+      {onAction ? <button className="consumerSecondaryButton" onClick={onAction} type="button">{actionLabel || "重试"}</button> : null}
+    </section>
   );
 }

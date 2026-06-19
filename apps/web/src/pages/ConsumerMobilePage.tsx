@@ -1,13 +1,15 @@
 import { BarChart3, BookOpen, ChevronLeft, Home, Layers3, UserRound } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { consumerHeaders, type ConsumerView } from "./consumer/ConsumerMobileData";
+import { consumerHeaders, type ConsumerMobileContent, type ConsumerView } from "./consumer/ConsumerMobileData";
 import { renderConsumerView } from "./consumer/ConsumerMobileViews";
+import { useConsumerMobileContent } from "./consumer/useConsumerMobileContent";
 import "./ConsumerMobilePage.css";
 
 export function ConsumerMobilePage() {
   const [view, setView] = useState<ConsumerView>(() => readInitialConsumerView());
-  const progressStyle = useMemo(() => ({ "--consumer-progress": "72%" }) as React.CSSProperties, []);
-  const profileProgressStyle = useMemo(() => ({ "--consumer-progress": "68%" }) as React.CSSProperties, []);
+  const contentState = useConsumerMobileContent();
+  const progressStyle = useMemo(() => ({ "--consumer-progress": `${contentState.content?.learning.progress_pct ?? 0}%` }) as React.CSSProperties, [contentState.content?.learning.progress_pct]);
+  const profileProgressStyle = useMemo(() => ({ "--consumer-progress": `${contentState.content?.learning.progress_pct ?? 0}%` }) as React.CSSProperties, [contentState.content?.learning.progress_pct]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -31,10 +33,10 @@ export function ConsumerMobilePage() {
         <header className="consumerStatus">
           <span>9:41</span>
           <span>GESP Learn</span>
-          <span>{view === "catalog" ? "Wi-Fi" : "72%"}</span>
+          <span>{contentState.loading ? "加载中" : `${contentState.content?.learning.progress_pct ?? 0}%`}</span>
         </header>
-        <ConsumerHeader view={view} setView={setView} />
-        <section className="consumerContent">{renderConsumerView(view, setView, progressStyle, profileProgressStyle)}</section>
+        <ConsumerHeader content={contentState.content} view={view} setView={setView} />
+        <section className="consumerContent">{renderConsumerView(view, setView, contentState, progressStyle, profileProgressStyle)}</section>
         <ConsumerBottomNav view={view} setView={setView} />
       </section>
     </main>
@@ -46,8 +48,8 @@ function readInitialConsumerView(): ConsumerView {
   return view === "catalog" || view === "atcoder" || view === "problem" || view === "code" || view === "evidence" || view === "progress" || view === "profile" ? view : "home";
 }
 
-function ConsumerHeader({ setView, view }: { setView: (view: ConsumerView) => void; view: ConsumerView }) {
-  const { description, eyebrow, title } = consumerHeaders[view];
+function ConsumerHeader({ content, setView, view }: { content: ConsumerMobileContent | null; setView: (view: ConsumerView) => void; view: ConsumerView }) {
+  const { description, eyebrow, title } = getConsumerHeader(view, content);
   const canGoBack = view === "problem" || view === "code" || view === "evidence";
 
   return (
@@ -68,6 +70,38 @@ function ConsumerHeader({ setView, view }: { setView: (view: ConsumerView) => vo
       <p>{description}</p>
     </section>
   );
+}
+
+function getConsumerHeader(view: ConsumerView, content: ConsumerMobileContent | null) {
+  const featured = content?.gesp.featured_problem;
+  if (featured && view === "problem") {
+    return {
+      eyebrow: featured.subtitle,
+      title: featured.title,
+      description: `${featured.question_type} · ${featured.problem_type} · ${featured.domain}`
+    };
+  }
+  if (featured && view === "code") {
+    return {
+      eyebrow: "Read only",
+      title: "只读代码讲解",
+      description: `${featured.title} · ${featured.code ? "后端已返回 C++ 参考代码" : "后端暂未返回代码"}`
+    };
+  }
+  if (featured && view === "evidence") {
+    return {
+      eyebrow: "证据链",
+      title: `${featured.title} 来源`,
+      description: `${featured.source_links.length} 条后端来源记录，保留题目版权边界。`
+    };
+  }
+  if (content && view === "atcoder") {
+    return {
+      ...consumerHeaders.atcoder,
+      description: `后端 AtCoder catalog 当前返回 ${content.atcoder.total_count} 题，按难度和算法标签组织。`
+    };
+  }
+  return consumerHeaders[view];
 }
 
 function ConsumerBottomNav({ setView, view }: { setView: (view: ConsumerView) => void; view: ConsumerView }) {
