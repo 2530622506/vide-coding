@@ -17,6 +17,9 @@ import {
 } from "./pages/gesp/GespPages";
 import { ProblemIdePage } from "./pages/ProblemIdePage";
 
+const RETURN_CONTEXT_STORAGE_KEY = "practice-lab:return-context";
+const RETURN_CONTEXT_MAX_AGE = 30 * 60 * 1000;
+
 export default function App() {
   const [routePath, setRoutePath] = useState(() => window.location.pathname);
   const [pendingReturnContext, setPendingReturnContext] = useState<ProblemReturnContext | null>(null);
@@ -24,7 +27,7 @@ export default function App() {
   useEffect(() => {
     const syncRoute = (event: PopStateEvent) => {
       const nextPath = window.location.pathname;
-      const returnContext = readReturnContext(event.state);
+      const returnContext = readReturnContext(event.state) ?? readStoredReturnContext(nextPath);
       setRoutePath(nextPath);
       setPendingReturnContext(returnContext?.sourcePath === nextPath ? returnContext : null);
     };
@@ -36,6 +39,11 @@ export default function App() {
 
   const navigateTo: Navigate = (path, options = {}) => {
     setPendingReturnContext(null);
+    if (options.returnContext) {
+      storeReturnContext(options.returnContext);
+    } else {
+      clearStoredReturnContext();
+    }
     if (options.returnContext?.sourcePath === window.location.pathname) {
       window.history.replaceState(createHistoryState(options.returnContext), "", window.location.pathname);
     }
@@ -47,7 +55,7 @@ export default function App() {
   };
 
   function navigateBackToReturnContext(fallbackPath: string) {
-    const returnContext = readReturnContext(window.history.state);
+    const returnContext = readReturnContext(window.history.state) ?? readStoredReturnContext(window.location.pathname);
     if (returnContext?.sourcePath) {
       setPendingReturnContext(returnContext);
       window.history.pushState(createHistoryState(returnContext), "", returnContext.sourcePath);
@@ -75,12 +83,14 @@ export default function App() {
         target.scrollIntoView({ behavior: "smooth", block: "center" });
         target.classList.add("returnAnchorFlash");
         window.setTimeout(() => target.classList.remove("returnAnchorFlash"), 1400);
+        clearStoredReturnContext();
         setPendingReturnContext(null);
         return;
       }
       attempts += 1;
       if (attempts >= maxAttempts) {
         window.scrollTo({ top: pendingReturnContext.scrollY, behavior: "smooth" });
+        clearStoredReturnContext();
         setPendingReturnContext(null);
         return;
       }
@@ -94,10 +104,10 @@ export default function App() {
   }, [pendingReturnContext, routePath]);
 
   const openGespIde: OpenIde = (problemId, returnContext) => {
-    navigateTo(`/ide/${encodeURIComponent(problemId)}`, { returnContext: returnContext ?? readReturnContext(window.history.state) ?? undefined });
+    navigateTo(`/ide/${encodeURIComponent(problemId)}`, { returnContext: returnContext ?? readReturnContext(window.history.state) ?? readStoredReturnContext(window.location.pathname) ?? undefined });
   };
   const openAtCoderIde: OpenIde = (problemId, returnContext) => {
-    navigateTo(`/ide/atcoder/${encodeURIComponent(problemId)}`, { returnContext: returnContext ?? readReturnContext(window.history.state) ?? undefined });
+    navigateTo(`/ide/atcoder/${encodeURIComponent(problemId)}`, { returnContext: returnContext ?? readReturnContext(window.history.state) ?? readStoredReturnContext(window.location.pathname) ?? undefined });
   };
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -179,6 +189,87 @@ function readReturnContext(state: unknown): ProblemReturnContext | null {
 function findProblemAnchor(problemId: string) {
   return Array.from(document.querySelectorAll<HTMLElement>("[data-problem-anchor]"))
     .find((element) => element.dataset.problemAnchor === problemId) || null;
+}
+
+function storeReturnContext(returnContext: ProblemReturnContext) {
+  try {
+    window.sessionStorage.setItem(RETURN_CONTEXT_STORAGE_KEY, JSON.stringify({
+      createdAt: Date.now(),
+      returnContext
+    }));
+  } catch {
+    // Navigation still works through history.state when storage is unavailable.
+  }
+}
+
+function readStoredReturnContext(routePath: string): ProblemReturnContext | null {
+  try {
+    const rawValue = window.sessionStorage.getItem(RETURN_CONTEXT_STORAGE_KEY);
+    if (!rawValue) {
+      return null;
+    }
+    const parsed = JSON.parse(rawValue) as { createdAt?: unknown; returnContext?: unknown };
+    if (typeof parsed.createdAt !== "number" || Date.now() - parsed.createdAt > RETURN_CONTEXT_MAX_AGE) {
+      clearStoredReturnContext();
+      return null;
+    }
+    const returnContext = readReturnContext({ returnContext: parsed.returnContext });
+    if (!returnContext || !isReturnContextForRoute(returnContext, routePath)) {
+      return null;
+    }
+    return returnContext;
+  } catch {
+    clearStoredReturnContext();
+    return null;
+  }
+}
+
+function clearStoredReturnContext() {
+  try {
+    window.sessionStorage.removeItem(RETURN_CONTEXT_STORAGE_KEY);
+  } catch {
+    // Ignore storage cleanup failures.
+  }
+}
+
+function isReturnContextForRoute(returnContext: ProblemReturnContext, routePath: string) {
+  if (routePath === returnContext.sourcePath) {
+    return true;
+  }
+  const routeProblem = getProblemRoute(routePath);
+  return routeProblem?.source === returnContext.source && routeProblem.problemId === returnContext.problemId;
+}
+
+function getProblemRoute(routePath: string): { source: ProblemReturnContext["source"]; problemId: string } | null {
+  const atCoderProblemPrefix = "/atcoder/problems/";
+  const atCoderIdePrefix = "/ide/atcoder/";
+  if (routePath.startsWith(atCoderProblemPrefix)) {
+    return {
+      source: "atcoder",
+      problemId: decodeURIComponent(routePath.slice(atCoderProblemPrefix.length).split("/")[0] || "")
+    };
+  }
+  if (routePath.startsWith(atCoderIdePrefix)) {
+    return {
+      source: "atcoder",
+      problemId: decodeURIComponent(routePath.slice(atCoderIdePrefix.length).split("/")[0] || "")
+    };
+  }
+  const gespProblemPrefix = "/gesp/problems/";
+  if (routePath.startsWith(gespProblemPrefix)) {
+    return {
+      source: "gesp",
+      problemId: decodeURIComponent(routePath.slice(gespProblemPrefix.length).split("/")[0] || "")
+    };
+  }
+  const gespIdePrefix = "/ide/";
+  if (routePath.startsWith(gespIdePrefix)) {
+    return {
+      source: "gesp",
+      problemId: decodeURIComponent(routePath.slice(gespIdePrefix.length).split("/")[0] || "")
+    };
+  }
+  return null;
 }
 
 type RouteState =

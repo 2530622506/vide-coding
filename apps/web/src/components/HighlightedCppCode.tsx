@@ -33,7 +33,7 @@ export function HighlightedCppCode({ code }: { code: string }) {
   return (
     <div className="codeBlockFrame">
       <div className="codeToolbar">
-        <Button icon={copied ? <Check size={14} /> : <Copy size={14} />} onClick={copyCode} size="small" type="text">
+        <Button className="actionButton actionButton--copy" icon={copied ? <Check size={14} /> : <Copy size={14} />} onClick={copyCode} size="small" type="text">
           {copied ? "已复制" : "复制代码"}
         </Button>
       </div>

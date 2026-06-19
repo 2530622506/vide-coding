@@ -63,11 +63,11 @@ export function ProblemDetailPanel({ loading, problem, onClose, onOpenIde }: {
         </div>
         <Space size={6}>
           {problem.question_type === "programming" && onOpenIde ? (
-            <Button icon={<Code2 size={16} />} onClick={() => onOpenIde(problem.id)}>
+            <Button className="actionButton actionButton--ide" icon={<Code2 size={16} />} onClick={() => onOpenIde(problem.id)}>
               进入 IDE 模式
             </Button>
           ) : null}
-          <Button icon={<X size={16} />} onClick={onClose} title="关闭" type="text" />
+          <Button className="actionButton actionButton--close" icon={<X size={16} />} onClick={onClose} title="关闭" type="text" />
         </Space>
       </Flex>
 
@@ -130,7 +130,7 @@ export function ProblemDetailPanel({ loading, problem, onClose, onOpenIde }: {
           <Space className="assetList" direction="vertical" size={10}>
             {detail.visual_assets.assets.map((asset) => (
               <Card className="assetItem" key={asset.id} size="small">
-                <Button className="assetPreviewButton" onClick={() => setPreviewAsset(asset)} type="text">
+                <Button className="assetPreviewButton actionButton actionButton--detail" onClick={() => setPreviewAsset(asset)} type="text">
                   <Image alt={asset.alt_text} preview={false} src={asset.asset_url} />
                 </Button>
                 <Typography.Text type="secondary">{asset.alt_text}</Typography.Text>
@@ -174,7 +174,7 @@ export function ProblemDetailPanel({ loading, problem, onClose, onOpenIde }: {
         <Space className="sourceList" direction="vertical" size={8}>
           {sourceLinks.slice(0, 5).map((source) => (
             source.url || source.source_url ? (
-              <Button href={source.url || source.source_url || ""} icon={<ExternalLink size={14} />} key={source.url || source.source_url || source.title || "source"} rel="noreferrer" target="_blank" type="link">
+              <Button className="actionButton actionButton--source" href={source.url || source.source_url || ""} icon={<ExternalLink size={14} />} key={source.url || source.source_url || source.title || "source"} rel="noreferrer" target="_blank" type="link">
                 {source.title || source.role || source.source_kind || "source"}
               </Button>
             ) : null

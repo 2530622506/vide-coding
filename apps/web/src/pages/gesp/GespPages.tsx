@@ -16,7 +16,8 @@ import {
   Tag,
   Typography
 } from "antd";
-import { ProCard, ProTable, type ProColumns } from "@ant-design/pro-components";
+import type { ColumnsType } from "antd/es/table";
+import { ProCard } from "@ant-design/pro-components";
 import {
   ArrowRight,
   BookOpenCheck,
@@ -40,6 +41,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { filterLevelCatalogByQuery } from "../../catalogSearch";
 import { ProblemDetailPanel } from "../../components/ProblemDetailPanel";
 import { ProblemEditorModal } from "../../components/ProblemEditorModal";
+import { VirtualDataTable } from "../../components/VirtualDataTable";
 import { emptyEditorForm, formFromProblem, formToPayload } from "../../editor";
 import type { EditorMode, ProblemEditorForm } from "../../editor";
 import type { Navigate, OpenIde, ProblemReturnContext } from "../../navigation";
@@ -210,9 +212,9 @@ export function GespWorkbenchPage({ navigateTo, onOpenIde, returnContext }: { na
         description="按等级、算法范畴、题型和知识点组织练习查看，维护内容与来源证据在同一套工作流中闭环。"
         actions={(
           <>
-            <Button icon={<FileSearch size={16} />} onClick={() => navigateTo("/sources")}>来源证据</Button>
-            <Button icon={<Database size={16} />} onClick={() => navigateTo("/maintenance")}>题目维护</Button>
-            <Button icon={<ArrowRight size={16} />} onClick={() => navigateTo("/atcoder")} type="primary">AtCoder 题库</Button>
+            <Button className="actionButton actionButton--source" icon={<FileSearch size={16} />} onClick={() => navigateTo("/sources")}>来源证据</Button>
+            <Button className="actionButton actionButton--maintenance" icon={<Database size={16} />} onClick={() => navigateTo("/maintenance")}>题目维护</Button>
+            <Button className="actionButton actionButton--detail" icon={<ArrowRight size={16} />} onClick={() => navigateTo("/atcoder")} type="primary">AtCoder 题库</Button>
           </>
         )}
       />
@@ -378,9 +380,9 @@ export function GespProblemPracticePage({ problemId, navigateTo, onBack, onOpenI
         description="题面、样例、知识讲解、参考解和来源信息集中展示，编程题可直接进入 IDE 练习。"
         actions={(
           <>
-            <Button onClick={onBack}>返回工作台</Button>
+            <Button className="actionButton actionButton--back" onClick={onBack}>返回工作台</Button>
             {problem?.question_type === "programming" ? (
-              <Button icon={<Code2 size={16} />} onClick={() => onOpenIde(problem.id)} type="primary">进入 IDE</Button>
+              <Button className="actionButton actionButton--ide" icon={<Code2 size={16} />} onClick={() => onOpenIde(problem.id)} type="primary">进入 IDE</Button>
             ) : null}
           </>
         )}
@@ -416,7 +418,7 @@ export function KnowledgeCoveragePage({ navigateTo }: { navigateTo: Navigate }) 
     });
   }, [visibleCatalog]);
 
-  const columns: ProColumns<(typeof rows)[number]>[] = [
+  const columns: ColumnsType<(typeof rows)[number]> = [
     {
       title: "算法范畴",
       dataIndex: ["domain", "domain_label"],
@@ -445,7 +447,7 @@ export function KnowledgeCoveragePage({ navigateTo }: { navigateTo: Navigate }) 
         icon={<ShieldCheck size={18} />}
         title="知识覆盖"
         description="查看不同等级下算法范畴、题型与知识点的覆盖结构，辅助安排练习顺序。"
-        actions={<Button onClick={() => navigateTo("/")}>返回工作台</Button>}
+        actions={<Button className="actionButton actionButton--back" onClick={() => navigateTo("/")}>返回工作台</Button>}
       />
       <ControlBar
         levels={levels}
@@ -463,13 +465,11 @@ export function KnowledgeCoveragePage({ navigateTo }: { navigateTo: Navigate }) 
         <WorkbenchStat icon={<ShieldCheck size={18} />} label="知识点" value={visibleCatalog?.summary.knowledge_point_count ?? 0} />
       </section>
       <Card className="tableCard" loading={loading}>
-        <ProTable
+        <VirtualDataTable
           columns={columns}
           dataSource={rows}
-          options={false}
-          pagination={false}
           rowKey="key"
-          search={false}
+          xScroll={760}
         />
       </Card>
       <Card className="coverageMatrix" title="题型覆盖矩阵">
@@ -498,7 +498,7 @@ export function SourceEvidencePage({ navigateTo }: { navigateTo: Navigate }) {
     }
   }
 
-  const columns: ProColumns<FlatProblem>[] = [
+  const columns: ColumnsType<FlatProblem> = [
     {
       title: "题目",
       render: (_, row) => (
@@ -528,7 +528,7 @@ export function SourceEvidencePage({ navigateTo }: { navigateTo: Navigate }) {
       title: "操作",
       width: 130,
       render: (_, row) => (
-        <Button icon={<FileSearch size={14} />} onClick={() => openEvidence(row.problem.id)}>查看证据</Button>
+        <Button className="actionButton actionButton--source" icon={<FileSearch size={14} />} onClick={() => openEvidence(row.problem.id)}>查看证据</Button>
       )
     }
   ];
@@ -540,7 +540,7 @@ export function SourceEvidencePage({ navigateTo }: { navigateTo: Navigate }) {
         icon={<FileSearch size={18} />}
         title="来源证据"
         description="按题目查看题面、图片、样例与参考入口的来源状态，方便补齐训练材料。"
-        actions={<Button onClick={() => navigateTo("/maintenance")}>进入题目维护</Button>}
+        actions={<Button className="actionButton actionButton--maintenance" onClick={() => navigateTo("/maintenance")}>进入题目维护</Button>}
       />
       <ControlBar
         levels={levels}
@@ -552,13 +552,11 @@ export function SourceEvidencePage({ navigateTo }: { navigateTo: Navigate }) {
         onSearchChange={setSearchQuery}
       />
       <Card className="tableCard" loading={loading}>
-        <ProTable
+        <VirtualDataTable
           columns={columns}
           dataSource={flatProblems}
-          options={false}
-          pagination={{ pageSize: 12 }}
           rowKey="key"
-          search={false}
+          xScroll={840}
         />
       </Card>
       <Drawer
@@ -635,7 +633,7 @@ export function GespProblemMaintenancePage({ navigateTo }: { navigateTo: Navigat
     });
   }
 
-  const columns: ProColumns<FlatProblem>[] = [
+  const columns: ColumnsType<FlatProblem> = [
     {
       title: "题目",
       render: (_, row) => (
@@ -653,10 +651,10 @@ export function GespProblemMaintenancePage({ navigateTo }: { navigateTo: Navigat
       title: "操作",
       width: 230,
       render: (_, row) => (
-        <Space size={6}>
-          <Button icon={<ExternalLink size={14} />} onClick={() => navigateTo(`/gesp/problems/${encodeURIComponent(row.problem.id)}`)}>查看</Button>
-          <Button icon={<Pencil size={14} />} onClick={() => startEdit(row.problem.id)}>编辑</Button>
-          <Button danger icon={<Trash2 size={14} />} onClick={() => confirmDelete(row.problem)} />
+        <Space className="tableActionGroup" size={6}>
+          <Button className="actionButton actionButton--detail" icon={<ExternalLink size={14} />} onClick={() => navigateTo(`/gesp/problems/${encodeURIComponent(row.problem.id)}`)}>查看</Button>
+          <Button className="actionButton actionButton--edit" icon={<Pencil size={14} />} onClick={() => startEdit(row.problem.id)}>编辑</Button>
+          <Button className="actionButton actionButton--delete" danger icon={<Trash2 size={14} />} onClick={() => confirmDelete(row.problem)} />
         </Space>
       )
     }
@@ -671,8 +669,8 @@ export function GespProblemMaintenancePage({ navigateTo }: { navigateTo: Navigat
         description="维护 GESP 题目、题面、答案、讲解、图片、样例和来源链接，供练习查看页面直接使用。"
         actions={(
           <>
-            <Button icon={<FileSearch size={16} />} onClick={() => navigateTo("/sources")}>来源证据</Button>
-            <Button icon={<Plus size={16} />} onClick={startCreate} type="primary">新增题目</Button>
+            <Button className="actionButton actionButton--source" icon={<FileSearch size={16} />} onClick={() => navigateTo("/sources")}>来源证据</Button>
+            <Button className="actionButton actionButton--create" icon={<Plus size={16} />} onClick={startCreate} type="primary">新增题目</Button>
           </>
         )}
       />
@@ -686,13 +684,11 @@ export function GespProblemMaintenancePage({ navigateTo }: { navigateTo: Navigat
         onSearchChange={setSearchQuery}
       />
       <Card className="tableCard" loading={loading}>
-        <ProTable
+        <VirtualDataTable
           columns={columns}
           dataSource={flatProblems}
-          options={false}
-          pagination={{ pageSize: 10 }}
           rowKey="key"
-          search={false}
+          xScroll={980}
         />
       </Card>
       <ProblemEditorModal
@@ -842,7 +838,7 @@ function ControlBar({ levels, loading, onLevelChange, onRefresh, onSearchChange,
             value={searchQuery}
           />
         </Space>
-        <Button icon={<RefreshCw size={15} />} onClick={onRefresh}>刷新</Button>
+        <Button className="actionButton actionButton--refresh" icon={<RefreshCw size={15} />} onClick={onRefresh}>刷新</Button>
       </Flex>
     </Card>
   );
@@ -878,9 +874,9 @@ function ProblemPracticeCard({ isSelected, onOpenDetail, onOpenIde, onSelect, pr
           {problem.knowledge_point_tags.slice(0, 3).map((tag) => <Tag key={tag.value}>{tag.label}</Tag>)}
         </Flex>
         <Space className="problemPracticeActions" size={6}>
-          <Button size="small" onClick={(event) => { event.stopPropagation(); onOpenDetail(); }}>查看练习</Button>
+          <Button className="actionButton actionButton--detail" size="small" onClick={(event) => { event.stopPropagation(); onOpenDetail(); }}>查看练习</Button>
           {onOpenIde ? (
-            <Button icon={<Code2 size={13} />} size="small" onClick={(event) => { event.stopPropagation(); onOpenIde(); }}>IDE</Button>
+            <Button className="actionButton actionButton--ide" icon={<Code2 size={13} />} size="small" onClick={(event) => { event.stopPropagation(); onOpenIde(); }}>IDE</Button>
           ) : null}
         </Space>
       </Space>

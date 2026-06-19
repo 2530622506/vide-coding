@@ -190,7 +190,7 @@ export function ProblemIdePage({ problemId, source = "gesp", onBack }: { problem
   if (loadError || !problem) {
     return (
       <main className="ideShell">
-        <Button icon={<ArrowLeft size={16} />} onClick={onBack}>返回目录</Button>
+        <Button className="actionButton actionButton--back" icon={<ArrowLeft size={16} />} onClick={onBack}>返回目录</Button>
         <Empty className="ideEmpty" description={loadError || "题目不存在"} image={<FileText size={32} />} />
       </main>
     );
@@ -199,16 +199,16 @@ export function ProblemIdePage({ problemId, source = "gesp", onBack }: { problem
   return (
     <main className="ideShell">
       <header className="ideTopbar">
-        <Button className="ideBackButton" icon={<ArrowLeft size={16} />} onClick={onBack}>返回目录</Button>
+        <Button className="ideBackButton actionButton actionButton--back" icon={<ArrowLeft size={16} />} onClick={onBack}>返回目录</Button>
         <div className="ideTitleGroup">
           <Flex className="ideTitleActionRow" align="center" justify="space-between" gap={12}>
             <Typography.Text className="eyebrow"><Terminal size={15} /> C++17 在线 IDE</Typography.Text>
             <Space className="ideTopActions" size={8} wrap>
-              <Button icon={<RotateCcw size={16} />} onClick={resetReferenceCode}>重置为参考解</Button>
-              <Button disabled={sampleCases.length === 0 || batchRunning || running} loading={batchRunning} onClick={runAllSamples}>
+              <Button className="actionButton actionButton--reset" icon={<RotateCcw size={16} />} onClick={resetReferenceCode}>重置为参考解</Button>
+              <Button className="actionButton actionButton--run" disabled={sampleCases.length === 0 || batchRunning || running} loading={batchRunning} onClick={runAllSamples}>
                 运行全部样例
               </Button>
-              <Button icon={<Play size={16} />} loading={running} onClick={runCurrentInput} type="primary">
+              <Button className="actionButton actionButton--run" icon={<Play size={16} />} loading={running} onClick={runCurrentInput} type="primary">
                 运行
               </Button>
             </Space>
@@ -245,7 +245,7 @@ export function ProblemIdePage({ problemId, source = "gesp", onBack }: { problem
                 dataSource={sampleCases}
                 renderItem={(sample, index) => (
                   <List.Item>
-                    <Button className="ideSampleButton" onClick={() => selectSample(index)} type={selectedSampleIndex === index ? "primary" : "default"}>
+                    <Button className="ideSampleButton actionButton actionButton--sample" onClick={() => selectSample(index)} type={selectedSampleIndex === index ? "primary" : "default"}>
                       样例 {index + 1}
                     </Button>
                     <div className="ideSamplePreview">
@@ -292,7 +292,7 @@ export function ProblemIdePage({ problemId, source = "gesp", onBack }: { problem
                 <Typography.Text type="secondary">
                   {selectedSampleIndex === null ? "自定义输入" : `样例 ${selectedSampleIndex + 1}`}
                 </Typography.Text>
-                <Button size="small" onClick={() => setSelectedSampleIndex(null)}>改为自定义</Button>
+                <Button className="actionButton actionButton--custom" size="small" onClick={() => setSelectedSampleIndex(null)}>改为自定义</Button>
               </Flex>
               <Input.TextArea
                 className="ideStdin"

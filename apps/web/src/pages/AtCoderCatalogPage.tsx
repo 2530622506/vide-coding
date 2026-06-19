@@ -14,7 +14,6 @@ import {
   Segmented,
   Space,
   Statistic,
-  Table,
   Tag,
   Typography
 } from "antd";
@@ -40,6 +39,8 @@ import mathjax3 from "markdown-it-mathjax3";
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { HighlightedCppCode } from "../components/HighlightedCppCode";
+import { VirtualDataTable } from "../components/VirtualDataTable";
+import { VirtualGrid } from "../components/VirtualGrid";
 import type { Navigate, OpenIde, ProblemReturnContext } from "../navigation";
 import {
   createAtCoderProblem,
@@ -53,6 +54,12 @@ import type { AtCoderCatalog, AtCoderDomainGroup, AtCoderLabel, AtCoderProblem, 
 type FlatAtCoderProblem = {
   key: string;
   domain: AtCoderDomainGroup;
+  problemType: AtCoderProblemTypeGroup;
+  problem: AtCoderProblemSummary;
+};
+
+type AtCoderPracticeProblem = {
+  key: string;
   problemType: AtCoderProblemTypeGroup;
   problem: AtCoderProblemSummary;
 };
@@ -82,10 +89,31 @@ const difficultyOptions = [
   { value: "5", label: "提高+/省选-" }
 ];
 
+const ATCODER_VIRTUAL_THRESHOLD = 36;
+const ATCODER_VIRTUAL_CARD_MIN_WIDTH = 216;
+const ATCODER_VIRTUAL_CARD_GAP = 10;
+const ATCODER_VIRTUAL_ROW_HEIGHT = 246;
+const ATCODER_VIRTUAL_MAX_HEIGHT = 700;
+const ATCODER_VIRTUAL_OVERSCAN_ROWS = 8;
+
 export function AtCoderCatalogPage({ navigateTo, onOpenIde, returnContext }: { navigateTo: Navigate; onOpenIde: OpenIde; returnContext?: ProblemReturnContext | null }) {
   const catalogState = useAtCoderCatalog(returnContext?.atcoder);
-  const { activeDomain, activeDomainId, catalog, difficulty, error, flatProblems, loading, searchQuery, setActiveDomainId, setDifficulty, setSearchQuery } = catalogState;
+  const { activeDomain, activeDomainId, catalog, difficulty, domains, error, flatProblems, loading, searchQuery, setActiveDomainId, setDifficulty, setSearchQuery } = catalogState;
   const [selectedProblemId, setSelectedProblemId] = useState<string | null>(returnContext?.problemId ?? null);
+
+  // 题型分组只作为卡片标签展示，右侧列表统一展平成一个虚拟网格，避免大量小分组同时渲染导致卡顿。
+  const activePracticeProblems = useMemo<AtCoderPracticeProblem[]>(() => {
+    if (!activeDomain) {
+      return [];
+    }
+    return activeDomain.problem_types.flatMap((problemType) => (
+      problemType.problems.map((problem) => ({
+        key: problem.id,
+        problem,
+        problemType
+      }))
+    ));
+  }, [activeDomain]);
 
   useEffect(() => {
     if (returnContext?.problemId) {
@@ -126,8 +154,8 @@ export function AtCoderCatalogPage({ navigateTo, onOpenIde, returnContext }: { n
         description="AtCoder 题库与 GESP 真题的数据结构不同，单独按难度、算法范畴、题型和样例组织。"
         actions={(
           <>
-            <Button icon={<Database size={16} />} onClick={() => navigateTo("/atcoder/maintenance")}>题库维护</Button>
-            <Button onClick={() => navigateTo("/")}>返回 GESP</Button>
+            <Button className="actionButton actionButton--maintenance" icon={<Database size={16} />} onClick={() => navigateTo("/atcoder/maintenance")}>题库维护</Button>
+            <Button className="actionButton actionButton--back" onClick={() => navigateTo("/")}>返回 GESP</Button>
           </>
         )}
       />
@@ -142,27 +170,31 @@ export function AtCoderCatalogPage({ navigateTo, onOpenIde, returnContext }: { n
       {error ? <Alert className="pageAlert" message={error} showIcon type="warning" /> : null}
 
       <section className="statGrid">
-        <AtCoderStat icon={<Trophy size={18} />} label="题目" value={catalog?.summary.problem_count ?? 0} />
-        <AtCoderStat icon={<ShieldCheck size={18} />} label="算法范畴" value={catalog?.summary.domain_count ?? 0} />
+        <AtCoderStat icon={<Trophy size={18} />} label="题目" value={flatProblems.length} />
+        <AtCoderStat icon={<ShieldCheck size={18} />} label="算法范畴" value={domains.length} />
         <AtCoderStat icon={<FileText size={18} />} label="中文题面" value={catalog?.summary.source_extracted_statement_count ?? 0} />
         <AtCoderStat icon={<Code2 size={18} />} label="本地参考解" value={catalog?.summary.local_ai_answer_count ?? 0} />
       </section>
 
       <section className="atcoderWorkspace">
         <Card className="domainRail" loading={loading} title="算法范畴">
-          <Space direction="vertical" size={8}>
-            {(catalog?.domains || []).map((domain) => (
-              <button
-                className={activeDomain?.domain_id === domain.domain_id ? "domainRailItem active" : "domainRailItem"}
-                key={domain.domain_id}
-                onClick={() => setActiveDomainId(domain.domain_id)}
-                type="button"
-              >
-                <span>{domain.domain_label}</span>
-                <strong>{domain.problem_count}</strong>
-              </button>
-            ))}
-          </Space>
+          {domains.length ? (
+            <Space direction="vertical" size={8}>
+              {domains.map((domain) => (
+                <button
+                  className={activeDomain?.domain_id === domain.domain_id ? "domainRailItem active" : "domainRailItem"}
+                  key={domain.domain_id}
+                  onClick={() => setActiveDomainId(domain.domain_id)}
+                  type="button"
+                >
+                  <span>{domain.domain_label}</span>
+                  <strong>{domain.problem_count}</strong>
+                </button>
+              ))}
+            </Space>
+          ) : (
+            <Empty description="没有匹配的算法范畴" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          )}
         </Card>
 
         <Card className="practiceListPane" loading={loading}>
@@ -171,36 +203,15 @@ export function AtCoderCatalogPage({ navigateTo, onOpenIde, returnContext }: { n
               <Typography.Text className="sectionEyebrow">题目列表</Typography.Text>
               <Typography.Title level={2}>{activeDomain?.domain_label || "AtCoder Problems"}</Typography.Title>
             </div>
-            <Tag color="blue">{flatProblems.length} 题</Tag>
+            <Tag color="blue">{activeDomain?.problem_count ?? 0} 题</Tag>
           </Flex>
           {activeDomain ? (
-            <Space className="typeColumn" direction="vertical" size={14}>
-              {activeDomain.problem_types.map((type) => (
-                <Card className="typePracticeCard" key={type.problem_type_id} size="small">
-                  <Flex align="flex-start" justify="space-between" gap={12}>
-                    <div>
-                      <Typography.Text className="sectionEyebrow">{type.problem_type_id}</Typography.Text>
-                      <Typography.Title level={3}>{type.problem_type_label}</Typography.Title>
-                    </div>
-                    <Tag color="blue">{type.problem_count} 题</Tag>
-                  </Flex>
-                  <div className="problemCardGrid">
-                    {type.problems
-                      .filter((problem) => matchAtCoderProblem(problem, searchQuery, difficulty))
-                      .slice(0, 9)
-                      .map((problem) => (
-                        <AtCoderProblemCard
-                          isSelected={selectedProblemId === problem.id}
-                          key={problem.id}
-                          onOpenDetail={() => openDetailPage(problem.id)}
-                          onOpenIde={() => openIde(problem.id)}
-                          problem={problem}
-                        />
-                      ))}
-                  </div>
-                </Card>
-              ))}
-            </Space>
+            <AtCoderProblemGrid
+              onOpenDetail={openDetailPage}
+              onOpenIde={openIde}
+              problems={activePracticeProblems}
+              selectedProblemId={selectedProblemId}
+            />
           ) : (
             <Empty description={searchQuery ? "没有匹配的题目" : "暂无题目"} image={Empty.PRESENTED_IMAGE_SIMPLE} />
           )}
@@ -233,8 +244,8 @@ export function AtCoderProblemDetailPage({ navigateTo, onBack, onOpenIde, proble
         description="题面 sections、样例、算法标签、参考思路和 C++17 参考解按 AtCoder 数据结构单独展示。"
         actions={(
           <>
-            <Button onClick={onBack}>返回题库</Button>
-            <Button icon={<Code2 size={16} />} onClick={() => onOpenIde(problemId)} type="primary">进入 IDE</Button>
+            <Button className="actionButton actionButton--back" onClick={onBack}>返回题库</Button>
+            <Button className="actionButton actionButton--ide" icon={<Code2 size={16} />} onClick={() => onOpenIde(problemId)} type="primary">进入 IDE</Button>
           </>
         )}
       />
@@ -266,8 +277,8 @@ export function AtCoderProblemDetailPage({ navigateTo, onBack, onOpenIde, proble
             <aside className="atcoderDetailAside">
               <Card title="练习操作">
                 <Space direction="vertical" size={10}>
-                  <Button block icon={<Play size={16} />} onClick={() => onOpenIde(problem.id)} type="primary">进入 IDE 练习</Button>
-                  <Button block href={problem.source_url} icon={<ExternalLink size={16} />} rel="noreferrer" target="_blank">打开来源</Button>
+                  <Button block className="actionButton actionButton--ide" icon={<Play size={16} />} onClick={() => onOpenIde(problem.id)} type="primary">进入 IDE 练习</Button>
+                  <Button block className="actionButton actionButton--source" href={problem.source_url} icon={<ExternalLink size={16} />} rel="noreferrer" target="_blank">打开来源</Button>
                 </Space>
               </Card>
               <Card title="标签">
@@ -398,13 +409,13 @@ export function AtCoderMaintenancePage({ navigateTo, onOpenIde }: { navigateTo: 
     },
     {
       title: "操作",
-      width: 280,
+      width: 420,
       render: (_, row) => (
-        <Space size={6}>
-          <Button icon={<ExternalLink size={14} />} onClick={() => navigateTo(`/atcoder/problems/${encodeURIComponent(row.problem.id)}`)}>详情</Button>
-          <Button icon={<Code2 size={14} />} onClick={() => onOpenIde(row.problem.id)}>IDE</Button>
-          <Button icon={<Pencil size={14} />} onClick={() => startEdit(row.problem.id)}>编辑</Button>
-          <Button danger icon={<Trash2 size={14} />} onClick={() => confirmDelete(row.problem)} />
+        <Space className="tableActionGroup" size={8}>
+          <Button className="actionButton actionButton--detail" icon={<ExternalLink size={14} />} onClick={() => navigateTo(`/atcoder/problems/${encodeURIComponent(row.problem.id)}`)} size="small">详情</Button>
+          <Button className="actionButton actionButton--ide" icon={<Code2 size={14} />} onClick={() => onOpenIde(row.problem.id)} size="small">IDE</Button>
+          <Button className="actionButton actionButton--edit" icon={<Pencil size={14} />} onClick={() => startEdit(row.problem.id)} size="small">编辑</Button>
+          <Button aria-label="删除题目" className="actionButton actionButton--delete" danger icon={<Trash2 size={14} />} onClick={() => confirmDelete(row.problem)} size="small" title="删除题目" />
         </Space>
       )
     }
@@ -419,8 +430,8 @@ export function AtCoderMaintenancePage({ navigateTo, onOpenIde }: { navigateTo: 
         description="维护 AtCoder 独立题库字段，包括难度、标签、题面 sections、样例和 C++17 参考解。"
         actions={(
           <>
-            <Button onClick={() => navigateTo("/atcoder")}>返回题库</Button>
-            <Button icon={<Plus size={16} />} onClick={startCreate} type="primary">新增题目</Button>
+            <Button className="actionButton actionButton--back" onClick={() => navigateTo("/atcoder")}>返回题库</Button>
+            <Button className="actionButton actionButton--create" icon={<Plus size={16} />} onClick={startCreate} type="primary">新增题目</Button>
           </>
         )}
       />
@@ -433,7 +444,7 @@ export function AtCoderMaintenancePage({ navigateTo, onOpenIde }: { navigateTo: 
         onSearchChange={setSearchQuery}
       />
       <Card className="tableCard" loading={loading}>
-        <Table columns={columns} dataSource={flatProblems} pagination={{ pageSize: 10 }} rowKey="key" />
+        <VirtualDataTable columns={columns} dataSource={flatProblems} rowKey="key" xScroll={1240} />
       </Card>
       <AtCoderEditorModal
         form={form}
@@ -459,15 +470,17 @@ function useAtCoderCatalog(initialState?: ProblemReturnContext["atcoder"]) {
     void loadCatalog();
   }, []);
 
+  const filteredDomains = useMemo(() => filterAtCoderDomains(catalog, searchQuery, difficulty), [catalog, difficulty, searchQuery]);
+
   useEffect(() => {
-    if (!catalog?.domains.length) {
+    if (!filteredDomains.length) {
       setActiveDomainId(null);
       return;
     }
-    if (!catalog.domains.some((domain) => domain.domain_id === activeDomainId)) {
-      setActiveDomainId(catalog.domains[0].domain_id);
+    if (!filteredDomains.some((domain) => domain.domain_id === activeDomainId)) {
+      setActiveDomainId(filteredDomains[0].domain_id);
     }
-  }, [activeDomainId, catalog]);
+  }, [activeDomainId, filteredDomains]);
 
   async function loadCatalog() {
     setLoading(true);
@@ -490,23 +503,20 @@ function useAtCoderCatalog(initialState?: ProblemReturnContext["atcoder"]) {
   }
 
   const flatProblems = useMemo(() => {
-    if (!catalog) {
-      return [];
-    }
-    return catalog.domains.flatMap((domain) => (
+    return filteredDomains.flatMap((domain) => (
       domain.problem_types.flatMap((problemType) => (
         problemType.problems
-          .filter((problem) => matchAtCoderProblem(problem, searchQuery, difficulty))
           .map((problem) => ({ key: problem.id, domain, problemType, problem }))
       ))
     ));
-  }, [catalog, difficulty, searchQuery]);
+  }, [filteredDomains]);
 
   return {
-    activeDomain: catalog?.domains.find((domain) => domain.domain_id === activeDomainId) || catalog?.domains[0] || null,
+    activeDomain: filteredDomains.find((domain) => domain.domain_id === activeDomainId) || filteredDomains[0] || null,
     activeDomainId,
     catalog,
     difficulty,
+    domains: filteredDomains,
     error,
     flatProblems,
     loading,
@@ -516,6 +526,32 @@ function useAtCoderCatalog(initialState?: ProblemReturnContext["atcoder"]) {
     setDifficulty,
     setSearchQuery
   };
+}
+
+function filterAtCoderDomains(catalog: AtCoderCatalog | null, query: string, difficulty: string): AtCoderDomainGroup[] {
+  if (!catalog) {
+    return [];
+  }
+  return catalog.domains
+    .map((domain) => {
+      const problemTypes = domain.problem_types
+        .map((problemType) => {
+          const problems = problemType.problems.filter((problem) => matchAtCoderProblem(problem, query, difficulty));
+          return {
+            ...problemType,
+            problem_count: problems.length,
+            problems
+          };
+        })
+        .filter((problemType) => problemType.problems.length > 0);
+      const problemCount = problemTypes.reduce((sum, problemType) => sum + problemType.problem_count, 0);
+      return {
+        ...domain,
+        problem_count: problemCount,
+        problem_types: problemTypes
+      };
+    })
+    .filter((domain) => domain.problem_count > 0);
 }
 
 function AtCoderHeading({ actions, description, eyebrow, icon, title }: {
@@ -565,7 +601,7 @@ function AtCoderControlBar({ difficulty, loading, onDifficultyChange, onRefresh,
             value={searchQuery}
           />
         </Space>
-        <Button icon={<RefreshCw size={15} />} onClick={onRefresh}>刷新</Button>
+        <Button className="actionButton actionButton--refresh" icon={<RefreshCw size={15} />} onClick={onRefresh}>刷新</Button>
       </Flex>
     </Card>
   );
@@ -582,30 +618,63 @@ function AtCoderStat({ icon, label, value }: { icon: ReactNode; label: string; v
   );
 }
 
-function AtCoderProblemCard({ isSelected, onOpenDetail, onOpenIde, problem }: {
+function AtCoderProblemCard({ isSelected, onOpenDetail, onOpenIde, problem, problemTypeLabel }: {
   isSelected: boolean;
   onOpenDetail: () => void;
   onOpenIde: () => void;
   problem: AtCoderProblemSummary;
+  problemTypeLabel?: string;
 }) {
   return (
     <Card className={isSelected ? "problemPracticeCard active" : "problemPracticeCard"} data-problem-anchor={problem.id} hoverable onClick={onOpenDetail} size="small">
-      <Space direction="vertical" size={8}>
+      <Space className="problemPracticeContent" direction="vertical" size={8}>
         <Flex align="center" justify="space-between" gap={8}>
           <Tag color="purple">{problem.difficulty_label}</Tag>
           <Tag>{formatPercent(problem.acceptance_rate)}</Tag>
         </Flex>
         <Typography.Text className="problemTitle" strong>{problem.title_zh || problem.title}</Typography.Text>
-        <Typography.Text type="secondary">{problem.pid} / {problem.title}</Typography.Text>
+        <Typography.Text className="problemMetaText" type="secondary">{problem.pid} / {problem.title}</Typography.Text>
         <Flex className="tagWrap" gap={6} wrap="wrap">
-          {problem.knowledge_points.slice(0, 3).map((tag) => <Tag key={tag.id}>{tag.label}</Tag>)}
+          {problemTypeLabel ? <Tag color="blue">{problemTypeLabel}</Tag> : null}
+          {problem.knowledge_points.slice(0, 2).map((tag) => <Tag key={tag.id}>{tag.label}</Tag>)}
         </Flex>
-        <Space size={6}>
-          <Button size="small" onClick={(event) => { event.stopPropagation(); onOpenDetail(); }}>详情</Button>
-          <Button icon={<Code2 size={13} />} size="small" onClick={(event) => { event.stopPropagation(); onOpenIde(); }}>IDE</Button>
+        <Space className="problemPracticeActions" size={6}>
+          <Button className="actionButton actionButton--detail" icon={<ExternalLink size={13} />} size="small" onClick={(event) => { event.stopPropagation(); onOpenDetail(); }}>查看详情</Button>
+          <Button className="actionButton actionButton--ide" icon={<Code2 size={13} />} size="small" onClick={(event) => { event.stopPropagation(); onOpenIde(); }}>进入 IDE</Button>
         </Space>
       </Space>
     </Card>
+  );
+}
+
+function AtCoderProblemGrid({ onOpenDetail, onOpenIde, problems, selectedProblemId }: {
+  onOpenDetail: (problemId: string) => void;
+  onOpenIde: (problemId: string) => void;
+  problems: AtCoderPracticeProblem[];
+  selectedProblemId: string | null;
+}) {
+  return (
+    <VirtualGrid
+      className="problemCardGridVirtual"
+      gap={ATCODER_VIRTUAL_CARD_GAP}
+      getKey={(item) => item.key}
+      itemHeight={ATCODER_VIRTUAL_ROW_HEIGHT}
+      items={problems}
+      maxHeight={ATCODER_VIRTUAL_MAX_HEIGHT}
+      minItemWidth={ATCODER_VIRTUAL_CARD_MIN_WIDTH}
+      overscanRows={ATCODER_VIRTUAL_OVERSCAN_ROWS}
+      renderItem={(item) => (
+        <AtCoderProblemCard
+          isSelected={selectedProblemId === item.problem.id}
+          onOpenDetail={() => onOpenDetail(item.problem.id)}
+          onOpenIde={() => onOpenIde(item.problem.id)}
+          problem={item.problem}
+          problemTypeLabel={item.problemType.problem_type_label}
+        />
+      )}
+      selectedKey={selectedProblemId}
+      threshold={ATCODER_VIRTUAL_THRESHOLD}
+    />
   );
 }
 
@@ -630,8 +699,8 @@ function AtCoderEditorModal({ form, onCancel, onChange, onSave, open, saving }: 
     <Modal
       destroyOnHidden
       footer={[
-        <Button key="cancel" onClick={onCancel}>取消</Button>,
-        <Button key="save" disabled={!form.pid.trim()} loading={saving} onClick={onSave} type="primary">保存</Button>
+        <Button className="actionButton actionButton--back" key="cancel" onClick={onCancel}>取消</Button>,
+        <Button className="actionButton actionButton--save" key="save" disabled={!form.pid.trim()} loading={saving} onClick={onSave} type="primary">保存</Button>
       ]}
       onCancel={onCancel}
       open={open}

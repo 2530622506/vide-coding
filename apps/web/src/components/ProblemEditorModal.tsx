@@ -58,8 +58,8 @@ export function ProblemEditorModal({ form, mode, onCancel, onChange, onSave, sav
       closeIcon={<X size={16} />}
       destroyOnHidden
       footer={[
-        <Button key="cancel" onClick={onCancel}>取消</Button>,
-        <Button key="save" disabled={!form.title.trim()} icon={<Save size={16} />} loading={saving} onClick={onSave} type="primary">
+        <Button className="actionButton actionButton--back" key="cancel" onClick={onCancel}>取消</Button>,
+        <Button className="actionButton actionButton--save" key="save" disabled={!form.title.trim()} icon={<Save size={16} />} loading={saving} onClick={onSave} type="primary">
           保存
         </Button>
       ]}
@@ -120,7 +120,7 @@ export function ProblemEditorModal({ form, mode, onCancel, onChange, onSave, sav
         <Form.Item label="图片">
           <Space className="editorListBlock" orientation="vertical" size={10}>
             <Upload {...imageUploadProps}>
-              <Button icon={<UploadIcon size={16} />}>上传图片</Button>
+              <Button className="actionButton actionButton--upload" icon={<UploadIcon size={16} />}>上传图片</Button>
             </Upload>
             {visualAssets.length ? (
               visualAssets.map((asset, index) => (
@@ -129,7 +129,7 @@ export function ProblemEditorModal({ form, mode, onCancel, onChange, onSave, sav
                   key={`${asset.asset_url}_${index}`}
                   size="small"
                   title={`图片 ${index + 1}`}
-                  extra={<Button aria-label="删除图片" icon={<Trash2 size={14} />} onClick={() => removeVisualAsset(index)} size="small" type="text" />}
+                  extra={<Button aria-label="删除图片" className="actionButton actionButton--delete" icon={<Trash2 size={14} />} onClick={() => removeVisualAsset(index)} size="small" type="text" />}
                 >
                   <Flex className="editorImageRow" gap={12} wrap="wrap">
                     <Image alt={asset.alt_text || "题目图片"} className="editorImagePreview" src={asset.asset_url} />

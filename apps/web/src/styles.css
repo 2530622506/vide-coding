@@ -367,6 +367,221 @@
   margin-top: 12px;
 }
 
+.virtualGridPlain {
+  display: grid;
+  gap: var(--virtual-grid-gap, 10px);
+  grid-template-columns: repeat(auto-fit, minmax(var(--virtual-grid-min, 184px), 1fr));
+  margin-top: 12px;
+}
+
+.virtualGridViewport {
+  margin-top: 12px;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.virtualGridInner {
+  min-width: 0;
+  position: relative;
+}
+
+.virtualGridWindow {
+  display: grid;
+  gap: var(--virtual-grid-gap, 10px);
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  will-change: transform;
+}
+
+.virtualGridItem {
+  min-width: 0;
+}
+
+.virtualGridWindow .problemPracticeCard.ant-card {
+  height: var(--virtual-grid-item-height, 168px);
+}
+
+.virtualDataTable .ant-table-body {
+  overscroll-behavior: contain;
+}
+
+.virtualDataTable .ant-table-cell {
+  vertical-align: top;
+}
+
+.actionButton.ant-btn {
+  background: var(--button-bg, #2563eb) !important;
+  border-color: var(--button-border, #2563eb) !important;
+  color: var(--button-color, #fff) !important;
+  font-weight: 650;
+  box-shadow: 0 8px 18px rgb(15 23 42 / 12%);
+}
+
+.actionButton.ant-btn:not(:disabled):hover,
+.actionButton.ant-btn:not(:disabled):focus-visible {
+  background: var(--button-hover-bg, #1d4ed8) !important;
+  border-color: var(--button-hover-border, #1d4ed8) !important;
+  color: var(--button-hover-color, #fff) !important;
+}
+
+.actionButton.ant-btn-primary {
+  background: var(--button-bg, #2563eb) !important;
+  border-color: var(--button-border, #2563eb) !important;
+  color: var(--button-color, #fff) !important;
+}
+
+.actionButton.ant-btn-primary:not(:disabled):hover,
+.actionButton.ant-btn-primary:not(:disabled):focus-visible {
+  background: var(--button-hover-bg, #1d4ed8) !important;
+  border-color: var(--button-hover-border, #1d4ed8) !important;
+  color: var(--button-hover-color, #fff) !important;
+}
+
+.actionButton.ant-btn-link,
+.actionButton.ant-btn-text {
+  box-shadow: none;
+}
+
+.actionButton.ant-btn:disabled,
+.actionButton.ant-btn[disabled] {
+  background: #cbd5e1 !important;
+  border-color: #cbd5e1 !important;
+  color: #64748b !important;
+  box-shadow: none;
+}
+
+/* 语义按钮色板：同一种操作始终使用同一种色相，降低 B 端高频操作识别成本。 */
+.actionButton--back {
+  --button-bg: #475569;
+  --button-border: #475569;
+  --button-hover-bg: #334155;
+  --button-hover-border: #334155;
+}
+
+.actionButton--detail {
+  --button-bg: #2563eb;
+  --button-border: #2563eb;
+  --button-hover-bg: #1d4ed8;
+  --button-hover-border: #1d4ed8;
+}
+
+.actionButton--ide {
+  --button-bg: #7c3aed;
+  --button-border: #7c3aed;
+  --button-hover-bg: #6d28d9;
+  --button-hover-border: #6d28d9;
+}
+
+.actionButton--source {
+  --button-bg: #0891b2;
+  --button-border: #0891b2;
+  --button-hover-bg: #0e7490;
+  --button-hover-border: #0e7490;
+}
+
+.actionButton--maintenance {
+  --button-bg: #ca8a04;
+  --button-border: #ca8a04;
+  --button-hover-bg: #a16207;
+  --button-hover-border: #a16207;
+}
+
+.actionButton--edit {
+  --button-bg: #f97316;
+  --button-border: #f97316;
+  --button-hover-bg: #ea580c;
+  --button-hover-border: #ea580c;
+}
+
+.actionButton--create {
+  --button-bg: #059669;
+  --button-border: #059669;
+  --button-hover-bg: #047857;
+  --button-hover-border: #047857;
+}
+
+.actionButton--save {
+  --button-bg: #0d9488;
+  --button-border: #0d9488;
+  --button-hover-bg: #0f766e;
+  --button-hover-border: #0f766e;
+}
+
+.actionButton--refresh {
+  --button-bg: #65a30d;
+  --button-border: #65a30d;
+  --button-hover-bg: #4d7c0f;
+  --button-hover-border: #4d7c0f;
+}
+
+.actionButton--run {
+  --button-bg: #16a34a;
+  --button-border: #16a34a;
+  --button-hover-bg: #15803d;
+  --button-hover-border: #15803d;
+}
+
+.actionButton--reset {
+  --button-bg: #ea580c;
+  --button-border: #ea580c;
+  --button-hover-bg: #c2410c;
+  --button-hover-border: #c2410c;
+}
+
+.actionButton--delete {
+  --button-bg: #e11d48;
+  --button-border: #e11d48;
+  --button-hover-bg: #be123c;
+  --button-hover-border: #be123c;
+}
+
+.actionButton--copy {
+  --button-bg: #4f46e5;
+  --button-border: #4f46e5;
+  --button-hover-bg: #4338ca;
+  --button-hover-border: #4338ca;
+}
+
+.actionButton--upload {
+  --button-bg: #14b8a6;
+  --button-border: #14b8a6;
+  --button-hover-bg: #0d9488;
+  --button-hover-border: #0d9488;
+}
+
+.actionButton--sample {
+  --button-bg: #9333ea;
+  --button-border: #9333ea;
+  --button-hover-bg: #7e22ce;
+  --button-hover-border: #7e22ce;
+}
+
+.actionButton--custom {
+  --button-bg: #db2777;
+  --button-border: #db2777;
+  --button-hover-bg: #be185d;
+  --button-hover-border: #be185d;
+}
+
+.actionButton--close {
+  --button-bg: #64748b;
+  --button-border: #64748b;
+  --button-hover-bg: #dc2626;
+  --button-hover-border: #dc2626;
+}
+
+.tableActionGroup {
+  white-space: nowrap;
+}
+
+.tableActionGroup .ant-space-item {
+  flex: 0 0 auto;
+}
+
 .problemPracticeCard.ant-card {
   background: #fff;
   border-color: #dfe7ea;
@@ -401,6 +616,16 @@
   height: 100%;
 }
 
+.problemPracticeContent.ant-space {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.problemPracticeContent > .ant-space-item:last-child {
+  margin-top: auto;
+}
+
 .problemTitle {
   color: #1d2b37;
   display: -webkit-box;
@@ -422,16 +647,28 @@
   -webkit-line-clamp: 2;
 }
 
+.problemMetaText {
+  display: -webkit-box;
+  line-height: 1.36;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 .problemPracticeActions {
   display: grid;
   gap: 6px;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) minmax(82px, auto);
   margin-top: auto;
   width: 100%;
 }
 
 .problemPracticeActions .ant-btn {
   min-width: 0;
+}
+
+.problemPracticeActions .ant-btn:first-child {
+  width: 100%;
 }
 
 .atcoderDifficultySegmented.ant-segmented {

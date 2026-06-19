@@ -14,7 +14,7 @@ export function ImagePreviewOverlay({ asset, onClose }: { asset: PreviewAsset | 
     <Modal
       centered
       footer={asset?.source_url ? (
-        <Button href={asset.source_url} icon={<ExternalLink size={14} />} rel="noreferrer" target="_blank" type="link">
+        <Button className="actionButton actionButton--source" href={asset.source_url} icon={<ExternalLink size={14} />} rel="noreferrer" target="_blank" type="link">
           查看来源
         </Button>
       ) : null}
