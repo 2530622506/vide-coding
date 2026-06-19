@@ -50,6 +50,8 @@ export type ConsumerProblem = {
   problem_type: string;
   knowledge_points: string[];
   statement: string;
+  statement_sections: Array<{ id: string; title: string; markdown: string }>;
+  sample_cases: Array<{ input: string; output: string }>;
   answer_status: string;
   confidence: number | null;
   code: string | null;

@@ -50,6 +50,8 @@ type MobileProblem = {
   problem_type: string;
   knowledge_points: string[];
   statement: string;
+  statement_sections: Array<{ id: string; title: string; markdown: string }>;
+  sample_cases: Array<{ input: string; output: string }>;
   answer_status: string;
   confidence: number | null;
   code: string | null;
@@ -645,7 +647,17 @@ export class ConsumerMobileService {
     const domain = problem.resolved_algorithm_domains[0]?.label || "未分类";
     const problemType = problem.resolved_problem_type_tags[0]?.label || "待抽取题型";
     const knowledgePoints = problem.resolved_knowledge_point_tags.map((tag) => tag.label);
-    const statement = problem.detail?.statement.stem || problem.answer_guidance?.understanding_example.summary || "后端暂未收录完整题面，仅展示分类与来源信息。";
+    const statementSections = (problem.detail?.statement.sections || [])
+      .filter((section) => section.markdown.trim())
+      .map((section) => ({
+        id: section.id,
+        title: section.title || "题目描述",
+        markdown: section.markdown
+      }));
+    const statement = problem.detail?.statement.stem
+      || statementSections[0]?.markdown
+      || problem.answer_guidance?.understanding_example.summary
+      || "后端暂未收录完整题面，仅展示分类与来源信息。";
     const sourceLinks = this.dedupeSourceLinks([
       ...(problem.detail?.source_links || []),
       ...(problem.answer_guidance?.reference_links || [])
@@ -661,6 +673,15 @@ export class ConsumerMobileService {
       problem_type: problemType,
       knowledge_points: knowledgePoints,
       statement,
+      statement_sections: statementSections.length ? statementSections : [{
+        id: "statement",
+        title: "题目描述",
+        markdown: statement
+      }],
+      sample_cases: (problem.detail?.sample_cases.cases || []).map((sample) => ({
+        input: sample.input,
+        output: sample.output
+      })),
       answer_status: problem.answer_guidance?.reference_answer.status || problem.detail?.programming_solution.status || "needs_review",
       confidence: problem.answer_guidance?.reference_answer.confidence ?? null,
       code: problem.detail?.programming_solution.code || null,
@@ -678,6 +699,14 @@ export class ConsumerMobileService {
   }
 
   private buildAtCoderFeaturedProblem(problem: AtCoderProblem): MobileProblem {
+    const statementSections = problem.statement.sections
+      .filter((section) => section.markdown.trim())
+      .map((section) => ({
+        id: section.id,
+        title: section.title || "题目描述",
+        markdown: section.markdown
+      }));
+    const statement = statementSections[0]?.markdown || "后端暂未收录题面段落。";
     return {
       id: problem.id,
       source: "atcoder",
@@ -688,7 +717,16 @@ export class ConsumerMobileService {
       domain: problem.algorithm_domains[0]?.label || "AtCoder",
       problem_type: problem.problem_type_tags[0]?.label || "算法题",
       knowledge_points: problem.knowledge_points.map((point) => point.label),
-      statement: problem.statement.sections[0]?.markdown || "后端暂未收录题面段落。",
+      statement,
+      statement_sections: statementSections.length ? statementSections : [{
+        id: "statement",
+        title: "题目描述",
+        markdown: statement
+      }],
+      sample_cases: problem.statement.samples.map((sample) => ({
+        input: sample.input,
+        output: sample.output
+      })),
       answer_status: problem.programming_solution.status,
       confidence: problem.acceptance_rate,
       code: problem.programming_solution.code,

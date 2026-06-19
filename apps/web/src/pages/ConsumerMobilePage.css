@@ -125,6 +125,142 @@
   color: #102033;
 }
 
+.consumerMarkdownBlock {
+  display: grid;
+  gap: 23.0769px;
+}
+
+.consumerStatementSections {
+  display: grid;
+  gap: 21.1538px;
+}
+
+.consumerStatementSection {
+  display: grid;
+  gap: 11.5385px;
+}
+
+.consumerStatementSection h3 {
+  color: #102033;
+  font-size: 26.9231px;
+  line-height: 1.32;
+  margin: 0;
+}
+
+.consumerMarkdownBody {
+  color: #334155;
+  display: grid;
+  font-size: 25px;
+  gap: 13.4615px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.consumerMarkdownBody :where(p, ul, ol, pre, blockquote, h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.consumerMarkdownBody :where(p, li) {
+  color: #334155;
+  font-size: 25px;
+  line-height: 1.65;
+}
+
+.consumerMarkdownBody :where(ul, ol) {
+  display: grid;
+  gap: 7.6923px;
+  padding-left: 34.6154px;
+}
+
+.consumerMarkdownBody :where(pre) {
+  background: #0f172a;
+  border-radius: 13.4615px;
+  color: #e2e8f0;
+  overflow-x: auto;
+  padding: 17.3077px;
+  white-space: pre;
+}
+
+.consumerMarkdownBody :where(code) {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.92em;
+}
+
+.consumerMarkdownBody :where(:not(pre) > code) {
+  background: #f1f5f9;
+  border-radius: 7.6923px;
+  color: #0f766e;
+  padding: 1.9231px 7.6923px;
+}
+
+.consumerMarkdownBody :where(a) {
+  color: #2563eb;
+  font-weight: 800;
+}
+
+.consumerMarkdownBody :where(blockquote) {
+  border-left: 5.7692px solid #99f6e4;
+  color: #475569;
+  padding-left: 15.3846px;
+}
+
+.consumerMarkdownBody :where(svg) {
+  height: auto;
+  max-width: 100%;
+}
+
+.consumerMarkdownBody mjx-container {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 3.8462px 0;
+}
+
+.consumerMarkdownBody mjx-container[jax="SVG"] > svg {
+  max-width: 100%;
+}
+
+.consumerSampleCard {
+  display: grid;
+  gap: 15.3846px;
+}
+
+.consumerSampleList {
+  display: grid;
+  gap: 17.3077px;
+}
+
+.consumerSamplePair {
+  background: #f8fafc;
+  border: 1.9231px solid #e2e8f0;
+  border-radius: 15.3846px;
+  display: grid;
+  gap: 13.4615px;
+  padding: 17.3077px;
+}
+
+.consumerSamplePair strong {
+  color: #475569;
+  display: block;
+  font-size: 21.1538px;
+  margin-bottom: 7.6923px;
+}
+
+.consumerSamplePair pre {
+  background: #fff;
+  border: 1.9231px solid #dbe6ef;
+  border-radius: 11.5385px;
+  color: #102033;
+  font-size: 23.0769px;
+  line-height: 1.5;
+  margin: 0;
+  overflow-x: auto;
+  padding: 15.3846px;
+  white-space: pre-wrap;
+}
+
 .consumerSkeletonCard {
   display: grid;
   gap: 17.3077px;
@@ -914,9 +1050,13 @@
 }
 
 .consumerSavedButton {
+  appearance: none;
   background: transparent;
+  border: 0;
+  border-bottom: 1.9231px solid #e5edf5;
   color: inherit;
   cursor: pointer;
+  font: inherit;
   min-height: 126.9231px;
   text-align: left;
   width: 100%;

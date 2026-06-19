@@ -13,6 +13,7 @@ import type {
   MobileProblemListItem,
   MobileProgress
 } from "./ConsumerMobileData";
+import { ConsumerProblemStatement } from "./ConsumerProblemStatement";
 
 type ConsumerRenderState = {
   atCoderCatalog: MobileAtCoderCatalog | null;
@@ -322,10 +323,7 @@ function ProblemView({ problem, recordProgress, setView }: {
       </section>
       {activeTab === "statement" ? (
         <>
-          <section className="consumerReadBlock">
-            <h2>{problem.title}</h2>
-            <p>{problem.statement}</p>
-          </section>
+          <ConsumerProblemStatement problem={problem} />
           <section className="consumerCard">
             <h2>解题要点</h2>
             {problem.steps.length ? (
