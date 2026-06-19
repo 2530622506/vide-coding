@@ -1,13 +1,35 @@
 import type { CSSProperties } from "react";
 import { ArrowRight, BarChart3, BookOpen, Code2, Database, FileSearch, Link2, RefreshCw, Search, Star, Trophy } from "lucide-react";
 import { ConsumerCodeBlock } from "./ConsumerCodeBlock";
-import type { AtCoderTrack, ConsumerMobileContent, ConsumerProblem, ConsumerView, Domain, LevelSummary } from "./ConsumerMobileData";
+import type {
+  AtCoderTrack,
+  ConsumerMobileContent,
+  ConsumerProblem,
+  ConsumerView,
+  Domain,
+  LevelSummary,
+  MobileAtCoderCatalog,
+  MobileGespCatalog,
+  MobileProblemListItem,
+  MobileProgress
+} from "./ConsumerMobileData";
 
 type ConsumerRenderState = {
+  atCoderCatalog: MobileAtCoderCatalog | null;
+  catalogError: string | null;
+  catalogLoading: boolean;
   content: ConsumerMobileContent | null;
   error: string | null;
+  gespCatalog: MobileGespCatalog | null;
+  loadAtCoderCatalog: (params?: { difficulty?: string; query?: string }) => Promise<void>;
+  loadGespCatalog: (params?: { domainId?: string | null; level?: number; problemTypeId?: string | null; query?: string }) => Promise<void>;
   loading: boolean;
+  progress: MobileProgress | null;
+  recordProgress: (event: { problemId: string; source?: "gesp" | "atcoder"; title?: string; type: "view" | "favorite" | "review" }) => Promise<MobileProgress>;
   reload: () => void;
+  selectedProblem: ConsumerProblem | null;
+  selectAtCoderProblem: (problemId: string) => Promise<ConsumerProblem | null>;
+  selectGespProblem: (problemId: string) => Promise<ConsumerProblem | null>;
 };
 
 export function renderConsumerView(
@@ -30,19 +52,19 @@ export function renderConsumerView(
 
   switch (view) {
     case "catalog":
-      return <CatalogView content={content} setView={setView} />;
+      return <CatalogView renderState={renderState} setView={setView} />;
     case "atcoder":
-      return <AtCoderView content={content} />;
+      return <AtCoderView content={content} renderState={renderState} setView={setView} />;
     case "problem":
-      return <ProblemView problem={content.gesp.featured_problem} setView={setView} />;
+      return <ProblemView problem={renderState.selectedProblem || content.gesp.featured_problem} recordProgress={renderState.recordProgress} setView={setView} />;
     case "code":
-      return <CodeView problem={content.gesp.featured_problem} />;
+      return <CodeView problem={renderState.selectedProblem || content.gesp.featured_problem} recordProgress={renderState.recordProgress} />;
     case "evidence":
-      return <EvidenceView problem={content.gesp.featured_problem} />;
+      return <EvidenceView problem={renderState.selectedProblem || content.gesp.featured_problem} />;
     case "progress":
-      return <ProgressView content={content} />;
+      return <ProgressView content={content} progress={renderState.progress} />;
     case "profile":
-      return <ProfileView content={content} progressStyle={profileProgressStyle} />;
+      return <ProfileView content={content} progress={renderState.progress} progressStyle={profileProgressStyle} />;
     default:
       return <HomeView content={content} progressStyle={progressStyle} setView={setView} />;
   }
@@ -104,18 +126,37 @@ function HomeView({ content, progressStyle, setView }: { content: ConsumerMobile
   );
 }
 
-function CatalogView({ content, setView }: { content: ConsumerMobileContent; setView: (view: ConsumerView) => void }) {
+function CatalogView({ renderState, setView }: { renderState: ConsumerRenderState; setView: (view: ConsumerView) => void }) {
+  const { catalogError, catalogLoading, content, gespCatalog, loadGespCatalog, selectGespProblem } = renderState;
+  const catalog = gespCatalog;
+  if (!content || !catalog) {
+    return <StateCard label={catalogLoading ? "正在加载 GESP 移动目录" : "GESP 移动目录暂无数据"} />;
+  }
+
+  const openProblem = async (problemId: string) => {
+    await selectGespProblem(problemId);
+    setView("problem");
+  };
+
   return (
     <>
       <div className="consumerSearch"><Search size={17} /><span>搜索题名、知识点、来源</span></div>
       <div className="consumerSegment"><span className="active">GESP</span><span>全等级</span><span>题型</span></div>
+      {catalogError ? <StateCard actionLabel="重试目录" label={`目录加载失败：${catalogError}`} onAction={() => void loadGespCatalog({ level: catalog.selected_level })} /> : null}
       <section className="consumerCard">
         <div className="consumerSectionHead">
           <h2>等级目录</h2>
-          <span>{content.gesp.levels.length} 级</span>
+          <span>{catalog.levels.length} 级</span>
         </div>
         <div className="consumerLevelGrid">
-          {content.gesp.levels.map((level) => <LevelChip key={level.level} level={level} />)}
+          {catalog.levels.map((level) => (
+            <LevelChip
+              active={catalog.selected_level === level.level}
+              key={level.level}
+              level={level}
+              onClick={() => void loadGespCatalog({ level: level.level })}
+            />
+          ))}
         </div>
       </section>
       <section className="consumerCard consumerCardTint consumerSplitCard">
@@ -127,14 +168,24 @@ function CatalogView({ content, setView }: { content: ConsumerMobileContent; set
           <ArrowRight size={20} />
         </button>
       </section>
-      <DomainList domains={content.gesp.domains} title="算法范畴" />
+      <DomainList
+        activeDomainId={catalog.selected_domain_id}
+        domains={catalog.domains}
+        onSelect={(domain) => void loadGespCatalog({ domainId: domain.id, level: catalog.selected_level })}
+        title="算法范畴"
+      />
       <section className="consumerCard">
         <div className="consumerSectionHead">
           <h2>题型分布</h2>
-          <span>{content.gesp.problem_types.length} 类</span>
+          <span>{catalog.problem_types.length} 类</span>
         </div>
-        {content.gesp.problem_types.map((type) => (
-          <button className="consumerProblemRow" key={type.id} onClick={() => setView("problem")} type="button">
+        {catalog.problem_types.map((type) => (
+          <button
+            className={`consumerProblemRow ${catalog.selected_problem_type_id === type.id ? "active" : ""}`}
+            key={type.id}
+            onClick={() => void loadGespCatalog({ domainId: catalog.selected_domain_id, level: catalog.selected_level, problemTypeId: type.id })}
+            type="button"
+          >
             <span className="consumerBadge">{type.count}</span>
             <span>
               <strong>{type.name}</strong>
@@ -144,11 +195,27 @@ function CatalogView({ content, setView }: { content: ConsumerMobileContent; set
           </button>
         ))}
       </section>
+      <section className="consumerCard">
+        <div className="consumerSectionHead">
+          <h2>题目列表</h2>
+          <span>{catalog.problems.length} 题</span>
+        </div>
+        {catalogLoading ? <p>正在切换目录...</p> : null}
+        {catalog.problems.map((problem) => (
+          <ProblemListRow key={problemListKey(problem)} onOpen={openProblem} problem={problem} />
+        ))}
+      </section>
     </>
   );
 }
 
-function AtCoderView({ content }: { content: ConsumerMobileContent }) {
+function AtCoderView({ content, renderState, setView }: { content: ConsumerMobileContent; renderState: ConsumerRenderState; setView: (view: ConsumerView) => void }) {
+  const { atCoderCatalog, catalogError, catalogLoading, loadAtCoderCatalog, selectAtCoderProblem } = renderState;
+  const catalog = atCoderCatalog;
+  const openProblem = async (problemId: string) => {
+    await selectAtCoderProblem(problemId);
+    setView("problem");
+  };
   return (
     <>
       <div className="consumerSearch"><Search size={17} /><span>搜索 AtCoder 题号、算法标签、难度</span></div>
@@ -162,12 +229,30 @@ function AtCoderView({ content }: { content: ConsumerMobileContent }) {
           <div><strong>{content.atcoder.statement_count}</strong><span>中文题面</span></div>
         </div>
       </section>
+      {catalogError ? <StateCard actionLabel="重试 AtCoder" label={`AtCoder 目录加载失败：${catalogError}`} onAction={() => void loadAtCoderCatalog()} /> : null}
       <section className="consumerCard">
         <div className="consumerSectionHead">
           <h2>难度轨道</h2>
           <span>AtCoder</span>
         </div>
-        {content.atcoder.tracks.map((track) => <AtCoderTrackRow key={track.difficulty} track={track} />)}
+        {(catalog?.tracks || content.atcoder.tracks).map((track) => (
+          <AtCoderTrackRow
+            active={catalog?.selected_difficulty === track.difficulty}
+            key={track.difficulty}
+            onSelect={() => void loadAtCoderCatalog({ difficulty: track.difficulty })}
+            track={track}
+          />
+        ))}
+      </section>
+      <section className="consumerCard">
+        <div className="consumerSectionHead">
+          <h2>AtCoder 题目</h2>
+          <span>{catalog?.problems.length ?? 0} 题</span>
+        </div>
+        {catalogLoading ? <p>正在切换难度...</p> : null}
+        {(catalog?.problems || []).map((problem) => (
+          <ProblemListRow key={problemListKey(problem)} onOpen={openProblem} problem={problem} />
+        ))}
       </section>
       {content.atcoder.featured_problem ? (
         <section className="consumerCard">
@@ -182,7 +267,11 @@ function AtCoderView({ content }: { content: ConsumerMobileContent }) {
   );
 }
 
-function ProblemView({ problem, setView }: { problem: ConsumerProblem | null; setView: (view: ConsumerView) => void }) {
+function ProblemView({ problem, recordProgress, setView }: {
+  problem: ConsumerProblem | null;
+  recordProgress: ConsumerRenderState["recordProgress"];
+  setView: (view: ConsumerView) => void;
+}) {
   if (!problem) {
     return <StateCard label="后端暂未返回推荐题目详情" />;
   }
@@ -220,13 +309,14 @@ function ProblemView({ problem, setView }: { problem: ConsumerProblem | null; se
       <section className="consumerCard consumerCardTint">
         <h2>学习动作</h2>
         <button className="consumerPrimaryButton" onClick={() => setView("code")} type="button"><Code2 size={17} />查看参考代码</button>
-        <button className="consumerSecondaryButton" type="button"><Star size={17} />加入收藏夹</button>
+        <button className="consumerSecondaryButton" onClick={() => void recordProgress({ problemId: problem.id, source: problem.source, title: problem.title, type: "favorite" })} type="button"><Star size={17} />加入收藏夹</button>
+        <button className="consumerSecondaryButton" onClick={() => void recordProgress({ problemId: problem.id, source: problem.source, title: problem.title, type: "review" })} type="button"><BarChart3 size={17} />标记已复习</button>
       </section>
     </>
   );
 }
 
-function CodeView({ problem }: { problem: ConsumerProblem | null }) {
+function CodeView({ problem, recordProgress }: { problem: ConsumerProblem | null; recordProgress: ConsumerRenderState["recordProgress"] }) {
   if (!problem) {
     return <StateCard label="后端暂未返回推荐题目代码" />;
   }
@@ -255,8 +345,8 @@ function CodeView({ problem }: { problem: ConsumerProblem | null }) {
         <h2>可用操作</h2>
         <div className="consumerActionGrid">
           <button type="button"><Code2 size={16} />只读查看</button>
-          <button type="button"><Star size={16} />收藏</button>
-          <button type="button"><FileSearch size={16} />反馈错误</button>
+          <button onClick={() => void recordProgress({ problemId: problem.id, source: problem.source, title: problem.title, type: "favorite" })} type="button"><Star size={16} />收藏</button>
+          <button onClick={() => void recordProgress({ problemId: problem.id, source: problem.source, title: problem.title, type: "review" })} type="button"><FileSearch size={16} />已复核</button>
         </div>
       </section>
     </>
@@ -298,17 +388,28 @@ function EvidenceView({ problem }: { problem: ConsumerProblem | null }) {
   );
 }
 
-function ProgressView({ content }: { content: ConsumerMobileContent }) {
+function ProgressView({ content, progress }: { content: ConsumerMobileContent; progress: MobileProgress | null }) {
   return (
     <>
       <DomainList domains={content.gesp.domains} title="知识点掌握度" />
       <section className="consumerCard">
         <h2>本周复盘</h2>
         <div className="consumerMetricGrid">
-          <div><strong>{content.learning.viewed_count}</strong><span>后端题目</span></div>
-          <div><strong>{content.learning.saved_code_count}</strong><span>可复习题型</span></div>
-          <div><strong>{content.learning.reviewed_count}</strong><span>高可信题型</span></div>
+          <div><strong>{progress?.viewed_count ?? 0}</strong><span>已查看</span></div>
+          <div><strong>{progress?.favorite_count ?? 0}</strong><span>收藏</span></div>
+          <div><strong>{progress?.reviewed_count ?? 0}</strong><span>已复习</span></div>
         </div>
+      </section>
+      <section className="consumerCard">
+        <h2>最近动作</h2>
+        {(progress?.viewed || []).slice(0, 3).map((event) => (
+          <div className="consumerSavedRow" key={`${event.type}:${event.problemId}`}>
+            <span>看</span>
+            <div><strong>{event.title || event.problemId}</strong><small>{event.source || "gesp"}</small></div>
+            <em>{event.type}</em>
+          </div>
+        ))}
+        {progress?.viewed.length ? null : <p>点击题目后，这里会通过后端进度接口记录浏览历史。</p>}
       </section>
       <section className="consumerCard">
         <h2>下一步建议</h2>
@@ -318,8 +419,9 @@ function ProgressView({ content }: { content: ConsumerMobileContent }) {
   );
 }
 
-function ProfileView({ content, progressStyle }: { content: ConsumerMobileContent; progressStyle: CSSProperties }) {
+function ProfileView({ content, progress, progressStyle }: { content: ConsumerMobileContent; progress: MobileProgress | null; progressStyle: CSSProperties }) {
   const featured = content.gesp.featured_problem;
+  const favorites = progress?.favorites || [];
   return (
     <>
       <section className="consumerCard consumerCardTint consumerProgressCard">
@@ -331,11 +433,12 @@ function ProfileView({ content, progressStyle }: { content: ConsumerMobileConten
       </section>
       <section className="consumerCard">
         <h2>收藏夹</h2>
-        {featured ? (
-          <>
-            <div className="consumerSavedRow"><span>题</span><div><strong>{featured.title}</strong><small>{featured.problem_type}</small></div><em>{featured.answer_status}</em></div>
-            <div className="consumerSavedRow"><span>码</span><div><strong>{featured.code_filename}</strong><small>{featured.code ? "后端已返回代码" : "暂无代码"}</small></div><em>只读</em></div>
-          </>
+        {favorites.length ? (
+          favorites.slice(0, 4).map((event) => (
+            <div className="consumerSavedRow" key={event.problemId}><span>题</span><div><strong>{event.title || event.problemId}</strong><small>{event.source || "gesp"}</small></div><em>收藏</em></div>
+          ))
+        ) : featured ? (
+          <div className="consumerSavedRow"><span>题</span><div><strong>{featured.title}</strong><small>{featured.problem_type}</small></div><em>推荐</em></div>
         ) : (
           <p>后端暂未返回收藏推荐。</p>
         )}
@@ -349,12 +452,19 @@ function ProfileView({ content, progressStyle }: { content: ConsumerMobileConten
   );
 }
 
-function DomainList({ domains, title }: { domains: Domain[]; title: string }) {
+function DomainList({ activeDomainId, domains, onSelect, title }: {
+  activeDomainId?: string | null;
+  domains: Domain[];
+  onSelect?: (domain: Domain) => void;
+  title: string;
+}) {
   return (
     <section className="consumerCard">
       <h2>{title}</h2>
       <div className="consumerDomainList">
-        {domains.slice(0, 5).map((domain) => <DomainRow domain={domain} key={domain.id} />)}
+        {domains.slice(0, 5).map((domain) => (
+          <DomainRow active={activeDomainId === domain.id} domain={domain} key={domain.id} onSelect={onSelect ? () => onSelect(domain) : undefined} />
+        ))}
       </div>
     </section>
   );
@@ -374,9 +484,19 @@ function LevelOverview({ content }: { content: ConsumerMobileContent }) {
   );
 }
 
-function LevelChip({ level }: { level: LevelSummary }) {
+function LevelChip({ active = false, level, onClick }: { active?: boolean; level: LevelSummary; onClick?: () => void }) {
+  const className = `consumerLevelChip ${level.tone} ${active ? "active" : ""}`;
+  if (onClick) {
+    return (
+      <button className={className} onClick={onClick} type="button">
+        <strong>{level.label}</strong>
+        <span>{level.count} 题</span>
+        <small>{level.title}</small>
+      </button>
+    );
+  }
   return (
-    <article className={`consumerLevelChip ${level.tone}`}>
+    <article className={className}>
       <strong>{level.label}</strong>
       <span>{level.count} 题</span>
       <small>{level.title}</small>
@@ -384,9 +504,21 @@ function LevelChip({ level }: { level: LevelSummary }) {
   );
 }
 
-function DomainRow({ domain }: { domain: Domain }) {
+function DomainRow({ active = false, domain, onSelect }: { active?: boolean; domain: Domain; onSelect?: () => void }) {
+  const className = `consumerDomainRow ${active ? "active" : ""}`;
+  if (onSelect) {
+    return (
+      <button className={className} onClick={onSelect} type="button">
+        <div>
+          <strong>{domain.name}</strong>
+          <small>{domain.description}</small>
+        </div>
+        <span className={`consumerTag ${domain.tone}`}>{domain.progress}%</span>
+      </button>
+    );
+  }
   return (
-    <div className="consumerDomainRow">
+    <div className={className}>
       <div>
         <strong>{domain.name}</strong>
         <small>{domain.description}</small>
@@ -409,9 +541,26 @@ function SourceItem({ description, index, label, tag, tone }: { description: str
   );
 }
 
-function AtCoderTrackRow({ track }: { track: AtCoderTrack }) {
+function ProblemListRow({ onOpen, problem }: { onOpen?: (problemId: string) => void | Promise<void>; problem: MobileProblemListItem }) {
   return (
-    <article className="consumerAtCoderRow">
+    <button className="consumerProblemRow" onClick={() => void onOpen?.(problem.id)} type="button">
+      <span className="consumerBadge">{problem.level.replace(" 级", "")}</span>
+      <span>
+        <strong>{problem.title}</strong>
+        <small>{problem.subtitle} · {problem.domain} · {problem.problem_type}</small>
+      </span>
+      <em>{problem.has_code ? "码" : "看"}</em>
+    </button>
+  );
+}
+
+function problemListKey(problem: MobileProblemListItem) {
+  return `${problem.id}:${problem.domain}:${problem.problem_type}`;
+}
+
+function AtCoderTrackRow({ active = false, onSelect, track }: { active?: boolean; onSelect?: () => void; track: AtCoderTrack }) {
+  const content = (
+    <>
       <span>{track.difficulty}</span>
       <div>
         <strong>{track.name}</strong>
@@ -421,6 +570,18 @@ function AtCoderTrackRow({ track }: { track: AtCoderTrack }) {
         </div>
       </div>
       <b>{track.count}</b>
+    </>
+  );
+  if (onSelect) {
+    return (
+      <button className={`consumerAtCoderRow ${active ? "active" : ""}`} onClick={onSelect} type="button">
+        {content}
+      </button>
+    );
+  }
+  return (
+    <article className={`consumerAtCoderRow ${active ? "active" : ""}`}>
+      {content}
     </article>
   );
 }

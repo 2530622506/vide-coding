@@ -1,6 +1,6 @@
 import { BarChart3, BookOpen, ChevronLeft, Home, Layers3, UserRound } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { consumerHeaders, type ConsumerMobileContent, type ConsumerView } from "./consumer/ConsumerMobileData";
+import { consumerHeaders, type ConsumerMobileContent, type ConsumerProblem, type ConsumerView } from "./consumer/ConsumerMobileData";
 import { renderConsumerView } from "./consumer/ConsumerMobileViews";
 import { useConsumerMobileContent } from "./consumer/useConsumerMobileContent";
 import "./ConsumerMobilePage.css";
@@ -35,7 +35,7 @@ export function ConsumerMobilePage() {
           <span>GESP Learn</span>
           <span>{contentState.loading ? "加载中" : `${contentState.content?.learning.progress_pct ?? 0}%`}</span>
         </header>
-        <ConsumerHeader content={contentState.content} view={view} setView={setView} />
+        <ConsumerHeader content={contentState.content} selectedProblem={contentState.selectedProblem} view={view} setView={setView} />
         <section className="consumerContent">{renderConsumerView(view, setView, contentState, progressStyle, profileProgressStyle)}</section>
         <ConsumerBottomNav view={view} setView={setView} />
       </section>
@@ -48,8 +48,18 @@ function readInitialConsumerView(): ConsumerView {
   return view === "catalog" || view === "atcoder" || view === "problem" || view === "code" || view === "evidence" || view === "progress" || view === "profile" ? view : "home";
 }
 
-function ConsumerHeader({ content, setView, view }: { content: ConsumerMobileContent | null; setView: (view: ConsumerView) => void; view: ConsumerView }) {
-  const { description, eyebrow, title } = getConsumerHeader(view, content);
+function ConsumerHeader({
+  content,
+  selectedProblem,
+  setView,
+  view
+}: {
+  content: ConsumerMobileContent | null;
+  selectedProblem: ConsumerProblem | null;
+  setView: (view: ConsumerView) => void;
+  view: ConsumerView;
+}) {
+  const { description, eyebrow, title } = getConsumerHeader(view, content, selectedProblem);
   const canGoBack = view === "problem" || view === "code" || view === "evidence";
 
   return (
@@ -72,8 +82,8 @@ function ConsumerHeader({ content, setView, view }: { content: ConsumerMobileCon
   );
 }
 
-function getConsumerHeader(view: ConsumerView, content: ConsumerMobileContent | null) {
-  const featured = content?.gesp.featured_problem;
+function getConsumerHeader(view: ConsumerView, content: ConsumerMobileContent | null, selectedProblem: ConsumerProblem | null) {
+  const featured = selectedProblem || content?.gesp.featured_problem;
   if (featured && view === "problem") {
     return {
       eyebrow: featured.subtitle,

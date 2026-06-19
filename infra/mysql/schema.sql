@@ -124,3 +124,17 @@ CREATE TABLE IF NOT EXISTS atcoder_catalog_snapshots (
   catalog_json JSON NOT NULL,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS consumer_mobile_progress_events (
+  user_key VARCHAR(120) NOT NULL DEFAULT 'anonymous',
+  problem_source VARCHAR(32) NOT NULL,
+  problem_id VARCHAR(180) NOT NULL,
+  event_type VARCHAR(32) NOT NULL,
+  title VARCHAR(512) NOT NULL,
+  event_json JSON NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_key, problem_source, problem_id, event_type),
+  INDEX idx_consumer_progress_user_type (user_key, event_type, updated_at),
+  INDEX idx_consumer_progress_problem (problem_source, problem_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

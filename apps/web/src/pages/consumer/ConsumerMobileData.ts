@@ -41,6 +41,7 @@ export type AtCoderTrack = {
 
 export type ConsumerProblem = {
   id: string;
+  source: "gesp" | "atcoder";
   title: string;
   subtitle: string;
   level: string;
@@ -57,6 +58,53 @@ export type ConsumerProblem = {
   complexity: string | null;
   steps: string[];
   source_links: Array<{ title: string; url: string | null; tag: string; tone: Tone }>;
+};
+
+export type MobileProblemListItem = {
+  id: string;
+  title: string;
+  subtitle: string;
+  level: string;
+  domain: string;
+  problem_type: string;
+  knowledge_points: string[];
+  answer_status: string;
+  has_code: boolean;
+};
+
+export type MobileGespCatalog = {
+  selected_level: number;
+  selected_domain_id: string | null;
+  selected_problem_type_id: string | null;
+  levels: LevelSummary[];
+  domains: Domain[];
+  problem_types: ProblemType[];
+  problems: MobileProblemListItem[];
+};
+
+export type MobileAtCoderCatalog = {
+  selected_difficulty: string;
+  tracks: AtCoderTrack[];
+  problems: MobileProblemListItem[];
+};
+
+export type MobileProgressEvent = {
+  problemId: string;
+  recordedAt?: string;
+  source?: "gesp" | "atcoder";
+  title?: string;
+  type: "view" | "favorite" | "review";
+};
+
+export type MobileProgress = {
+  data_source: "mysql" | "memory";
+  user_key: string;
+  viewed_count: number;
+  favorite_count: number;
+  reviewed_count: number;
+  viewed: MobileProgressEvent[];
+  favorites: MobileProgressEvent[];
+  reviewed: MobileProgressEvent[];
 };
 
 export type ConsumerMobileContent = {

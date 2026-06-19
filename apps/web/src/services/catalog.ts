@@ -2,8 +2,8 @@ import type { LevelCatalog, LevelSummary, ProblemDetailResponse } from "../types
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
-export async function fetchJson<T>(path: string): Promise<T> {
-  const response = await fetch(`${API_BASE}${path}`);
+export async function fetchJson<T>(path: string, init?: RequestInit): Promise<T> {
+  const response = await fetch(`${API_BASE}${path}`, init);
   if (!response.ok) {
     throw new Error(`${response.status} ${response.statusText}`);
   }

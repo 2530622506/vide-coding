@@ -329,8 +329,10 @@
   background: #f8fafc;
   border: 1.9231px solid #dbe6ef;
   border-radius: 15.3846px;
+  color: inherit;
   min-width: 0;
   padding: 17.3077px;
+  text-align: left;
 }
 
 .consumerLevelChip.good {
@@ -346,6 +348,11 @@
 .consumerLevelChip.weak {
   background: #fffbeb;
   border-color: #fde68a;
+}
+
+.consumerLevelChip.active {
+  border-color: #0f766e;
+  box-shadow: 0 0 0 3.8462px rgb(20 184 166 / 14%);
 }
 
 .consumerLevelChip strong {
@@ -376,10 +383,18 @@
   background: #fff;
   border: 1.9231px solid #dce7f1;
   border-radius: 15.3846px;
+  color: inherit;
   display: grid;
   gap: 15.3846px;
   grid-template-columns: 1fr auto;
   padding: 21.1538px;
+  text-align: left;
+  width: 100%;
+}
+
+.consumerDomainRow.active {
+  background: #ecfdf5;
+  border-color: #99f6e4;
 }
 
 .consumerDomainRow strong {
@@ -491,6 +506,10 @@
   padding: 21.1538px 0;
   text-align: left;
   width: 100%;
+}
+
+.consumerProblemRow.active {
+  background: #f0fdfa;
 }
 
 .consumerProblemRow:last-child {
@@ -639,15 +658,26 @@
 
 .consumerAtCoderRow {
   align-items: center;
+  background: transparent;
   border-bottom: 1.9231px solid #e5edf5;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  color: inherit;
   display: grid;
   gap: 19.2308px;
   grid-template-columns: 80.7692px 1fr auto;
   padding: 23.0769px 0;
+  text-align: left;
+  width: 100%;
 }
 
 .consumerAtCoderRow:last-child {
   border-bottom: 0;
+}
+
+.consumerAtCoderRow.active {
+  background: #f0fdfa;
 }
 
 .consumerAtCoderRow > span {
