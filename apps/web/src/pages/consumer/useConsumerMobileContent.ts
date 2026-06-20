@@ -85,10 +85,10 @@ export function useConsumerMobileContent(view: ConsumerView) {
     setProgressLoaded(true);
   }
 
-  async function selectGespProblem(problemId: string) {
+  async function selectGespProblem(problemId: string, options: { recordView?: boolean } = {}) {
     const problem = await fetchConsumerMobileGespProblem(problemId);
     setSelectedProblem(problem);
-    if (problem) {
+    if (problem && options.recordView !== false) {
       setProgress(await recordConsumerMobileProgress({
         problemId: problem.id,
         source: "gesp",
@@ -100,10 +100,10 @@ export function useConsumerMobileContent(view: ConsumerView) {
     return problem;
   }
 
-  async function selectAtCoderProblem(problemId: string) {
+  async function selectAtCoderProblem(problemId: string, options: { recordView?: boolean } = {}) {
     const problem = await fetchConsumerMobileAtCoderProblem(problemId);
     setSelectedProblem(problem);
-    if (problem) {
+    if (problem && options.recordView !== false) {
       setProgress(await recordConsumerMobileProgress({
         problemId: problem.id,
         source: "atcoder",

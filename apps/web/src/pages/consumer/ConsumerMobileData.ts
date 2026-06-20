@@ -1,4 +1,5 @@
-export type ConsumerView = "home" | "catalog" | "atcoder" | "problem" | "code" | "progress" | "profile" | "search" | "favorites" | "settings" | "weak-points";
+export type ConsumerView = "home" | "catalog" | "atcoder" | "problem" | "code" | "progress" | "profile" | "search" | "favorites" | "settings" | "weak-points" | "learning-records";
+export type LearningRecordFilter = "all" | "viewed" | "favorite" | "reviewed";
 
 export type Tone = "good" | "normal" | "weak";
 
@@ -7,6 +8,7 @@ export type Domain = {
   name: string;
   description: string;
   count: number;
+  level?: number;
   progress: number;
   tone: Tone;
 };
@@ -110,6 +112,8 @@ export type LearningTask = {
   kind: "continue" | "weak_point" | "review" | "featured";
   title: string;
   subtitle: string;
+  domain_id?: string | null;
+  level?: number | null;
   problem_id: string | null;
   source: "gesp" | "atcoder";
   cta_label: string;
@@ -121,6 +125,7 @@ export type WeakPoint = {
   name: string;
   description: string;
   count: number;
+  level?: number;
   progress: number;
   suggested_count: number;
   tone: Tone;
@@ -270,5 +275,10 @@ export const consumerHeaders: Record<ConsumerView, { eyebrow: string; title: str
     eyebrow: "薄弱点",
     title: "薄弱知识点",
     description: "按掌握度查看需要优先复习的知识点。"
+  },
+  "learning-records": {
+    eyebrow: "学习记录",
+    title: "浏览与复习记录",
+    description: "按已看和已复习过滤历史题目。"
   }
 };

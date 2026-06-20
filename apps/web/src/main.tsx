@@ -1,28 +1,39 @@
-import { StrictMode, type ReactNode } from "react";
-import { createRoot } from "react-dom/client";
+import type { ComponentType, ReactNode } from "react";
+import type { Root } from "react-dom/client";
 
-const root = createRoot(document.getElementById("root") as HTMLElement);
+const rootElement = document.getElementById("root") as HTMLElement;
+let root: Root | null = null;
 
-function renderApp(app: ReactNode) {
+async function renderApp(app: ReactNode) {
+  const [{ StrictMode, createElement }, { createRoot }] = await Promise.all([
+    import("react"),
+    import("react-dom/client")
+  ]);
+  root ||= createRoot(rootElement);
   root.render(
-    <StrictMode>
-      {app}
-    </StrictMode>
+    createElement(StrictMode, null, app)
   );
 }
 
 function renderStartupError(error: unknown) {
   console.error("Failed to load web entry", error);
-  renderApp(<div role="alert">页面加载失败，请刷新重试。</div>);
+  void import("react").then(({ createElement }) => {
+    void renderApp(createElement("div", { role: "alert" }, "页面加载失败，请刷新重试。"));
+  });
+}
+
+async function renderComponent(Component: ComponentType) {
+  const { createElement } = await import("react");
+  await renderApp(createElement(Component));
 }
 
 if (detectConsumerMobileEntrypoint()) {
   import("./MobileApp")
-    .then(({ default: MobileApp }) => renderApp(<MobileApp />))
+    .then(({ default: MobileApp }) => renderComponent(MobileApp))
     .catch(renderStartupError);
 } else {
   import("./App")
-    .then(({ default: App }) => renderApp(<App />))
+    .then(({ default: App }) => renderComponent(App))
     .catch(renderStartupError);
 }
 

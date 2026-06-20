@@ -1,0 +1,1 @@
+import{t as e}from"./ConsumerMobilePage-BBeFykZD.js";import{t}from"./jsx-runtime-DLUNwGPO.js";var n=t();function r(){return(0,n.jsx)(e,{})}export{r as default};

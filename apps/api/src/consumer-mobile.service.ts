@@ -25,6 +25,7 @@ type MobileDomain = {
   name: string;
   description: string;
   count: number;
+  level?: number;
   progress: number;
   tone: Tone;
 };
@@ -114,6 +115,8 @@ type LearningTask = {
   kind: "continue" | "weak_point" | "review" | "featured";
   title: string;
   subtitle: string;
+  domain_id?: string | null;
+  level?: number | null;
   problem_id: string | null;
   source: "gesp" | "atcoder";
   cta_label: string;
@@ -125,6 +128,7 @@ type WeakPoint = {
   name: string;
   description: string;
   count: number;
+  level?: number;
   progress: number;
   suggested_count: number;
   tone: Tone;
@@ -697,7 +701,7 @@ export class ConsumerMobileService {
       const catalogs = (await Promise.all(
         levelsResponse.levels.map((level) => this.catalogService.getLevelCatalog(level.level))
       )).filter((catalog): catalog is LevelCatalog => Boolean(catalog));
-      const weakPoints = this.buildDomains(catalogs)
+      const weakPoints = catalogs.flatMap((catalog) => this.buildLevelDomains(catalog))
         .filter((domain) => domain.tone !== "good")
         .sort((a, b) => a.progress - b.progress || b.count - a.count)
         .slice(0, 5)
@@ -706,6 +710,7 @@ export class ConsumerMobileService {
           name: domain.name,
           description: domain.description || `${domain.count} 道题`,
           count: domain.count,
+          level: domain.level,
           progress: domain.progress,
           suggested_count: domain.progress < 45 ? 2 : 1,
           tone: domain.tone
@@ -735,10 +740,12 @@ export class ConsumerMobileService {
       return {
         id: `weak:${weakPoint.id}`,
         kind: "weak_point",
-        title: `先补${weakPoint.name}`,
-        subtitle: `${weakPoint.count} 道相关题 · 建议完成 ${weakPoint.suggested_count} 道`,
-        problem_id: featuredProblem?.id || null,
-        source: featuredProblem?.source || "gesp",
+      title: `先补${weakPoint.name}`,
+      subtitle: `${weakPoint.count} 道相关题 · 建议完成 ${weakPoint.suggested_count} 道`,
+      domain_id: weakPoint.id,
+      level: weakPoint.level ?? null,
+      problem_id: featuredProblem?.id || null,
+      source: featuredProblem?.source || "gesp",
         cta_label: "开始复习",
         priority: 100
       };
@@ -778,6 +785,8 @@ export class ConsumerMobileService {
       kind: "weak_point" as const,
       title: point.name,
       subtitle: `${point.count} 道题 · 建议完成 ${point.suggested_count} 道`,
+      domain_id: point.id,
+      level: point.level ?? null,
       problem_id: null,
       source: "gesp" as const,
       cta_label: "去补弱项",
@@ -1032,6 +1041,7 @@ export class ConsumerMobileService {
         name: domain.domain_label,
         description: [...knowledge].slice(0, 3).join("、") || `${domain.problem_count} 道题`,
         count: domain.problem_count,
+        level: catalog.level,
         progress,
         tone: this.toneFromProgress(progress)
       };

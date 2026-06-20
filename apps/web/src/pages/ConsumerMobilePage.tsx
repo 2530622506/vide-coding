@@ -1,6 +1,6 @@
 import { BarChart3, BookOpen, Home, UserRound } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import type { ConsumerView } from "./consumer/ConsumerMobileData";
+import type { ConsumerView, LearningRecordFilter } from "./consumer/ConsumerMobileData";
 import { renderConsumerView } from "./consumer/ConsumerMobileViews";
 import { useConsumerMobileContent } from "./consumer/useConsumerMobileContent";
 import "./ConsumerMobileGlobal.css";
@@ -8,6 +8,8 @@ import "./ConsumerMobilePage.css";
 
 export function ConsumerMobilePage() {
   const [view, setView] = useState<ConsumerView>(() => readInitialConsumerView());
+  const [learningRecordFilter, setLearningRecordFilter] = useState<LearningRecordFilter>("all");
+  const [learningRecordReturnView, setLearningRecordReturnView] = useState<"progress" | "profile">("progress");
   const contentState = useConsumerMobileContent(view);
   const progressStyle = useMemo(() => ({ "--consumer-progress": `${contentState.progress?.progress_pct ?? 0}%` }) as React.CSSProperties, [contentState.progress?.progress_pct]);
   const profileProgressStyle = useMemo(() => ({ "--consumer-progress": `${contentState.progress?.progress_pct ?? 0}%` }) as React.CSSProperties, [contentState.progress?.progress_pct]);
@@ -31,7 +33,7 @@ export function ConsumerMobilePage() {
   return (
     <main className="consumerPage">
       <section className="consumerPhone" aria-label="GESP C 端移动页面">
-        <section className="consumerContent">{renderConsumerView(view, setView, contentState, progressStyle, profileProgressStyle)}</section>
+        <section className="consumerContent">{renderConsumerView(view, setView, contentState, progressStyle, profileProgressStyle, learningRecordFilter, setLearningRecordFilter, learningRecordReturnView, setLearningRecordReturnView)}</section>
         <ConsumerBottomNav view={view} setView={setView} />
       </section>
     </main>
@@ -50,13 +52,14 @@ function readInitialConsumerView(): ConsumerView {
     || view === "favorites"
     || view === "settings"
     || view === "weak-points"
+    || view === "learning-records"
     ? view
     : "home";
 }
 
 function ConsumerBottomNav({ setView, view }: { setView: (view: ConsumerView) => void; view: ConsumerView }) {
   const isCatalogActive = view === "catalog" || view === "atcoder" || view === "problem" || view === "code";
-  const isProgressActive = view === "progress" || view === "weak-points";
+  const isProgressActive = view === "progress" || view === "weak-points" || view === "learning-records";
   const isProfileActive = view === "profile" || view === "favorites" || view === "settings";
 
   return (

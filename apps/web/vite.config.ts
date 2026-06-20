@@ -27,6 +27,11 @@ export default defineConfig({
   },
   build: {
     outDir: "../../dist/web",
-    emptyOutDir: true
+    emptyOutDir: true,
+    modulePreload: {
+      resolveDependencies(_filename, deps, context) {
+        return context.hostType === "html" ? [] : deps;
+      }
+    }
   }
 });

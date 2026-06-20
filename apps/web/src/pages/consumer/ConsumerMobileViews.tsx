@@ -7,6 +7,7 @@ import type {
   ConsumerView,
   Domain,
   LearningTask,
+  LearningRecordFilter,
   LevelSummary,
   MobileAtCoderCatalog,
   MobileGespCatalog,
@@ -40,8 +41,8 @@ type ConsumerRenderState = {
   searchProblems: (query: string) => Promise<MobileSearchResult | null>;
   searchResult: MobileSearchResult | null;
   selectedProblem: ConsumerProblem | null;
-  selectAtCoderProblem: (problemId: string) => Promise<ConsumerProblem | null>;
-  selectGespProblem: (problemId: string) => Promise<ConsumerProblem | null>;
+  selectAtCoderProblem: (problemId: string, options?: { recordView?: boolean }) => Promise<ConsumerProblem | null>;
+  selectGespProblem: (problemId: string, options?: { recordView?: boolean }) => Promise<ConsumerProblem | null>;
 };
 
 export function renderConsumerView(
@@ -49,7 +50,11 @@ export function renderConsumerView(
   setView: (view: ConsumerView) => void,
   renderState: ConsumerRenderState,
   _progressStyle: CSSProperties,
-  _profileProgressStyle: CSSProperties
+  _profileProgressStyle: CSSProperties,
+  learningRecordFilter: LearningRecordFilter,
+  setLearningRecordFilter: (filter: LearningRecordFilter) => void,
+  learningRecordReturnView: "progress" | "profile",
+  setLearningRecordReturnView: (view: "progress" | "profile") => void
 ) {
   const { content, error, loading, reload } = renderState;
   if (loading) {
@@ -74,11 +79,13 @@ export function renderConsumerView(
     case "code":
       return <CodeView problem={renderState.selectedProblem || content.gesp.featured_problem} progress={renderState.progress} recordProgress={renderState.recordProgress} removeProgress={renderState.removeProgress} setView={setView} />;
     case "progress":
-      return <ProgressView content={content} progress={renderState.progress} setView={setView} />;
+      return <ProgressView content={content} progress={renderState.progress} renderState={renderState} setLearningRecordFilter={setLearningRecordFilter} setLearningRecordReturnView={setLearningRecordReturnView} setView={setView} />;
     case "weak-points":
-      return <WeakPointsView content={content} progress={renderState.progress} setView={setView} />;
+      return <WeakPointsView content={content} progress={renderState.progress} renderState={renderState} setView={setView} />;
+    case "learning-records":
+      return <LearningRecordsView content={content} filter={learningRecordFilter} progress={renderState.progress} renderState={renderState} returnView={learningRecordReturnView} setFilter={setLearningRecordFilter} setView={setView} />;
     case "profile":
-      return <ProfileView content={content} progress={renderState.progress} setView={setView} />;
+      return <ProfileView content={content} progress={renderState.progress} renderState={renderState} setLearningRecordFilter={setLearningRecordFilter} setLearningRecordReturnView={setLearningRecordReturnView} setView={setView} />;
     case "favorites":
       return <FavoritesView content={content} progress={renderState.progress} renderState={renderState} setView={setView} />;
     case "settings":
@@ -106,18 +113,13 @@ function HomeView({
     { source: "gesp" as const, title: "GESP 全等级", count: content.gesp.total_count, subtitle: `${content.gesp.levels.length} 个等级 · 后端目录` },
     { source: "atcoder" as const, title: "AtCoder", count: content.atcoder.total_count, subtitle: `${content.atcoder.tracks.length} 个难度轨道` }
   ];
+  const openWeakPoint = async (point: WeakPoint) => {
+    await renderState.loadGespCatalog({ domainId: point.id, level: point.level || defaultCatalogLevel(content) });
+    setView("catalog");
+  };
 
   const openTask = async (task: LearningTask | null) => {
-    if (!task?.problem_id) {
-      setView("catalog");
-      return;
-    }
-    if (task.source === "atcoder") {
-      await renderState.selectAtCoderProblem(task.problem_id);
-    } else {
-      await renderState.selectGespProblem(task.problem_id);
-    }
-    setView("problem");
+    await openLearningTask(task, content, renderState, setView);
   };
 
   return (
@@ -152,7 +154,7 @@ function HomeView({
       </div>
 
       <SectionHeader title="知识点进度" action="本周" onAction={() => setView("weak-points")} />
-      <WeakPointList points={weakPoints.slice(0, 3)} />
+      <WeakPointList onOpen={openWeakPoint} points={weakPoints.slice(0, 3)} />
     </>
   );
 }
@@ -439,7 +441,7 @@ function CodeView({ problem, progress, recordProgress, removeProgress, setView }
   );
 }
 
-function ProgressView({ content, progress, setView }: { content: ConsumerMobileContent; progress: MobileProgress | null; setView: (view: ConsumerView) => void }) {
+function ProgressView({ content, progress, renderState, setLearningRecordFilter, setLearningRecordReturnView, setView }: { content: ConsumerMobileContent; progress: MobileProgress | null; renderState: ConsumerRenderState; setLearningRecordFilter: (filter: LearningRecordFilter) => void; setLearningRecordReturnView: (view: "progress" | "profile") => void; setView: (view: ConsumerView) => void }) {
   const weakPoints = progress?.weak_points?.length ? progress.weak_points : content.progress_summary?.weak_points || weakPointsFromDomains(content.gesp.domains);
   const recentEvents = progress?.recent_events || content.progress_summary?.recent_events || progress?.viewed || [];
   const counts = progressCounts(progress, content);
@@ -453,6 +455,19 @@ function ProgressView({ content, progress, setView }: { content: ConsumerMobileC
     }
     setView("weak-points");
   };
+  const openEvent = async (event: MobileProgressEvent) => {
+    await openProgressEvent(event, renderState);
+    setView("problem");
+  };
+  const openWeakPoint = async (point: WeakPoint) => {
+    await renderState.loadGespCatalog({ domainId: point.id, level: point.level || defaultCatalogLevel(content) });
+    setView("catalog");
+  };
+  const openLearningRecords = (filter: LearningRecordFilter) => {
+    setLearningRecordFilter(filter);
+    setLearningRecordReturnView("progress");
+    setView("learning-records");
+  };
 
   return (
     <>
@@ -460,22 +475,34 @@ function ProgressView({ content, progress, setView }: { content: ConsumerMobileC
       <HeroPanel eyebrow="本周概览" title={`完成 ${counts.weekly_actions} 次练习，薄弱点剩 ${weakPoints.length} 个`} description="系统会优先把错误率高、最近没复习的知识点放在前面。" actionLabel="开始复习" onAction={openReview} onSideAction={() => setView("weak-points")} sideAction={<RefreshCw size={17} />} sideLabel="刷新复习建议" />
       <SectionHeader title="掌握度" action={`${masteryPct}%`} />
       <div className="consumerLibraryGrid">
-        <SummaryTile active label="已看题目" value={String(counts.viewed)} />
-        <SummaryTile label="已复习" value={String(counts.reviewed)} />
+        <SummaryTile active label="已看题目" onOpen={() => openLearningRecords("viewed")} value={String(counts.viewed)} />
+        <SummaryTile label="已复习" onOpen={() => openLearningRecords("reviewed")} value={String(counts.reviewed)} />
       </div>
       <SectionHeader title="薄弱知识点" action="查看全部" onAction={() => setView("weak-points")} />
-      <WeakPointList points={weakPoints.slice(0, 4)} />
+      <WeakPointList onOpen={openWeakPoint} points={weakPoints.slice(0, 4)} />
       <SectionHeader title="最近动作" action={progress?.data_source === "mysql" ? "数据库同步" : "本地记录"} />
-      <EventList events={recentEvents.slice(0, 3)} emptyLabel="点击题目后，这里会记录最近动作。" />
+      <EventList events={recentEvents.slice(0, 3)} emptyLabel="点击题目后，这里会记录最近动作。" onOpen={openEvent} />
     </>
   );
 }
 
-function ProfileView({ content, progress, setView }: { content: ConsumerMobileContent; progress: MobileProgress | null; setView: (view: ConsumerView) => void }) {
+function ProfileView({ content, progress, renderState, setLearningRecordFilter, setLearningRecordReturnView, setView }: { content: ConsumerMobileContent; progress: MobileProgress | null; renderState: ConsumerRenderState; setLearningRecordFilter: (filter: LearningRecordFilter) => void; setLearningRecordReturnView: (view: "progress" | "profile") => void; setView: (view: ConsumerView) => void }) {
   const counts = progressCounts(progress, content);
   const favorites = progress?.favorites || content.profile_summary?.favorites || [];
   const reviewPlan = progress?.review_plan || content.profile_summary?.review_plan || emptyReviewPlan();
   const profileCopy = profileHeroCopy(progress, reviewPlan);
+  const openFavorite = async (event: MobileProgressEvent) => {
+    await openProgressEvent(event, renderState);
+    setView("problem");
+  };
+  const openTask = async (task: LearningTask) => {
+    await openLearningTask(task, content, renderState, setView, { recordView: false });
+  };
+  const openReviewedRecords = () => {
+    setLearningRecordFilter("reviewed");
+    setLearningRecordReturnView("profile");
+    setView("learning-records");
+  };
 
   return (
     <>
@@ -483,15 +510,15 @@ function ProfileView({ content, progress, setView }: { content: ConsumerMobileCo
       <HeroPanel eyebrow="学习档案" title={profileCopy.title} description={profileCopy.description} actionLabel="打开收藏" onAction={() => setView("favorites")} onSideAction={() => setView("favorites")} sideAction={<Share size={17} />} sideLabel="进入收藏夹" />
       <SectionHeader title="学习数据" action="实时" />
       <div className="consumerLibraryGrid">
-        <SummaryTile active label="收藏题" value={String(counts.favorite)} />
-        <SummaryTile label="复习中" value={String(counts.reviewed)} />
+        <SummaryTile active label="收藏题" onOpen={() => setView("favorites")} value={String(counts.favorite)} />
+        <SummaryTile label="复习中" onOpen={openReviewedRecords} value={String(counts.reviewed)} />
       </div>
       <SectionHeader title="收藏夹" action="管理" onAction={() => setView("favorites")} />
-      <EventList events={favorites.slice(0, 4)} emptyLabel="还没有收藏题，先从题目页点击收藏。" />
+      <EventList events={favorites.slice(0, 4)} emptyLabel="还没有收藏题，先从题目页点击收藏。" onOpen={openFavorite} />
       <SectionHeader title="复习计划" action={reviewPlan.status === "ready" ? `今日 ${reviewPlan.items.length} 题` : "待生成"} />
       {reviewPlan.items.length ? (
         <div className="consumerProblemList">
-          {reviewPlan.items.map((task) => <TaskCard icon={<BookOpen size={18} />} key={task.id} task={task} />)}
+          {reviewPlan.items.map((task) => <TaskCard icon={<BookOpen size={18} />} key={task.id} onOpen={() => void openTask(task)} task={task} />)}
         </div>
       ) : (
         <StateCard label="暂无复习计划，浏览或收藏题目后会自动生成。" />
@@ -500,8 +527,12 @@ function ProfileView({ content, progress, setView }: { content: ConsumerMobileCo
   );
 }
 
-function WeakPointsView({ content, progress, setView }: { content: ConsumerMobileContent; progress: MobileProgress | null; setView: (view: ConsumerView) => void }) {
+function WeakPointsView({ content, progress, renderState, setView }: { content: ConsumerMobileContent; progress: MobileProgress | null; renderState: ConsumerRenderState; setView: (view: ConsumerView) => void }) {
   const weakPoints = progress?.weak_points?.length ? progress.weak_points : content.progress_summary?.weak_points || weakPointsFromDomains(content.gesp.domains);
+  const openWeakPoint = async (point: WeakPoint) => {
+    await renderState.loadGespCatalog({ domainId: point.id, level: point.level || defaultCatalogLevel(content) });
+    setView("catalog");
+  };
   return (
     <>
       <TopBar
@@ -512,7 +543,51 @@ function WeakPointsView({ content, progress, setView }: { content: ConsumerMobil
       />
       <HeroPanel eyebrow="复习建议" title={`优先处理 ${weakPoints[0]?.name || "基础题型"}`} description="按题量和掌握度排序，先补最薄弱的知识点，再回到题库筛选同类题。" actionLabel="去题库筛选" onAction={() => setView("catalog")} onSideAction={() => setView("progress")} sideAction={<RefreshCw size={17} />} sideLabel="返回进度" />
       <SectionHeader title="全部薄弱点" action={`${weakPoints.length} 个`} />
-      <WeakPointList points={weakPoints} />
+      <WeakPointList onOpen={openWeakPoint} points={weakPoints} />
+    </>
+  );
+}
+
+function LearningRecordsView({
+  content,
+  filter,
+  progress,
+  renderState,
+  returnView,
+  setFilter,
+  setView
+}: {
+  content: ConsumerMobileContent;
+  filter: LearningRecordFilter;
+  progress: MobileProgress | null;
+  renderState: ConsumerRenderState;
+  returnView: "progress" | "profile";
+  setFilter: (filter: LearningRecordFilter) => void;
+  setView: (view: ConsumerView) => void;
+}) {
+  const records = learningRecordsForFilter(content, progress, filter);
+  const title = learningRecordTitle(filter);
+  const openEvent = async (event: MobileProgressEvent) => {
+    await openProgressEvent(event, renderState);
+    setView("problem");
+  };
+
+  return (
+    <>
+      <TopBar
+        align="right"
+        title="学习记录"
+        subtitle={title}
+        leading={<IconShell label={returnView === "profile" ? "返回我的" : "返回进度"} onClick={() => setView(returnView)}><ChevronLeft size={18} /></IconShell>}
+      />
+      <div className="consumerSegmented">
+        <button className={filter === "all" ? "active" : ""} onClick={() => setFilter("all")} type="button">全部</button>
+        <button className={filter === "viewed" ? "active" : ""} onClick={() => setFilter("viewed")} type="button">已看题目</button>
+        <button className={filter === "favorite" ? "active" : ""} onClick={() => setFilter("favorite")} type="button">收藏</button>
+        <button className={filter === "reviewed" ? "active" : ""} onClick={() => setFilter("reviewed")} type="button">已复习</button>
+      </div>
+      <SectionHeader title={title} action={`${records.length} 条 · 按时间`} />
+      <EventList events={records} emptyLabel={`${title}暂无记录，先从题库打开题目。`} onOpen={openEvent} />
     </>
   );
 }
@@ -521,24 +596,11 @@ function FavoritesView({ content, progress, renderState, setView }: { content: C
   const favorites = progress?.favorites || content.profile_summary?.favorites || [];
   const reviewPlan = progress?.review_plan || content.profile_summary?.review_plan || emptyReviewPlan();
   const openEvent = async (event: MobileProgressEvent) => {
-    if (event.source === "atcoder") {
-      await renderState.selectAtCoderProblem(event.problemId);
-    } else {
-      await renderState.selectGespProblem(event.problemId);
-    }
+    await openProgressEvent(event, renderState);
     setView("problem");
   };
   const openTask = async (task: LearningTask) => {
-    if (!task.problem_id) {
-      setView("weak-points");
-      return;
-    }
-    if (task.source === "atcoder") {
-      await renderState.selectAtCoderProblem(task.problem_id);
-    } else {
-      await renderState.selectGespProblem(task.problem_id);
-    }
-    setView("problem");
+    await openLearningTask(task, content, renderState, setView, { recordView: false });
   };
   return (
     <>
@@ -554,7 +616,7 @@ function FavoritesView({ content, progress, renderState, setView }: { content: C
           {favorites.map((event, index) => (
             <button className="consumerEventRow" key={`${event.source}:${event.problemId}`} onClick={() => void openEvent(event)} type="button">
               <span>收</span>
-              <div><strong>{event.title || event.problemId}</strong><small>{event.source === "atcoder" ? "AtCoder" : "GESP"} · 已收藏</small></div>
+              <div><strong>{event.title || event.problemId}</strong><small>{progressEventSourceLabel(event.source)} · 已收藏</small></div>
               <em>{String(index + 1).padStart(2, "0")}</em>
             </button>
           ))}
@@ -693,13 +755,17 @@ function SearchBox({ label, onClick }: { label: string; onClick: () => void }) {
   return <button className="consumerSearchBox" onClick={onClick} type="button"><Search size={17} /><span>{label}</span></button>;
 }
 
-function SummaryTile({ active = false, label, value }: { active?: boolean; label: string; value: string }) {
-  return (
-    <article className={`consumerSummaryTile ${active ? "active" : ""}`}>
+function SummaryTile({ active = false, label, onOpen, value }: { active?: boolean; label: string; onOpen?: () => void; value: string }) {
+  const className = `consumerSummaryTile ${active ? "active" : ""}`;
+  const content = (
+    <>
       <span>{label}</span>
       <strong>{value}</strong>
-    </article>
+    </>
   );
+  return onOpen
+    ? <button className={className} onClick={onOpen} type="button">{content}</button>
+    : <article className={className}>{content}</article>;
 }
 
 function TaskCard({ icon, onOpen, task }: { icon: ReactNode; onOpen?: () => void; task: LearningTask }) {
@@ -716,35 +782,40 @@ function TaskCard({ icon, onOpen, task }: { icon: ReactNode; onOpen?: () => void
   return <article className="consumerTaskCard">{content}</article>;
 }
 
-function WeakPointList({ points }: { points: WeakPoint[] }) {
+function WeakPointList({ onOpen, points }: { onOpen?: (point: WeakPoint) => void | Promise<void>; points: WeakPoint[] }) {
   if (!points.length) {
     return <StateCard label="暂无薄弱知识点，继续练习后会生成。" />;
   }
   return (
     <div className="consumerWeakList">
-      {points.map((point) => (
-        <article className="consumerWeakItem" key={point.id}>
-          <strong>{point.name}</strong>
-          <small>{point.count} 道题 · 建议今天完成 {point.suggested_count} 道</small>
-          <span><i style={{ width: `${point.progress}%` }} /></span>
-        </article>
-      ))}
+      {points.map((point) => {
+        const content = (
+          <>
+            <strong>{weakPointTitle(point)}</strong>
+            <small>{point.count} 道题 · 建议今天完成 {point.suggested_count} 道</small>
+            <span><i style={{ width: `${point.progress}%` }} /></span>
+          </>
+        );
+        return onOpen
+          ? <button className="consumerWeakItem" key={point.id} onClick={() => void onOpen(point)} type="button">{content}</button>
+          : <article className="consumerWeakItem" key={point.id}>{content}</article>;
+      })}
     </div>
   );
 }
 
-function EventList({ emptyLabel, events }: { emptyLabel: string; events: MobileProgressEvent[] }) {
+function EventList({ emptyLabel, events, onOpen }: { emptyLabel: string; events: MobileProgressEvent[]; onOpen?: (event: MobileProgressEvent) => void | Promise<void> }) {
   if (!events.length) {
     return <StateCard label={emptyLabel} />;
   }
   return (
     <div className="consumerProblemList">
       {events.map((event) => (
-        <article className="consumerEventRow" key={`${event.type}:${event.source}:${event.problemId}`}>
+        <button className="consumerEventRow" key={`${event.type}:${event.source}:${event.problemId}`} onClick={() => void onOpen?.(event)} type="button">
           <span>{event.source === "atcoder" ? "At" : event.type === "favorite" ? "收" : "题"}</span>
-          <div><strong>{event.title || event.problemId}</strong><small>{event.source || "gesp"} · {event.type}</small></div>
-          <em>{event.type === "review" ? "复习" : event.type === "favorite" ? "收藏" : "查看"}</em>
-        </article>
+          <div><strong>{event.title || event.problemId}</strong><small>{progressEventSourceLabel(event.source)} · {progressEventTypeLabel(event.type)}</small></div>
+          <em>{progressEventTypeLabel(event.type)}</em>
+        </button>
       ))}
     </div>
   );
@@ -794,7 +865,7 @@ function latestProgressTask(progress: MobileProgress | null): LearningTask | nul
     id: `continue:${event.source || "gesp"}:${event.problemId}`,
     kind: "continue",
     title: event.title || event.problemId,
-    subtitle: `${event.source || "gesp"} · ${event.type}`,
+    subtitle: `${progressEventSourceLabel(event.source)} · ${progressEventTypeLabel(event.type)}`,
     problem_id: event.problemId,
     source: event.source || "gesp",
     cta_label: "继续",
@@ -832,10 +903,15 @@ function weakPointsFromDomains(domains: Domain[]): WeakPoint[] {
       name: domain.name,
       description: domain.description,
       count: domain.count,
+      level: domain.level,
       progress: domain.progress,
       suggested_count: domain.progress < 45 ? 2 : 1,
       tone: domain.tone
     }));
+}
+
+function weakPointTitle(point: WeakPoint) {
+  return point.level ? `${point.level}级 · ${point.name}` : point.name;
 }
 
 function progressCounts(progress: MobileProgress | null, content: ConsumerMobileContent) {
@@ -851,6 +927,119 @@ function progressCounts(progress: MobileProgress | null, content: ConsumerMobile
     reviewed: progress?.reviewed_count ?? content.learning.reviewed_count,
     weekly_actions: progress?.weekly_action_count ?? summarizeLearningProgress(progress).weeklyActionCount
   };
+}
+
+async function openProgressEvent(event: MobileProgressEvent, renderState: ConsumerRenderState) {
+  if (!event.problemId) {
+    return null;
+  }
+  return event.source === "atcoder"
+    ? renderState.selectAtCoderProblem(event.problemId, { recordView: false })
+    : renderState.selectGespProblem(event.problemId, { recordView: false });
+}
+
+async function openLearningTask(
+  task: LearningTask | null,
+  content: ConsumerMobileContent,
+  renderState: ConsumerRenderState,
+  setView: (view: ConsumerView) => void,
+  options: { recordView?: boolean } = {}
+) {
+  if (!task) {
+    setView("catalog");
+    return;
+  }
+  if (task.kind === "weak_point" && task.domain_id) {
+    await renderState.loadGespCatalog({ domainId: task.domain_id, level: task.level || defaultCatalogLevel(content) });
+    setView("catalog");
+    return;
+  }
+  if (!task.problem_id) {
+    setView(task.kind === "weak_point" ? "weak-points" : "catalog");
+    return;
+  }
+  if (task.source === "atcoder") {
+    await renderState.selectAtCoderProblem(task.problem_id, options);
+  } else {
+    await renderState.selectGespProblem(task.problem_id, options);
+  }
+  setView("problem");
+}
+
+function learningRecordsForFilter(content: ConsumerMobileContent, progress: MobileProgress | null, filter: LearningRecordFilter) {
+  const events = [
+    ...(progress?.recent_events || []),
+    ...(progress?.viewed || []),
+    ...(progress?.favorites || []),
+    ...(progress?.reviewed || []),
+    ...(content.progress_summary?.recent_events || []),
+    ...(content.profile_summary?.recent_events || []),
+    ...(content.profile_summary?.favorites || [])
+  ];
+  const filteredEvents = filter === "all"
+    ? events
+    : events.filter((event) => event.type === progressEventTypeFromFilter(filter));
+  return sortProgressEvents(dedupeProgressEvents(filteredEvents));
+}
+
+function dedupeProgressEvents(events: MobileProgressEvent[]) {
+  const eventByKey = new Map<string, MobileProgressEvent>();
+  for (const event of events) {
+    const key = `${event.type}:${event.source || "gesp"}:${event.problemId}`;
+    if (!eventByKey.has(key)) {
+      eventByKey.set(key, event);
+    }
+  }
+  return [...eventByKey.values()];
+}
+
+function sortProgressEvents(events: MobileProgressEvent[]) {
+  return [...events].sort((a, b) => eventTime(b) - eventTime(a));
+}
+
+function eventTime(event: MobileProgressEvent) {
+  return event.recordedAt ? Date.parse(event.recordedAt) || 0 : 0;
+}
+
+function progressEventTypeFromFilter(filter: Exclude<LearningRecordFilter, "all">): MobileProgressEvent["type"] {
+  if (filter === "reviewed") {
+    return "review";
+  }
+  if (filter === "favorite") {
+    return "favorite";
+  }
+  return "view";
+}
+
+function learningRecordTitle(filter: LearningRecordFilter) {
+  if (filter === "reviewed") {
+    return "已复习";
+  }
+  if (filter === "favorite") {
+    return "收藏";
+  }
+  if (filter === "viewed") {
+    return "已看题目";
+  }
+  return "全部动作";
+}
+
+function progressEventSourceLabel(source?: MobileProgressEvent["source"]) {
+  return source === "atcoder" ? "AtCoder" : "GESP";
+}
+
+function progressEventTypeLabel(type: MobileProgressEvent["type"]) {
+  if (type === "review") {
+    return "复习";
+  }
+  if (type === "favorite") {
+    return "收藏";
+  }
+  return "查看";
+}
+
+function defaultCatalogLevel(content: ConsumerMobileContent) {
+  return content.catalog_summary?.default_level || content.gesp.levels.find((level) => level.level === 5)?.level || content.gesp.levels[0]?.level || 5;
 }
 
 function emptyReviewPlan(): ReviewPlan {

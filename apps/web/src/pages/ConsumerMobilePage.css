@@ -280,6 +280,14 @@
   text-align: left;
 }
 
+button.consumerSummaryTile,
+button.consumerWeakItem,
+button.consumerEventRow {
+  cursor: pointer;
+  font: inherit;
+  width: 100%;
+}
+
 .consumerLibraryCard.active,
 .consumerSummaryTile.active {
   background: var(--consumer-amber-soft);
@@ -328,7 +336,10 @@
   background: var(--consumer-surface);
   border: 1.9231px solid var(--consumer-line);
   border-radius: var(--consumer-radius);
+  color: var(--consumer-text);
   padding: 23.0769px;
+  text-align: left;
+  width: 100%;
 }
 
 .consumerWeakItem span {
@@ -449,6 +460,34 @@
   background: var(--consumer-green);
   border-color: var(--consumer-green);
   color: #fff;
+}
+
+.consumerSegmented {
+  background: var(--consumer-soft);
+  border: 1.9231px solid var(--consumer-line);
+  border-radius: var(--consumer-radius);
+  display: grid;
+  gap: 7.6923px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 26.9231px;
+  padding: 7.6923px;
+}
+
+.consumerSegmented button {
+  background: transparent;
+  border: 0;
+  border-radius: calc(var(--consumer-radius) - 2px);
+  color: var(--consumer-muted);
+  font-size: 18.2692px;
+  font-weight: 900;
+  height: 61.5385px;
+  white-space: nowrap;
+}
+
+.consumerSegmented button.active {
+  background: var(--consumer-surface);
+  color: var(--consumer-green);
+  box-shadow: 0 5.7692px 17.3077px rgb(28 38 34 / 8%);
 }
 
 .consumerProblemRow,
@@ -661,19 +700,20 @@
   margin-top: 5.7692px;
 }
 
-.consumerSecondaryFull {
+.consumerPage .consumerSecondaryFull {
   background: var(--consumer-surface);
   border: 1.9231px solid var(--consumer-line);
   border-radius: var(--consumer-radius);
   color: var(--consumer-green);
-  font-size: 26.9231px;
-  font-weight: 900;
+  font-size: 19.2308px;
+  font-weight: 850;
   height: 82.6923px;
+  line-height: 1;
   margin-top: 17.3077px;
   width: 100%;
 }
 
-.consumerSecondaryFull.active {
+.consumerPage .consumerSecondaryFull.active {
   background: var(--consumer-green-soft);
   border-color: #b7d2c6;
 }
