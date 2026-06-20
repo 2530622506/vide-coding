@@ -908,46 +908,6 @@
   width: 100%;
 }
 
-.consumerSkeletonCard {
-  background: var(--consumer-surface);
-  border: 1.9231px solid var(--consumer-line);
-  border-radius: var(--consumer-radius);
-  display: grid;
-  gap: 17.3077px;
-  margin-bottom: 23.0769px;
-  padding: 25px;
-}
-
-.consumerSkeletonCard span {
-  animation: consumerSkeletonPulse 1.2s ease-in-out infinite;
-  background: linear-gradient(90deg, #e5eadf, #fbfaf5, #e5eadf);
-  background-size: 200% 100%;
-  border-radius: var(--consumer-radius);
-  display: block;
-  height: 42.3077px;
-}
-
-.consumerSkeletonCard span:first-child {
-  width: 58%;
-}
-
-.consumerSkeletonCard span:nth-child(2) {
-  width: 88%;
-}
-
-.consumerSkeletonCard span:nth-child(3) {
-  width: 72%;
-}
-
-@keyframes consumerSkeletonPulse {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: -200% 50%;
-  }
-}
-
 .consumerBottomNav {
   background: var(--consumer-paper);
   border-top: 1.9231px solid var(--consumer-line);

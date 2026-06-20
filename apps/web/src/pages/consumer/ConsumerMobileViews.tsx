@@ -52,7 +52,7 @@ export function renderConsumerView(
 ) {
   const { content, error, loading, reload } = renderState;
   if (loading) {
-    return <LoadingSkeleton />;
+    return null;
   }
   if (error) {
     return <StateCard actionLabel="重试" label={`后端内容加载失败：${error}`} onAction={reload} />;
@@ -217,7 +217,7 @@ function CatalogView({ renderState, setView }: { renderState: ConsumerRenderStat
   const { catalogError, catalogLoading, gespCatalog, loadGespCatalog, selectGespProblem } = renderState;
   const catalog = gespCatalog;
   if (!catalog) {
-    return catalogLoading ? <LoadingSkeleton /> : <StateCard label="GESP 移动目录暂无数据" />;
+    return catalogLoading ? null : <StateCard label="GESP 移动目录暂无数据" />;
   }
   const openProblem = async (problemId: string) => {
     await selectGespProblem(problemId);
@@ -761,16 +761,6 @@ function StateCard({ actionLabel, label, onAction }: { actionLabel?: string; lab
       <p>{label}</p>
       {actionLabel && onAction ? <button onClick={onAction} type="button">{actionLabel}</button> : null}
     </section>
-  );
-}
-
-function LoadingSkeleton() {
-  return (
-    <>
-      <TopBar title="GESP 练习" subtitle="正在加载" />
-      <section className="consumerSkeletonCard"><span /><span /><span /></section>
-      <section className="consumerSkeletonCard short"><span /><span /><span /></section>
-    </>
   );
 }
 
