@@ -43,45 +43,44 @@
       }
 
       body {
-        background:
-          radial-gradient(circle at 20% 12%, rgb(244 198 106 / 22%), transparent 34%),
-          linear-gradient(135deg, #eef1eb 0%, #f7f5ec 45%, #eef1eb 100%);
+        background: #eef1f3;
         margin: 0;
         min-width: 320px;
       }
 
       .boot-shell {
-        align-items: center;
+        align-items: stretch;
         display: grid;
-        gap: 42px;
-        grid-template-columns: minmax(0, 420px) minmax(320px, 390px);
-        justify-content: center;
+        gap: 24px;
+        grid-template-columns: 252px minmax(0, 1fr);
         min-height: 100vh;
-        padding: 32px;
+        padding: 20px;
       }
 
       .boot-sider {
-        background: transparent;
-        border-right: 0;
-        box-shadow: none;
-        padding: 0;
+        background: #eff9f7;
+        border: 1px solid #cfe4df;
+        border-radius: 8px;
+        box-shadow: 8px 0 28px rgb(77 124 119 / 8%);
+        min-height: calc(100vh - 40px);
+        padding: 16px 12px;
       }
 
       .boot-brand {
         align-items: center;
-        background: #fbfaf5;
-        border: 1px solid #d9ded5;
+        background: rgb(255 255 255 / 66%);
+        border: 1px solid #d8ebe7;
         border-radius: 8px;
         display: flex;
         gap: 12px;
-        padding: 12px;
+        padding: 10px;
       }
 
       .boot-mark {
         align-items: center;
-        background: #e1eee8;
+        background: #d9f3ee;
         border-radius: 8px;
-        color: #0f6b50;
+        color: #0d7772;
         display: inline-flex;
         flex: 0 0 auto;
         height: 42px;
@@ -94,7 +93,7 @@
       }
 
       .boot-eyebrow {
-        color: #68756f;
+        color: #647b79;
         display: block;
         font-size: 12px;
         line-height: 1;
@@ -102,7 +101,7 @@
       }
 
       .boot-title {
-        color: #18221f;
+        color: #173333;
         font-size: 18px;
         font-weight: 750;
         line-height: 1.25;
@@ -112,11 +111,12 @@
       .boot-menu {
         display: grid;
         gap: 8px;
-        margin-top: 24px;
+        margin-top: 22px;
       }
 
       .boot-menu-line {
-        background: #18332b;
+        background: #d5f0eb;
+        border: 1px solid #a9dcd4;
         border: 0;
         border-radius: 8px;
         height: 40px;
@@ -125,28 +125,41 @@
       .boot-menu-line:nth-child(2),
       .boot-menu-line:nth-child(3),
       .boot-menu-line:nth-child(4) {
-        background: rgb(255 255 255 / 48%);
-        border: 1px solid #d9ded5;
+        background: rgb(255 255 255 / 58%);
+        border: 1px solid #d8ebe7;
         width: 86%;
       }
 
-      .boot-main {
-        background: #fbfaf5;
-        border: 10px solid #111916;
-        border-radius: 30px;
-        box-shadow: 0 24px 60px rgb(31 41 35 / 14%);
-        height: min(844px, calc(100vh - 64px));
-        overflow: hidden;
-        padding: 38px 28px;
+      .boot-menu-line:nth-child(4) {
+        width: 68%;
       }
 
-      .boot-heading {
-        max-width: 760px;
+      .boot-main {
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .boot-desktop {
+        display: block;
+        margin: 0 auto;
+        max-width: 1380px;
+      }
+
+      .boot-mobile {
+        display: none;
+      }
+
+      .boot-topbar {
+        align-items: flex-start;
+        display: flex;
+        gap: 24px;
+        justify-content: space-between;
+        margin-bottom: 18px;
       }
 
       .boot-kicker {
         align-items: center;
-        color: #0f6b50;
+        color: #167f7b;
         display: inline-flex;
         font-size: 13px;
         font-weight: 750;
@@ -154,8 +167,9 @@
         margin-bottom: 8px;
       }
 
-      .boot-heading h1 {
-        color: #18221f;
+      .boot-topbar h2,
+      .boot-mobile h2 {
+        color: #1a2733;
         font-size: 30px;
         font-weight: 800;
         line-height: 1.18;
@@ -163,85 +177,143 @@
         text-wrap: balance;
       }
 
-      .boot-heading p {
-        color: #68756f;
+      .boot-topbar p,
+      .boot-mobile p {
+        color: #64717f;
         font-size: 14px;
         line-height: 1.65;
         margin: 0;
-        max-width: 65ch;
+        max-width: 72ch;
       }
 
-      .boot-control {
-        background: #fff;
-        border: 1px solid #d9ded5;
-        border-radius: 8px;
+      .boot-actions {
+        align-items: center;
         display: flex;
+        flex: 0 0 auto;
         gap: 8px;
-        margin-top: 32px;
-        padding: 12px;
+        justify-content: flex-end;
+        min-width: 280px;
       }
 
-      .boot-pill,
-      .boot-input,
-      .boot-card,
-      .boot-cell {
-        background: linear-gradient(100deg, #f8f6ed 8%, #e1eee8 18%, #f8f6ed 33%);
+      .boot-action,
+      .boot-filter,
+      .boot-search,
+      .boot-stat,
+      .boot-panel,
+      .boot-row,
+      .boot-cell,
+      .boot-source-row,
+      .boot-mobile-search,
+      .boot-mobile-filter,
+      .boot-mobile-card,
+      .boot-mobile-line,
+      .boot-mobile-nav-item {
+        background: linear-gradient(100deg, #f8faf9 8%, #dff1ee 18%, #f8faf9 33%);
         background-size: 200% 100%;
         animation: boot-shimmer 1400ms ease-in-out infinite;
       }
 
-      .boot-pill {
-        border-radius: 7px;
-        height: 32px;
-        width: 56px;
+      .boot-action {
+        border-radius: 8px;
+        height: 36px;
+        width: 92px;
       }
 
-      .boot-input {
+      .boot-action.is-primary {
+        width: 112px;
+      }
+
+      .boot-control {
+        align-items: center;
+        background: #fff;
+        border: 1px solid #d8e1e5;
+        border-radius: 8px;
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+        padding: 12px;
+      }
+
+      .boot-filter {
+        border-radius: 7px;
+        height: 32px;
+        width: 76px;
+      }
+
+      .boot-search {
         border-radius: 8px;
         height: 32px;
-        max-width: 320px;
+        margin-left: auto;
+        max-width: 420px;
         width: 34%;
       }
 
-      .boot-grid {
+      .boot-stats {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin-bottom: 16px;
+      }
+
+      .boot-stat {
+        border: 1px solid #d8e1e5;
+        border-radius: 8px;
+        height: 112px;
+      }
+
+      .boot-workbench {
+        align-items: start;
         display: grid;
         gap: 14px;
-        grid-template-columns: 1fr;
-        margin-top: 16px;
+        grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
       }
 
-      .boot-card {
-        border: 1px solid #d9ded5;
+      .boot-panel {
+        border: 1px solid #d8e1e5;
         border-radius: 8px;
-        min-height: 142px;
-        padding: 16px;
+        min-height: 424px;
+        padding: 14px;
       }
 
-      .boot-card.is-list {
-        min-height: 220px;
+      .boot-panel.is-side {
+        min-height: 424px;
       }
 
-      .boot-card.is-side {
-        min-height: 142px;
+      .boot-row {
+        border-radius: 8px;
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1.6fr 0.8fr 0.8fr 0.7fr;
+        height: 42px;
+        margin-bottom: 10px;
+        padding: 8px;
+      }
+
+      .boot-row.is-header {
+        height: 34px;
+        opacity: 0.74;
       }
 
       .boot-cell {
+        background: rgb(255 255 255 / 50%);
         border-radius: 8px;
-        height: 42px;
+        height: 100%;
+        margin: 0;
+      }
+
+      .boot-source-row {
+        border-radius: 8px;
+        height: 74px;
         margin-bottom: 10px;
       }
 
-      .boot-cell:nth-child(2n) {
-        width: 82%;
-      }
-
-      .boot-cell:nth-child(3n) {
-        width: 64%;
+      .boot-source-row:nth-child(3n) {
+        height: 112px;
       }
 
       .boot-status {
         align-items: center;
-        color: #68756f;
+        color: #64717f;
         display: flex;
         font-size: 14px;
         gap: 10px;
@@ -250,7 +322,7 @@
 
       .boot-dot {
         animation: boot-pulse 900ms ease-in-out infinite;
-        background: #0f6b50;
+        background: #167f7b;
         border-radius: 999px;
         height: 8px;
         width: 8px;
@@ -265,6 +337,132 @@
         line-height: 1.6;
         margin-top: 16px;
         padding: 12px;
+      }
+
+      .boot-mobile-shell {
+        background: #fbfcfd;
+        min-height: 100vh;
+        padding: 18px 16px 88px;
+      }
+
+      .boot-mobile-header {
+        align-items: center;
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      .boot-mobile-brand {
+        align-items: center;
+        display: flex;
+        gap: 10px;
+        min-width: 0;
+      }
+
+      .boot-mobile-brand .boot-mark {
+        height: 38px;
+        width: 38px;
+      }
+
+      .boot-mobile-brand h1 {
+        color: #173333;
+        font-size: 17px;
+        line-height: 1.25;
+        margin: 0;
+      }
+
+      .boot-mobile-chip {
+        background: #fff7e6;
+        border: 1px solid #ffe0a6;
+        border-radius: 999px;
+        color: #7a4b00;
+        flex: 0 0 auto;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 6px 10px;
+      }
+
+      .boot-mobile h2 {
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+
+      .boot-mobile-controls {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr 88px;
+        margin: 20px 0 14px;
+      }
+
+      .boot-mobile-search,
+      .boot-mobile-filter {
+        border: 1px solid #d8e1e5;
+        border-radius: 8px;
+        height: 44px;
+      }
+
+      .boot-mobile-tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 14px;
+        overflow: hidden;
+      }
+
+      .boot-mobile-tab {
+        background: #e8f5f2;
+        border: 1px solid #cde7e2;
+        border-radius: 999px;
+        flex: 0 0 auto;
+        height: 34px;
+        width: 72px;
+      }
+
+      .boot-mobile-card {
+        border: 1px solid #d8e1e5;
+        border-radius: 8px;
+        min-height: 132px;
+        margin-bottom: 12px;
+        padding: 14px;
+      }
+
+      .boot-mobile-line {
+        background: rgb(255 255 255 / 56%);
+        border-radius: 8px;
+        display: block;
+        height: 14px;
+        margin-bottom: 12px;
+      }
+
+      .boot-mobile-line:nth-child(1) {
+        height: 18px;
+        width: 72%;
+      }
+
+      .boot-mobile-line:nth-child(2) {
+        width: 92%;
+      }
+
+      .boot-mobile-line:nth-child(3) {
+        width: 58%;
+      }
+
+      .boot-mobile-nav {
+        background: #fff;
+        border-top: 1px solid #dbe4e8;
+        bottom: 0;
+        display: grid;
+        gap: 8px;
+        grid-template-columns: repeat(4, 1fr);
+        left: 0;
+        padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+        position: fixed;
+        right: 0;
+      }
+
+      .boot-mobile-nav-item {
+        border-radius: 8px;
+        height: 42px;
       }
 
       @keyframes boot-shimmer {
@@ -290,13 +488,20 @@
         }
       }
 
-      @media (max-width: 1180px) {
-        .boot-grid {
+      @media (max-width: 1180px) and (min-width: 821px) {
+        .boot-shell {
+          grid-template-columns: 220px minmax(0, 1fr);
+        }
+
+        .boot-stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .boot-workbench {
           grid-template-columns: 1fr;
         }
 
-        .boot-card.is-side {
-          grid-column: 1 / -1;
+        .boot-panel.is-side {
           min-height: 220px;
         }
       }
@@ -311,47 +516,29 @@
           display: none;
         }
 
-        .boot-menu {
+        .boot-desktop {
           display: none;
         }
 
-        .boot-main {
-          border: 0;
-          border-radius: 0;
-          box-shadow: none;
-          height: 100vh;
-          padding: 38px 28px;
-        }
-
-        .boot-heading h1 {
-          font-size: 26px;
-        }
-
-        .boot-control {
-          flex-wrap: wrap;
-          margin-top: 20px;
-        }
-
-        .boot-input {
-          width: 100%;
-        }
-
-        .boot-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .boot-card,
-        .boot-card.is-list,
-        .boot-card.is-side {
-          min-height: 180px;
+        .boot-mobile {
+          display: block;
         }
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .boot-pill,
-        .boot-input,
-        .boot-card,
+        .boot-action,
+        .boot-filter,
+        .boot-search,
+        .boot-stat,
+        .boot-panel,
+        .boot-row,
         .boot-cell,
+        .boot-source-row,
+        .boot-mobile-search,
+        .boot-mobile-filter,
+        .boot-mobile-card,
+        .boot-mobile-line,
+        .boot-mobile-nav-item,
         .boot-dot {
           animation: none;
         }
@@ -382,46 +569,140 @@
           </div>
         </aside>
 
-        <section class="boot-main" aria-labelledby="boot-heading">
-          <div class="boot-heading">
-            <span class="boot-kicker">GESP C++ / AtCoder</span>
-            <h2 id="boot-heading">练习工作台加载中</h2>
-            <p>题库目录、来源证据、题目维护和 IDE 练习正在准备。</p>
+        <section class="boot-main">
+          <div class="boot-desktop" aria-labelledby="boot-heading-desktop">
+            <header class="boot-topbar">
+              <div>
+                <span class="boot-kicker">B 端 / 题库运营工作台</span>
+                <h2 id="boot-heading-desktop">练习工作台加载中</h2>
+                <p>题库目录、来源证据、题目维护、知识点覆盖和 IDE 练习正在准备。</p>
+              </div>
+              <div class="boot-actions" aria-hidden="true">
+                <span class="boot-action"></span>
+                <span class="boot-action is-primary"></span>
+              </div>
+            </header>
+
+            <div class="boot-control" aria-hidden="true">
+              <span class="boot-filter"></span>
+              <span class="boot-filter"></span>
+              <span class="boot-filter"></span>
+              <span class="boot-search"></span>
+            </div>
+
+            <div class="boot-stats" aria-hidden="true">
+              <span class="boot-stat"></span>
+              <span class="boot-stat"></span>
+              <span class="boot-stat"></span>
+              <span class="boot-stat"></span>
+            </div>
+
+            <div class="boot-workbench" aria-hidden="true">
+              <div class="boot-panel">
+                <div class="boot-row is-header">
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                </div>
+                <div class="boot-row">
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                </div>
+                <div class="boot-row">
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                </div>
+                <div class="boot-row">
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                </div>
+                <div class="boot-row">
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                </div>
+                <div class="boot-row">
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                  <span class="boot-cell"></span>
+                </div>
+              </div>
+
+              <div class="boot-panel is-side">
+                <div class="boot-source-row"></div>
+                <div class="boot-source-row"></div>
+                <div class="boot-source-row"></div>
+              </div>
+            </div>
+
+            <div class="boot-status" role="status" aria-live="polite">
+              <span class="boot-dot" aria-hidden="true"></span>
+              <span>正在加载 B 端工作台</span>
+            </div>
           </div>
 
-          <div class="boot-control" aria-hidden="true">
-            <span class="boot-pill"></span>
-            <span class="boot-pill"></span>
-            <span class="boot-pill"></span>
-            <span class="boot-input"></span>
-          </div>
+          <div class="boot-mobile" aria-labelledby="boot-heading-mobile">
+            <div class="boot-mobile-shell">
+              <header class="boot-mobile-header">
+                <div class="boot-mobile-brand">
+                  <span class="boot-mark" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 3 21 7.5 12 12 3 7.5 12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+                      <path d="m3 12 9 4.5 9-4.5M3 16.5 12 21l9-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                  <h1>算法练习</h1>
+                </div>
+                <span class="boot-mobile-chip">同步中</span>
+              </header>
 
-          <div class="boot-grid" aria-hidden="true">
-            <div class="boot-card">
-              <div class="boot-cell"></div>
-              <div class="boot-cell"></div>
-              <div class="boot-cell"></div>
-              <div class="boot-cell"></div>
-              <div class="boot-cell"></div>
-            </div>
-            <div class="boot-card is-list">
-              <div class="boot-cell"></div>
-              <div class="boot-cell"></div>
-              <div class="boot-cell"></div>
-              <div class="boot-cell"></div>
-              <div class="boot-cell"></div>
-              <div class="boot-cell"></div>
-            </div>
-            <div class="boot-card is-side">
-              <div class="boot-cell"></div>
-              <div class="boot-cell"></div>
-              <div class="boot-cell"></div>
-            </div>
-          </div>
+              <span class="boot-kicker">Mobile / 学习练习端</span>
+              <h2 id="boot-heading-mobile">练习内容加载中</h2>
+              <p>题目、知识点、代码练习和学习进度正在准备。</p>
 
-          <div class="boot-status" role="status" aria-live="polite">
-            <span class="boot-dot" aria-hidden="true"></span>
-            <span>正在加载工作台</span>
+              <div class="boot-mobile-controls" aria-hidden="true">
+                <span class="boot-mobile-search"></span>
+                <span class="boot-mobile-filter"></span>
+              </div>
+
+              <div class="boot-mobile-tabs" aria-hidden="true">
+                <span class="boot-mobile-tab"></span>
+                <span class="boot-mobile-tab"></span>
+                <span class="boot-mobile-tab"></span>
+              </div>
+
+              <div class="boot-mobile-card" aria-hidden="true">
+                <span class="boot-mobile-line"></span>
+                <span class="boot-mobile-line"></span>
+                <span class="boot-mobile-line"></span>
+              </div>
+              <div class="boot-mobile-card" aria-hidden="true">
+                <span class="boot-mobile-line"></span>
+                <span class="boot-mobile-line"></span>
+                <span class="boot-mobile-line"></span>
+              </div>
+
+              <div class="boot-status" role="status" aria-live="polite">
+                <span class="boot-dot" aria-hidden="true"></span>
+                <span>正在加载移动端练习页</span>
+              </div>
+            </div>
+
+            <nav class="boot-mobile-nav" aria-label="移动端导航占位">
+              <span class="boot-mobile-nav-item"></span>
+              <span class="boot-mobile-nav-item"></span>
+              <span class="boot-mobile-nav-item"></span>
+              <span class="boot-mobile-nav-item"></span>
+            </nav>
           </div>
 
           <noscript>
