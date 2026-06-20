@@ -1,4 +1,4 @@
-export type ConsumerView = "home" | "catalog" | "atcoder" | "problem" | "code" | "progress" | "profile";
+export type ConsumerView = "home" | "catalog" | "atcoder" | "problem" | "code" | "progress" | "profile" | "search" | "favorites" | "settings" | "weak-points";
 
 export type Tone = "good" | "normal" | "weak";
 
@@ -90,6 +90,13 @@ export type MobileAtCoderCatalog = {
   problems: MobileProblemListItem[];
 };
 
+export type MobileSearchResult = {
+  query: string;
+  total_count: number;
+  gesp: MobileProblemListItem[];
+  atcoder: MobileProblemListItem[];
+};
+
 export type MobileProgressEvent = {
   problemId: string;
   recordedAt?: string;
@@ -98,11 +105,47 @@ export type MobileProgressEvent = {
   type: "view" | "favorite" | "review";
 };
 
+export type LearningTask = {
+  id: string;
+  kind: "continue" | "weak_point" | "review" | "featured";
+  title: string;
+  subtitle: string;
+  problem_id: string | null;
+  source: "gesp" | "atcoder";
+  cta_label: string;
+  priority: number;
+};
+
+export type WeakPoint = {
+  id: string;
+  name: string;
+  description: string;
+  count: number;
+  progress: number;
+  suggested_count: number;
+  tone: Tone;
+};
+
+export type ReviewPlan = {
+  generated_at: string;
+  status: "empty" | "ready";
+  basis: Array<"favorites" | "viewed" | "weak_points">;
+  items: LearningTask[];
+};
+
 export type MobileProgress = {
   data_source: "mysql" | "memory";
   user_key: string;
+  counts?: {
+    viewed: number;
+    favorite: number;
+    reviewed: number;
+    weekly_actions: number;
+  };
   activity_count: number;
+  mastery_pct?: number;
   progress_pct: number;
+  weekly_action_count?: number;
   viewed_count: number;
   favorite_count: number;
   reviewed_count: number;
@@ -112,6 +155,9 @@ export type MobileProgress = {
   viewed: MobileProgressEvent[];
   favorites: MobileProgressEvent[];
   reviewed: MobileProgressEvent[];
+  weak_points?: WeakPoint[];
+  recent_events?: MobileProgressEvent[];
+  review_plan?: ReviewPlan;
 };
 
 export type ConsumerMobileContent = {
@@ -142,6 +188,30 @@ export type ConsumerMobileContent = {
     tracks: AtCoderTrack[];
     featured_problem: ConsumerProblem | null;
   };
+  home?: {
+    today_task: LearningTask | null;
+    continue_task: LearningTask | null;
+    library_cards: Array<{ source: "gesp" | "atcoder"; title: string; count: number; subtitle: string }>;
+    knowledge_progress: WeakPoint[];
+  };
+  catalog_summary?: {
+    default_level: number;
+    levels: LevelSummary[];
+    atcoder_total_count: number;
+  };
+  progress_summary?: {
+    counts: NonNullable<MobileProgress["counts"]>;
+    mastery_pct: number;
+    weak_points: WeakPoint[];
+    recent_events: MobileProgressEvent[];
+  };
+  profile_summary?: {
+    counts: NonNullable<MobileProgress["counts"]>;
+    favorites: MobileProgressEvent[];
+    review_plan: ReviewPlan;
+    recent_events: MobileProgressEvent[];
+  };
+  legacy?: Omit<ConsumerMobileContent, "home" | "catalog_summary" | "progress_summary" | "profile_summary" | "legacy">;
 };
 
 export const consumerHeaders: Record<ConsumerView, { eyebrow: string; title: string; description: string }> = {
@@ -179,5 +249,25 @@ export const consumerHeaders: Record<ConsumerView, { eyebrow: string; title: str
     eyebrow: "学习档案",
     title: "收藏夹与弱项",
     description: "把看过的题目、代码和知识点沉淀成复习入口。"
+  },
+  search: {
+    eyebrow: "搜索",
+    title: "题库搜索",
+    description: "同时搜索 GESP 和 AtCoder 的题名、知识点和题号。"
+  },
+  favorites: {
+    eyebrow: "收藏夹",
+    title: "收藏与复习",
+    description: "集中查看收藏题和复习计划。"
+  },
+  settings: {
+    eyebrow: "设置",
+    title: "学习档案设置",
+    description: "查看用户标识、进度来源和快捷入口。"
+  },
+  "weak-points": {
+    eyebrow: "薄弱点",
+    title: "薄弱知识点",
+    description: "按掌握度查看需要优先复习的知识点。"
   }
 };

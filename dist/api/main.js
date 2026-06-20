@@ -4,7 +4,9 @@ import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { AppModule } from "./app.module.js";
 loadLocalEnv(".env");
-loadLocalEnv(".env.prod");
+if (process.env.NODE_ENV === "production" || process.env.LOAD_PROD_ENV === "1") {
+    loadLocalEnv(".env.prod");
+}
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, { cors: true });
     app.setGlobalPrefix("api");

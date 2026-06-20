@@ -6,9 +6,10 @@ import {
   fetchConsumerMobileGespCatalog,
   fetchConsumerMobileGespProblem,
   fetchConsumerMobileProgress,
+  fetchConsumerMobileSearch,
   recordConsumerMobileProgress
 } from "../../services/consumerMobile";
-import type { ConsumerMobileContent, ConsumerProblem, MobileAtCoderCatalog, MobileGespCatalog, MobileProgress, MobileProgressEvent } from "./ConsumerMobileData";
+import type { ConsumerMobileContent, ConsumerProblem, MobileAtCoderCatalog, MobileGespCatalog, MobileProgress, MobileProgressEvent, MobileSearchResult } from "./ConsumerMobileData";
 
 export function useConsumerMobileContent() {
   const [content, setContent] = useState<ConsumerMobileContent | null>(null);
@@ -16,10 +17,13 @@ export function useConsumerMobileContent() {
   const [atCoderCatalog, setAtCoderCatalog] = useState<MobileAtCoderCatalog | null>(null);
   const [selectedProblem, setSelectedProblem] = useState<ConsumerProblem | null>(null);
   const [progress, setProgress] = useState<MobileProgress | null>(null);
+  const [searchResult, setSearchResult] = useState<MobileSearchResult | null>(null);
   const [loading, setLoading] = useState(true);
   const [catalogLoading, setCatalogLoading] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [catalogError, setCatalogError] = useState<string | null>(null);
+  const [searchError, setSearchError] = useState<string | null>(null);
 
   async function loadContent() {
     setLoading(true);
@@ -103,6 +107,21 @@ export function useConsumerMobileContent() {
     return nextProgress;
   }
 
+  async function searchProblems(query: string) {
+    setSearchLoading(true);
+    setSearchError(null);
+    try {
+      const result = await fetchConsumerMobileSearch(query);
+      setSearchResult(result);
+      return result;
+    } catch (currentError) {
+      setSearchError(currentError instanceof Error ? currentError.message : "搜索失败");
+      return null;
+    } finally {
+      setSearchLoading(false);
+    }
+  }
+
   useEffect(() => {
     void loadContent();
   }, []);
@@ -120,6 +139,10 @@ export function useConsumerMobileContent() {
     progress,
     recordProgress,
     reload: loadContent,
+    searchError,
+    searchLoading,
+    searchProblems,
+    searchResult,
     selectedProblem,
     selectAtCoderProblem,
     selectGespProblem

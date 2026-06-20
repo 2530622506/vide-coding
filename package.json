@@ -76,6 +76,7 @@
     "validate:python-learning-paths": "node scripts/validate-python-learning-paths.mjs",
     "validate:review-action-logic": "node scripts/validate-review-action-logic.mjs",
     "validate:review-workflow-api": "node scripts/validate-review-workflow-api.mjs",
+    "validate:consumer-mobile-api": "node scripts/validate-consumer-mobile-api.mjs",
     "validate:review-workqueue": "node scripts/validate-review-workqueue-plan.mjs",
     "validate:oj-ingestion": "node scripts/validate-oj-ingestion.mjs",
     "validate:pdf-parser": "node scripts/validate-pdf-parser.mjs",

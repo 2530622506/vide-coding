@@ -1,6 +1,6 @@
-import { BarChart3, BookOpen, ChevronLeft, Home, Layers3, UserRound } from "lucide-react";
+import { BarChart3, BookOpen, Home, UserRound } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { consumerHeaders, type ConsumerMobileContent, type ConsumerProblem, type ConsumerView } from "./consumer/ConsumerMobileData";
+import type { ConsumerView } from "./consumer/ConsumerMobileData";
 import { renderConsumerView } from "./consumer/ConsumerMobileViews";
 import { useConsumerMobileContent } from "./consumer/useConsumerMobileContent";
 import "./ConsumerMobilePage.css";
@@ -30,7 +30,6 @@ export function ConsumerMobilePage() {
   return (
     <main className="consumerPage">
       <section className="consumerPhone" aria-label="GESP C 端移动页面">
-        <ConsumerHeader content={contentState.content} selectedProblem={contentState.selectedProblem} view={view} setView={setView} />
         <section className="consumerContent">{renderConsumerView(view, setView, contentState, progressStyle, profileProgressStyle)}</section>
         <ConsumerBottomNav view={view} setView={setView} />
       </section>
@@ -40,76 +39,24 @@ export function ConsumerMobilePage() {
 
 function readInitialConsumerView(): ConsumerView {
   const view = new URLSearchParams(window.location.search).get("view");
-  return view === "catalog" || view === "atcoder" || view === "problem" || view === "code" || view === "progress" || view === "profile" ? view : "home";
-}
-
-function ConsumerHeader({
-  content,
-  selectedProblem,
-  setView,
-  view
-}: {
-  content: ConsumerMobileContent | null;
-  selectedProblem: ConsumerProblem | null;
-  setView: (view: ConsumerView) => void;
-  view: ConsumerView;
-}) {
-  const { description, eyebrow, title } = getConsumerHeader(view, content, selectedProblem);
-  const canGoBack = view === "problem" || view === "code";
-
-  return (
-    <section className="consumerHero">
-      {eyebrow ? (
-        <div className="consumerEyebrow">
-          {canGoBack ? (
-            <button aria-label="返回题库" className="consumerBackButton" onClick={() => setView(view === "code" ? "problem" : "catalog")} type="button">
-              <ChevronLeft size={17} />
-            </button>
-          ) : view === "catalog" ? (
-            <Layers3 size={17} />
-          ) : (
-            <BookOpen size={17} />
-          )}
-          <span>{eyebrow}</span>
-        </div>
-      ) : canGoBack ? (
-        <button aria-label="返回题目" className="consumerBackButton consumerHeaderBackButton" onClick={() => setView("problem")} type="button">
-            <ChevronLeft size={17} />
-        </button>
-      ) : null}
-      <h1>{title}</h1>
-      {description ? <p>{description}</p> : null}
-    </section>
-  );
-}
-
-function getConsumerHeader(view: ConsumerView, content: ConsumerMobileContent | null, selectedProblem: ConsumerProblem | null) {
-  const featured = selectedProblem || content?.gesp.featured_problem;
-  if (featured && view === "problem") {
-    return {
-      eyebrow: featured.subtitle,
-      title: featured.title,
-      description: `${featured.question_type} · ${featured.problem_type} · ${featured.domain}`
-    };
-  }
-  if (featured && view === "code") {
-    return {
-      eyebrow: "",
-      title: featured.title,
-      description: ""
-    };
-  }
-  if (content && view === "atcoder") {
-    return {
-      ...consumerHeaders.atcoder,
-      description: `后端 AtCoder catalog 当前返回 ${content.atcoder.total_count} 题，按难度和算法标签组织。`
-    };
-  }
-  return consumerHeaders[view];
+  return view === "catalog"
+    || view === "atcoder"
+    || view === "problem"
+    || view === "code"
+    || view === "progress"
+    || view === "profile"
+    || view === "search"
+    || view === "favorites"
+    || view === "settings"
+    || view === "weak-points"
+    ? view
+    : "home";
 }
 
 function ConsumerBottomNav({ setView, view }: { setView: (view: ConsumerView) => void; view: ConsumerView }) {
   const isCatalogActive = view === "catalog" || view === "atcoder" || view === "problem" || view === "code";
+  const isProgressActive = view === "progress" || view === "weak-points";
+  const isProfileActive = view === "profile" || view === "favorites" || view === "settings";
 
   return (
     <nav className="consumerBottomNav" aria-label="C 端主导航">
@@ -119,10 +66,10 @@ function ConsumerBottomNav({ setView, view }: { setView: (view: ConsumerView) =>
       <button className={isCatalogActive ? "active" : ""} onClick={() => setView("catalog")} type="button">
         <BookOpen size={18} />题库
       </button>
-      <button className={view === "progress" ? "active" : ""} onClick={() => setView("progress")} type="button">
+      <button className={isProgressActive ? "active" : ""} onClick={() => setView("progress")} type="button">
         <BarChart3 size={18} />进度
       </button>
-      <button className={view === "profile" ? "active" : ""} onClick={() => setView("profile")} type="button">
+      <button className={isProfileActive ? "active" : ""} onClick={() => setView("profile")} type="button">
         <UserRound size={18} />我的
       </button>
     </nav>

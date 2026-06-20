@@ -6,8 +6,8 @@ export class ConsumerMobileController {
   constructor(@Inject(ConsumerMobileService) private readonly consumerMobileService: ConsumerMobileService) {}
 
   @Get()
-  getMobileContent() {
-    return this.consumerMobileService.getMobileContent();
+  getMobileContent(@Headers("x-consumer-user-key") userKey?: string) {
+    return this.consumerMobileService.getMobileContent(userKey);
   }
 
   @Get("gesp/catalog")
@@ -38,6 +38,11 @@ export class ConsumerMobileController {
   @Get("atcoder/problems/:id")
   getAtCoderProblem(@Param("id") id: string) {
     return this.consumerMobileService.getAtCoderProblem(id);
+  }
+
+  @Get("search")
+  searchProblems(@Query("query") query?: string) {
+    return this.consumerMobileService.searchProblems(query);
   }
 
   @Get("progress")

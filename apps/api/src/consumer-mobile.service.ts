@@ -109,11 +109,47 @@ type StoredProgressEvent = Required<ProgressEvent> & {
   recordedAt: string;
 };
 
+type LearningTask = {
+  id: string;
+  kind: "continue" | "weak_point" | "review" | "featured";
+  title: string;
+  subtitle: string;
+  problem_id: string | null;
+  source: "gesp" | "atcoder";
+  cta_label: string;
+  priority: number;
+};
+
+type WeakPoint = {
+  id: string;
+  name: string;
+  description: string;
+  count: number;
+  progress: number;
+  suggested_count: number;
+  tone: Tone;
+};
+
+type ReviewPlan = {
+  generated_at: string;
+  status: "empty" | "ready";
+  basis: Array<"favorites" | "viewed" | "weak_points">;
+  items: LearningTask[];
+};
+
 type ProgressStore = {
   data_source: "mysql" | "memory";
   user_key: string;
+  counts: {
+    viewed: number;
+    favorite: number;
+    reviewed: number;
+    weekly_actions: number;
+  };
   activity_count: number;
+  mastery_pct: number;
   progress_pct: number;
+  weekly_action_count: number;
   viewed_count: number;
   favorite_count: number;
   reviewed_count: number;
@@ -123,6 +159,9 @@ type ProgressStore = {
   viewed: StoredProgressEvent[];
   favorites: StoredProgressEvent[];
   reviewed: StoredProgressEvent[];
+  weak_points: WeakPoint[];
+  recent_events: StoredProgressEvent[];
+  review_plan: ReviewPlan;
 };
 
 type ProgressRow = RowDataPacket & {
@@ -148,7 +187,7 @@ export class ConsumerMobileService {
     @Inject(AtCoderCatalogService) private readonly atCoderCatalogService: AtCoderCatalogService
   ) {}
 
-  async getMobileContent() {
+  async getMobileContent(userKey?: string) {
     const [levelsResponse, atCoderCatalog] = await Promise.all([
       this.catalogService.getLevels(),
       this.atCoderCatalogService.getCatalog()
@@ -167,7 +206,7 @@ export class ConsumerMobileService {
     const progress = this.average(levels.map((level) => level.progress));
     const weakPoints = domains.filter((domain) => domain.tone !== "good").slice(0, 3).map((domain) => domain.name);
 
-    return {
+    const legacyContent = {
       generated_at: new Date().toISOString(),
       data_source: {
         gesp: levelsResponse.data_source,
@@ -196,6 +235,55 @@ export class ConsumerMobileService {
         featured_problem: atCoderFeatured ? this.buildAtCoderFeaturedProblem(atCoderFeatured) : null
       }
     };
+    const progressStore = await this.getProgress(userKey);
+    const featuredMobileProblem = legacyContent.gesp.featured_problem;
+    const continueTask = this.buildContinueTask(progressStore, featuredMobileProblem);
+    const todayTask = this.buildTodayTask(progressStore, problemTypes, featuredMobileProblem);
+
+    return {
+      ...legacyContent,
+      data_source: {
+        ...legacyContent.data_source,
+        progress: progressStore.data_source
+      },
+      home: {
+        today_task: todayTask,
+        continue_task: continueTask,
+        library_cards: [
+          {
+            source: "gesp",
+            title: "GESP 全等级",
+            count: legacyContent.gesp.total_count,
+            subtitle: `${levels.length} 个等级 · 官方分类目录`
+          },
+          {
+            source: "atcoder",
+            title: "AtCoder",
+            count: legacyContent.atcoder.total_count,
+            subtitle: `${legacyContent.atcoder.tracks.length} 个难度轨道 · 独立算法题库`
+          }
+        ],
+        knowledge_progress: progressStore.weak_points
+      },
+      catalog_summary: {
+        default_level: levels.find((level) => level.level === 5)?.level || levels[0]?.level || 1,
+        levels,
+        atcoder_total_count: legacyContent.atcoder.total_count
+      },
+      progress_summary: {
+        counts: progressStore.counts,
+        mastery_pct: progressStore.mastery_pct,
+        weak_points: progressStore.weak_points,
+        recent_events: progressStore.recent_events
+      },
+      profile_summary: {
+        counts: progressStore.counts,
+        favorites: progressStore.favorites,
+        review_plan: progressStore.review_plan,
+        recent_events: progressStore.recent_events
+      },
+      legacy: legacyContent
+    };
   }
 
   async getGespCatalog(params: { domainId?: string; level?: number; problemTypeId?: string; query?: string }): Promise<MobileGespCatalog> {
@@ -207,9 +295,13 @@ export class ConsumerMobileService {
     const domains = catalog ? this.buildLevelDomains(catalog) : [];
     const selectedDomain = params.domainId
       ? domains.find((domain) => domain.id === params.domainId) || null
-      : domains[0] || null;
+      : null;
     const domainGroup = catalog?.domains.find((domain) => domain.domain_id === selectedDomain?.id) || null;
-    const problemTypes = catalog && domainGroup ? this.buildLevelProblemTypes(catalog, domainGroup) : [];
+    const problemTypes = catalog
+      ? domainGroup
+        ? this.buildLevelProblemTypes(catalog, domainGroup)
+        : catalog.domains.flatMap((domain) => this.buildLevelProblemTypes(catalog, domain))
+      : [];
     const selectedProblemType = params.problemTypeId
       ? problemTypes.find((type) => type.id === params.problemTypeId) || null
       : null;
@@ -263,10 +355,48 @@ export class ConsumerMobileService {
     };
   }
 
+  async searchProblems(query = "") {
+    const trimmedQuery = query.trim();
+    if (!trimmedQuery) {
+      return {
+        query: "",
+        total_count: 0,
+        gesp: [],
+        atcoder: []
+      };
+    }
+    const [levelsResponse, atCoderCatalog] = await Promise.all([
+      this.catalogService.getLevels(),
+      this.atCoderCatalogService.getCatalog()
+    ]);
+    const catalogs = (await Promise.all(
+      levelsResponse.levels.map((level) => this.catalogService.getLevelCatalog(level.level))
+    )).filter((catalog): catalog is LevelCatalog => Boolean(catalog));
+    const gesp = catalogs
+      .flatMap((catalog) => this.buildGespProblemList(catalog, { query: trimmedQuery }))
+      .slice(0, 30);
+    const atcoder = this.flattenAtCoderProblems(atCoderCatalog)
+      .filter(({ problem }) => this.matchQuery([
+        problem.pid,
+        problem.title,
+        problem.title_zh,
+        problem.difficulty_label,
+        ...problem.knowledge_points.map((point) => point.label)
+      ], trimmedQuery))
+      .slice(0, 30)
+      .map(({ problem }) => this.buildAtCoderProblemListItem(problem));
+    return {
+      query: trimmedQuery,
+      total_count: gesp.length + atcoder.length,
+      gesp,
+      atcoder
+    };
+  }
+
   async getProgress(userKey?: string): Promise<ProgressStore> {
     const normalizedUserKey = this.normalizeProgressUserKey(userKey);
     const mysqlProgress = await this.getMysqlProgress(normalizedUserKey);
-    return mysqlProgress || this.getMemoryProgress(normalizedUserKey);
+    return this.enrichProgressStore(mysqlProgress || this.getMemoryProgress(normalizedUserKey));
   }
 
   async recordProgressEvent(body: unknown, userKey?: string): Promise<ProgressStore> {
@@ -274,10 +404,10 @@ export class ConsumerMobileService {
     const event = this.normalizeProgressEvent(body);
     const mysqlProgress = await this.recordMysqlProgressEvent(normalizedUserKey, event);
     if (mysqlProgress) {
-      return mysqlProgress;
+      return this.enrichProgressStore(mysqlProgress);
     }
     this.recordMemoryProgressEvent(event);
-    return this.getMemoryProgress(normalizedUserKey);
+    return this.enrichProgressStore(this.getMemoryProgress(normalizedUserKey));
   }
 
   private async getMysqlProgress(userKey: string): Promise<ProgressStore | null> {
@@ -372,11 +502,22 @@ export class ConsumerMobileService {
     const weeklyFavorites = favorites.filter((event) => this.isCurrentWeek(event.recordedAt));
     const weeklyReviewed = reviewed.filter((event) => this.isCurrentWeek(event.recordedAt));
     const weeklyScore = weeklyViewed.length + weeklyFavorites.length * 2 + weeklyReviewed.length * 3;
+    const weeklyActionCount = weeklyViewed.length + weeklyFavorites.length + weeklyReviewed.length;
+    const progressPct = Math.min(100, Math.round((weeklyScore / 12) * 100));
+    const recentEvents = this.sortProgressEvents(events).slice(0, 8);
     return {
       data_source: dataSource,
       user_key: userKey,
+      counts: {
+        viewed: viewed.length,
+        favorite: favorites.length,
+        reviewed: reviewed.length,
+        weekly_actions: weeklyActionCount
+      },
       activity_count: events.length,
-      progress_pct: Math.min(100, Math.round((weeklyScore / 12) * 100)),
+      mastery_pct: progressPct,
+      progress_pct: progressPct,
+      weekly_action_count: weeklyActionCount,
       viewed_count: viewed.length,
       favorite_count: favorites.length,
       reviewed_count: reviewed.length,
@@ -385,8 +526,179 @@ export class ConsumerMobileService {
       weekly_reviewed_count: weeklyReviewed.length,
       viewed,
       favorites,
-      reviewed
+      reviewed,
+      weak_points: [],
+      recent_events: recentEvents,
+      review_plan: this.buildReviewPlan([], { viewed, favorites, reviewed, recentEvents })
     };
+  }
+
+  private async enrichProgressStore(store: ProgressStore): Promise<ProgressStore> {
+    const weakPoints = await this.buildProgressWeakPoints();
+    return {
+      ...store,
+      weak_points: weakPoints,
+      review_plan: this.buildReviewPlan(weakPoints, {
+        viewed: store.viewed,
+        favorites: store.favorites,
+        reviewed: store.reviewed,
+        recentEvents: store.recent_events
+      })
+    };
+  }
+
+  private async buildProgressWeakPoints(): Promise<WeakPoint[]> {
+    try {
+      const levelsResponse = await this.catalogService.getLevels();
+      const catalogs = (await Promise.all(
+        levelsResponse.levels.map((level) => this.catalogService.getLevelCatalog(level.level))
+      )).filter((catalog): catalog is LevelCatalog => Boolean(catalog));
+      return this.buildDomains(catalogs)
+        .filter((domain) => domain.tone !== "good")
+        .sort((a, b) => a.progress - b.progress || b.count - a.count)
+        .slice(0, 5)
+        .map((domain) => ({
+          id: domain.id,
+          name: domain.name,
+          description: domain.description || `${domain.count} 道题`,
+          count: domain.count,
+          progress: domain.progress,
+          suggested_count: domain.progress < 45 ? 2 : 1,
+          tone: domain.tone
+        }));
+    } catch (error) {
+      this.logger.warn(`Unable to build consumer weak points: ${this.errorMessage(error)}`);
+      return [];
+    }
+  }
+
+  private buildContinueTask(progress: ProgressStore, featuredProblem: MobileProblem | null): LearningTask | null {
+    const recent = progress.recent_events[0];
+    if (recent) {
+      return this.learningTaskFromEvent(recent, "continue", "继续学习", 90);
+    }
+    return featuredProblem ? this.learningTaskFromProblem(featuredProblem, "featured", "开始练习", 70) : null;
+  }
+
+  private buildTodayTask(progress: ProgressStore, problemTypes: MobileProblemType[], featuredProblem: MobileProblem | null): LearningTask | null {
+    const weakPoint = progress.weak_points[0];
+    if (weakPoint) {
+      return {
+        id: `weak:${weakPoint.id}`,
+        kind: "weak_point",
+        title: `先补${weakPoint.name}`,
+        subtitle: `${weakPoint.count} 道相关题 · 建议完成 ${weakPoint.suggested_count} 道`,
+        problem_id: featuredProblem?.id || null,
+        source: featuredProblem?.source || "gesp",
+        cta_label: "开始复习",
+        priority: 100
+      };
+    }
+    const weakType = [...problemTypes].sort((a, b) => a.progress - b.progress)[0];
+    if (weakType) {
+      return {
+        id: `type:${weakType.id}`,
+        kind: "weak_point",
+        title: `先做${weakType.name}`,
+        subtitle: `${weakType.level} · ${weakType.count} 题 · ${weakType.description}`,
+        problem_id: featuredProblem?.id || null,
+        source: featuredProblem?.source || "gesp",
+        cta_label: "开始练习",
+        priority: 95
+      };
+    }
+    return featuredProblem ? this.learningTaskFromProblem(featuredProblem, "featured", "开始练习", 80) : null;
+  }
+
+  private buildReviewPlan(
+    weakPoints: WeakPoint[],
+    progress: { viewed: StoredProgressEvent[]; favorites: StoredProgressEvent[]; reviewed: StoredProgressEvent[]; recentEvents: StoredProgressEvent[] }
+  ): ReviewPlan {
+    const reviewedKeys = new Set(progress.reviewed.map((event) => `${event.source}:${event.problemId}`));
+    const favoriteTasks = this.sortProgressEvents(progress.favorites)
+      .filter((event) => !reviewedKeys.has(`${event.source}:${event.problemId}`))
+      .slice(0, 2)
+      .map((event, index) => this.learningTaskFromEvent(event, "review", "复习", 80 - index));
+    const viewedTasks = this.sortProgressEvents(progress.viewed)
+      .filter((event) => !reviewedKeys.has(`${event.source}:${event.problemId}`))
+      .filter((event) => !favoriteTasks.some((task) => task.problem_id === event.problemId && task.source === event.source))
+      .slice(0, Math.max(0, 3 - favoriteTasks.length))
+      .map((event, index) => this.learningTaskFromEvent(event, "review", "继续", 60 - index));
+    const weakTasks = weakPoints.slice(0, Math.max(0, 3 - favoriteTasks.length - viewedTasks.length)).map((point, index) => ({
+      id: `weak:${point.id}`,
+      kind: "weak_point" as const,
+      title: point.name,
+      subtitle: `${point.count} 道题 · 建议完成 ${point.suggested_count} 道`,
+      problem_id: null,
+      source: "gesp" as const,
+      cta_label: "去补弱项",
+      priority: 50 - index
+    }));
+    const items = [...favoriteTasks, ...viewedTasks, ...weakTasks].slice(0, 3);
+    const basis: ReviewPlan["basis"] = [];
+    if (favoriteTasks.length) {
+      basis.push("favorites");
+    }
+    if (viewedTasks.length) {
+      basis.push("viewed");
+    }
+    if (weakTasks.length) {
+      basis.push("weak_points");
+    }
+    return {
+      generated_at: new Date().toISOString(),
+      status: items.length ? "ready" : "empty",
+      basis,
+      items
+    };
+  }
+
+  private learningTaskFromEvent(event: StoredProgressEvent, kind: LearningTask["kind"], ctaLabel: string, priority: number): LearningTask {
+    return {
+      id: `${kind}:${event.source}:${event.problemId}`,
+      kind,
+      title: event.title || event.problemId,
+      subtitle: `${event.source === "atcoder" ? "AtCoder" : "GESP"} · ${this.progressEventTypeLabel(event.type)} · ${this.formatEventDate(event.recordedAt)}`,
+      problem_id: event.problemId,
+      source: event.source,
+      cta_label: ctaLabel,
+      priority
+    };
+  }
+
+  private learningTaskFromProblem(problem: MobileProblem, kind: LearningTask["kind"], ctaLabel: string, priority: number): LearningTask {
+    return {
+      id: `${kind}:${problem.source}:${problem.id}`,
+      kind,
+      title: problem.title,
+      subtitle: `${problem.level} · ${problem.domain} · ${problem.problem_type}`,
+      problem_id: problem.id,
+      source: problem.source,
+      cta_label: ctaLabel,
+      priority
+    };
+  }
+
+  private sortProgressEvents(events: StoredProgressEvent[]) {
+    return [...events].sort((a, b) => new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime() || a.problemId.localeCompare(b.problemId));
+  }
+
+  private progressEventTypeLabel(type: ProgressEvent["type"]) {
+    if (type === "favorite") {
+      return "已收藏";
+    }
+    if (type === "review") {
+      return "已复习";
+    }
+    return "已查看";
+  }
+
+  private formatEventDate(recordedAt: string) {
+    const date = new Date(recordedAt);
+    if (Number.isNaN(date.getTime())) {
+      return "最近";
+    }
+    return date.toLocaleDateString("zh-CN", { month: "2-digit", day: "2-digit" });
   }
 
   private progressRowToEvent(row: ProgressRow): StoredProgressEvent {

@@ -1,5 +1,5 @@
 import { fetchJson, requestJson } from "./catalog";
-import type { ConsumerMobileContent, ConsumerProblem, MobileAtCoderCatalog, MobileGespCatalog, MobileProgress, MobileProgressEvent } from "../pages/consumer/ConsumerMobileData";
+import type { ConsumerMobileContent, ConsumerProblem, MobileAtCoderCatalog, MobileGespCatalog, MobileProgress, MobileProgressEvent, MobileSearchResult } from "../pages/consumer/ConsumerMobileData";
 
 const CONSUMER_USER_KEY_STORAGE = "gesp-consumer-mobile-user-key";
 
@@ -43,6 +43,14 @@ export function fetchConsumerMobileAtCoderCatalog(params: { difficulty?: string;
 
 export function fetchConsumerMobileAtCoderProblem(problemId: string) {
   return fetchJson<ConsumerProblem | null>(`/consumer-mobile/atcoder/problems/${encodeURIComponent(problemId)}`);
+}
+
+export function fetchConsumerMobileSearch(query: string) {
+  const searchParams = new URLSearchParams();
+  if (query.trim()) {
+    searchParams.set("query", query.trim());
+  }
+  return fetchJson<MobileSearchResult>(`/consumer-mobile/search${searchParams.toString() ? `?${searchParams.toString()}` : ""}`);
 }
 
 export function fetchConsumerMobileProgress() {

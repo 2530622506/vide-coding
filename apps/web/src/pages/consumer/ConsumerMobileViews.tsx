@@ -1,19 +1,24 @@
-import { useState, type CSSProperties } from "react";
-import { ArrowRight, BarChart3, BookOpen, Code2, Database, FileSearch, RefreshCw, Search, Star, Trophy } from "lucide-react";
+import { useState, type CSSProperties, type ReactNode } from "react";
+import { ArrowRight, BookOpen, ChevronLeft, Code2, Filter, PenLine, RefreshCw, Search, Settings, Share, Star, Trophy } from "lucide-react";
 import { ConsumerCodeBlock } from "./ConsumerCodeBlock";
+import { ConsumerProblemStatement } from "./ConsumerProblemStatement";
 import type {
   AtCoderTrack,
   ConsumerMobileContent,
   ConsumerProblem,
   ConsumerView,
   Domain,
+  LearningTask,
   LevelSummary,
   MobileAtCoderCatalog,
   MobileGespCatalog,
   MobileProblemListItem,
-  MobileProgress
+  MobileProgress,
+  MobileProgressEvent,
+  MobileSearchResult,
+  ReviewPlan,
+  WeakPoint
 } from "./ConsumerMobileData";
-import { ConsumerProblemStatement } from "./ConsumerProblemStatement";
 
 type ConsumerRenderState = {
   atCoderCatalog: MobileAtCoderCatalog | null;
@@ -28,6 +33,10 @@ type ConsumerRenderState = {
   progress: MobileProgress | null;
   recordProgress: (event: { problemId: string; source?: "gesp" | "atcoder"; title?: string; type: "view" | "favorite" | "review" }) => Promise<MobileProgress>;
   reload: () => void;
+  searchError: string | null;
+  searchLoading: boolean;
+  searchProblems: (query: string) => Promise<MobileSearchResult | null>;
+  searchResult: MobileSearchResult | null;
   selectedProblem: ConsumerProblem | null;
   selectAtCoderProblem: (problemId: string) => Promise<ConsumerProblem | null>;
   selectGespProblem: (problemId: string) => Promise<ConsumerProblem | null>;
@@ -37,8 +46,8 @@ export function renderConsumerView(
   view: ConsumerView,
   setView: (view: ConsumerView) => void,
   renderState: ConsumerRenderState,
-  progressStyle: CSSProperties,
-  profileProgressStyle: CSSProperties
+  _progressStyle: CSSProperties,
+  _profileProgressStyle: CSSProperties
 ) {
   const { content, error, loading, reload } = renderState;
   if (loading) {
@@ -52,119 +61,163 @@ export function renderConsumerView(
   }
 
   switch (view) {
+    case "search":
+      return <SearchView renderState={renderState} setView={setView} />;
     case "catalog":
       return <CatalogView renderState={renderState} setView={setView} />;
     case "atcoder":
       return <AtCoderView content={content} renderState={renderState} setView={setView} />;
     case "problem":
-      return <ProblemView problem={renderState.selectedProblem || content.gesp.featured_problem} recordProgress={renderState.recordProgress} setView={setView} />;
+      return <ProblemView problem={renderState.selectedProblem || content.gesp.featured_problem} progress={renderState.progress} recordProgress={renderState.recordProgress} setView={setView} />;
     case "code":
-      return <CodeView problem={renderState.selectedProblem || content.gesp.featured_problem} recordProgress={renderState.recordProgress} />;
+      return <CodeView problem={renderState.selectedProblem || content.gesp.featured_problem} progress={renderState.progress} recordProgress={renderState.recordProgress} setView={setView} />;
     case "progress":
-      return <ProgressView content={content} progress={renderState.progress} />;
+      return <ProgressView content={content} progress={renderState.progress} setView={setView} />;
+    case "weak-points":
+      return <WeakPointsView content={content} progress={renderState.progress} setView={setView} />;
     case "profile":
-      return <ProfileView content={content} progress={renderState.progress} progressStyle={profileProgressStyle} recordProgress={renderState.recordProgress} />;
+      return <ProfileView content={content} progress={renderState.progress} setView={setView} />;
+    case "favorites":
+      return <FavoritesView content={content} progress={renderState.progress} renderState={renderState} setView={setView} />;
+    case "settings":
+      return <SettingsView progress={renderState.progress} setView={setView} />;
     default:
-      return <HomeView content={content} progress={renderState.progress} progressStyle={progressStyle} renderState={renderState} setView={setView} />;
+      return <HomeView content={content} progress={renderState.progress} renderState={renderState} setView={setView} />;
   }
 }
 
 function HomeView({
   content,
   progress,
-  progressStyle,
   renderState,
   setView
 }: {
   content: ConsumerMobileContent;
   progress: MobileProgress | null;
-  progressStyle: CSSProperties;
   renderState: ConsumerRenderState;
   setView: (view: ConsumerView) => void;
 }) {
-  const recentViewed = progress?.viewed || [];
-  const learningProgress = summarizeLearningProgress(progress);
-  const openRecentProblem = async (problemId: string, source?: "gesp" | "atcoder") => {
-    if (source === "atcoder") {
-      await renderState.selectAtCoderProblem(problemId);
+  const todayTask = content.home?.today_task || fallbackTaskFromProblem(content.gesp.featured_problem, "featured", "开始练习");
+  const continueTask = content.home?.continue_task || latestProgressTask(progress) || fallbackTaskFromProblem(content.gesp.featured_problem, "continue", "继续");
+  const weakPoints = content.home?.knowledge_progress?.length ? content.home.knowledge_progress : progress?.weak_points || weakPointsFromDomains(content.gesp.domains);
+  const libraryCards = content.home?.library_cards || [
+    { source: "gesp" as const, title: "GESP 全等级", count: content.gesp.total_count, subtitle: `${content.gesp.levels.length} 个等级 · 后端目录` },
+    { source: "atcoder" as const, title: "AtCoder", count: content.atcoder.total_count, subtitle: `${content.atcoder.tracks.length} 个难度轨道` }
+  ];
+
+  const openTask = async (task: LearningTask | null) => {
+    if (!task?.problem_id) {
+      setView("catalog");
+      return;
+    }
+    if (task.source === "atcoder") {
+      await renderState.selectAtCoderProblem(task.problem_id);
     } else {
-      await renderState.selectGespProblem(problemId);
+      await renderState.selectGespProblem(task.problem_id);
     }
     setView("problem");
   };
 
   return (
     <>
-      <section className="consumerCard consumerCardTint consumerProgressCard">
-        <div>
-          <h2>本周学习进度</h2>
-          <p>基于当前账号本周查看、收藏和复习动作实时计算，数据来自后端进度接口。</p>
-          <div className="consumerTagRow">
-            <span className="consumerTag good">{progress?.data_source === "mysql" ? "数据库进度" : "本地进度"}</span>
-            <span className="consumerTag info">本周 {learningProgress.weeklyActionCount} 次动作</span>
+      <TopBar title="GESP 练习" subtitle="C++ 学习路径" action={<IconShell label="搜索" onClick={() => setView("search")}><Search size={18} /></IconShell>} />
+      <HeroPanel
+        eyebrow="今日建议"
+        title={todayTask?.title || "先选题库，再开始练习"}
+        description={todayTask?.subtitle || content.learning.recommendation}
+        actionLabel={todayTask?.cta_label || "开始练习"}
+        onAction={() => void openTask(todayTask)}
+        sideAction={<Star size={17} />}
+      />
+
+      <SectionHeader title="继续学习" action="全部" onAction={() => setView("catalog")} />
+      {continueTask ? (
+        <TaskCard icon={<PenLine size={18} />} task={continueTask} onOpen={() => void openTask(continueTask)} />
+      ) : (
+        <StateCard label="还没有学习记录，先从题库挑一道题。" />
+      )}
+
+      <SectionHeader title="题库入口" action="2 个来源" />
+      <div className="consumerLibraryGrid">
+        {libraryCards.map((card) => (
+          <button className={`consumerLibraryCard ${card.source === "gesp" ? "active" : ""}`} key={card.source} onClick={() => setView(card.source === "gesp" ? "catalog" : "atcoder")} type="button">
+            {card.source === "gesp" ? <BookOpen size={20} /> : <Trophy size={20} />}
+            <span>{card.title}</span>
+            <strong>{card.count} 题</strong>
+            <small>{card.subtitle}</small>
+          </button>
+        ))}
+      </div>
+
+      <SectionHeader title="知识点进度" action="本周" onAction={() => setView("weak-points")} />
+      <WeakPointList points={weakPoints.slice(0, 3)} />
+    </>
+  );
+}
+
+function SearchView({ renderState, setView }: { renderState: ConsumerRenderState; setView: (view: ConsumerView) => void }) {
+  const { searchError, searchLoading, searchProblems, searchResult, selectAtCoderProblem, selectGespProblem } = renderState;
+  const [query, setQuery] = useState(searchResult?.query || "");
+  const hasResults = Boolean(searchResult && (searchResult.gesp.length || searchResult.atcoder.length));
+  const submitSearch = async () => {
+    await searchProblems(query);
+  };
+  const openProblem = async (problem: MobileProblemListItem, source: "gesp" | "atcoder") => {
+    if (source === "atcoder") {
+      await selectAtCoderProblem(problem.id);
+    } else {
+      await selectGespProblem(problem.id);
+    }
+    setView("problem");
+  };
+
+  return (
+    <>
+      <TopBar
+        align="right"
+        title="搜索"
+        subtitle="题名、知识点、题号"
+        leading={<IconShell label="返回首页" onClick={() => setView("home")}><ChevronLeft size={18} /></IconShell>}
+      />
+      <form className="consumerSearchForm" onSubmit={(event) => {
+        event.preventDefault();
+        void submitSearch();
+      }}>
+        <Search size={18} />
+        <input autoFocus inputMode="search" onChange={(event) => setQuery(event.target.value)} placeholder="输入题名、知识点或题号" type="search" value={query} />
+        <button disabled={searchLoading} type="submit">{searchLoading ? "搜索中" : "搜索"}</button>
+      </form>
+      {searchError ? <StateCard actionLabel="重试" label={`搜索失败：${searchError}`} onAction={() => void submitSearch()} /> : null}
+      {!searchResult ? (
+        <StateCard label="输入关键词后，会同时搜索 GESP 和 AtCoder 题库。" />
+      ) : hasResults ? (
+        <>
+          <SectionHeader title="GESP" action={`${searchResult.gesp.length} 题`} />
+          <div className="consumerProblemList">
+            {searchResult.gesp.slice(0, 8).map((problem, index) => (
+              <ProblemListRow index={index + 1} key={`gesp:${problemListKey(problem)}`} onOpen={() => void openProblem(problem, "gesp")} problem={problem} />
+            ))}
           </div>
-        </div>
-        <div className="consumerRing" style={progressStyle}><span>{learningProgress.progressPct}%</span></div>
-      </section>
-      <section className="consumerLibraryGrid" aria-label="题库入口">
-        <button className="consumerLibraryCard active" onClick={() => setView("catalog")} type="button">
-          <BookOpen size={20} />
-          <span>GESP 全等级</span>
-          <strong>{content.gesp.total_count} 题</strong>
-          <small>{content.gesp.levels.length} 个等级 · 后端目录</small>
-        </button>
-        <button className="consumerLibraryCard" onClick={() => setView("atcoder")} type="button">
-          <Trophy size={20} />
-          <span>AtCoder 题库</span>
-          <strong>{content.atcoder.total_count} 题</strong>
-          <small>{content.atcoder.tracks.map((track) => track.difficulty).join(" / ") || "难度轨道"}</small>
-        </button>
-      </section>
-      <section className="consumerCard">
-        <h2>推荐路径</h2>
-        <p>{content.learning.recommendation}</p>
-        <button className="consumerPrimaryButton" onClick={() => setView("catalog")} type="button">
-          <BookOpen size={17} />继续查看
-        </button>
-      </section>
-      <LevelOverview content={content} />
-      <DomainList domains={content.gesp.domains} title="知识点覆盖" />
-      <section className="consumerCard">
-        <div className="consumerSectionHead">
-          <h2>最近查看</h2>
-          <span>{progress?.data_source === "mysql" ? "数据库" : "本地"}</span>
-        </div>
-        {recentViewed.length ? (
-          recentViewed.slice(0, 4).map((event) => (
-            <button
-              className="consumerSavedRow consumerSavedButton"
-              key={`${event.source || "gesp"}:${event.problemId}`}
-              onClick={() => void openRecentProblem(event.problemId, event.source)}
-              type="button"
-            >
-              <span>{event.source === "atcoder" ? "At" : "题"}</span>
-              <div>
-                <strong>{event.title || event.problemId}</strong>
-                <small>{event.source || "gesp"} · {formatRecentDate(event.recordedAt)}</small>
-              </div>
-              <em>查看</em>
-            </button>
-          ))
-        ) : (
-          <p>还没有浏览记录。打开任意题目后，这里会从后端进度接口读取最近查看。</p>
-        )}
-      </section>
+          <SectionHeader title="AtCoder" action={`${searchResult.atcoder.length} 题`} />
+          <div className="consumerProblemList">
+            {searchResult.atcoder.slice(0, 8).map((problem, index) => (
+              <ProblemListRow index={index + 1} key={`atcoder:${problemListKey(problem)}`} onOpen={() => void openProblem(problem, "atcoder")} problem={problem} />
+            ))}
+          </div>
+        </>
+      ) : (
+        <StateCard label={`没有找到「${searchResult.query}」相关题目，换个关键词试试。`} />
+      )}
     </>
   );
 }
 
 function CatalogView({ renderState, setView }: { renderState: ConsumerRenderState; setView: (view: ConsumerView) => void }) {
-  const { catalogError, catalogLoading, content, gespCatalog, loadGespCatalog, selectGespProblem } = renderState;
+  const { catalogError, catalogLoading, gespCatalog, loadGespCatalog, selectGespProblem } = renderState;
   const catalog = gespCatalog;
-  if (!content || !catalog) {
+  if (!catalog) {
     return catalogLoading ? <LoadingSkeleton /> : <StateCard label="GESP 移动目录暂无数据" />;
   }
-
   const openProblem = async (problemId: string) => {
     await selectGespProblem(problemId);
     setView("problem");
@@ -172,71 +225,47 @@ function CatalogView({ renderState, setView }: { renderState: ConsumerRenderStat
 
   return (
     <>
-      <div className="consumerSearch"><Search size={17} /><span>搜索题名、知识点</span></div>
-      <div className="consumerSegment">
-        <button className="active" onClick={() => void loadGespCatalog({ level: catalog.selected_level })} type="button">GESP</button>
-        <button onClick={() => scrollConsumerSection("levels")} type="button">全等级</button>
-        <button onClick={() => scrollConsumerSection("problem-types")} type="button">题型</button>
+      <TopBar
+        align="right"
+        title="全等级题库"
+        subtitle="按等级、题型、知识点筛选"
+        leading={<IconShell label="返回" onClick={() => setView("home")}><ChevronLeft size={18} /></IconShell>}
+      />
+      <SearchBox label="搜索题名、知识点" onClick={() => setView("search")} />
+      <div className="consumerChipRow">
+        {catalog.levels.map((level) => (
+          <button className={level.level === catalog.selected_level ? "active" : ""} key={level.level} onClick={() => void loadGespCatalog({ level: level.level })} type="button">
+            {level.label.replace(" 级", "级")}
+          </button>
+        ))}
+        <button onClick={() => setView("atcoder")} type="button">AtCoder</button>
       </div>
       {catalogError ? <StateCard actionLabel="重试目录" label={`目录加载失败：${catalogError}`} onAction={() => void loadGespCatalog({ level: catalog.selected_level })} /> : null}
-      <section className="consumerCard consumerFilterCard" data-consumer-section="levels">
-        <div className="consumerSectionHead">
-          <h2>等级目录</h2>
-          <span>{catalog.levels.length} 级</span>
-        </div>
-        <LevelSelect
-          activeLevel={catalog.selected_level}
-          levels={catalog.levels}
-          onSelect={(level) => void loadGespCatalog({ level: level.level })}
-          problemCount={catalog.problems.length}
-        />
-      </section>
-      <section className="consumerCard consumerCardTint consumerSplitCard">
-        <div>
-          <h2>AtCoder 算法题库</h2>
-          <p>不混入 GESP 官方等级，用难度和算法标签单独筛选。</p>
-        </div>
-        <button aria-label="查看 AtCoder 题库" onClick={() => setView("atcoder")} type="button">
-          <ArrowRight size={20} />
-        </button>
-      </section>
-      <DomainSelect
-        activeDomainId={catalog.selected_domain_id}
-        domains={catalog.domains}
-        onSelect={(domain) => void loadGespCatalog({ domainId: domain.id, level: catalog.selected_level })}
-        problemCount={catalog.problems.length}
-      />
-      <section className="consumerCard" data-consumer-section="problem-types">
-        <div className="consumerSectionHead">
-          <h2>题型分布</h2>
-          <span>{catalog.problem_types.length} 类</span>
-        </div>
+
+      <SectionHeader title="当前筛选" action={`${catalog.problems.length} 题`} />
+      <div className="consumerLibraryGrid">
+        <SummaryTile label="等级" value={`${catalog.selected_level}级`} />
+        <SummaryTile active label="知识点" value={catalog.selected_domain_id ? catalog.domains.find((domain) => domain.id === catalog.selected_domain_id)?.name || "全部" : "全部"} />
+      </div>
+
+      <SectionHeader title="题型分布" action="重置" onAction={() => void loadGespCatalog({ level: catalog.selected_level })} />
+      <div className="consumerChipRow">
         {catalog.problem_types.map((type) => (
           <button
-            className={`consumerProblemRow ${catalog.selected_problem_type_id === type.id ? "active" : ""}`}
+            className={catalog.selected_problem_type_id === type.id ? "active" : ""}
             key={type.id}
             onClick={() => void loadGespCatalog({ domainId: catalog.selected_domain_id, level: catalog.selected_level, problemTypeId: type.id })}
             type="button"
           >
-            <span className="consumerBadge">{type.count}</span>
-            <span>
-              <strong>{type.name}</strong>
-              <small>{type.level} · {type.source} · {type.description}</small>
-            </span>
-            <em>{type.progress}%</em>
+            {type.name}
           </button>
         ))}
-      </section>
-      <section className="consumerCard">
-        <div className="consumerSectionHead">
-          <h2>题目列表</h2>
-          <span>{catalog.problems.length} 题</span>
-        </div>
-        {catalogLoading ? <p>正在切换目录...</p> : null}
-        {catalog.problems.map((problem) => (
-          <ProblemListRow key={problemListKey(problem)} onOpen={openProblem} problem={problem} />
-        ))}
-      </section>
+      </div>
+
+      <SectionHeader title="推荐题目" action={catalogLoading ? "切换中" : "薄弱优先"} />
+      <div className="consumerProblemList">
+        {catalog.problems.slice(0, 8).map((problem, index) => <ProblemListRow index={index + 1} key={problemListKey(problem)} onOpen={openProblem} problem={problem} />)}
+      </div>
     </>
   );
 }
@@ -248,545 +277,604 @@ function AtCoderView({ content, renderState, setView }: { content: ConsumerMobil
     await selectAtCoderProblem(problemId);
     setView("problem");
   };
+
   return (
     <>
-      <div className="consumerSearch"><Search size={17} /><span>搜索 AtCoder 题号、算法标签、难度</span></div>
-      <section className="consumerCard consumerAtCoderHero">
-        <Database size={22} />
-        <h2>独立题库，不套 GESP 等级</h2>
-        <p>AtCoder 题目按难度、算法范畴、样例完整度和参考解状态展示，数据来自后端 AtCoder catalog。</p>
-        <div className="consumerMetricGrid">
-          <div><strong>{content.atcoder.total_count}</strong><span>题目</span></div>
-          <div><strong>{content.atcoder.tag_count}</strong><span>标签</span></div>
-          <div><strong>{content.atcoder.statement_count}</strong><span>中文题面</span></div>
-        </div>
-      </section>
+      <TopBar
+        align="right"
+        title="AtCoder"
+        subtitle="独立算法题库"
+        leading={<IconShell label="返回" onClick={() => setView("catalog")}><ChevronLeft size={18} /></IconShell>}
+      />
+      <SearchBox label="搜索题号、算法标签、难度" onClick={() => setView("search")} />
+      <HeroPanel eyebrow="算法训练" title={`${content.atcoder.total_count} 道题`} description="按 AtCoder 难度、算法标签和样例完整度组织，不套 GESP 等级。" actionLabel="返回 GESP" onAction={() => setView("catalog")} sideAction={<Trophy size={17} />} />
       {catalogError ? <StateCard actionLabel="重试 AtCoder" label={`AtCoder 目录加载失败：${catalogError}`} onAction={() => void loadAtCoderCatalog()} /> : null}
-      <section className="consumerCard">
-        <div className="consumerSectionHead">
-          <h2>难度轨道</h2>
-          <span>AtCoder</span>
-        </div>
+      <SectionHeader title="难度轨道" action="AtCoder" />
+      <div className="consumerChipRow">
         {(catalog?.tracks || content.atcoder.tracks).map((track) => (
-          <AtCoderTrackRow
-            active={catalog?.selected_difficulty === track.difficulty}
-            key={track.difficulty}
-            onSelect={() => void loadAtCoderCatalog({ difficulty: track.difficulty })}
-            track={track}
-          />
+          <button className={catalog?.selected_difficulty === track.difficulty ? "active" : ""} key={track.difficulty} onClick={() => void loadAtCoderCatalog({ difficulty: track.difficulty })} type="button">
+            {track.difficulty}
+          </button>
         ))}
-      </section>
-      <section className="consumerCard">
-        <div className="consumerSectionHead">
-          <h2>AtCoder 题目</h2>
-          <span>{catalog?.problems.length ?? 0} 题</span>
-        </div>
-        {catalogLoading ? <p>正在切换难度...</p> : null}
-        {(catalog?.problems || []).map((problem) => (
-          <ProblemListRow key={problemListKey(problem)} onOpen={openProblem} problem={problem} />
-        ))}
-      </section>
-      {content.atcoder.featured_problem ? (
-        <section className="consumerCard">
-          <h2>推荐题目</h2>
-          <p><strong>{content.atcoder.featured_problem.title}</strong><br />{content.atcoder.featured_problem.subtitle}</p>
-          <div className="consumerTagRow">
-            {content.atcoder.featured_problem.knowledge_points.slice(0, 3).map((point) => <span className="consumerTag info" key={point}>{point}</span>)}
-          </div>
-        </section>
-      ) : null}
+      </div>
+      <SectionHeader title="AtCoder 题目" action={catalogLoading ? "切换中" : `${catalog?.problems.length ?? 0} 题`} />
+      <div className="consumerProblemList">
+        {(catalog?.problems || []).slice(0, 8).map((problem, index) => <ProblemListRow index={index + 1} key={problemListKey(problem)} onOpen={openProblem} problem={problem} />)}
+      </div>
     </>
   );
 }
 
-function ProblemView({ problem, recordProgress, setView }: {
+function ProblemView({ problem, progress, recordProgress, setView }: {
   problem: ConsumerProblem | null;
+  progress: MobileProgress | null;
   recordProgress: ConsumerRenderState["recordProgress"];
   setView: (view: ConsumerView) => void;
 }) {
-  const [activeTab, setActiveTab] = useState<"statement" | "knowledge">("statement");
   const [actionMessage, setActionMessage] = useState("");
+  const [favoriteMarked, setFavoriteMarked] = useState(() => Boolean(problem && progress?.favorites.some((event) => event.problemId === problem.id && event.source === problem.source)));
+  const [reviewMarked, setReviewMarked] = useState(() => Boolean(problem && progress?.reviewed.some((event) => event.problemId === problem.id && event.source === problem.source)));
   if (!problem) {
     return <StateCard label="后端暂未返回推荐题目详情" />;
   }
   const markProgress = async (type: "favorite" | "review", message: string) => {
     await recordProgress({ problemId: problem.id, source: problem.source, title: problem.title, type });
+    if (type === "favorite") {
+      setFavoriteMarked(true);
+    }
+    if (type === "review") {
+      setReviewMarked(true);
+    }
     setActionMessage(message);
   };
+  const solutionSteps = solutionThinking(problem);
+
   return (
     <>
-      <section className="consumerCard">
-        <div className="consumerPillRow">
-          <button className={activeTab === "statement" ? "active" : ""} onClick={() => setActiveTab("statement")} type="button">题目</button>
-          <button className={activeTab === "knowledge" ? "active" : ""} onClick={() => setActiveTab("knowledge")} type="button">知识点</button>
-        </div>
-      </section>
-      {activeTab === "statement" ? (
-        <>
-          <ConsumerProblemStatement problem={problem} />
-          <section className="consumerCard">
-            <h2>解题要点</h2>
-            {problem.steps.length ? (
-              <ol className="consumerSteps">
-                {problem.steps.slice(0, 5).map((step) => <li key={step}>{step}</li>)}
-              </ol>
-            ) : (
-              <p>{problem.algorithm || "暂无详细解题步骤。"}</p>
-            )}
-          </section>
-        </>
-      ) : (
-        <section className="consumerCard">
-          <h2>知识点</h2>
-          <div className="consumerTagRow">
-            <span className="consumerTag good">等级：{problem.level}</span>
-            <span className="consumerTag good">{problem.domain}</span>
-            <span className="consumerTag info">{problem.problem_type}</span>
-            {problem.knowledge_points.map((point) => <span className="consumerTag info" key={point}>{point}</span>)}
-          </div>
-        </section>
-      )}
-      <section className="consumerCard consumerCardTint">
-        <h2>学习动作</h2>
-        <button className="consumerPrimaryButton" onClick={() => setView("code")} type="button"><Code2 size={17} />查看参考代码</button>
-        <button className="consumerSecondaryButton" onClick={() => void markProgress("favorite", "已加入收藏夹")} type="button"><Star size={17} />加入收藏夹</button>
-        <button className="consumerSecondaryButton" onClick={() => void markProgress("review", "已标记复习")} type="button"><BarChart3 size={17} />标记已复习</button>
-        {actionMessage ? <p className="consumerActionNote">{actionMessage}</p> : null}
-      </section>
+      <TopBar
+        leading={<IconShell label="返回题库" onClick={() => setView(problem.source === "atcoder" ? "atcoder" : "catalog")}><ChevronLeft size={18} /></IconShell>}
+        action={<IconShell label={favoriteMarked ? "已收藏" : "收藏"} onClick={() => void markProgress("favorite", favoriteMarked ? "已在收藏夹" : "已加入收藏夹")}><Star size={18} fill={favoriteMarked ? "currentColor" : "none"} /></IconShell>}
+      />
+      <div className="consumerDetailTitle">
+        <span>{problem.subtitle}</span>
+        <h1>{problem.title}</h1>
+        <p>{problem.domain} · {problem.problem_type} · 官方题源对齐</p>
+      </div>
+
+      <ConsumerProblemStatement problem={problem} />
+
+      <SectionHeader title="解题思路" action={`${solutionSteps.length} 步`} />
+      <div className="consumerInsightList">
+        {solutionSteps.map((step, index) => (
+          <article className="consumerInsight" key={step}>
+            <strong>{index + 1}. {step}</strong>
+            <small>{solutionHint(index, problem)}</small>
+          </article>
+        ))}
+      </div>
+
+      <button className="consumerCodeStrip" onClick={() => setView("code")} type="button">
+        <span><strong>查看参考代码</strong><small>{problem.complexity || "C++17 · 复杂度待确认"}</small></span>
+        <ArrowRight size={18} />
+      </button>
+      <button className={`consumerSecondaryFull ${reviewMarked ? "active" : ""}`} onClick={() => void markProgress("review", reviewMarked ? "已完成复习" : "已标记复习")} type="button">{reviewMarked ? "已复习" : "标记已复习"}</button>
+      {actionMessage ? <p className="consumerActionNote">{actionMessage}</p> : null}
     </>
   );
 }
 
-function CodeView({ problem, recordProgress }: { problem: ConsumerProblem | null; recordProgress: ConsumerRenderState["recordProgress"] }) {
-  const [activeTab, setActiveTab] = useState<"code" | "outline" | "complexity">("code");
+function CodeView({ problem, progress, recordProgress, setView }: { problem: ConsumerProblem | null; progress: MobileProgress | null; recordProgress: ConsumerRenderState["recordProgress"]; setView: (view: ConsumerView) => void }) {
   const [actionMessage, setActionMessage] = useState("");
+  const [favoriteMarked, setFavoriteMarked] = useState(() => Boolean(problem && progress?.favorites.some((event) => event.problemId === problem.id && event.source === problem.source)));
+  const [reviewMarked, setReviewMarked] = useState(() => Boolean(problem && progress?.reviewed.some((event) => event.problemId === problem.id && event.source === problem.source)));
   if (!problem) {
     return <StateCard label="后端暂未返回推荐题目代码" />;
   }
   const markProgress = async (type: "favorite" | "review", message: string) => {
     await recordProgress({ problemId: problem.id, source: problem.source, title: problem.title, type });
+    if (type === "favorite") {
+      setFavoriteMarked(true);
+    }
+    if (type === "review") {
+      setReviewMarked(true);
+    }
     setActionMessage(message);
   };
+
   return (
     <>
-      <section className="consumerCard">
-        <div className="consumerPillRow">
-          <button className={activeTab === "code" ? "active" : ""} onClick={() => setActiveTab("code")} type="button">C++</button>
-          <button className={activeTab === "outline" ? "active" : ""} onClick={() => setActiveTab("outline")} type="button">思路</button>
-          <button className={activeTab === "complexity" ? "active" : ""} onClick={() => setActiveTab("complexity")} type="button">复杂度</button>
-        </div>
-      </section>
-      {activeTab === "code" && problem.code ? (
+      <TopBar
+        align="right"
+        title="参考代码"
+        subtitle={problem.title}
+        leading={<IconShell label="返回题目" onClick={() => setView("problem")}><ChevronLeft size={18} /></IconShell>}
+      />
+      <div className="consumerActionGrid top">
+        <button className={favoriteMarked ? "active" : ""} onClick={() => void markProgress("favorite", favoriteMarked ? "已在收藏夹" : "已收藏")} type="button"><Star fill={favoriteMarked ? "currentColor" : "none"} size={16} />{favoriteMarked ? "已收藏" : "收藏"}</button>
+        <button className={reviewMarked ? "active" : ""} onClick={() => void markProgress("review", reviewMarked ? "已完成复习" : "已复习")} type="button"><Code2 size={16} />{reviewMarked ? "已复习" : "已复习"}</button>
+      </div>
+      {problem.code ? (
         <ConsumerCodeBlock code={problem.code} filename={problem.code_filename} />
-      ) : activeTab === "code" ? (
-        <section className="consumerCard">
-          <h2>暂无本地代码</h2>
-          <p>这道题暂时没有可直接展示的参考代码。</p>
-        </section>
-      ) : activeTab === "outline" ? (
-        <section className="consumerCard">
-          <h2>参考思路</h2>
-          <p>{problem.algorithm || "暂无算法讲解。"}</p>
-          {problem.steps.length ? (
-            <ol className="consumerSteps">
-              {problem.steps.slice(0, 5).map((step) => <li key={step}>{step}</li>)}
-            </ol>
-          ) : null}
-        </section>
       ) : (
-        <section className="consumerCard">
-          <h2>复杂度</h2>
-          <p>{problem.complexity || "暂无复杂度信息。"}</p>
-          <div className="consumerTagRow">
-            <span className="consumerTag good">{problem.problem_type}</span>
-            <span className="consumerTag info">{problem.domain}</span>
-          </div>
+        <section className="consumerStatementCard">
+          <h2>暂无本地代码</h2>
+          <p>{problem.algorithm || "这道题暂时没有可直接展示的参考代码。"}</p>
         </section>
       )}
-      <section className="consumerCard consumerCardTint">
-        <h2>可用操作</h2>
-        <div className="consumerActionGrid">
-          <button type="button"><Code2 size={16} />只读查看</button>
-          <button onClick={() => void markProgress("favorite", "已收藏")} type="button"><Star size={16} />收藏</button>
-          <button onClick={() => void markProgress("review", "已复核")} type="button"><FileSearch size={16} />已复核</button>
-        </div>
-        {actionMessage ? <p className="consumerActionNote">{actionMessage}</p> : null}
-      </section>
+      {actionMessage ? <p className="consumerActionNote">{actionMessage}</p> : null}
     </>
   );
 }
 
-function ProgressView({ content, progress }: { content: ConsumerMobileContent; progress: MobileProgress | null }) {
-  const learningProgress = summarizeLearningProgress(progress);
+function ProgressView({ content, progress, setView }: { content: ConsumerMobileContent; progress: MobileProgress | null; setView: (view: ConsumerView) => void }) {
+  const weakPoints = progress?.weak_points?.length ? progress.weak_points : content.progress_summary?.weak_points || weakPointsFromDomains(content.gesp.domains);
+  const recentEvents = progress?.recent_events || content.progress_summary?.recent_events || progress?.viewed || [];
+  const counts = progressCounts(progress, content);
+  const masteryPct = progress?.mastery_pct ?? progress?.progress_pct ?? content.progress_summary?.mastery_pct ?? content.learning.progress_pct;
+  const reviewPlan = progress?.review_plan || content.profile_summary?.review_plan || emptyReviewPlan();
+  const openReview = () => {
+    const task = reviewPlan.items.find((item) => item.problem_id);
+    if (task?.problem_id) {
+      setView("favorites");
+      return;
+    }
+    setView("weak-points");
+  };
+
   return (
     <>
-      <DomainList domains={content.gesp.domains} title="知识点掌握度" />
-      <section className="consumerCard">
-        <h2>本周复盘</h2>
-        <div className="consumerMetricGrid">
-          <div><strong>{progress?.weekly_viewed_count ?? 0}</strong><span>已查看</span></div>
-          <div><strong>{progress?.weekly_favorite_count ?? 0}</strong><span>收藏</span></div>
-          <div><strong>{progress?.weekly_reviewed_count ?? 0}</strong><span>已复习</span></div>
-        </div>
-        <p className="consumerActionNote">本周完成度 {learningProgress.progressPct}% · 累计 {progress?.activity_count ?? 0} 次动作</p>
-      </section>
-      <section className="consumerCard">
-        <h2>最近动作</h2>
-        {(progress?.viewed || []).slice(0, 3).map((event) => (
-          <div className="consumerSavedRow" key={`${event.type}:${event.problemId}`}>
-            <span>看</span>
-            <div><strong>{event.title || event.problemId}</strong><small>{event.source || "gesp"}</small></div>
-            <em>{event.type}</em>
-          </div>
-        ))}
-        {progress?.viewed.length ? null : <p>点击题目后，这里会通过后端进度接口记录浏览历史。</p>}
-      </section>
-      <section className="consumerCard">
-        <h2>下一步建议</h2>
-        <p>{content.learning.recommendation}</p>
-      </section>
+      <TopBar title="学习进度" subtitle="按知识点看掌握度" action={<IconShell label="筛选薄弱点" onClick={() => setView("weak-points")}><Filter size={18} /></IconShell>} />
+      <HeroPanel eyebrow="本周概览" title={`完成 ${counts.weekly_actions} 次练习，薄弱点剩 ${weakPoints.length} 个`} description="系统会优先把错误率高、最近没复习的知识点放在前面。" actionLabel="开始复习" onAction={openReview} onSideAction={() => setView("weak-points")} sideAction={<RefreshCw size={17} />} sideLabel="刷新复习建议" />
+      <SectionHeader title="掌握度" action={`${masteryPct}%`} />
+      <div className="consumerLibraryGrid">
+        <SummaryTile active label="已看题目" value={String(counts.viewed)} />
+        <SummaryTile label="已复习" value={String(counts.reviewed)} />
+      </div>
+      <SectionHeader title="薄弱知识点" action="查看全部" onAction={() => setView("weak-points")} />
+      <WeakPointList points={weakPoints.slice(0, 4)} />
+      <SectionHeader title="最近动作" action={progress?.data_source === "mysql" ? "数据库同步" : "本地记录"} />
+      <EventList events={recentEvents.slice(0, 3)} emptyLabel="点击题目后，这里会记录最近动作。" />
     </>
   );
 }
 
-function ProfileView({
-  content,
-  progress,
-  progressStyle,
-  recordProgress
-}: {
-  content: ConsumerMobileContent;
-  progress: MobileProgress | null;
-  progressStyle: CSSProperties;
-  recordProgress: ConsumerRenderState["recordProgress"];
-}) {
-  const featured = content.gesp.featured_problem;
-  const favorites = progress?.favorites || [];
-  const [reviewPlanMessage, setReviewPlanMessage] = useState("");
-  const learningProgress = summarizeLearningProgress(progress);
-  const generateReviewPlan = async () => {
-    const candidates = [...favorites, ...(progress?.viewed || [])];
-    const titles = candidates.slice(0, 3).map((event) => event.title || event.problemId);
-    const title = titles.length ? `复习清单：${titles.join("、")}` : "复习清单：先浏览 3 道题";
-    await recordProgress({
-      problemId: `review-plan:${Date.now()}`,
-      source: "gesp",
-      title,
-      type: "review"
-    });
-    setReviewPlanMessage(title);
+function ProfileView({ content, progress, setView }: { content: ConsumerMobileContent; progress: MobileProgress | null; setView: (view: ConsumerView) => void }) {
+  const counts = progressCounts(progress, content);
+  const favorites = progress?.favorites || content.profile_summary?.favorites || [];
+  const reviewPlan = progress?.review_plan || content.profile_summary?.review_plan || emptyReviewPlan();
+
+  return (
+    <>
+      <TopBar title="我的" subtitle="收藏、复习和学习记录" action={<IconShell label="设置" onClick={() => setView("settings")}><Settings size={18} /></IconShell>} />
+      <HeroPanel eyebrow="学习档案" title={reviewPlan.status === "ready" ? "本周保持练习，数论还需巩固" : "先收藏题目，再生成复习入口"} description="收藏夹、弱项和最近查看都会沉淀为复习入口，方便下次继续。" actionLabel="打开收藏" onAction={() => setView("favorites")} onSideAction={() => setView("favorites")} sideAction={<Share size={17} />} sideLabel="进入收藏夹" />
+      <SectionHeader title="学习数据" action="实时" />
+      <div className="consumerLibraryGrid">
+        <SummaryTile active label="收藏题" value={String(counts.favorite)} />
+        <SummaryTile label="复习中" value={String(counts.reviewed)} />
+      </div>
+      <SectionHeader title="收藏夹" action="管理" onAction={() => setView("favorites")} />
+      <EventList events={favorites.slice(0, 4)} emptyLabel="还没有收藏题，先从题目页点击收藏。" />
+      <SectionHeader title="复习计划" action={reviewPlan.status === "ready" ? `今日 ${reviewPlan.items.length} 题` : "待生成"} />
+      {reviewPlan.items.length ? (
+        <div className="consumerProblemList">
+          {reviewPlan.items.map((task) => <TaskCard icon={<BookOpen size={18} />} key={task.id} task={task} />)}
+        </div>
+      ) : (
+        <StateCard label="暂无复习计划，浏览或收藏题目后会自动生成。" />
+      )}
+    </>
+  );
+}
+
+function WeakPointsView({ content, progress, setView }: { content: ConsumerMobileContent; progress: MobileProgress | null; setView: (view: ConsumerView) => void }) {
+  const weakPoints = progress?.weak_points?.length ? progress.weak_points : content.progress_summary?.weak_points || weakPointsFromDomains(content.gesp.domains);
+  return (
+    <>
+      <TopBar
+        align="right"
+        title="薄弱知识点"
+        subtitle="按掌握度排序"
+        leading={<IconShell label="返回进度" onClick={() => setView("progress")}><ChevronLeft size={18} /></IconShell>}
+      />
+      <HeroPanel eyebrow="复习建议" title={`优先处理 ${weakPoints[0]?.name || "基础题型"}`} description="按题量和掌握度排序，先补最薄弱的知识点，再回到题库筛选同类题。" actionLabel="去题库筛选" onAction={() => setView("catalog")} onSideAction={() => setView("progress")} sideAction={<RefreshCw size={17} />} sideLabel="返回进度" />
+      <SectionHeader title="全部薄弱点" action={`${weakPoints.length} 个`} />
+      <WeakPointList points={weakPoints} />
+    </>
+  );
+}
+
+function FavoritesView({ content, progress, renderState, setView }: { content: ConsumerMobileContent; progress: MobileProgress | null; renderState: ConsumerRenderState; setView: (view: ConsumerView) => void }) {
+  const favorites = progress?.favorites || content.profile_summary?.favorites || [];
+  const reviewPlan = progress?.review_plan || content.profile_summary?.review_plan || emptyReviewPlan();
+  const openEvent = async (event: MobileProgressEvent) => {
+    if (event.source === "atcoder") {
+      await renderState.selectAtCoderProblem(event.problemId);
+    } else {
+      await renderState.selectGespProblem(event.problemId);
+    }
+    setView("problem");
+  };
+  const openTask = async (task: LearningTask) => {
+    if (!task.problem_id) {
+      setView("weak-points");
+      return;
+    }
+    if (task.source === "atcoder") {
+      await renderState.selectAtCoderProblem(task.problem_id);
+    } else {
+      await renderState.selectGespProblem(task.problem_id);
+    }
+    setView("problem");
   };
   return (
     <>
-      <section className="consumerCard consumerCardTint consumerProgressCard">
-        <div>
-          <h2>后端题库掌握度</h2>
-          <p>当前账号本周进度来自数据库事件，已接入 GESP {content.gesp.total_count} 题，AtCoder {content.atcoder.total_count} 题。</p>
+      <TopBar
+        align="right"
+        title="收藏夹"
+        subtitle="收藏和待复习题"
+        leading={<IconShell label="返回我的" onClick={() => setView("profile")}><ChevronLeft size={18} /></IconShell>}
+      />
+      <SectionHeader title="已收藏" action={`${favorites.length} 题`} />
+      {favorites.length ? (
+        <div className="consumerProblemList">
+          {favorites.map((event, index) => (
+            <button className="consumerEventRow" key={`${event.source}:${event.problemId}`} onClick={() => void openEvent(event)} type="button">
+              <span>收</span>
+              <div><strong>{event.title || event.problemId}</strong><small>{event.source === "atcoder" ? "AtCoder" : "GESP"} · 已收藏</small></div>
+              <em>{String(index + 1).padStart(2, "0")}</em>
+            </button>
+          ))}
         </div>
-        <div className="consumerRing" style={progressStyle}><span>{learningProgress.progressPct}%</span></div>
-      </section>
-      <section className="consumerCard">
-        <h2>收藏夹</h2>
-        {favorites.length ? (
-          favorites.slice(0, 4).map((event) => (
-            <div className="consumerSavedRow" key={event.problemId}><span>题</span><div><strong>{event.title || event.problemId}</strong><small>{event.source || "gesp"}</small></div><em>收藏</em></div>
-          ))
-        ) : featured ? (
-          <div className="consumerSavedRow"><span>题</span><div><strong>{featured.title}</strong><small>{featured.problem_type}</small></div><em>推荐</em></div>
-        ) : (
-          <p>后端暂未返回收藏推荐。</p>
-        )}
-      </section>
-      <section className="consumerCard">
-        <h2>弱项提醒</h2>
-        {content.gesp.domains.filter((domain) => domain.tone !== "good").slice(0, 2).map((domain) => <DomainRow domain={domain} key={domain.id} />)}
-      </section>
-      <button className="consumerPrimaryButton" onClick={() => void generateReviewPlan()} type="button"><BarChart3 size={17} />生成复习清单</button>
-      {reviewPlanMessage ? <p className="consumerActionNote">{reviewPlanMessage}</p> : null}
+      ) : (
+        <StateCard actionLabel="去题库收藏" label="还没有收藏题，先从题目详情页点击收藏。" onAction={() => setView("catalog")} />
+      )}
+      <SectionHeader title="复习计划" action={reviewPlan.status === "ready" ? `${reviewPlan.items.length} 项` : "待生成"} />
+      {reviewPlan.items.length ? (
+        <div className="consumerProblemList">
+          {reviewPlan.items.map((task) => <TaskCard icon={<BookOpen size={18} />} key={task.id} task={task} onOpen={() => void openTask(task)} />)}
+        </div>
+      ) : (
+        <StateCard label="收藏或浏览题目后，系统会自动生成复习计划。" />
+      )}
     </>
   );
 }
 
-function DomainList({ activeDomainId, domains, onSelect, title }: {
-  activeDomainId?: string | null;
-  domains: Domain[];
-  onSelect?: (domain: Domain) => void;
-  title: string;
-}) {
-  return (
-    <section className="consumerCard">
-      <h2>{title}</h2>
-      <div className="consumerDomainList">
-        {domains.slice(0, 5).map((domain) => (
-          <DomainRow active={activeDomainId === domain.id} domain={domain} key={domain.id} onSelect={onSelect ? () => onSelect(domain) : undefined} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function LevelSelect({
-  activeLevel,
-  levels,
-  onSelect,
-  problemCount
-}: {
-  activeLevel: number;
-  levels: LevelSummary[];
-  onSelect: (level: LevelSummary) => void;
-  problemCount: number;
-}) {
-  const currentLevel = levels.find((level) => level.level === activeLevel) || levels[0] || null;
-
+function SettingsView({ progress, setView }: { progress: MobileProgress | null; setView: (view: ConsumerView) => void }) {
   return (
     <>
-      <label className="consumerSelectField">
-        <span>当前等级</span>
-        <select
-          aria-label="选择 GESP 等级"
-          disabled={!levels.length}
-          name="consumer-gesp-level"
-          onChange={(event) => {
-            const nextLevel = levels.find((level) => String(level.level) === event.target.value);
-            if (nextLevel) {
-              onSelect(nextLevel);
-            }
-          }}
-          value={currentLevel ? String(currentLevel.level) : ""}
-        >
-          {levels.map((level) => (
-            <option key={level.level} value={level.level}>
-              {level.label} · {level.count} 题
-            </option>
-          ))}
-        </select>
-      </label>
-      {currentLevel ? (
-        <div className="consumerDomainSummary">
-          <div>
-            <strong>{currentLevel.label}</strong>
-            <small>{currentLevel.description}</small>
-          </div>
-          <span className={`consumerTag ${currentLevel.tone}`}>{problemCount} 题</span>
-        </div>
-      ) : (
-        <p>后端暂未返回等级目录。</p>
-      )}
+      <TopBar
+        align="right"
+        title="设置"
+        subtitle="学习档案与数据"
+        leading={<IconShell label="返回我的" onClick={() => setView("profile")}><ChevronLeft size={18} /></IconShell>}
+      />
+      <section className="consumerSettingList">
+        <article>
+          <span>学习档案</span>
+          <strong>{progress?.user_key || "anonymous"}</strong>
+        </article>
+        <article>
+          <span>进度来源</span>
+          <strong>{progress?.data_source === "mysql" ? "数据库同步" : "本地临时记录"}</strong>
+        </article>
+        <article>
+          <span>本周动作</span>
+          <strong>{progress?.counts?.weekly_actions ?? 0} 次</strong>
+        </article>
+      </section>
+      <SectionHeader title="快捷入口" />
+      <div className="consumerActionGrid">
+        <button onClick={() => setView("favorites")} type="button"><Star size={16} />收藏夹</button>
+        <button onClick={() => setView("weak-points")} type="button"><Filter size={16} />薄弱点</button>
+      </div>
     </>
   );
 }
 
-function DomainSelect({
-  activeDomainId,
-  domains,
-  onSelect,
-  problemCount
+function TopBar({
+  action,
+  align = "left",
+  leading,
+  subtitle,
+  title
 }: {
-  activeDomainId?: string | null;
-  domains: Domain[];
-  onSelect: (domain: Domain) => void;
-  problemCount: number;
+  action?: ReactNode;
+  align?: "left" | "right";
+  leading?: ReactNode;
+  subtitle?: string;
+  title?: string;
 }) {
-  const activeDomain = domains.find((domain) => domain.id === activeDomainId) || domains[0] || null;
-
   return (
-    <section className="consumerCard consumerFilterCard">
-      <div className="consumerSectionHead">
-        <h2>算法范畴</h2>
-        <span>{problemCount} 题</span>
-      </div>
-      <label className="consumerSelectField">
-        <span>当前范畴</span>
-        <select
-          aria-label="选择算法范畴"
-          disabled={!domains.length}
-          name="consumer-algorithm-domain"
-          onChange={(event) => {
-            const nextDomain = domains.find((domain) => domain.id === event.target.value);
-            if (nextDomain) {
-              onSelect(nextDomain);
-            }
-          }}
-          value={activeDomain?.id || ""}
-        >
-          {domains.map((domain) => (
-            <option key={domain.id} value={domain.id}>
-              {domain.name} · {domain.count} 题
-            </option>
-          ))}
-        </select>
-      </label>
-      {activeDomain ? (
-        <div className="consumerDomainSummary">
-          <div>
-            <strong>{activeDomain.name}</strong>
-            <small>{activeDomain.description}</small>
-          </div>
-          <span className={`consumerTag ${activeDomain.tone}`}>{activeDomain.progress}%</span>
+    <header className="consumerTopbar">
+      {leading || (
+        <div className={`consumerBrand ${align === "right" ? "right" : ""}`}>
+          {title ? <strong>{title}</strong> : null}
+          {subtitle ? <span>{subtitle}</span> : null}
         </div>
-      ) : (
-        <p>后端暂未返回算法范畴。</p>
       )}
-    </section>
-  );
-}
-
-function LevelOverview({ content }: { content: ConsumerMobileContent }) {
-  return (
-    <section className="consumerCard">
-      <div className="consumerSectionHead">
-        <h2>GESP 等级覆盖</h2>
-        <span>{content.gesp.total_count} 题</span>
-      </div>
-      <div className="consumerLevelGrid">
-        {content.gesp.levels.slice(0, 6).map((level) => <LevelChip key={level.level} level={level} />)}
-      </div>
-    </section>
-  );
-}
-
-function LevelChip({ active = false, level, onClick }: { active?: boolean; level: LevelSummary; onClick?: () => void }) {
-  const className = `consumerLevelChip ${level.tone} ${active ? "active" : ""}`;
-  if (onClick) {
-    return (
-      <button className={className} onClick={onClick} type="button">
-        <strong>{level.label}</strong>
-        <span>{level.count} 题</span>
-        <small>{level.title}</small>
-      </button>
-    );
-  }
-  return (
-    <article className={className}>
-      <strong>{level.label}</strong>
-      <span>{level.count} 题</span>
-      <small>{level.title}</small>
-    </article>
-  );
-}
-
-function DomainRow({ active = false, domain, onSelect }: { active?: boolean; domain: Domain; onSelect?: () => void }) {
-  const className = `consumerDomainRow ${active ? "active" : ""}`;
-  if (onSelect) {
-    return (
-      <button className={className} onClick={onSelect} type="button">
-        <div>
-          <strong>{domain.name}</strong>
-          <small>{domain.description}</small>
+      {leading ? (
+        <div className={`consumerBrand ${align === "right" ? "right" : ""}`}>
+          {title ? <strong>{title}</strong> : null}
+          {subtitle ? <span>{subtitle}</span> : null}
         </div>
-        <span className={`consumerTag ${domain.tone}`}>{domain.progress}%</span>
-      </button>
-    );
-  }
-  return (
-    <div className={className}>
-      <div>
-        <strong>{domain.name}</strong>
-        <small>{domain.description}</small>
-      </div>
-      <span className={`consumerTag ${domain.tone}`}>{domain.progress}%</span>
-    </div>
+      ) : action}
+      {leading ? action : null}
+    </header>
   );
 }
 
-function ProblemListRow({ onOpen, problem }: { onOpen?: (problemId: string) => void | Promise<void>; problem: MobileProblemListItem }) {
+function IconShell({ children, label, onClick }: { children: ReactNode; label: string; onClick?: () => void }) {
   return (
-    <button className="consumerProblemRow" onClick={() => void onOpen?.(problem.id)} type="button">
-      <span className="consumerBadge">{problem.level.replace(" 级", "")}</span>
-      <span>
-        <strong>{problem.title}</strong>
-        <small>{problem.subtitle} · {problem.domain} · {problem.problem_type}</small>
-      </span>
-      <em>{problem.has_code ? "码" : "看"}</em>
+    <button aria-label={label} className="consumerIconButton" onClick={onClick} type="button">
+      {children}
     </button>
   );
 }
 
-function problemListKey(problem: MobileProblemListItem) {
-  return `${problem.id}:${problem.domain}:${problem.problem_type}`;
+function HeroPanel({
+  actionLabel,
+  description,
+  eyebrow,
+  onAction,
+  onSideAction,
+  sideAction,
+  sideLabel = "更多",
+  title
+}: {
+  actionLabel: string;
+  description: string;
+  eyebrow: string;
+  onAction: () => void;
+  onSideAction?: () => void;
+  sideAction: ReactNode;
+  sideLabel?: string;
+  title: string;
+}) {
+  return (
+    <section className="consumerHeroPanel">
+      <div className="consumerHeroEyebrow"><BookOpen size={15} />{eyebrow}</div>
+      <h1>{title}</h1>
+      <p>{description}</p>
+      <div className="consumerHeroActions">
+        <button onClick={onAction} type="button">{actionLabel}<ArrowRight size={16} /></button>
+        <button aria-label={sideLabel} className="consumerHeroIconAction" onClick={onSideAction || onAction} type="button">{sideAction}</button>
+      </div>
+    </section>
+  );
 }
 
-function formatRecentDate(recordedAt?: string) {
-  if (!recordedAt) {
-    return "最近查看";
-  }
-  const date = new Date(recordedAt);
-  if (Number.isNaN(date.getTime())) {
-    return "最近查看";
-  }
-  return date.toLocaleDateString();
+function SectionHeader({ action, onAction, title }: { action?: string; onAction?: () => void; title: string }) {
+  return (
+    <div className="consumerSectionHeader">
+      <h2>{title}</h2>
+      {action ? (
+        onAction ? <button onClick={onAction} type="button">{action}</button> : <span>{action}</span>
+      ) : null}
+    </div>
+  );
 }
 
-function scrollConsumerSection(section: string) {
-  const target = document.querySelector(`[data-consumer-section="${section}"]`);
-  const content = document.querySelector(".consumerContent");
-  if (!(target instanceof HTMLElement) || !(content instanceof HTMLElement)) {
-    return;
-  }
-  const contentTop = content.getBoundingClientRect().top;
-  const targetTop = target.getBoundingClientRect().top;
-  content.scrollTo({
-    top: content.scrollTop + targetTop - contentTop - 16,
-    behavior: "smooth"
-  });
+function SearchBox({ label, onClick }: { label: string; onClick: () => void }) {
+  return <button className="consumerSearchBox" onClick={onClick} type="button"><Search size={17} />{label}</button>;
 }
 
-function summarizeLearningProgress(progress: MobileProgress | null) {
-  const progressPct = progress?.progress_pct ?? 0;
-  const weeklyActionCount = (progress?.weekly_viewed_count ?? 0) + (progress?.weekly_favorite_count ?? 0) + (progress?.weekly_reviewed_count ?? 0);
-  return { progressPct, weeklyActionCount };
+function SummaryTile({ active = false, label, value }: { active?: boolean; label: string; value: string }) {
+  return (
+    <article className={`consumerSummaryTile ${active ? "active" : ""}`}>
+      <span>{label}</span>
+      <strong>{value}</strong>
+    </article>
+  );
 }
 
-function AtCoderTrackRow({ active = false, onSelect, track }: { active?: boolean; onSelect?: () => void; track: AtCoderTrack }) {
+function TaskCard({ icon, onOpen, task }: { icon: ReactNode; onOpen?: () => void; task: LearningTask }) {
   const content = (
     <>
-      <span>{track.difficulty}</span>
-      <div>
-        <strong>{track.name}</strong>
-        <small>{track.description}</small>
-        <div className="consumerTagRow">
-          {track.tags.map((tag) => <em className="consumerTag info" key={tag}>{tag}</em>)}
-        </div>
-      </div>
-      <b>{track.count}</b>
+      <span className="consumerTaskIcon">{icon}</span>
+      <div><strong>{task.title}</strong><small>{task.subtitle}</small></div>
+      {onOpen ? <em><ArrowRight size={17} /></em> : null}
     </>
   );
-  if (onSelect) {
-    return (
-      <button className={`consumerAtCoderRow ${active ? "active" : ""}`} onClick={onSelect} type="button">
-        {content}
-      </button>
-    );
+  if (onOpen) {
+    return <button className="consumerTaskCard" onClick={onOpen} type="button">{content}</button>;
+  }
+  return <article className="consumerTaskCard">{content}</article>;
+}
+
+function WeakPointList({ points }: { points: WeakPoint[] }) {
+  if (!points.length) {
+    return <StateCard label="暂无薄弱知识点，继续练习后会生成。" />;
   }
   return (
-    <article className={`consumerAtCoderRow ${active ? "active" : ""}`}>
-      {content}
-    </article>
+    <div className="consumerWeakList">
+      {points.map((point) => (
+        <article className="consumerWeakItem" key={point.id}>
+          <strong>{point.name}</strong>
+          <small>{point.count} 道题 · 建议今天完成 {point.suggested_count} 道</small>
+          <span><i style={{ width: `${point.progress}%` }} /></span>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function EventList({ emptyLabel, events }: { emptyLabel: string; events: MobileProgressEvent[] }) {
+  if (!events.length) {
+    return <StateCard label={emptyLabel} />;
+  }
+  return (
+    <div className="consumerProblemList">
+      {events.map((event) => (
+        <article className="consumerEventRow" key={`${event.type}:${event.source}:${event.problemId}`}>
+          <span>{event.source === "atcoder" ? "At" : event.type === "favorite" ? "收" : "题"}</span>
+          <div><strong>{event.title || event.problemId}</strong><small>{event.source || "gesp"} · {event.type}</small></div>
+          <em>{event.type === "review" ? "复习" : event.type === "favorite" ? "收藏" : "查看"}</em>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function ProblemListRow({ index, onOpen, problem }: { index: number; onOpen?: (problemId: string) => void | Promise<void>; problem: MobileProblemListItem }) {
+  return (
+    <button className="consumerProblemRow" onClick={() => void onOpen?.(problem.id)} type="button">
+      <span>{String(index).padStart(2, "0")}</span>
+      <div><strong>{problem.title}</strong><small>{problem.subtitle} · {problem.problem_type}</small></div>
+      <em className={problem.has_code ? "good" : "weak"}>{problem.has_code ? "76%" : "新"}</em>
+    </button>
+  );
+}
+
+function StateCard({ actionLabel, label, onAction }: { actionLabel?: string; label: string; onAction?: () => void }) {
+  return (
+    <section className="consumerStateCard">
+      <p>{label}</p>
+      {actionLabel && onAction ? <button onClick={onAction} type="button">{actionLabel}</button> : null}
+    </section>
   );
 }
 
 function LoadingSkeleton() {
   return (
     <>
-      <section className="consumerCard consumerSkeletonCard" aria-hidden="true">
-        <span />
-        <span />
-        <span />
-      </section>
-      <section className="consumerCard consumerSkeletonCard short" aria-hidden="true">
-        <span />
-        <span />
-      </section>
+      <TopBar title="GESP 练习" subtitle="正在加载" />
+      <section className="consumerSkeletonCard"><span /><span /><span /></section>
+      <section className="consumerSkeletonCard short"><span /><span /><span /></section>
     </>
   );
 }
 
-function StateCard({ actionLabel, label, onAction }: { actionLabel?: string; label: string; onAction?: () => void }) {
-  return (
-    <section className="consumerCard consumerStateCard">
-      <RefreshCw size={22} />
-      <h2>{label}</h2>
-      {onAction ? <button className="consumerSecondaryButton" onClick={onAction} type="button">{actionLabel || "重试"}</button> : null}
-    </section>
-  );
+function fallbackTaskFromProblem(problem: ConsumerProblem | null, kind: LearningTask["kind"], ctaLabel: string): LearningTask | null {
+  if (!problem) {
+    return null;
+  }
+  return {
+    id: `${kind}:${problem.source}:${problem.id}`,
+    kind,
+    title: problem.title,
+    subtitle: `${problem.level} · ${problem.domain} · ${problem.problem_type}`,
+    problem_id: problem.id,
+    source: problem.source,
+    cta_label: ctaLabel,
+    priority: 50
+  };
+}
+
+function latestProgressTask(progress: MobileProgress | null): LearningTask | null {
+  const event = (progress?.recent_events || progress?.viewed || [])[0];
+  if (!event?.problemId) {
+    return null;
+  }
+  return {
+    id: `continue:${event.source || "gesp"}:${event.problemId}`,
+    kind: "continue",
+    title: event.title || event.problemId,
+    subtitle: `${event.source || "gesp"} · ${event.type}`,
+    problem_id: event.problemId,
+    source: event.source || "gesp",
+    cta_label: "继续",
+    priority: 80
+  };
+}
+
+function weakPointsFromDomains(domains: Domain[]): WeakPoint[] {
+  return domains
+    .filter((domain) => domain.tone !== "good")
+    .slice(0, 5)
+    .map((domain) => ({
+      id: domain.id,
+      name: domain.name,
+      description: domain.description,
+      count: domain.count,
+      progress: domain.progress,
+      suggested_count: domain.progress < 45 ? 2 : 1,
+      tone: domain.tone
+    }));
+}
+
+function progressCounts(progress: MobileProgress | null, content: ConsumerMobileContent) {
+  if (progress?.counts) {
+    return progress.counts;
+  }
+  if (content.progress_summary?.counts) {
+    return content.progress_summary.counts;
+  }
+  return {
+    viewed: progress?.viewed_count ?? content.learning.viewed_count,
+    favorite: progress?.favorite_count ?? 0,
+    reviewed: progress?.reviewed_count ?? content.learning.reviewed_count,
+    weekly_actions: progress?.weekly_action_count ?? summarizeLearningProgress(progress).weeklyActionCount
+  };
+}
+
+function emptyReviewPlan(): ReviewPlan {
+  return {
+    generated_at: new Date().toISOString(),
+    status: "empty",
+    basis: [],
+    items: []
+  };
+}
+
+function solutionThinking(problem: ConsumerProblem) {
+  const blocked = /(来源|证据|核对|公开|OJ|复核|可信|分类|收录|参考当前样例|AI|验证)/;
+  const steps = problem.steps
+    .map((step) => step.trim())
+    .filter((step) => step && !blocked.test(step))
+    .slice(0, 3);
+  if (steps.length) {
+    return steps;
+  }
+  const type = problem.problem_type || "题型";
+  if (problem.algorithm) {
+    return [`识别为${type}，先把输入条件转成变量。`, `使用${problem.algorithm}处理核心关系。`, "用样例回代检查边界和输出格式。"];
+  }
+  return [`识别为${type}，先读清输入和目标。`, "把题目条件拆成可计算的判定或公式。", "用样例验证推导，再整理成代码步骤。"];
+}
+
+function solutionHint(index: number, problem: ConsumerProblem) {
+  if (index === 0) {
+    return `知识点：${problem.knowledge_points.slice(0, 2).join("、") || problem.domain}`;
+  }
+  if (index === 1) {
+    return problem.complexity || "把推导过程转成可复用模板。";
+  }
+  return "最后检查样例、边界和输出格式。";
+}
+
+function plainStatement(problem: ConsumerProblem) {
+  const source = problem.statement_sections[0]?.markdown || problem.statement || "后端暂未收录完整题面。";
+  const cleanedLines = source
+    .split(/\r?\n/)
+    .map((line) => line
+      .replace(/\[[^\]]+\]\([^)]+\)/g, "")
+      .replace(/https?:\/\/\S+/g, "")
+      .replace(/<https?:\/\/[^>]+>/g, "")
+      .replace(/[#*_`>-]/g, "")
+      .trim())
+    .filter((line) => {
+      if (!line) {
+        return false;
+      }
+      if (/^(输入|输出|样例|题目描述|参考|来源|对应的选择)/.test(line)) {
+        return false;
+      }
+      if (line.includes("<") || line.includes(">")) {
+        return false;
+      }
+      return !/^[-+]?\d+(\s+[-+]?\d+)*$/.test(line);
+    });
+  const readable = cleanedLines.find((line) => /[\u4e00-\u9fa5]/.test(line) && line.length >= 12) || cleanedLines[0];
+  return readable || `${problem.domain}下的${problem.problem_type}，先确认输入条件，再完成核心推导。`;
+}
+
+function problemListKey(problem: MobileProblemListItem) {
+  return `${problem.id}:${problem.domain}:${problem.problem_type}`;
+}
+
+function summarizeLearningProgress(progress: MobileProgress | null) {
+  const progressPct = progress?.progress_pct ?? 0;
+  const weeklyActionCount = (progress?.weekly_viewed_count ?? 0) + (progress?.weekly_favorite_count ?? 0) + (progress?.weekly_reviewed_count ?? 0);
+  return { progressPct, weeklyActionCount };
 }
