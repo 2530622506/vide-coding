@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-import { Body, Controller, Get, Headers, Inject, Param, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Headers, Inject, Param, Post, Query } from "@nestjs/common";
 import { ConsumerMobileService } from "./consumer-mobile.service.js";
 let ConsumerMobileController = class ConsumerMobileController {
     consumerMobileService;
@@ -45,6 +45,9 @@ let ConsumerMobileController = class ConsumerMobileController {
     }
     recordProgressEvent(body, userKey) {
         return this.consumerMobileService.recordProgressEvent(body, userKey);
+    }
+    removeProgressEvent(body, userKey) {
+        return this.consumerMobileService.removeProgressEvent(body, userKey);
     }
 };
 __decorate([
@@ -108,6 +111,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", void 0)
 ], ConsumerMobileController.prototype, "recordProgressEvent", null);
+__decorate([
+    Delete("progress/events"),
+    __param(0, Body()),
+    __param(1, Headers("x-consumer-user-key")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", void 0)
+], ConsumerMobileController.prototype, "removeProgressEvent", null);
 ConsumerMobileController = __decorate([
     Controller("consumer-mobile"),
     __param(0, Inject(ConsumerMobileService)),

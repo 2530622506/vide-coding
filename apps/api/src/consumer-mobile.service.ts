@@ -237,8 +237,11 @@ export class ConsumerMobileService {
     };
     const progressStore = await this.getProgress(userKey);
     const featuredMobileProblem = legacyContent.gesp.featured_problem;
-    const continueTask = this.buildContinueTask(progressStore, featuredMobileProblem);
-    const todayTask = this.buildTodayTask(progressStore, problemTypes, featuredMobileProblem);
+    const nextSummary = this.pickNextGespProblem(catalogs, progressStore);
+    const nextProblem = nextSummary ? await this.catalogService.getProblem(nextSummary.id) : null;
+    const nextMobileProblem = nextProblem ? this.buildGespFeaturedProblem(nextProblem) : featuredMobileProblem;
+    const continueTask = this.buildContinueTask(progressStore, nextMobileProblem);
+    const todayTask = this.buildTodayTask(progressStore, problemTypes, nextMobileProblem);
 
     return {
       ...legacyContent,
@@ -300,7 +303,7 @@ export class ConsumerMobileService {
     const problemTypes = catalog
       ? domainGroup
         ? this.buildLevelProblemTypes(catalog, domainGroup)
-        : catalog.domains.flatMap((domain) => this.buildLevelProblemTypes(catalog, domain))
+        : this.dedupeLevelProblemTypes(catalog.domains.flatMap((domain) => this.buildLevelProblemTypes(catalog, domain)))
       : [];
     const selectedProblemType = params.problemTypeId
       ? problemTypes.find((type) => type.id === params.problemTypeId) || null
@@ -372,9 +375,9 @@ export class ConsumerMobileService {
     const catalogs = (await Promise.all(
       levelsResponse.levels.map((level) => this.catalogService.getLevelCatalog(level.level))
     )).filter((catalog): catalog is LevelCatalog => Boolean(catalog));
-    const gesp = catalogs
+    const gesp = this.dedupeMobileProblemItems(catalogs
       .flatMap((catalog) => this.buildGespProblemList(catalog, { query: trimmedQuery }))
-      .slice(0, 30);
+    ).slice(0, 30);
     const atcoder = this.flattenAtCoderProblems(atCoderCatalog)
       .filter(({ problem }) => this.matchQuery([
         problem.pid,
@@ -407,6 +410,17 @@ export class ConsumerMobileService {
       return this.enrichProgressStore(mysqlProgress);
     }
     this.recordMemoryProgressEvent(event);
+    return this.enrichProgressStore(this.getMemoryProgress(normalizedUserKey));
+  }
+
+  async removeProgressEvent(body: unknown, userKey?: string): Promise<ProgressStore> {
+    const normalizedUserKey = this.normalizeProgressUserKey(userKey);
+    const event = this.normalizeProgressEvent(body);
+    const mysqlProgress = await this.removeMysqlProgressEvent(normalizedUserKey, event);
+    if (mysqlProgress) {
+      return this.enrichProgressStore(mysqlProgress);
+    }
+    this.removeMemoryProgressEvent(event);
     return this.enrichProgressStore(this.getMemoryProgress(normalizedUserKey));
   }
 
@@ -465,6 +479,32 @@ export class ConsumerMobileService {
     }
   }
 
+  private async removeMysqlProgressEvent(userKey: string, event: ProgressEvent): Promise<ProgressStore | null> {
+    const connection = await this.createProgressMysqlConnection();
+    if (!connection) {
+      return null;
+    }
+    try {
+      await this.ensureProgressSchema(connection);
+      await connection.execute(
+        `DELETE FROM consumer_mobile_progress_events
+         WHERE user_key = ? AND problem_source = ? AND problem_id = ? AND event_type = ?`,
+        [
+          userKey,
+          event.source === "atcoder" ? "atcoder" : "gesp",
+          event.problemId,
+          event.type
+        ]
+      );
+      return await this.readMysqlProgress(connection, userKey);
+    } catch (error) {
+      this.logger.warn(`Falling back to in-memory consumer progress delete: ${this.errorMessage(error)}`);
+      return null;
+    } finally {
+      await connection.end();
+    }
+  }
+
   private async readMysqlProgress(connection: mysql.Connection, userKey: string): Promise<ProgressStore> {
     const [rows] = await connection.query<ProgressRow[]>(
       `SELECT problem_source, problem_id, event_type, title, event_json, updated_at
@@ -484,6 +524,16 @@ export class ConsumerMobileService {
       this.reviewedProblems.set(event.problemId, event);
     } else {
       this.viewedProblems.set(event.problemId, event);
+    }
+  }
+
+  private removeMemoryProgressEvent(event: ProgressEvent) {
+    if (event.type === "favorite") {
+      this.favoriteProblems.delete(event.problemId);
+    } else if (event.type === "review") {
+      this.reviewedProblems.delete(event.problemId);
+    } else {
+      this.viewedProblems.delete(event.problemId);
     }
   }
 
@@ -886,6 +936,23 @@ export class ConsumerMobileService {
     }));
   }
 
+  private dedupeLevelProblemTypes(problemTypes: MobileProblemType[]) {
+    const typeById = new Map<string, MobileProblemType>();
+    for (const type of problemTypes) {
+      const existing = typeById.get(type.id);
+      if (!existing) {
+        typeById.set(type.id, { ...type });
+        continue;
+      }
+      existing.count += type.count;
+      existing.progress = Math.round((existing.progress + type.progress) / 2);
+      if (!existing.description.includes(type.description)) {
+        existing.description = [existing.description, type.description].filter(Boolean).slice(0, 2).join("、");
+      }
+    }
+    return [...typeById.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+  }
+
   private buildGespProblemList(
     catalog: LevelCatalog | null,
     filters: { domainId?: string; problemTypeId?: string | null; query?: string }
@@ -893,7 +960,12 @@ export class ConsumerMobileService {
     if (!catalog) {
       return [];
     }
-    return catalog.domains
+    const deduped = new Map<string, {
+      domain: LevelCatalog["domains"][number];
+      problemType: LevelCatalog["domains"][number]["problem_types"][number];
+      problem: LevelCatalog["domains"][number]["problem_types"][number]["problems"][number];
+    }>();
+    for (const item of catalog.domains
       .filter((domain) => !filters.domainId || domain.domain_id === filters.domainId)
       .flatMap((domain) => (
         domain.problem_types
@@ -909,7 +981,12 @@ export class ConsumerMobileService {
         domain.domain_label,
         problemType.problem_type_label,
         ...problem.knowledge_point_tags.map((tag) => tag.label)
-      ], filters.query))
+      ], filters.query))) {
+      if (!deduped.has(item.problem.id)) {
+        deduped.set(item.problem.id, item);
+      }
+    }
+    return [...deduped.values()]
       .slice(0, 80)
       .map(({ domain, problem, problemType }) => this.buildGespProblemListItem(catalog, domain, problemType, problem));
   }
@@ -933,6 +1010,16 @@ export class ConsumerMobileService {
     };
   }
 
+  private dedupeMobileProblemItems(items: MobileProblemListItem[]) {
+    const itemById = new Map<string, MobileProblemListItem>();
+    for (const item of items) {
+      if (!itemById.has(item.id)) {
+        itemById.set(item.id, item);
+      }
+    }
+    return [...itemById.values()];
+  }
+
   private buildAtCoderProblemListItem(problem: AtCoderProblemSummary): MobileProblemListItem {
     return {
       id: problem.id,
@@ -953,6 +1040,42 @@ export class ConsumerMobileService {
       .find((problem) => problem.detail_completeness?.has_reference_answer || problem.answer_guidance?.understanding_example.steps.length)
       || catalogs[0]?.domains[0]?.problem_types[0]?.problems[0]
       || null;
+  }
+
+  private pickNextGespProblem(catalogs: LevelCatalog[], progress: ProgressStore) {
+    const completedKeys = new Set([
+      ...progress.reviewed.map((event) => event.problemId),
+      ...progress.recent_events.slice(0, 6).map((event) => event.problemId)
+    ]);
+    const weakDomainNames = new Set(progress.weak_points.slice(0, 3).map((point) => point.name));
+    const candidates = new Map<string, {
+      domainName: string;
+      problem: LevelCatalog["domains"][number]["problem_types"][number]["problems"][number];
+    }>();
+    for (const catalog of catalogs) {
+      for (const domain of catalog.domains) {
+        for (const problemType of domain.problem_types) {
+          for (const problem of problemType.problems) {
+            if (!candidates.has(problem.id)) {
+              candidates.set(problem.id, { domainName: domain.domain_label, problem });
+            }
+          }
+        }
+      }
+    }
+    const available = [...candidates.values()]
+      .filter(({ problem }) => !completedKeys.has(problem.id))
+      .sort((a, b) => {
+        const weakA = weakDomainNames.has(a.domainName) ? 0 : 1;
+        const weakB = weakDomainNames.has(b.domainName) ? 0 : 1;
+        return weakA - weakB || a.problem.title.localeCompare(b.problem.title);
+      });
+    const pool = available.length ? available : [...candidates.values()];
+    if (!pool.length) {
+      return null;
+    }
+    const rotationSeed = `${progress.user_key}:${new Date().toISOString().slice(0, 10)}:${progress.activity_count}`;
+    return pool[this.hashIndex(rotationSeed, pool.length)]?.problem || null;
   }
 
   private buildGespFeaturedProblem(problem: GespProblem): MobileProblem {
@@ -1131,6 +1254,14 @@ export class ConsumerMobileService {
       return true;
     }
     return values.some((value) => value.toLowerCase().includes(normalizedQuery));
+  }
+
+  private hashIndex(value: string, size: number) {
+    let hash = 0;
+    for (let index = 0; index < value.length; index += 1) {
+      hash = (hash * 31 + value.charCodeAt(index)) >>> 0;
+    }
+    return size ? hash % size : 0;
   }
 
   private normalizeProgressEvent(body: unknown): ProgressEvent {

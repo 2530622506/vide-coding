@@ -7,6 +7,7 @@ import {
   fetchConsumerMobileGespProblem,
   fetchConsumerMobileProgress,
   fetchConsumerMobileSearch,
+  removeConsumerMobileProgress,
   recordConsumerMobileProgress
 } from "../../services/consumerMobile";
 import type { ConsumerMobileContent, ConsumerProblem, MobileAtCoderCatalog, MobileGespCatalog, MobileProgress, MobileProgressEvent, MobileSearchResult } from "./ConsumerMobileData";
@@ -107,6 +108,12 @@ export function useConsumerMobileContent() {
     return nextProgress;
   }
 
+  async function removeProgress(event: MobileProgressEvent) {
+    const nextProgress = await removeConsumerMobileProgress(event);
+    setProgress(nextProgress);
+    return nextProgress;
+  }
+
   async function searchProblems(query: string) {
     setSearchLoading(true);
     setSearchError(null);
@@ -138,6 +145,7 @@ export function useConsumerMobileContent() {
     loadGespCatalog,
     progress,
     recordProgress,
+    removeProgress,
     reload: loadContent,
     searchError,
     searchLoading,

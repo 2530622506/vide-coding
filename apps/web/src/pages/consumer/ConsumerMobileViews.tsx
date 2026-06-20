@@ -1,4 +1,4 @@
-import { useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { ArrowRight, BookOpen, ChevronLeft, Code2, Filter, PenLine, RefreshCw, Search, Settings, Share, Star, Trophy } from "lucide-react";
 import { ConsumerCodeBlock } from "./ConsumerCodeBlock";
 import { ConsumerProblemStatement } from "./ConsumerProblemStatement";
@@ -32,6 +32,7 @@ type ConsumerRenderState = {
   loading: boolean;
   progress: MobileProgress | null;
   recordProgress: (event: { problemId: string; source?: "gesp" | "atcoder"; title?: string; type: "view" | "favorite" | "review" }) => Promise<MobileProgress>;
+  removeProgress: (event: { problemId: string; source?: "gesp" | "atcoder"; title?: string; type: "view" | "favorite" | "review" }) => Promise<MobileProgress>;
   reload: () => void;
   searchError: string | null;
   searchLoading: boolean;
@@ -68,9 +69,9 @@ export function renderConsumerView(
     case "atcoder":
       return <AtCoderView content={content} renderState={renderState} setView={setView} />;
     case "problem":
-      return <ProblemView problem={renderState.selectedProblem || content.gesp.featured_problem} progress={renderState.progress} recordProgress={renderState.recordProgress} setView={setView} />;
+      return <ProblemView problem={renderState.selectedProblem || content.gesp.featured_problem} progress={renderState.progress} recordProgress={renderState.recordProgress} removeProgress={renderState.removeProgress} setView={setView} />;
     case "code":
-      return <CodeView problem={renderState.selectedProblem || content.gesp.featured_problem} progress={renderState.progress} recordProgress={renderState.recordProgress} setView={setView} />;
+      return <CodeView problem={renderState.selectedProblem || content.gesp.featured_problem} progress={renderState.progress} recordProgress={renderState.recordProgress} removeProgress={renderState.removeProgress} setView={setView} />;
     case "progress":
       return <ProgressView content={content} progress={renderState.progress} setView={setView} />;
     case "weak-points":
@@ -97,7 +98,7 @@ function HomeView({
   renderState: ConsumerRenderState;
   setView: (view: ConsumerView) => void;
 }) {
-  const todayTask = content.home?.today_task || fallbackTaskFromProblem(content.gesp.featured_problem, "featured", "开始练习");
+  const todayTask = nextTaskFromCatalog(renderState.gespCatalog, progress) || content.home?.today_task || fallbackTaskFromProblem(content.gesp.featured_problem, "featured", "开始练习");
   const continueTask = content.home?.continue_task || latestProgressTask(progress) || fallbackTaskFromProblem(content.gesp.featured_problem, "continue", "继续");
   const weakPoints = content.home?.knowledge_progress?.length ? content.home.knowledge_progress : progress?.weak_points || weakPointsFromDomains(content.gesp.domains);
   const libraryCards = content.home?.library_cards || [
@@ -248,7 +249,7 @@ function CatalogView({ renderState, setView }: { renderState: ConsumerRenderStat
         <SummaryTile active label="知识点" value={catalog.selected_domain_id ? catalog.domains.find((domain) => domain.id === catalog.selected_domain_id)?.name || "全部" : "全部"} />
       </div>
 
-      <SectionHeader title="题型分布" action="重置" onAction={() => void loadGespCatalog({ level: catalog.selected_level })} />
+      <SectionHeader title="题型分布" action="重置" onAction={() => void resetGespCatalog(loadGespCatalog, catalog.selected_level)} />
       <div className="consumerChipRow">
         {catalog.problem_types.map((type) => (
           <button
@@ -305,15 +306,20 @@ function AtCoderView({ content, renderState, setView }: { content: ConsumerMobil
   );
 }
 
-function ProblemView({ problem, progress, recordProgress, setView }: {
+function ProblemView({ problem, progress, recordProgress, removeProgress, setView }: {
   problem: ConsumerProblem | null;
   progress: MobileProgress | null;
   recordProgress: ConsumerRenderState["recordProgress"];
+  removeProgress: ConsumerRenderState["removeProgress"];
   setView: (view: ConsumerView) => void;
 }) {
   const [actionMessage, setActionMessage] = useState("");
   const [favoriteMarked, setFavoriteMarked] = useState(() => Boolean(problem && progress?.favorites.some((event) => event.problemId === problem.id && event.source === problem.source)));
   const [reviewMarked, setReviewMarked] = useState(() => Boolean(problem && progress?.reviewed.some((event) => event.problemId === problem.id && event.source === problem.source)));
+  useEffect(() => {
+    setFavoriteMarked(Boolean(problem && progress?.favorites.some((event) => event.problemId === problem.id && event.source === problem.source)));
+    setReviewMarked(Boolean(problem && progress?.reviewed.some((event) => event.problemId === problem.id && event.source === problem.source)));
+  }, [problem, progress?.favorites, progress?.reviewed]);
   if (!problem) {
     return <StateCard label="后端暂未返回推荐题目详情" />;
   }
@@ -327,13 +333,22 @@ function ProblemView({ problem, progress, recordProgress, setView }: {
     }
     setActionMessage(message);
   };
+  const toggleFavorite = async () => {
+    if (favoriteMarked) {
+      await removeProgress({ problemId: problem.id, source: problem.source, title: problem.title, type: "favorite" });
+      setFavoriteMarked(false);
+      setActionMessage("已取消收藏");
+      return;
+    }
+    await markProgress("favorite", "已加入收藏夹");
+  };
   const solutionSteps = solutionThinking(problem);
 
   return (
     <>
       <TopBar
         leading={<IconShell label="返回题库" onClick={() => setView(problem.source === "atcoder" ? "atcoder" : "catalog")}><ChevronLeft size={18} /></IconShell>}
-        action={<IconShell label={favoriteMarked ? "已收藏" : "收藏"} onClick={() => void markProgress("favorite", favoriteMarked ? "已在收藏夹" : "已加入收藏夹")}><Star size={18} fill={favoriteMarked ? "currentColor" : "none"} /></IconShell>}
+        action={<IconShell label={favoriteMarked ? "取消收藏" : "收藏"} onClick={() => void toggleFavorite()}><Star size={18} fill={favoriteMarked ? "currentColor" : "none"} /></IconShell>}
       />
       <div className="consumerDetailTitle">
         <span>{problem.subtitle}</span>
@@ -363,10 +378,14 @@ function ProblemView({ problem, progress, recordProgress, setView }: {
   );
 }
 
-function CodeView({ problem, progress, recordProgress, setView }: { problem: ConsumerProblem | null; progress: MobileProgress | null; recordProgress: ConsumerRenderState["recordProgress"]; setView: (view: ConsumerView) => void }) {
+function CodeView({ problem, progress, recordProgress, removeProgress, setView }: { problem: ConsumerProblem | null; progress: MobileProgress | null; recordProgress: ConsumerRenderState["recordProgress"]; removeProgress: ConsumerRenderState["removeProgress"]; setView: (view: ConsumerView) => void }) {
   const [actionMessage, setActionMessage] = useState("");
   const [favoriteMarked, setFavoriteMarked] = useState(() => Boolean(problem && progress?.favorites.some((event) => event.problemId === problem.id && event.source === problem.source)));
   const [reviewMarked, setReviewMarked] = useState(() => Boolean(problem && progress?.reviewed.some((event) => event.problemId === problem.id && event.source === problem.source)));
+  useEffect(() => {
+    setFavoriteMarked(Boolean(problem && progress?.favorites.some((event) => event.problemId === problem.id && event.source === problem.source)));
+    setReviewMarked(Boolean(problem && progress?.reviewed.some((event) => event.problemId === problem.id && event.source === problem.source)));
+  }, [problem, progress?.favorites, progress?.reviewed]);
   if (!problem) {
     return <StateCard label="后端暂未返回推荐题目代码" />;
   }
@@ -380,6 +399,15 @@ function CodeView({ problem, progress, recordProgress, setView }: { problem: Con
     }
     setActionMessage(message);
   };
+  const toggleFavorite = async () => {
+    if (favoriteMarked) {
+      await removeProgress({ problemId: problem.id, source: problem.source, title: problem.title, type: "favorite" });
+      setFavoriteMarked(false);
+      setActionMessage("已取消收藏");
+      return;
+    }
+    await markProgress("favorite", "已收藏");
+  };
 
   return (
     <>
@@ -390,7 +418,7 @@ function CodeView({ problem, progress, recordProgress, setView }: { problem: Con
         leading={<IconShell label="返回题目" onClick={() => setView("problem")}><ChevronLeft size={18} /></IconShell>}
       />
       <div className="consumerActionGrid top">
-        <button className={favoriteMarked ? "active" : ""} onClick={() => void markProgress("favorite", favoriteMarked ? "已在收藏夹" : "已收藏")} type="button"><Star fill={favoriteMarked ? "currentColor" : "none"} size={16} />{favoriteMarked ? "已收藏" : "收藏"}</button>
+        <button className={favoriteMarked ? "active" : ""} onClick={() => void toggleFavorite()} type="button"><Star fill={favoriteMarked ? "currentColor" : "none"} size={16} />{favoriteMarked ? "取消收藏" : "收藏"}</button>
         <button className={reviewMarked ? "active" : ""} onClick={() => void markProgress("review", reviewMarked ? "已完成复习" : "已复习")} type="button"><Code2 size={16} />{reviewMarked ? "已复习" : "已复习"}</button>
       </div>
       {problem.code ? (
@@ -442,11 +470,12 @@ function ProfileView({ content, progress, setView }: { content: ConsumerMobileCo
   const counts = progressCounts(progress, content);
   const favorites = progress?.favorites || content.profile_summary?.favorites || [];
   const reviewPlan = progress?.review_plan || content.profile_summary?.review_plan || emptyReviewPlan();
+  const profileCopy = profileHeroCopy(progress, reviewPlan);
 
   return (
     <>
       <TopBar title="我的" subtitle="收藏、复习和学习记录" action={<IconShell label="设置" onClick={() => setView("settings")}><Settings size={18} /></IconShell>} />
-      <HeroPanel eyebrow="学习档案" title={reviewPlan.status === "ready" ? "本周保持练习，数论还需巩固" : "先收藏题目，再生成复习入口"} description="收藏夹、弱项和最近查看都会沉淀为复习入口，方便下次继续。" actionLabel="打开收藏" onAction={() => setView("favorites")} onSideAction={() => setView("favorites")} sideAction={<Share size={17} />} sideLabel="进入收藏夹" />
+      <HeroPanel eyebrow="学习档案" title={profileCopy.title} description={profileCopy.description} actionLabel="打开收藏" onAction={() => setView("favorites")} onSideAction={() => setView("favorites")} sideAction={<Share size={17} />} sideLabel="进入收藏夹" />
       <SectionHeader title="学习数据" action="实时" />
       <div className="consumerLibraryGrid">
         <SummaryTile active label="收藏题" value={String(counts.favorite)} />
@@ -778,6 +807,27 @@ function latestProgressTask(progress: MobileProgress | null): LearningTask | nul
   };
 }
 
+function nextTaskFromCatalog(catalog: MobileGespCatalog | null, progress: MobileProgress | null): LearningTask | null {
+  const skipped = new Set([
+    ...(progress?.reviewed || []).map((event) => event.problemId),
+    ...(progress?.recent_events || []).slice(0, 6).map((event) => event.problemId)
+  ]);
+  const problem = catalog?.problems.find((item) => !skipped.has(item.id)) || catalog?.problems[0];
+  if (!problem) {
+    return null;
+  }
+  return {
+    id: `catalog-next:gesp:${problem.id}`,
+    kind: "featured",
+    title: problem.title,
+    subtitle: `${problem.level} · ${problem.domain} · ${problem.problem_type}`,
+    problem_id: problem.id,
+    source: "gesp",
+    cta_label: "开始复习",
+    priority: 85
+  };
+}
+
 function weakPointsFromDomains(domains: Domain[]): WeakPoint[] {
   return domains
     .filter((domain) => domain.tone !== "good")
@@ -814,6 +864,44 @@ function emptyReviewPlan(): ReviewPlan {
     status: "empty",
     basis: [],
     items: []
+  };
+}
+
+async function resetGespCatalog(loadGespCatalog: ConsumerRenderState["loadGespCatalog"], level: number) {
+  resetCatalogChipScroll();
+  await loadGespCatalog({ level });
+  resetCatalogChipScroll();
+  window.requestAnimationFrame(resetCatalogChipScroll);
+  window.setTimeout(resetCatalogChipScroll, 120);
+}
+
+function resetCatalogChipScroll() {
+  document.querySelectorAll<HTMLElement>(".consumerChipRow").forEach((row) => {
+    row.scrollLeft = 0;
+  });
+}
+
+function profileHeroCopy(progress: MobileProgress | null, reviewPlan: ReviewPlan) {
+  const weeklyActions = progress?.counts?.weekly_actions ?? progress?.weekly_action_count ?? 0;
+  const favoriteCount = progress?.counts?.favorite ?? progress?.favorite_count ?? 0;
+  const weakPoint = progress?.weak_points?.[0]?.name;
+  if (weeklyActions > 0) {
+    return {
+      title: `本周完成 ${weeklyActions} 次练习`,
+      description: weakPoint
+        ? `收藏 ${favoriteCount} 题，下一步优先巩固「${weakPoint}」。`
+        : `收藏 ${favoriteCount} 题，复习计划中有 ${reviewPlan.items.length} 个入口。`
+    };
+  }
+  if (reviewPlan.items.length) {
+    return {
+      title: `今日待复习 ${reviewPlan.items.length} 项`,
+      description: "系统会根据浏览、收藏和弱项自动更新学习档案。"
+    };
+  }
+  return {
+    title: "先完成一次练习",
+    description: "浏览、收藏和复习记录会自动沉淀为你的学习档案。"
   };
 }
 

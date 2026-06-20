@@ -26,11 +26,13 @@ async function main() {
   assert(catalog.levels.length >= 8, "catalog should expose all GESP levels");
   assert(catalog.selected_domain_id === null, "default catalog should not lock to one domain");
   assert(catalog.problem_types.length >= 1, "catalog reset should return problem types");
+  assert(new Set(catalog.problems.map((problem) => problem.id)).size === catalog.problems.length, "catalog recommendations should be deduplicated by problem id");
 
   const search = await service.searchProblems("小杨");
   assert(search.query === "小杨", "search query should be normalized");
   assert(search.total_count === search.gesp.length + search.atcoder.length, "search total should match source counts");
   assert(search.gesp.length + search.atcoder.length >= 1, "search should find related problems");
+  assert(new Set(search.gesp.map((problem) => problem.id)).size === search.gesp.length, "GESP search results should be deduplicated by problem id");
 
   const problem = content.gesp.featured_problem || content.atcoder.featured_problem;
   assert(problem?.id, "featured problem required for event validation");
@@ -53,6 +55,21 @@ async function main() {
   assert(favorited.counts.favorite >= 1, "favorite event should increase favorite count");
   assert(favorited.favorites.some((event) => event.problemId === problem.id), "favorites should contain problem");
 
+  const afterUnfavorite = await service.removeProgressEvent({
+    problemId: problem.id,
+    source: problem.source,
+    title: problem.title,
+    type: "favorite"
+  }, userKey);
+  assert(!afterUnfavorite.favorites.some((event) => event.problemId === problem.id), "remove favorite should delete favorite event");
+
+  await service.recordProgressEvent({
+    problemId: problem.id,
+    source: problem.source,
+    title: problem.title,
+    type: "favorite"
+  }, userKey);
+
   const reviewed = await service.recordProgressEvent({
     problemId: problem.id,
     source: problem.source,
@@ -62,6 +79,9 @@ async function main() {
   assert(reviewed.counts.reviewed >= 1, "review event should increase reviewed count");
   assert(Array.isArray(reviewed.weak_points), "weak_points should be an array");
   assert(reviewed.review_plan?.status === "ready" || reviewed.review_plan?.status === "empty", "review_plan status required");
+
+  const personalizedContent = await service.getMobileContent(userKey);
+  assert(personalizedContent.home?.continue_task?.problem_id, "personalized content should expose continue task from user progress or next recommendation");
 
   let badRequestThrown = false;
   try {

@@ -74,8 +74,11 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
         };
         const progressStore = await this.getProgress(userKey);
         const featuredMobileProblem = legacyContent.gesp.featured_problem;
-        const continueTask = this.buildContinueTask(progressStore, featuredMobileProblem);
-        const todayTask = this.buildTodayTask(progressStore, problemTypes, featuredMobileProblem);
+        const nextSummary = this.pickNextGespProblem(catalogs, progressStore);
+        const nextProblem = nextSummary ? await this.catalogService.getProblem(nextSummary.id) : null;
+        const nextMobileProblem = nextProblem ? this.buildGespFeaturedProblem(nextProblem) : featuredMobileProblem;
+        const continueTask = this.buildContinueTask(progressStore, nextMobileProblem);
+        const todayTask = this.buildTodayTask(progressStore, problemTypes, nextMobileProblem);
         return {
             ...legacyContent,
             data_source: {
@@ -135,7 +138,7 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
         const problemTypes = catalog
             ? domainGroup
                 ? this.buildLevelProblemTypes(catalog, domainGroup)
-                : catalog.domains.flatMap((domain) => this.buildLevelProblemTypes(catalog, domain))
+                : this.dedupeLevelProblemTypes(catalog.domains.flatMap((domain) => this.buildLevelProblemTypes(catalog, domain)))
             : [];
         const selectedProblemType = params.problemTypeId
             ? problemTypes.find((type) => type.id === params.problemTypeId) || null
@@ -199,9 +202,8 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
             this.atCoderCatalogService.getCatalog()
         ]);
         const catalogs = (await Promise.all(levelsResponse.levels.map((level) => this.catalogService.getLevelCatalog(level.level)))).filter((catalog) => Boolean(catalog));
-        const gesp = catalogs
-            .flatMap((catalog) => this.buildGespProblemList(catalog, { query: trimmedQuery }))
-            .slice(0, 30);
+        const gesp = this.dedupeMobileProblemItems(catalogs
+            .flatMap((catalog) => this.buildGespProblemList(catalog, { query: trimmedQuery }))).slice(0, 30);
         const atcoder = this.flattenAtCoderProblems(atCoderCatalog)
             .filter(({ problem }) => this.matchQuery([
             problem.pid,
@@ -232,6 +234,16 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
             return this.enrichProgressStore(mysqlProgress);
         }
         this.recordMemoryProgressEvent(event);
+        return this.enrichProgressStore(this.getMemoryProgress(normalizedUserKey));
+    }
+    async removeProgressEvent(body, userKey) {
+        const normalizedUserKey = this.normalizeProgressUserKey(userKey);
+        const event = this.normalizeProgressEvent(body);
+        const mysqlProgress = await this.removeMysqlProgressEvent(normalizedUserKey, event);
+        if (mysqlProgress) {
+            return this.enrichProgressStore(mysqlProgress);
+        }
+        this.removeMemoryProgressEvent(event);
         return this.enrichProgressStore(this.getMemoryProgress(normalizedUserKey));
     }
     async getMysqlProgress(userKey) {
@@ -288,6 +300,30 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
             await connection.end();
         }
     }
+    async removeMysqlProgressEvent(userKey, event) {
+        const connection = await this.createProgressMysqlConnection();
+        if (!connection) {
+            return null;
+        }
+        try {
+            await this.ensureProgressSchema(connection);
+            await connection.execute(`DELETE FROM consumer_mobile_progress_events
+         WHERE user_key = ? AND problem_source = ? AND problem_id = ? AND event_type = ?`, [
+                userKey,
+                event.source === "atcoder" ? "atcoder" : "gesp",
+                event.problemId,
+                event.type
+            ]);
+            return await this.readMysqlProgress(connection, userKey);
+        }
+        catch (error) {
+            this.logger.warn(`Falling back to in-memory consumer progress delete: ${this.errorMessage(error)}`);
+            return null;
+        }
+        finally {
+            await connection.end();
+        }
+    }
     async readMysqlProgress(connection, userKey) {
         const [rows] = await connection.query(`SELECT problem_source, problem_id, event_type, title, event_json, updated_at
        FROM consumer_mobile_progress_events
@@ -305,6 +341,17 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
         }
         else {
             this.viewedProblems.set(event.problemId, event);
+        }
+    }
+    removeMemoryProgressEvent(event) {
+        if (event.type === "favorite") {
+            this.favoriteProblems.delete(event.problemId);
+        }
+        else if (event.type === "review") {
+            this.reviewedProblems.delete(event.problemId);
+        }
+        else {
+            this.viewedProblems.delete(event.problemId);
         }
     }
     getMemoryProgress(userKey) {
@@ -676,11 +723,28 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
             progress: this.statusProgress(domain.status_counts.confirmed + domain.status_counts.candidate, domain.problem_count)
         }));
     }
+    dedupeLevelProblemTypes(problemTypes) {
+        const typeById = new Map();
+        for (const type of problemTypes) {
+            const existing = typeById.get(type.id);
+            if (!existing) {
+                typeById.set(type.id, { ...type });
+                continue;
+            }
+            existing.count += type.count;
+            existing.progress = Math.round((existing.progress + type.progress) / 2);
+            if (!existing.description.includes(type.description)) {
+                existing.description = [existing.description, type.description].filter(Boolean).slice(0, 2).join("、");
+            }
+        }
+        return [...typeById.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+    }
     buildGespProblemList(catalog, filters) {
         if (!catalog) {
             return [];
         }
-        return catalog.domains
+        const deduped = new Map();
+        for (const item of catalog.domains
             .filter((domain) => !filters.domainId || domain.domain_id === filters.domainId)
             .flatMap((domain) => (domain.problem_types
             .filter((problemType) => !filters.problemTypeId || problemType.problem_type_id === filters.problemTypeId)
@@ -692,7 +756,12 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
             domain.domain_label,
             problemType.problem_type_label,
             ...problem.knowledge_point_tags.map((tag) => tag.label)
-        ], filters.query))
+        ], filters.query))) {
+            if (!deduped.has(item.problem.id)) {
+                deduped.set(item.problem.id, item);
+            }
+        }
+        return [...deduped.values()]
             .slice(0, 80)
             .map(({ domain, problem, problemType }) => this.buildGespProblemListItem(catalog, domain, problemType, problem));
     }
@@ -708,6 +777,15 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
             answer_status: problem.answer_guidance?.reference_answer.status || problem.status,
             has_code: Boolean(problem.detail_completeness && !problem.detail_completeness.needs_programming_solution)
         };
+    }
+    dedupeMobileProblemItems(items) {
+        const itemById = new Map();
+        for (const item of items) {
+            if (!itemById.has(item.id)) {
+                itemById.set(item.id, item);
+            }
+        }
+        return [...itemById.values()];
     }
     buildAtCoderProblemListItem(problem) {
         return {
@@ -728,6 +806,38 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
             .find((problem) => problem.detail_completeness?.has_reference_answer || problem.answer_guidance?.understanding_example.steps.length)
             || catalogs[0]?.domains[0]?.problem_types[0]?.problems[0]
             || null;
+    }
+    pickNextGespProblem(catalogs, progress) {
+        const completedKeys = new Set([
+            ...progress.reviewed.map((event) => event.problemId),
+            ...progress.recent_events.slice(0, 6).map((event) => event.problemId)
+        ]);
+        const weakDomainNames = new Set(progress.weak_points.slice(0, 3).map((point) => point.name));
+        const candidates = new Map();
+        for (const catalog of catalogs) {
+            for (const domain of catalog.domains) {
+                for (const problemType of domain.problem_types) {
+                    for (const problem of problemType.problems) {
+                        if (!candidates.has(problem.id)) {
+                            candidates.set(problem.id, { domainName: domain.domain_label, problem });
+                        }
+                    }
+                }
+            }
+        }
+        const available = [...candidates.values()]
+            .filter(({ problem }) => !completedKeys.has(problem.id))
+            .sort((a, b) => {
+            const weakA = weakDomainNames.has(a.domainName) ? 0 : 1;
+            const weakB = weakDomainNames.has(b.domainName) ? 0 : 1;
+            return weakA - weakB || a.problem.title.localeCompare(b.problem.title);
+        });
+        const pool = available.length ? available : [...candidates.values()];
+        if (!pool.length) {
+            return null;
+        }
+        const rotationSeed = `${progress.user_key}:${new Date().toISOString().slice(0, 10)}:${progress.activity_count}`;
+        return pool[this.hashIndex(rotationSeed, pool.length)]?.problem || null;
     }
     buildGespFeaturedProblem(problem) {
         const domain = problem.resolved_algorithm_domains[0]?.label || "未分类";
@@ -895,6 +1005,13 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
             return true;
         }
         return values.some((value) => value.toLowerCase().includes(normalizedQuery));
+    }
+    hashIndex(value, size) {
+        let hash = 0;
+        for (let index = 0; index < value.length; index += 1) {
+            hash = (hash * 31 + value.charCodeAt(index)) >>> 0;
+        }
+        return size ? hash % size : 0;
     }
     normalizeProgressEvent(body) {
         const candidate = body && typeof body === "object" ? body : {};

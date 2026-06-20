@@ -4,7 +4,9 @@ import type { ConsumerMobileContent, ConsumerProblem, MobileAtCoderCatalog, Mobi
 const CONSUMER_USER_KEY_STORAGE = "gesp-consumer-mobile-user-key";
 
 export function fetchConsumerMobileContent() {
-  return fetchJson<ConsumerMobileContent>("/consumer-mobile");
+  return fetchJson<ConsumerMobileContent>("/consumer-mobile", {
+    headers: consumerMobileHeaders()
+  });
 }
 
 export function fetchConsumerMobileGespCatalog(params: { domainId?: string | null; level?: number; problemTypeId?: string | null; query?: string } = {}) {
@@ -62,6 +64,14 @@ export function fetchConsumerMobileProgress() {
 export function recordConsumerMobileProgress(event: MobileProgressEvent) {
   return requestJson<MobileProgress>("/consumer-mobile/progress/events", {
     method: "POST",
+    headers: consumerMobileHeaders(),
+    body: JSON.stringify(event)
+  });
+}
+
+export function removeConsumerMobileProgress(event: MobileProgressEvent) {
+  return requestJson<MobileProgress>("/consumer-mobile/progress/events", {
+    method: "DELETE",
     headers: consumerMobileHeaders(),
     body: JSON.stringify(event)
   });

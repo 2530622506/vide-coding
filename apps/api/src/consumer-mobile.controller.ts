@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Inject, Param, Post, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Headers, Inject, Param, Post, Query } from "@nestjs/common";
 import { ConsumerMobileService } from "./consumer-mobile.service.js";
 
 @Controller("consumer-mobile")
@@ -53,5 +53,10 @@ export class ConsumerMobileController {
   @Post("progress/events")
   recordProgressEvent(@Body() body: unknown, @Headers("x-consumer-user-key") userKey?: string) {
     return this.consumerMobileService.recordProgressEvent(body, userKey);
+  }
+
+  @Delete("progress/events")
+  removeProgressEvent(@Body() body: unknown, @Headers("x-consumer-user-key") userKey?: string) {
+    return this.consumerMobileService.removeProgressEvent(body, userKey);
   }
 }
