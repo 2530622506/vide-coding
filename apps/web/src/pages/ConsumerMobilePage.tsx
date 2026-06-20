@@ -1,5 +1,5 @@
 import { BarChart3, BookOpen, Home, UserRound } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { ConsumerView, LearningRecordFilter } from "./consumer/ConsumerMobileData";
 import { renderConsumerView } from "./consumer/ConsumerMobileViews";
 import { useConsumerMobileContent } from "./consumer/useConsumerMobileContent";
@@ -13,22 +13,6 @@ export function ConsumerMobilePage() {
   const contentState = useConsumerMobileContent(view);
   const progressStyle = useMemo(() => ({ "--consumer-progress": `${contentState.progress?.progress_pct ?? 0}%` }) as React.CSSProperties, [contentState.progress?.progress_pct]);
   const profileProgressStyle = useMemo(() => ({ "--consumer-progress": `${contentState.progress?.progress_pct ?? 0}%` }) as React.CSSProperties, [contentState.progress?.progress_pct]);
-
-  useEffect(() => {
-    const root = document.documentElement;
-    const previousFontSize = root.style.fontSize;
-    const applyMobileRootSize = () => {
-      const viewportWidth = Math.min(window.innerWidth, 750);
-      root.style.fontSize = `${viewportWidth / 10}px`;
-    };
-
-    applyMobileRootSize();
-    window.addEventListener("resize", applyMobileRootSize);
-    return () => {
-      window.removeEventListener("resize", applyMobileRootSize);
-      root.style.fontSize = previousFontSize;
-    };
-  }, []);
 
   return (
     <main className="consumerPage">

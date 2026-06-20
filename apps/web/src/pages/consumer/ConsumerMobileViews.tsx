@@ -144,7 +144,7 @@ function HomeView({
       <SectionHeader title="题库入口" action="2 个来源" />
       <div className="consumerLibraryGrid">
         {libraryCards.map((card) => (
-          <button className={`consumerLibraryCard ${card.source === "gesp" ? "active" : ""}`} key={card.source} onClick={() => setView(card.source === "gesp" ? "catalog" : "atcoder")} type="button">
+          <button className={`consumerLibraryCard source-${card.source} ${card.source === "gesp" ? "active" : ""}`} key={card.source} onClick={() => setView(card.source === "gesp" ? "catalog" : "atcoder")} type="button">
             {card.source === "gesp" ? <BookOpen size={20} /> : <Trophy size={20} />}
             <span>{card.title}</span>
             <strong>{card.count} 题</strong>
@@ -291,7 +291,7 @@ function AtCoderView({ content, renderState, setView }: { content: ConsumerMobil
         leading={<IconShell label="返回" onClick={() => setView("catalog")}><ChevronLeft size={18} /></IconShell>}
       />
       <SearchBox label="搜索题号、算法标签、难度" onClick={() => setView("search")} />
-      <HeroPanel eyebrow="算法训练" title={`${content.atcoder.total_count} 道题`} description="按 AtCoder 难度、算法标签和样例完整度组织，不套 GESP 等级。" actionLabel="返回 GESP" onAction={() => setView("catalog")} sideAction={<Trophy size={17} />} />
+      <HeroPanel eyebrow="算法训练" title={`${content.atcoder.total_count} 道题`} description="按 AtCoder 难度、算法标签和样例完整度组织，不套 GESP 等级。" actionLabel="返回 GESP" onAction={() => setView("catalog")} sideAction={<Trophy size={17} />} tone="blue" />
       {catalogError ? <StateCard actionLabel="重试 AtCoder" label={`AtCoder 目录加载失败：${catalogError}`} onAction={() => void loadAtCoderCatalog()} /> : null}
       <SectionHeader title="难度轨道" action="AtCoder" />
       <div className="consumerChipRow">
@@ -424,7 +424,7 @@ function CodeView({ problem, progress, recordProgress, removeProgress, setView }
       />
       <div className="consumerActionGrid top">
         <button className={favoriteMarked ? "active" : ""} onClick={() => void toggleFavorite()} type="button"><Star fill={favoriteMarked ? "currentColor" : "none"} size={16} />{favoriteMarked ? "取消收藏" : "收藏"}</button>
-        <button className={reviewMarked ? "active" : ""} onClick={() => void markProgress("review", reviewMarked ? "已完成复习" : "已复习")} type="button"><Code2 size={16} />{reviewMarked ? "已复习" : "已复习"}</button>
+        <button className={reviewMarked ? "active" : ""} onClick={() => void markProgress("review", reviewMarked ? "已完成复习" : "已标记复习")} type="button"><Code2 size={16} />{reviewMarked ? "已复习" : "标记复习"}</button>
       </div>
       {problem.code ? (
         <Suspense fallback={<StateCard label="代码加载中" />}>
@@ -507,7 +507,7 @@ function ProfileView({ content, progress, renderState, setLearningRecordFilter, 
   return (
     <>
       <TopBar title="我的" subtitle="收藏、复习和学习记录" action={<IconShell label="设置" onClick={() => setView("settings")}><Settings size={18} /></IconShell>} />
-      <HeroPanel eyebrow="学习档案" title={profileCopy.title} description={profileCopy.description} actionLabel="打开收藏" onAction={() => setView("favorites")} onSideAction={() => setView("favorites")} sideAction={<Share size={17} />} sideLabel="进入收藏夹" />
+      <HeroPanel eyebrow="学习档案" title={profileCopy.title} description={profileCopy.description} actionLabel="打开收藏" onAction={() => setView("favorites")} onSideAction={() => setView("favorites")} sideAction={<Share size={17} />} sideLabel="进入收藏夹" tone="violet" />
       <SectionHeader title="学习数据" action="实时" />
       <div className="consumerLibraryGrid">
         <SummaryTile active label="收藏题" onOpen={() => setView("favorites")} value={String(counts.favorite)} />
@@ -664,6 +664,8 @@ function SettingsView({ progress, setView }: { progress: MobileProgress | null; 
         <button onClick={() => setView("favorites")} type="button"><Star size={16} />收藏夹</button>
         <button onClick={() => setView("weak-points")} type="button"><Filter size={16} />薄弱点</button>
       </div>
+      <SectionHeader title="原型说明" />
+      <StateCard label="设置页保持低信息密度，仅提供身份、数据来源和高频入口，避免把 C 端变成后台管理页。" />
     </>
   );
 }
@@ -716,7 +718,8 @@ function HeroPanel({
   onSideAction,
   sideAction,
   sideLabel = "更多",
-  title
+  title,
+  tone = "green"
 }: {
   actionLabel: string;
   description: string;
@@ -726,9 +729,10 @@ function HeroPanel({
   sideAction: ReactNode;
   sideLabel?: string;
   title: string;
+  tone?: "green" | "blue" | "violet";
 }) {
   return (
-    <section className="consumerHeroPanel">
+    <section className={`consumerHeroPanel tone-${tone}`}>
       <div className="consumerHeroEyebrow"><BookOpen size={15} />{eyebrow}</div>
       <h1>{title}</h1>
       <p>{description}</p>
