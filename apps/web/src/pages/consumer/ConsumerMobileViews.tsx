@@ -1,7 +1,5 @@
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { ArrowRight, BookOpen, ChevronLeft, Code2, Filter, PenLine, RefreshCw, Search, Settings, Share, Star, Trophy } from "lucide-react";
-import { ConsumerCodeBlock } from "./ConsumerCodeBlock";
-import { ConsumerProblemStatement } from "./ConsumerProblemStatement";
 import type {
   AtCoderTrack,
   ConsumerMobileContent,
@@ -19,6 +17,9 @@ import type {
   ReviewPlan,
   WeakPoint
 } from "./ConsumerMobileData";
+
+const ConsumerCodeBlock = lazy(() => import("./ConsumerCodeBlock").then((module) => ({ default: module.ConsumerCodeBlock })));
+const ConsumerProblemStatement = lazy(() => import("./ConsumerProblemStatement").then((module) => ({ default: module.ConsumerProblemStatement })));
 
 type ConsumerRenderState = {
   atCoderCatalog: MobileAtCoderCatalog | null;
@@ -356,7 +357,9 @@ function ProblemView({ problem, progress, recordProgress, removeProgress, setVie
         <p>{problem.domain} · {problem.problem_type} · 官方题源对齐</p>
       </div>
 
-      <ConsumerProblemStatement problem={problem} />
+      <Suspense fallback={<StateCard label="题面加载中" />}>
+        <ConsumerProblemStatement problem={problem} />
+      </Suspense>
 
       <SectionHeader title="解题思路" action={`${solutionSteps.length} 步`} />
       <div className="consumerInsightList">
@@ -422,7 +425,9 @@ function CodeView({ problem, progress, recordProgress, removeProgress, setView }
         <button className={reviewMarked ? "active" : ""} onClick={() => void markProgress("review", reviewMarked ? "已完成复习" : "已复习")} type="button"><Code2 size={16} />{reviewMarked ? "已复习" : "已复习"}</button>
       </div>
       {problem.code ? (
-        <ConsumerCodeBlock code={problem.code} filename={problem.code_filename} />
+        <Suspense fallback={<StateCard label="代码加载中" />}>
+          <ConsumerCodeBlock code={problem.code} filename={problem.code_filename} />
+        </Suspense>
       ) : (
         <section className="consumerStatementCard">
           <h2>暂无本地代码</h2>
@@ -685,7 +690,7 @@ function SectionHeader({ action, onAction, title }: { action?: string; onAction?
 }
 
 function SearchBox({ label, onClick }: { label: string; onClick: () => void }) {
-  return <button className="consumerSearchBox" onClick={onClick} type="button"><Search size={17} />{label}</button>;
+  return <button className="consumerSearchBox" onClick={onClick} type="button"><Search size={17} /><span>{label}</span></button>;
 }
 
 function SummaryTile({ active = false, label, value }: { active?: boolean; label: string; value: string }) {

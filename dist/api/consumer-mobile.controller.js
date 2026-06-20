@@ -20,6 +20,9 @@ let ConsumerMobileController = class ConsumerMobileController {
     getMobileContent(userKey) {
         return this.consumerMobileService.getMobileContent(userKey);
     }
+    getMobileHomeContent(userKey) {
+        return this.consumerMobileService.getMobileHomeContent(userKey);
+    }
     getGespCatalog(domainId, level, problemTypeId, query) {
         return this.consumerMobileService.getGespCatalog({
             domainId,
@@ -57,6 +60,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ConsumerMobileController.prototype, "getMobileContent", null);
+__decorate([
+    Get("home"),
+    __param(0, Headers("x-consumer-user-key")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], ConsumerMobileController.prototype, "getMobileHomeContent", null);
 __decorate([
     Get("gesp/catalog"),
     __param(0, Query("domainId")),

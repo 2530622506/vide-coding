@@ -347,21 +347,36 @@
   height: 100%;
 }
 
-.consumerSearchBox {
+.consumerPage .consumerSearchBox {
   align-items: center;
   background: var(--consumer-surface);
   border: 1.9231px solid var(--consumer-line);
   border-radius: var(--consumer-radius);
   color: #78827d;
   display: flex;
-  font-size: 25px;
-  font-weight: 800;
-  gap: 17.3077px;
+  font-size: 17.3077px;
+  font-weight: 650;
+  gap: 13.4615px;
   height: 84.6154px;
   margin-bottom: 26.9231px;
   padding: 0 25px;
   text-align: left;
   width: 100%;
+}
+
+.consumerSearchBox svg {
+  flex: 0 0 auto;
+}
+
+.consumerSearchBox span {
+  display: block;
+  font-size: 17.3077px;
+  font-weight: 650;
+  line-height: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .consumerSearchForm {

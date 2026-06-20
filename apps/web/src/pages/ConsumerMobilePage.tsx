@@ -3,11 +3,12 @@ import { useEffect, useMemo, useState } from "react";
 import type { ConsumerView } from "./consumer/ConsumerMobileData";
 import { renderConsumerView } from "./consumer/ConsumerMobileViews";
 import { useConsumerMobileContent } from "./consumer/useConsumerMobileContent";
+import "./ConsumerMobileGlobal.css";
 import "./ConsumerMobilePage.css";
 
 export function ConsumerMobilePage() {
   const [view, setView] = useState<ConsumerView>(() => readInitialConsumerView());
-  const contentState = useConsumerMobileContent();
+  const contentState = useConsumerMobileContent(view);
   const progressStyle = useMemo(() => ({ "--consumer-progress": `${contentState.progress?.progress_pct ?? 0}%` }) as React.CSSProperties, [contentState.progress?.progress_pct]);
   const profileProgressStyle = useMemo(() => ({ "--consumer-progress": `${contentState.progress?.progress_pct ?? 0}%` }) as React.CSSProperties, [contentState.progress?.progress_pct]);
 

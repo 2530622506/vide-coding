@@ -24,9 +24,98 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
     favoriteProblems = new Map();
     reviewedProblems = new Map();
     progressSchemaReady = false;
+    consumerSummaryCacheTtlMs = 5 * 60 * 1000;
+    weakPointsCache = null;
     constructor(catalogService, atCoderCatalogService) {
         this.catalogService = catalogService;
         this.atCoderCatalogService = atCoderCatalogService;
+    }
+    async getMobileHomeContent(userKey) {
+        const [levelsResponse, atCoderCatalog] = await Promise.all([
+            this.catalogService.getLevels(),
+            this.atCoderCatalogService.getCatalog()
+        ]);
+        const levels = this.buildLightLevels(levelsResponse);
+        const defaultLevel = levels.find((level) => level.level === 5)?.level || levels[0]?.level || 1;
+        const defaultCatalog = await this.catalogService.getLevelCatalog(defaultLevel);
+        const defaultProblemTypes = defaultCatalog
+            ? this.dedupeLevelProblemTypes(defaultCatalog.domains.flatMap((domain) => this.buildLevelProblemTypes(defaultCatalog, domain)))
+            : [];
+        const progressStore = await this.getProgress(userKey);
+        const nextSummary = this.pickNextGespProblem(defaultCatalog ? [defaultCatalog] : [], progressStore);
+        const nextProblem = nextSummary ? await this.catalogService.getProblem(nextSummary.id) : null;
+        const nextMobileProblem = nextProblem ? this.buildGespFeaturedProblem(nextProblem) : null;
+        const continueTask = this.buildContinueTask(progressStore, nextMobileProblem);
+        const todayTask = this.buildTodayTask(progressStore, defaultProblemTypes, nextMobileProblem);
+        const atCoderTracks = this.buildAtCoderTracks(atCoderCatalog);
+        const totalGespCount = this.sum(levels.map((level) => level.count));
+        const progressPct = progressStore.mastery_pct ?? progressStore.progress_pct;
+        return {
+            generated_at: new Date().toISOString(),
+            data_source: {
+                gesp: levelsResponse.data_source,
+                atcoder: atCoderCatalog.source,
+                progress: progressStore.data_source
+            },
+            learning: {
+                viewed_count: progressStore.counts.viewed,
+                saved_code_count: progressStore.counts.favorite,
+                reviewed_count: progressStore.counts.reviewed,
+                progress_pct: progressPct,
+                weak_points: progressStore.weak_points.map((point) => point.name),
+                recommendation: this.buildRecommendation(defaultProblemTypes, atCoderCatalog)
+            },
+            gesp: {
+                total_count: totalGespCount,
+                levels,
+                domains: [],
+                problem_types: [],
+                featured_problem: nextMobileProblem
+            },
+            atcoder: {
+                total_count: atCoderCatalog.summary.problem_count,
+                tag_count: atCoderCatalog.summary.knowledge_point_count,
+                statement_count: atCoderCatalog.summary.source_extracted_statement_count ?? 0,
+                tracks: atCoderTracks,
+                featured_problem: null
+            },
+            home: {
+                today_task: todayTask,
+                continue_task: continueTask,
+                library_cards: [
+                    {
+                        source: "gesp",
+                        title: "GESP 全等级",
+                        count: totalGespCount,
+                        subtitle: `${levels.length} 个等级 · 官方分类目录`
+                    },
+                    {
+                        source: "atcoder",
+                        title: "AtCoder",
+                        count: atCoderCatalog.summary.problem_count,
+                        subtitle: `${atCoderTracks.length} 个难度轨道 · 独立算法题库`
+                    }
+                ],
+                knowledge_progress: progressStore.weak_points
+            },
+            catalog_summary: {
+                default_level: defaultLevel,
+                levels,
+                atcoder_total_count: atCoderCatalog.summary.problem_count
+            },
+            progress_summary: {
+                counts: progressStore.counts,
+                mastery_pct: progressPct,
+                weak_points: progressStore.weak_points,
+                recent_events: progressStore.recent_events
+            },
+            profile_summary: {
+                counts: progressStore.counts,
+                favorites: progressStore.favorites,
+                review_plan: progressStore.review_plan,
+                recent_events: progressStore.recent_events
+            }
+        };
     }
     async getMobileContent(userKey) {
         const [levelsResponse, atCoderCatalog] = await Promise.all([
@@ -412,10 +501,13 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
         };
     }
     async buildProgressWeakPoints() {
+        if (this.weakPointsCache && this.weakPointsCache.expiresAt > Date.now()) {
+            return this.weakPointsCache.value;
+        }
         try {
             const levelsResponse = await this.catalogService.getLevels();
             const catalogs = (await Promise.all(levelsResponse.levels.map((level) => this.catalogService.getLevelCatalog(level.level)))).filter((catalog) => Boolean(catalog));
-            return this.buildDomains(catalogs)
+            const weakPoints = this.buildDomains(catalogs)
                 .filter((domain) => domain.tone !== "good")
                 .sort((a, b) => a.progress - b.progress || b.count - a.count)
                 .slice(0, 5)
@@ -428,6 +520,11 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
                 suggested_count: domain.progress < 45 ? 2 : 1,
                 tone: domain.tone
             }));
+            this.weakPointsCache = {
+                expiresAt: Date.now() + this.consumerSummaryCacheTtlMs,
+                value: weakPoints
+            };
+            return weakPoints;
         }
         catch (error) {
             this.logger.warn(`Unable to build consumer weak points: ${this.errorMessage(error)}`);
@@ -614,6 +711,20 @@ let ConsumerMobileService = ConsumerMobileService_1 = class ConsumerMobileServic
                 label: `${level.level} 级`,
                 title: topDomains.length ? topDomains.join(" / ") : "待分类题型",
                 description: topDomains.length ? `${topDomains.join("、")} 等 ${level.domain_count} 个算法范畴` : "后端暂未归类算法范畴",
+                count: level.problem_count,
+                progress,
+                tone: this.toneFromProgress(progress)
+            };
+        });
+    }
+    buildLightLevels(levelsResponse) {
+        return levelsResponse.levels.map((level) => {
+            const progress = this.statusProgress(level.status_counts.confirmed + level.status_counts.candidate, level.problem_count);
+            return {
+                level: level.level,
+                label: `${level.level} 级`,
+                title: `${level.domain_count} 个算法范畴`,
+                description: `${level.problem_count} 道题 · ${level.domain_count} 个知识域`,
                 count: level.problem_count,
                 progress,
                 tone: this.toneFromProgress(progress)

@@ -1,6 +1,7 @@
 import { App as AntApp, ConfigProvider, FloatButton, theme } from "antd";
 import { ArrowUp } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import "antd/dist/reset.css";
 import { WorkbenchLayout } from "./layout/WorkbenchLayout";
 import {
   AtCoderCatalogPage,
@@ -15,11 +16,12 @@ import {
   KnowledgeCoveragePage,
   SourceEvidencePage
 } from "./pages/gesp/GespPages";
-import { ConsumerMobilePage } from "./pages/ConsumerMobilePage";
 import { ProblemIdePage } from "./pages/ProblemIdePage";
+import "./styles.css";
 
 const RETURN_CONTEXT_STORAGE_KEY = "practice-lab:return-context";
 const RETURN_CONTEXT_MAX_AGE = 30 * 60 * 1000;
+const ConsumerMobilePage = lazy(() => import("./pages/ConsumerMobilePage").then((module) => ({ default: module.ConsumerMobilePage })));
 
 export default function App() {
   const [routePath, setRoutePath] = useState(() => window.location.pathname);
@@ -136,7 +138,9 @@ export default function App() {
     >
       <AntApp>
         {router.kind === "mobile" ? (
-          <ConsumerMobilePage />
+          <Suspense fallback={null}>
+            <ConsumerMobilePage />
+          </Suspense>
         ) : router.kind === "ide" ? (
           <ProblemIdePage
             onBack={() => navigateBackToReturnContext(router.source === "atcoder" ? "/atcoder" : "/")}

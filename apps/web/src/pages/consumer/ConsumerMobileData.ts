@@ -165,6 +165,7 @@ export type ConsumerMobileContent = {
   data_source: {
     gesp: string;
     atcoder: unknown;
+    progress?: "mysql" | "memory";
   };
   learning: {
     viewed_count: number;

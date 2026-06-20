@@ -10,6 +10,11 @@ export class ConsumerMobileController {
     return this.consumerMobileService.getMobileContent(userKey);
   }
 
+  @Get("home")
+  getMobileHomeContent(@Headers("x-consumer-user-key") userKey?: string) {
+    return this.consumerMobileService.getMobileHomeContent(userKey);
+  }
+
   @Get("gesp/catalog")
   getGespCatalog(
     @Query("domainId") domainId?: string,

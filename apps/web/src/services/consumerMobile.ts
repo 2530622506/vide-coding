@@ -2,11 +2,24 @@ import { fetchJson, requestJson } from "./catalog";
 import type { ConsumerMobileContent, ConsumerProblem, MobileAtCoderCatalog, MobileGespCatalog, MobileProgress, MobileProgressEvent, MobileSearchResult } from "../pages/consumer/ConsumerMobileData";
 
 const CONSUMER_USER_KEY_STORAGE = "gesp-consumer-mobile-user-key";
+let consumerMobileHomeRequest: Promise<ConsumerMobileContent> | null = null;
+const consumerMobileGespCatalogRequests = new Map<string, Promise<MobileGespCatalog>>();
+const consumerMobileAtCoderCatalogRequests = new Map<string, Promise<MobileAtCoderCatalog>>();
+let consumerMobileProgressRequest: Promise<MobileProgress> | null = null;
 
 export function fetchConsumerMobileContent() {
   return fetchJson<ConsumerMobileContent>("/consumer-mobile", {
     headers: consumerMobileHeaders()
   });
+}
+
+export function fetchConsumerMobileHome() {
+  consumerMobileHomeRequest ||= fetchJson<ConsumerMobileContent>("/consumer-mobile/home", {
+    headers: consumerMobileHeaders()
+  }).finally(() => {
+    consumerMobileHomeRequest = null;
+  });
+  return consumerMobileHomeRequest;
 }
 
 export function fetchConsumerMobileGespCatalog(params: { domainId?: string | null; level?: number; problemTypeId?: string | null; query?: string } = {}) {
@@ -24,7 +37,16 @@ export function fetchConsumerMobileGespCatalog(params: { domainId?: string | nul
     searchParams.set("query", params.query.trim());
   }
   const query = searchParams.toString();
-  return fetchJson<MobileGespCatalog>(`/consumer-mobile/gesp/catalog${query ? `?${query}` : ""}`);
+  const path = `/consumer-mobile/gesp/catalog${query ? `?${query}` : ""}`;
+  const existingRequest = consumerMobileGespCatalogRequests.get(path);
+  if (existingRequest) {
+    return existingRequest;
+  }
+  const request = fetchJson<MobileGespCatalog>(path).finally(() => {
+    consumerMobileGespCatalogRequests.delete(path);
+  });
+  consumerMobileGespCatalogRequests.set(path, request);
+  return request;
 }
 
 export function fetchConsumerMobileGespProblem(problemId: string) {
@@ -40,7 +62,16 @@ export function fetchConsumerMobileAtCoderCatalog(params: { difficulty?: string;
     searchParams.set("query", params.query.trim());
   }
   const query = searchParams.toString();
-  return fetchJson<MobileAtCoderCatalog>(`/consumer-mobile/atcoder/catalog${query ? `?${query}` : ""}`);
+  const path = `/consumer-mobile/atcoder/catalog${query ? `?${query}` : ""}`;
+  const existingRequest = consumerMobileAtCoderCatalogRequests.get(path);
+  if (existingRequest) {
+    return existingRequest;
+  }
+  const request = fetchJson<MobileAtCoderCatalog>(path).finally(() => {
+    consumerMobileAtCoderCatalogRequests.delete(path);
+  });
+  consumerMobileAtCoderCatalogRequests.set(path, request);
+  return request;
 }
 
 export function fetchConsumerMobileAtCoderProblem(problemId: string) {
@@ -56,9 +87,12 @@ export function fetchConsumerMobileSearch(query: string) {
 }
 
 export function fetchConsumerMobileProgress() {
-  return fetchJson<MobileProgress>("/consumer-mobile/progress", {
+  consumerMobileProgressRequest ||= fetchJson<MobileProgress>("/consumer-mobile/progress", {
     headers: consumerMobileHeaders()
+  }).finally(() => {
+    consumerMobileProgressRequest = null;
   });
+  return consumerMobileProgressRequest;
 }
 
 export function recordConsumerMobileProgress(event: MobileProgressEvent) {
