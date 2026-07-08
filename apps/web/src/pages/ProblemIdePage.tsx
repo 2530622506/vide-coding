@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { runCppCode, type CodeRunResponse, type CodeRunStatus } from "../services/codeRun";
 import type { ProblemDetailResponse } from "../types";
 import type { AtCoderProblem } from "../types/atcoder";
+import { normalizeQuestionMarkdown } from "../utils/questionMarkdown";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "/api";
 
@@ -366,7 +367,7 @@ async function fetchIdeProblem(source: IdeSource, problemId: string): Promise<Id
 }
 
 function MarkdownBlock({ markdown }: { markdown: string }) {
-  const html = useMemo(() => statementMarkdown.render(markdown), [markdown]);
+  const html = useMemo(() => statementMarkdown.render(normalizeQuestionMarkdown(markdown)), [markdown]);
   return <div className="markdownBody" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 

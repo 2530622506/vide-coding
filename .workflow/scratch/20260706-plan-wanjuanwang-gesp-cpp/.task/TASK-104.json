@@ -1,0 +1,51 @@
+{
+  "id": "TASK-104",
+  "title": "Add GESP selection/judgment routes and keep programming in workbench",
+  "type": "feature",
+  "phase": "wanjuanwang-gesp-cpp",
+  "wave": 3,
+  "status": "completed",
+  "completed_at": "2026-07-06T08:23:00+08:00",
+  "depends_on": [
+    "TASK-102",
+    "TASK-103"
+  ],
+  "read_first": [
+    ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05/requirements/REQ-005-question-type-navigation.md",
+    ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05/requirements/REQ-006-programming-workbench-placement.md",
+    "apps/web/src/layout/WorkbenchLayout.tsx",
+    "apps/web/src/App.tsx",
+    "apps/web/src/pages/gesp/GespPages.tsx",
+    "apps/api/src/catalog.service.ts"
+  ],
+  "files": [
+    "apps/web/src/layout/WorkbenchLayout.tsx",
+    "apps/web/src/App.tsx",
+    "apps/web/src/pages/gesp/GespPages.tsx",
+    "apps/api/src/catalog.service.ts",
+    "apps/web/src/services/catalog.ts",
+    "apps/web/src/types.ts"
+  ],
+  "action": "Add filtered selection/judgment navigation and API support while preserving programming question behavior in the existing GESP workbench.",
+  "implementation": [
+    "Add `选择题` and `判断题` menu entries under the GESP group.",
+    "Add filtered routes that reuse current level selector, detail panel and return-context behavior with a `question_type` filter.",
+    "Extend the catalog API to support type-scoped list queries or client-side filtered views backed by the same catalog model.",
+    "Ensure programming questions continue to show under algorithm-domain cards and retain IDE launch actions."
+  ],
+  "convergence": {
+    "criteria": [
+      "grep -q '选择题' apps/web/src/layout/WorkbenchLayout.tsx",
+      "grep -q '判断题' apps/web/src/layout/WorkbenchLayout.tsx",
+      "grep -q '/gesp/selection' apps/web/src/App.tsx",
+      "grep -q '/gesp/judgment' apps/web/src/App.tsx",
+      "grep -q 'question_type' apps/api/src/catalog.service.ts"
+    ]
+  },
+  "verification_notes": [
+    "Frontend build passes after adding navigation and filtered GESP routes.",
+    "API build passes after adding question_type filtering.",
+    "Service-level integration validation confirms selection filter and programming-domain placement.",
+    "HTTP-level validation against a running local Nest API confirms `/api/catalog/levels/:level?question_type=...&source_kind=wanjuanwang_exam` works for WanJuanWang data."
+  ]
+}

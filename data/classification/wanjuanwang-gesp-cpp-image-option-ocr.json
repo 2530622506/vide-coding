@@ -1,0 +1,847 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-07T05:02:26.165Z",
+  "generator": "scripts/ocr-wanjuanwang-gesp-cpp-image-options.mjs",
+  "input": "data/wanjuanwang-ingestion/wanjuanwang-gesp-cpp-exams.json",
+  "summary": {
+    "question_count": 27
+  },
+  "records": [
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-7:selection:06:z708qki91sisbkueacoi",
+      "title": "下面程序的时间复杂度为？（ ）",
+      "options": [
+        {
+          "key": "A",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/06de4b3e.jpg",
+          "text": "O(2”)",
+          "error": null
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/ac86b552.jpg",
+          "text": "O(6\"),¢",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/4187fda9.jpg",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "text",
+          "text": "O(n)"
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-7:selection:10:dch6fj3qon7dy137te83",
+      "title": "假定只有一个根节点的树的深度为 ，则一棵有 个节点的完全二叉树，则树的深度为？（ ）",
+      "options": [
+        {
+          "key": "A",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/0eb29518.jpg",
+          "text": "[logy(V)| +1",
+          "error": null
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/95f41ef0.jpg",
+          "text": "[og, (NY) |",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/e50bb286.jpg",
+          "text": "flog(N)]",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "text",
+          "text": "不能确定。"
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-7:selection:15:uvzjsp2t390k9ppmu4eb",
+      "title": "下面程序的时间复杂度为？（ ）",
+      "options": [
+        {
+          "key": "A",
+          "source": "text",
+          "text": "O(n)"
+        },
+        {
+          "key": "B",
+          "source": "text",
+          "text": "O(n×log n)"
+        },
+        {
+          "key": "C",
+          "source": "text",
+          "text": "O(n×log log n)"
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/0cb0e55a.jpg",
+          "text": "",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-8:selection:02:fsu33b04xfbluld2q7ep",
+      "title": "下面 LIS 函数试图求出最长上升子序列的长度，其时间复杂度为？（ ）",
+      "options": [
+        {
+          "key": "A",
+          "source": "text",
+          "text": "O(log n)"
+        },
+        {
+          "key": "B",
+          "source": "text",
+          "text": "O(n)"
+        },
+        {
+          "key": "C",
+          "source": "text",
+          "text": "O(n log n)"
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/6a6177d6.jpg",
+          "text": "",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-8:selection:11:6d41t8u67gf1bngxjdm0",
+      "title": "下面的 sum_digit 函数试图求出从 1 到 n （包含 1 和 n ）的数中，包含数字 d 的个数。该函数的时间复杂度为？（ ）",
+      "options": [
+        {
+          "key": "A",
+          "source": "text",
+          "text": "O(n log n)"
+        },
+        {
+          "key": "B",
+          "source": "text",
+          "text": "O(n)"
+        },
+        {
+          "key": "C",
+          "source": "text",
+          "text": "O(log n)"
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/2c326ced.jpg",
+          "text": "",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-8:selection:13:27hherfm3p53p8lj020f",
+      "title": "下面 count_triple 函数的时间复杂度为？（ ）",
+      "options": [
+        {
+          "key": "A",
+          "source": "text",
+          "text": "O(n)"
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/25af5d45.jpg",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "text",
+          "text": "O(n log n)"
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/d9896129.jpg",
+          "text": "O(n? logn)",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-8:selection:15:yq5mnxripfjkcg28yp3k",
+      "title": "n 个结点的二叉树，执行广度优先搜索的平均时间复杂度是？（ ）",
+      "options": [
+        {
+          "key": "A",
+          "source": "text",
+          "text": "O(log n)"
+        },
+        {
+          "key": "B",
+          "source": "text",
+          "text": "O(n log n)"
+        },
+        {
+          "key": "C",
+          "source": "text",
+          "text": "O(n)"
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/23c5ef34.jpg",
+          "text": "O(2”)",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-4:selection:08:rt4bjsg14887knd8uat6",
+      "title": "给定如下算法，其时间复杂度为？（ ）",
+      "options": [
+        {
+          "key": "A",
+          "source": "text",
+          "text": "O(n)"
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/f7f76f12.jpg",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/d7a9e05d.jpg",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/b7d4bde7.jpg",
+          "text": "O(2\")",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-4:selection:10:tn7s3l0h2ajjo3vg9apk",
+      "title": "下述斐波那契数列计算的时间复杂度是？（ ）",
+      "options": [
+        {
+          "key": "A",
+          "source": "text",
+          "text": "O(n)"
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/f7f76f12.jpg",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/d7a9e05d.jpg",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/b7d4bde7.jpg",
+          "text": "O(2\")",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-8:selection:02:ca161bdh4fm29f4qh5fz",
+      "title": "个节点的平衡二叉树的高为？（ ）",
+      "options": [
+        {
+          "key": "A",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/fe11f38a.jpg",
+          "text": "[logy N’|",
+          "error": null
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/e460b8b0.jpg",
+          "text": "flog, N]",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/b02c5321.jpg",
+          "text": "[logs N] +1",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "text",
+          "text": "无法确定。"
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-8:selection:08:73nubpzrmukxy0xhmb36",
+      "title": "下列程序实现了输出杨辉三角形，其时间复杂度为？（ ）",
+      "options": [
+        {
+          "key": "A",
+          "source": "text",
+          "text": "O(n)"
+        },
+        {
+          "key": "B",
+          "source": "text",
+          "text": "O(n log n)"
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/56d874bc.jpg",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/dc44376d.jpg",
+          "text": "",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-8:selection:11:vbq6h5tdxdxized3zmlx",
+      "title": "2025 是个神奇的数字，因为它是由两个数 20 和 25 拼接而成，而且 2025 =(20+25)2 。小杨决定写个程序找找小于 N 的正整数中共有多少这样神奇的数字。 该函数的时间复杂度为？（ ）",
+      "options": [
+        {
+          "key": "A",
+          "source": "text",
+          "text": "O(N log N)"
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/c513c8c3.jpg",
+          "text": "O(N'?)",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/30e5dbc3.jpg",
+          "text": "O(N? (N*/? log N)",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/43420970.jpg",
+          "text": "O(N\"? (log N)?)",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-8:selection:14:pdmr3qtq3qseplt3kjzl",
+      "title": "下面Floyd算法程序的时间复杂度为？（ ）",
+      "options": [
+        {
+          "key": "A",
+          "source": "text",
+          "text": "O(N)"
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/1ef9cfd1.jpg",
+          "text": "O(N?)",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/323397f7.jpg",
+          "text": "O(N?)",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/4d1124c6.jpg",
+          "text": "O(N? (N? log N)",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-8:selection:03:aev0sha44wkwafmsifx0",
+      "title": "在一个单位圆上，随机分布 n 个点，求这 n 个点能被一个单位半圆周全部覆盖的概率（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/4a4d8e66.image",
+          "text": "peat",
+          "error": null
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/87dc1ed9.image",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/05607a24.image",
+          "text": "Sle",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/d9270f70.image",
+          "text": "er",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-8:selection:07:cyem4f1qlxay8jcmfxgx",
+      "title": "下面 fibonacci 函数的时间复杂度为（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "source": "text",
+          "text": "O(1)"
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/e817cea3.image",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "text",
+          "text": "O(n)"
+        },
+        {
+          "key": "D",
+          "source": "text",
+          "text": "O(nlogn)"
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-8:selection:12:2pomhuxagn49skmyiwus",
+      "title": "对于一个具有 n 个顶点的无向图，若采用邻接矩阵表示，则该矩阵的大小为（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/28af3188.image",
+          "text": "n mx",
+          "error": null
+        },
+        {
+          "key": "B",
+          "source": "text",
+          "text": "n×n"
+        },
+        {
+          "key": "C",
+          "source": "text",
+          "text": "(n−1)×(n−1)"
+        },
+        {
+          "key": "D",
+          "source": "text",
+          "text": "(n+1)×(n+1)"
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-7:selection:08:ilrj65gxqtxf6m1dbfsl",
+      "title": "下面 fib 函数的时间复杂度为( )。",
+      "options": [
+        {
+          "key": "A",
+          "source": "text",
+          "text": "O(n)"
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/e817cea3.image",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "text",
+          "text": "O(2n)"
+        },
+        {
+          "key": "D",
+          "source": "text",
+          "text": "无法正常结束。"
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-5:selection:03:7f1com4ugxefdjic8oi8",
+      "title": "下面函数可以将 n 的所有质因数找出来，其时间复杂度是（ ）。 #include <iostream> #include <vector> vector<int> get_prime_factors(int n) { vector<int> factors; while (n % 2 == 0) { factors.push_back(2); n /= 2; } for (int i = 3; i * i <= n; i += 2) { while (n % i == 0) { factors.push_back(i); n /= i; } } if (n > 2) { factors.push_back(n); } return factors; }",
+      "options": [
+        {
+          "key": "A",
+          "source": "text",
+          "text": "O(n2)"
+        },
+        {
+          "key": "B",
+          "source": "text",
+          "text": "O(nlogn)"
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/1f1fb2ce.image",
+          "text": "0 (Vialogn)",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "text",
+          "text": "O(n)"
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-8:selection:03:sj1zyn7uopyc7k2ix9ul",
+      "title": "下面程序的最差时间复杂度为（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/5ad8dc8c.png",
+          "text": "O(vn)",
+          "error": null
+        },
+        {
+          "key": "B",
+          "source": "text",
+          "text": "O(log(n))"
+        },
+        {
+          "key": "C",
+          "source": "text",
+          "text": "O(n)"
+        },
+        {
+          "key": "D",
+          "source": "text",
+          "text": "O(1)"
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-8:selection:09:arx3juj2jpc9ovkfxrom",
+      "title": "一对夫妻生男生女的概率相同。已知这对夫妻有两个孩子，其中一个是女孩，另一个是男孩的概率是多少？",
+      "options": [
+        {
+          "key": "A",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/0d3b546a.png",
+          "text": "colt",
+          "error": null
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/04839bdf.png",
+          "text": "ale",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/eb9c1719.png",
+          "text": "i",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/4f0a181b.png",
+          "text": "owe",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-4:selection:10:qkn28b0syslng38w4p81",
+      "title": "下面函数不能正常执行的是（）",
+      "options": [
+        {
+          "key": "A",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/bd788e97.png",
+          "text": "1 #include<iostream> 2 using namespace std; int func() Fl { Juss int main() Fi { © FI //..- QgQwuoaonoaushw a",
+          "error": null
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/e43d7d6f.png",
+          "text": "a QwoanonouhWNPR # u i - } include<iostream> sing namespace std; nt main() func(); int func() //uus",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/8a705a35.png",
+          "text": "—_ —_ 1 2 =O OON DU BW #include<iostream> using namespace std; int func() Fi { // ++ 3 int main() func();",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/3039f258.png",
+          "text": "1 #include<iostream> 2 using namespace std; 3 int func(); 4 int main() SH 6 func(); 7b 8 int func() oak (7) Jf uae 1'B",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-7:selection:08:8vn0p5egdb1ae35q67ap",
+      "title": "如下图所示的邻接表结构，表示的是下列哪个选项中的图？",
+      "options": [
+        {
+          "key": "A",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/358870db.png",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/11fcb365.png",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/1456f4f4.png",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/4ae57530.png",
+          "text": "",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-7:selection:14:kf0tupflp4iy5mz6o6d8",
+      "title": "如下图所示的邻接矩阵（inf表示无穷大），表示的是下列哪个选项中的图？",
+      "options": [
+        {
+          "key": "A",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/be6043fa.png",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/cf249b9a.png",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/801ba1b0.png",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/1958b15b.png",
+          "text": "",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-8:selection:10:1x17etvhx1ecqee6b22i",
+      "title": "下面程序的时间复杂度为（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "source": "text",
+          "text": "O(2n)"
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/6e96b135.png",
+          "text": "O(¢\"), Hg = 4",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "text",
+          "text": "O(n)"
+        },
+        {
+          "key": "D",
+          "source": "text",
+          "text": "O(1)"
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-4:selection:14:0jdosbmjkhoddqmu8zpl",
+      "title": "下面C++代码执行后的结果是( )。",
+      "options": [
+        {
+          "key": "A",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/1bc2d0ed.png",
+          "text": "Aon Nin 0 ate",
+          "error": null
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/17f03529.png",
+          "text": "123456789",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/232d0825.png",
+          "text": "ate Nin 0 Aon",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/0f239a6d.png",
+          "text": "987654321",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-7:selection:07:rc6ims49sxuf4wcbmouw",
+      "title": "对于下面动态规划方法实现的函数，以下选项中最适合表达其状态转移函数的为( )。",
+      "options": [
+        {
+          "key": "A",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/62cae14b.png",
+          "text": "j)-s(i-1)) t1Ljtsi)-s nf G)fGH + f+ 17 fA) = min isk<j",
+          "error": null
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/7984242d.png",
+          "text": "FEA = min FGA FGK + f+ LA + Di a) isk<j",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/5daac3e8.png",
+          "text": "FGA = ming k) + f(k+ Lf) + iE; alk)",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/ee74dee6.png",
+          "text": "J _ J J Vhei ¢ ) Gj) ml ak isk<j",
+          "error": null
+        }
+      ]
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-8:selection:11:mqizalcop1a273pb4ono",
+      "title": "下面的程序使用出边的邻接表表达有向图，则下列选项中哪个是它表达的图？（ ）。",
+      "options": [
+        {
+          "key": "A",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/917f7f3a.png",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "B",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/ff863e3e.png",
+          "text": "",
+          "error": null
+        },
+        {
+          "key": "C",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/e241ad34.png",
+          "text": "\\",
+          "error": null
+        },
+        {
+          "key": "D",
+          "source": "ocr",
+          "image_url": "https://image.wanjuanwang.com/images/0cktbaz4/a72ff626.png",
+          "text": "",
+          "error": null
+        }
+      ]
+    }
+  ]
+}

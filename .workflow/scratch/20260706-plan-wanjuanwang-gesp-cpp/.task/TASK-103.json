@@ -1,0 +1,44 @@
+{
+  "id": "TASK-103",
+  "title": "Classify C++ GESP questions into domains and review queues",
+  "type": "feature",
+  "phase": "wanjuanwang-gesp-cpp",
+  "wave": 2,
+  "status": "completed",
+  "completed_at": "2026-07-06T08:20:00+08:00",
+  "depends_on": [
+    "TASK-101"
+  ],
+  "read_first": [
+    ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05/requirements/REQ-004-knowledge-mapping.md",
+    "scripts/extract-problem-types-knowledge.mjs",
+    "data/classification/level-domain-classification.json",
+    ".workflow/specs/architecture-constraints.md"
+  ],
+  "files": [
+    "scripts/classify-wanjuanwang-gesp-cpp.mjs",
+    "data/classification/wanjuanwang-gesp-cpp-classification.json",
+    "data/classification/wanjuanwang-gesp-cpp-review-queue.json"
+  ],
+  "action": "Apply existing GESP C++ domain and knowledge heuristics to WanJuanWang questions and output reviewable tags plus review queue items.",
+  "implementation": [
+    "Reuse domain and knowledge seed logic from the current classification pipeline wherever possible.",
+    "Treat page-level knowledge labels as low-granularity source metadata and infer concrete candidate knowledge points from question text.",
+    "Classify programming questions into existing workbench domain IDs or `unclassified` when no confident mapping exists.",
+    "Create review queue outputs for ambiguous domains, missing options, missing samples, image failures and out-of-level/disputed tags such as DP at constrained levels."
+  ],
+  "convergence": {
+    "criteria": [
+      "grep -q 'unclassified' scripts/classify-wanjuanwang-gesp-cpp.mjs",
+      "grep -q 'needs_review' scripts/classify-wanjuanwang-gesp-cpp.mjs",
+      "grep -q 'candidate' scripts/classify-wanjuanwang-gesp-cpp.mjs",
+      "grep -q 'dynamic_programming' scripts/classify-wanjuanwang-gesp-cpp.mjs",
+      "grep -q 'review' scripts/classify-wanjuanwang-gesp-cpp.mjs"
+    ]
+  },
+  "verification_notes": [
+    "Classification file and review queue file are generated.",
+    "All 136 programming questions now have at least one algorithm domain.",
+    "Built catalog consumes classification output successfully."
+  ]
+}

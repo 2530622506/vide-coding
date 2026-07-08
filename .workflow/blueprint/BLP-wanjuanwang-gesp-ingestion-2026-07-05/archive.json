@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "session_id": "BLP-wanjuanwang-gesp-ingestion-2026-07-05",
+  "session_type": "blueprint",
+  "status": "sealed",
+  "sealed_at": "2026-07-05T00:00:00+08:00",
+  "quality": {
+    "score": 92,
+    "gate": "Pass"
+  },
+  "artifacts": [
+    "blueprint-config.json",
+    "discovery-context.json",
+    "refined-requirements.json",
+    "glossary.json",
+    "product-brief.md",
+    "requirements/",
+    "architecture/",
+    "epics/",
+    "readiness-report.md",
+    "blueprint-summary.md",
+    "context-package.json"
+  ]
+}

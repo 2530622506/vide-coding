@@ -1,0 +1,89 @@
+{
+  "session_id": "BLP-consumer-mobile-redesign-2026-06-20",
+  "generated_at": "2026-06-20T10:59:00+08:00",
+  "prototype": {
+    "html": "prototypes/gesp-redesign/c-mobile-redesign-2026.html",
+    "png": "prototypes/gesp-redesign/c-mobile-redesign-2026.png",
+    "screens": [
+      "home",
+      "catalog",
+      "problem",
+      "progress",
+      "profile"
+    ],
+    "visual_direction": "浅纸色背景、墨绿主色、琥珀 CTA、8px 卡片半径、底部四 Tab 导航、任务流优先。"
+  },
+  "relevant_files": [
+    {
+      "path": "apps/web/src/pages/ConsumerMobilePage.tsx",
+      "role": "C 端移动页 shell、header、bottom nav、view routing"
+    },
+    {
+      "path": "apps/web/src/pages/ConsumerMobilePage.css",
+      "role": "当前 C 端视觉样式，需替换为新原型视觉语言"
+    },
+    {
+      "path": "apps/web/src/pages/consumer/ConsumerMobileViews.tsx",
+      "role": "首页、题库、AtCoder、题目、代码、进度、我的视图渲染"
+    },
+    {
+      "path": "apps/web/src/pages/consumer/useConsumerMobileContent.ts",
+      "role": "C 端页面数据加载、题目选择、进度记录 hook"
+    },
+    {
+      "path": "apps/web/src/services/consumerMobile.ts",
+      "role": "C 端前端 API client 与 user key 生成"
+    },
+    {
+      "path": "apps/api/src/consumer-mobile.controller.ts",
+      "role": "现有 C 端 Nest Controller"
+    },
+    {
+      "path": "apps/api/src/consumer-mobile.service.ts",
+      "role": "现有 C 端聚合服务、目录转换、进度事件读写"
+    },
+    {
+      "path": "infra/mysql/schema.sql",
+      "role": "MySQL schema，已有 consumer_mobile_progress_events 表"
+    }
+  ],
+  "existing_api": [
+    "GET /consumer-mobile",
+    "GET /consumer-mobile/gesp/catalog",
+    "GET /consumer-mobile/gesp/problems/:id",
+    "GET /consumer-mobile/atcoder/catalog",
+    "GET /consumer-mobile/atcoder/problems/:id",
+    "GET /consumer-mobile/progress",
+    "POST /consumer-mobile/progress/events"
+  ],
+  "observed_gaps": [
+    "首页原型需要 task-oriented 的 today recommendation，但 GET /consumer-mobile 仅返回 learning.recommendation 文本。",
+    "进度页需要 weak knowledge queue、review suggestions、mastery metrics；当前 progress 只按 view/favorite/review 事件计数。",
+    "我的页需要 favorites、review plan、recent viewed 的页面级聚合；当前需要前端自行拼装，缺少稳定 API 合同。",
+    "收藏和复习事件当前共用 progress/events，缺少幂等取消、状态查询和明确错误模型。",
+    "题库筛选原型使用 level/domain/problem type chips，当前前端用 select 和旧卡片样式，交互结构需要重构。",
+    "AtCoder 必须保持独立入口和筛选，不应混入 GESP 等级体系。"
+  ],
+  "project_constraints": [
+    "GESP 分类目录优先",
+    "GESP 官方来源优先",
+    "五级 DP 越级处理必须保留 disputed/out_of_level 语义",
+    "React + Nest + MySQL",
+    "数据库与服务验证可用 Docker/MySQL"
+  ],
+  "recommended_scope": {
+    "mvp": [
+      "重构 5 个 C 端页面到原型视觉",
+      "新增 ConsumerMobilePageModel 聚合接口",
+      "补齐 favorite/review/recent/weak-points/review-plan 数据",
+      "保留现有目录和题目详情 API，修正返回字段一致性",
+      "新增前后端契约测试和移动端截图验收"
+    ],
+    "out_of_scope": [
+      "真实登录账号体系",
+      "支付或课程商业化",
+      "在线提交判题系统",
+      "原生 App 打包"
+    ]
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "session_id": "BLP-consumer-mobile-redesign-2026-06-20",
+  "seed_input": "根据 prototypes/gesp-redesign/c-mobile-redesign-2026.html 和 c-mobile-redesign-2026.png 重构 C 端移动页面；补齐缺失接口，修复或优化不匹配接口；当前先产出 PRD、plan、task。",
+  "input_type": "file+image+text",
+  "timestamp": "2026-06-20T10:58:00+08:00",
+  "mode": "auto",
+  "complexity": "complex",
+  "depth": "comprehensive",
+  "focus_areas": [
+    "C 端移动 UI 重构",
+    "ConsumerMobile API 合同",
+    "学习进度与收藏复习数据模型",
+    "GESP 分类目录优先信息架构",
+    "前后端联调与验收任务"
+  ],
+  "spec_type": "platform",
+  "iteration_count": 0,
+  "iteration_history": [],
+  "seed_analysis": {
+    "problem_statement": "当前 C 端移动页已有后端数据和基础视图，但视觉风格与新原型不一致，页面级数据模型不足以支撑今日建议、薄弱知识点、收藏夹和复习计划等体验，需要以 5 屏原型为目标重构前端，同时让后端 API 返回稳定、可测试、可扩展的 C 端页面模型。",
+    "target_users": [
+      "准备 GESP C++ 等级考试的学生",
+      "需要快速定位薄弱知识点并持续复习的学习者",
+      "维护 GESP/AtCoder 题库内容质量的项目开发者"
+    ],
+    "domain": "GESP C++ 移动学习题库与学习进度平台",
+    "constraints": [
+      "必须以 GESP 分类目录为主线：level -> algorithm domain -> problem type -> problems -> knowledge points。",
+      "GESP 官方来源优先，AtCoder 只能作为独立算法训练补充。",
+      "前端默认 React，后端默认 Nest，数据库默认 MySQL。",
+      "本轮蓝图只产出文档，不修改业务代码。"
+    ],
+    "dimensions": [
+      "视觉重构",
+      "接口契约",
+      "进度状态",
+      "收藏与复习",
+      "验收与测试"
+    ]
+  },
+  "has_codebase": true,
+  "prototype_sources": [
+    "prototypes/gesp-redesign/c-mobile-redesign-2026.html",
+    "prototypes/gesp-redesign/c-mobile-redesign-2026.png"
+  ],
+  "phasesCompleted": [
+    {
+      "phase": 1,
+      "name": "discovery",
+      "output_file": "blueprint-config.json",
+      "completed_at": "2026-06-20T10:58:00+08:00"
+    },
+    {
+      "phase": 1.5,
+      "name": "requirement-expansion",
+      "output_file": "refined-requirements.json",
+      "completed_at": "2026-06-20T11:02:00+08:00"
+    },
+    {
+      "phase": 2,
+      "name": "product-brief",
+      "output_file": "product-brief.md",
+      "completed_at": "2026-06-20T11:08:00+08:00"
+    },
+    {
+      "phase": 3,
+      "name": "requirements",
+      "output_file": "requirements/_index.md",
+      "completed_at": "2026-06-20T11:18:00+08:00"
+    },
+    {
+      "phase": 4,
+      "name": "architecture",
+      "output_file": "architecture/_index.md",
+      "completed_at": "2026-06-20T11:27:00+08:00"
+    },
+    {
+      "phase": 5,
+      "name": "epics",
+      "output_file": "epics/_index.md",
+      "completed_at": "2026-06-20T11:35:00+08:00"
+    },
+    {
+      "phase": 6,
+      "name": "readiness",
+      "output_file": "readiness-report.md",
+      "completed_at": "2026-06-20T11:42:00+08:00"
+    }
+  ]
+}

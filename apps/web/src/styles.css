@@ -2051,6 +2051,15 @@ body.isResizingDetailPane .detailPane {
   height: auto;
 }
 
+.optionMarkdown {
+  min-width: 0;
+  width: 100%;
+}
+
+.optionMarkdown .markdownBody {
+  gap: 6px;
+}
+
 .markdownBody span[id^="mjx-"] {
   max-width: 100%;
   overflow-x: auto;
@@ -2128,6 +2137,25 @@ body.isResizingDetailPane .detailPane {
   color: #374250;
   font-size: 13px;
   line-height: 1.45;
+}
+
+.optionImageButton.ant-btn {
+  align-items: flex-start;
+  display: inline-flex;
+  height: auto;
+  justify-content: flex-start;
+  padding: 0;
+  width: fit-content;
+}
+
+.optionImageButton.ant-btn > span {
+  display: block;
+}
+
+.optionImageButton img {
+  border: 1px solid rgba(15, 111, 110, 0.14);
+  border-radius: 6px;
+  max-width: min(100%, 320px);
 }
 
 .sampleList {

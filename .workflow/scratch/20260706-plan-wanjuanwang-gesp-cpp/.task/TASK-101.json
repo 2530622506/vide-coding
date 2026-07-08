@@ -1,0 +1,43 @@
+{
+  "id": "TASK-101",
+  "title": "Implement WanJuanWang GESP C++ discovery and parsing artifact",
+  "type": "feature",
+  "phase": "wanjuanwang-gesp-cpp",
+  "wave": 1,
+  "status": "completed",
+  "completed_at": "2026-07-06T08:00:00+08:00",
+  "depends_on": [],
+  "read_first": [
+    ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05/requirements/REQ-001-wanjuanwang-discovery.md",
+    ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05/requirements/REQ-002-html-parse-assets.md",
+    "scripts/ingest-official-sources.mjs",
+    "scripts/build-problem-details.mjs"
+  ],
+  "files": [
+    "package.json",
+    "scripts/ingest-wanjuanwang-gesp-cpp.mjs",
+    "data/wanjuanwang-ingestion/README.md"
+  ],
+  "action": "Add a WanJuanWang GESP C++ ingestion script that discovers level URLs, fetches public exam HTML, parses selection/judgment/programming sections, and writes a replayable JSON artifact.",
+  "implementation": [
+    "Add a package script for WanJuanWang C++ GESP ingestion.",
+    "Implement allowlist-first page discovery from the seed URL and related-paper list.",
+    "Parse `questionid`, question number, section type, stem HTML/Markdown, code blocks, options, sample sections, detail links and image URLs into a normalized artifact.",
+    "Store per-page metadata including source URL, inferred level, inferred session, content hash and fetch timestamp."
+  ],
+  "convergence": {
+    "criteria": [
+      "grep -q 'ingest:wanjuanwang:gesp:cxx' package.json",
+      "grep -q 'questionid' scripts/ingest-wanjuanwang-gesp-cpp.mjs",
+      "grep -q 'optionsTable' scripts/ingest-wanjuanwang-gesp-cpp.mjs",
+      "grep -q 'selection' scripts/ingest-wanjuanwang-gesp-cpp.mjs",
+      "grep -q 'judgment' scripts/ingest-wanjuanwang-gesp-cpp.mjs",
+      "grep -q 'programming' scripts/ingest-wanjuanwang-gesp-cpp.mjs"
+    ]
+  },
+  "verification_notes": [
+    "Live run auto-discovered 68 C++ GESP exam pages from the gecc listing.",
+    "Generated artifact contains 1836 questions: 1020 selection, 680 judgment, 136 programming.",
+    "Validation script `scripts/validate-wanjuanwang-gesp-cpp.mjs` passed."
+  ]
+}

@@ -2,6 +2,7 @@ import MarkdownIt from "markdown-it";
 import mathjax3 from "markdown-it-mathjax3";
 import { useMemo } from "react";
 import type { ConsumerProblem } from "./ConsumerMobileData";
+import { normalizeQuestionMarkdown } from "../../utils/questionMarkdown";
 
 const statementMarkdown = new MarkdownIt({
   breaks: true,
@@ -71,10 +72,7 @@ export function ConsumerProblemStatement({ problem }: { problem: ConsumerProblem
 
 function ConsumerMarkdown({ value }: { value: string }) {
   const html = useMemo(() => {
-    const normalized = value
-      .replace(/^:::[^\n]*(?:\n|$)/gm, "")
-      .replace(/^:::$/gm, "")
-      .trim();
+    const normalized = normalizeQuestionMarkdown(value);
     return statementMarkdown.render(normalized);
   }, [value]);
 

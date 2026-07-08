@@ -395,6 +395,107 @@ export function GespProblemPracticePage({ problemId, navigateTo, onBack, onOpenI
   );
 }
 
+export function GespQuestionTypePage({
+  navigateTo,
+  questionType,
+  returnContext
+}: {
+  navigateTo: Navigate;
+  questionType: "selection" | "judgment";
+  returnContext?: ProblemReturnContext | null;
+}) {
+  const catalogState = useGespCatalog(5, returnContext?.gesp, questionType, "wanjuanwang_exam");
+  const { flatProblems, levels, loading, searchQuery, selectedLevel, setSearchQuery, setSelectedLevel, error } = catalogState;
+  const routePath = questionType === "selection" ? "/gesp/selection" : "/gesp/judgment";
+  const title = questionTypeLabel[questionType];
+  const groupedProblems = groupFlatProblemsByDomain(flatProblems);
+  const knowledgePointCount = new Set(flatProblems.flatMap((entry) => entry.problem.knowledge_point_tags.map((tag) => tag.value))).size;
+  const problemTypeCount = new Set(flatProblems.map((entry) => entry.problemType.problem_type_id)).size;
+
+  function createReturnContext(problemId: string): ProblemReturnContext {
+    return {
+      source: "gesp",
+      sourcePath: routePath,
+      problemId,
+      scrollY: window.scrollY,
+      gesp: {
+        activeDomainId: null,
+        searchQuery,
+        selectedLevel
+      }
+    };
+  }
+
+  function openDetailPage(problemId: string) {
+    navigateTo(`/gesp/problems/${encodeURIComponent(problemId)}`, { returnContext: createReturnContext(problemId) });
+  }
+
+  return (
+    <main className="pageSurface">
+      <PageHeading
+        eyebrow="GESP C++"
+        icon={<ListChecks size={18} />}
+        title={`${title}题练习`}
+        description={`按等级集中查看 ${title}题，保留知识点与来源信息，适合刷题与讲评。`}
+        actions={<Button className="actionButton actionButton--back" onClick={() => navigateTo("/")}>返回工作台</Button>}
+      />
+      <ControlBar
+        levels={levels}
+        loading={loading}
+        searchQuery={searchQuery}
+        selectedLevel={selectedLevel}
+        onLevelChange={setSelectedLevel}
+        onRefresh={() => catalogState.reload()}
+        onSearchChange={setSearchQuery}
+      />
+      {error ? <Alert className="pageAlert" message={error} showIcon type="warning" /> : null}
+      <section className="statGrid">
+        <WorkbenchStat icon={<Boxes size={18} />} label="题目" value={flatProblems.length} />
+        <WorkbenchStat icon={<Layers3 size={18} />} label="算法范畴" value={groupedProblems.length} />
+        <WorkbenchStat icon={<BookOpenCheck size={18} />} label="题型标签" value={problemTypeCount} />
+        <WorkbenchStat icon={<ShieldCheck size={18} />} label="知识点" value={knowledgePointCount} />
+      </section>
+      <Card className="practiceListPane" loading={loading}>
+        <Flex align="center" className="sectionTitleRow" justify="space-between" gap={12}>
+          <div>
+            <Typography.Text className="sectionEyebrow">题型过滤</Typography.Text>
+            <Typography.Title level={2}>{title}题</Typography.Title>
+          </div>
+          <Tag color="blue">{flatProblems.length} 题</Tag>
+        </Flex>
+        {groupedProblems.length ? (
+          <Space className="typeColumn" direction="vertical" size={14}>
+            {groupedProblems.map((group) => (
+              <Card className="typePracticeCard" key={group.domainId} size="small">
+                <Flex align="flex-start" justify="space-between" gap={12}>
+                  <div>
+                    <Typography.Text className="sectionEyebrow">{group.domainId}</Typography.Text>
+                    <Typography.Title level={3}>{group.domainLabel}</Typography.Title>
+                  </div>
+                  <Tag color="blue">{group.problems.length} 题</Tag>
+                </Flex>
+                <div className="problemCardGrid">
+                  {group.problems.map((entry) => (
+                    <ProblemPracticeCard
+                      isSelected={returnContext?.problemId === entry.problem.id}
+                      key={entry.key}
+                      onOpenDetail={() => openDetailPage(entry.problem.id)}
+                      onSelect={() => openDetailPage(entry.problem.id)}
+                      problem={entry.problem}
+                    />
+                  ))}
+                </div>
+              </Card>
+            ))}
+          </Space>
+        ) : (
+          <Empty description={searchQuery ? "没有匹配的题目" : `当前等级暂无${title}题`} image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        )}
+      </Card>
+    </main>
+  );
+}
+
 export function KnowledgeCoveragePage({ navigateTo }: { navigateTo: Navigate }) {
   const catalogState = useGespCatalog(5);
   const { flatProblems, levels, loading, searchQuery, selectedLevel, setSearchQuery, setSelectedLevel, visibleCatalog } = catalogState;
@@ -703,7 +804,12 @@ export function GespProblemMaintenancePage({ navigateTo }: { navigateTo: Navigat
   );
 }
 
-function useGespCatalog(initialLevel: number, initialState?: ProblemReturnContext["gesp"]) {
+function useGespCatalog(
+  initialLevel: number,
+  initialState?: ProblemReturnContext["gesp"],
+  questionType?: "selection" | "judgment" | "programming",
+  sourceKind?: string
+) {
   const [levels, setLevels] = useState<LevelSummary[]>([]);
   const [selectedLevel, setSelectedLevel] = useState(initialState?.selectedLevel ?? initialLevel);
   const [catalog, setCatalog] = useState<LevelCatalog | null>(null);
@@ -740,7 +846,7 @@ function useGespCatalog(initialLevel: number, initialState?: ProblemReturnContex
     setLoading(true);
     setError(null);
     try {
-      const nextCatalog = await fetchLevelCatalog(level);
+      const nextCatalog = await fetchLevelCatalog(level, questionType, sourceKind);
       setCatalog(nextCatalog);
       setActiveDomainId((currentDomainId) => {
         if (currentDomainId && nextCatalog.domains.some((domain) => domain.domain_id === currentDomainId)) {
@@ -789,6 +895,23 @@ function flattenCatalog(catalog: LevelCatalog | null): FlatProblem[] {
       }))
     ))
   ));
+}
+
+function groupFlatProblemsByDomain(flatProblems: FlatProblem[]) {
+  const groups = new Map<string, { domainId: string; domainLabel: string; problems: FlatProblem[] }>();
+
+  for (const entry of flatProblems) {
+    if (!groups.has(entry.domain.domain_id)) {
+      groups.set(entry.domain.domain_id, {
+        domainId: entry.domain.domain_id,
+        domainLabel: entry.domain.domain_label,
+        problems: []
+      });
+    }
+    groups.get(entry.domain.domain_id)?.problems.push(entry);
+  }
+
+  return [...groups.values()].sort((left, right) => right.problems.length - left.problems.length || left.domainId.localeCompare(right.domainId));
 }
 
 function PageHeading({ actions, description, eyebrow, icon, title }: {

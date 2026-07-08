@@ -1,0 +1,1152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>C 端移动页重新设计原型</title>
+    <style>
+      :root {
+        --bg: #eef1eb;
+        --paper: #fbfaf5;
+        --surface: #ffffff;
+        --surface-soft: #f4f1e8;
+        --ink: #18221f;
+        --text: #34403b;
+        --muted: #68756f;
+        --line: #d9ded5;
+        --green: #0f6b50;
+        --green-soft: #e1eee8;
+        --amber: #c6811a;
+        --amber-soft: #fff1d6;
+        --coral: #c9553f;
+        --blue: #315d81;
+        --shadow: 0 24px 60px rgba(31, 41, 35, 0.14);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .board {
+        align-content: center;
+        align-items: center;
+        display: grid;
+        column-gap: 24px;
+        grid-template-columns: repeat(3, 330px);
+        justify-content: center;
+        min-height: 1840px;
+        padding: 44px 34px;
+        row-gap: 34px;
+        width: 1200px;
+      }
+
+      .phone-wrap {
+        display: grid;
+        gap: 14px;
+      }
+
+      .caption {
+        align-items: center;
+        color: #53625c;
+        display: flex;
+        font-size: 13px;
+        font-weight: 800;
+        justify-content: space-between;
+        letter-spacing: 0;
+      }
+
+      .caption span {
+        color: #839089;
+        font-weight: 700;
+      }
+
+      .phone {
+        background: #111916;
+        border-radius: 30px;
+        box-shadow: var(--shadow);
+        height: 780px;
+        overflow: hidden;
+        padding: 10px;
+        position: relative;
+        width: 330px;
+      }
+
+      .screen {
+        background: var(--paper);
+        border-radius: 22px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .statusbar {
+        align-items: center;
+        color: var(--ink);
+        display: flex;
+        font-size: 12px;
+        font-weight: 800;
+        height: 34px;
+        justify-content: space-between;
+        padding: 0 20px;
+      }
+
+      .status-icons {
+        align-items: center;
+        display: flex;
+        gap: 5px;
+      }
+
+      .dot,
+      .signal,
+      .battery {
+        background: var(--ink);
+        display: inline-block;
+      }
+
+      .signal {
+        border-radius: 5px;
+        height: 9px;
+        width: 14px;
+      }
+
+      .dot {
+        border-radius: 50%;
+        height: 5px;
+        width: 5px;
+      }
+
+      .battery {
+        border-radius: 3px;
+        height: 10px;
+        width: 18px;
+      }
+
+      .content {
+        flex: 1;
+        overflow: hidden;
+        padding: 10px 15px 88px;
+      }
+
+      .top {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        display: grid;
+        gap: 2px;
+      }
+
+      .brand strong {
+        color: var(--ink);
+        font-size: 21px;
+        letter-spacing: 0;
+        line-height: 1.15;
+      }
+
+      .brand span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .icon-button,
+      .back-button {
+        align-items: center;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--ink);
+        display: inline-flex;
+        height: 42px;
+        justify-content: center;
+        padding: 0;
+        width: 42px;
+      }
+
+      .icon-button svg,
+      .back-button svg,
+      .nav button svg,
+      .task-card svg,
+      .row-action svg {
+        height: 18px;
+        stroke-width: 2.2;
+        width: 18px;
+      }
+
+      .hero-panel {
+        background: #18332b;
+        border-radius: 8px;
+        color: #f9faf5;
+        padding: 18px;
+      }
+
+      .hero-label {
+        align-items: center;
+        color: #c9d8d0;
+        display: flex;
+        font-size: 12px;
+        font-weight: 800;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .hero-panel h1 {
+        font-size: 25px;
+        line-height: 1.18;
+        margin: 0 0 12px;
+      }
+
+      .hero-panel p {
+        color: #d8e1dd;
+        font-size: 13px;
+        line-height: 1.55;
+        margin: 0 0 18px;
+      }
+
+      .hero-actions {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr auto;
+      }
+
+      .primary {
+        align-items: center;
+        background: #f4c66a;
+        border: 0;
+        border-radius: 8px;
+        color: #1f2b25;
+        display: flex;
+        font-size: 14px;
+        font-weight: 900;
+        gap: 8px;
+        height: 46px;
+        justify-content: center;
+      }
+
+      .ghost {
+        align-items: center;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 8px;
+        color: #fff;
+        display: flex;
+        height: 46px;
+        justify-content: center;
+        width: 46px;
+      }
+
+      .section {
+        margin-top: 20px;
+      }
+
+      .section-head {
+        align-items: end;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .section-head h2 {
+        color: var(--ink);
+        font-size: 16px;
+        line-height: 1.2;
+        margin: 0;
+      }
+
+      .section-head span,
+      .section-head button {
+        background: transparent;
+        border: 0;
+        color: var(--green);
+        font-size: 12px;
+        font-weight: 900;
+        padding: 0;
+      }
+
+      .task-card {
+        align-items: center;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        display: grid;
+        gap: 12px;
+        grid-template-columns: auto 1fr auto;
+        padding: 13px;
+      }
+
+      .task-icon {
+        align-items: center;
+        background: var(--green-soft);
+        border-radius: 8px;
+        color: var(--green);
+        display: flex;
+        height: 42px;
+        justify-content: center;
+        width: 42px;
+      }
+
+      .task-card strong,
+      .problem-row strong,
+      .progress-item strong {
+        color: var(--ink);
+        display: block;
+        font-size: 14px;
+        line-height: 1.3;
+      }
+
+      .task-card small,
+      .problem-row small,
+      .progress-item small {
+        color: var(--muted);
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.45;
+        margin-top: 3px;
+      }
+
+      .row-action {
+        align-items: center;
+        background: #f7f4ec;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--green);
+        display: flex;
+        height: 38px;
+        justify-content: center;
+        width: 38px;
+      }
+
+      .library-grid {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .library-card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        min-height: 116px;
+        padding: 13px;
+      }
+
+      .library-card.active {
+        background: var(--amber-soft);
+        border-color: #f0cf91;
+      }
+
+      .library-card svg {
+        color: var(--green);
+        height: 20px;
+        margin-bottom: 12px;
+        stroke-width: 2.1;
+        width: 20px;
+      }
+
+      .library-card span {
+        color: var(--muted);
+        display: block;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .library-card strong {
+        color: var(--ink);
+        display: block;
+        font-size: 22px;
+        line-height: 1.1;
+        margin-top: 4px;
+      }
+
+      .chips {
+        display: flex;
+        gap: 6px;
+        overflow: hidden;
+      }
+
+      .chip {
+        align-items: center;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--muted);
+        display: flex;
+        flex: 0 0 auto;
+        font-size: 11px;
+        font-weight: 850;
+        height: 36px;
+        padding: 0 10px;
+      }
+
+      .chip.active {
+        background: var(--green);
+        border-color: var(--green);
+        color: #fff;
+      }
+
+      .problem-list {
+        display: grid;
+        gap: 9px;
+      }
+
+      .problem-row {
+        align-items: center;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        display: grid;
+        gap: 11px;
+        grid-template-columns: auto 1fr auto;
+        padding: 12px;
+      }
+
+      .badge {
+        align-items: center;
+        background: #f1eee5;
+        border-radius: 8px;
+        color: var(--green);
+        display: flex;
+        font-size: 12px;
+        font-weight: 900;
+        height: 38px;
+        justify-content: center;
+        width: 42px;
+      }
+
+      .pill {
+        border-radius: 8px;
+        display: inline-flex;
+        font-size: 11px;
+        font-weight: 900;
+        height: 26px;
+        padding: 6px 8px 0;
+      }
+
+      .pill.green {
+        background: var(--green-soft);
+        color: var(--green);
+      }
+
+      .pill.amber {
+        background: var(--amber-soft);
+        color: var(--amber);
+      }
+
+      .pill.coral {
+        background: #f9e2db;
+        color: var(--coral);
+      }
+
+      .search {
+        align-items: center;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: #78827d;
+        display: flex;
+        font-size: 13px;
+        font-weight: 750;
+        gap: 9px;
+        height: 44px;
+        margin-bottom: 14px;
+        padding: 0 13px;
+      }
+
+      .search svg {
+        height: 17px;
+        stroke-width: 2.3;
+        width: 17px;
+      }
+
+      .detail-title {
+        margin-bottom: 16px;
+      }
+
+      .detail-title h1 {
+        color: var(--ink);
+        font-size: 24px;
+        line-height: 1.18;
+        margin: 0 0 8px;
+      }
+
+      .detail-title p {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 750;
+        line-height: 1.45;
+        margin: 0;
+      }
+
+      .statement {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 15px;
+      }
+
+      .statement h2 {
+        color: var(--ink);
+        font-size: 15px;
+        margin: 0 0 10px;
+      }
+
+      .statement p {
+        color: var(--text);
+        font-size: 13px;
+        line-height: 1.65;
+        margin: 0;
+      }
+
+      .answer-grid {
+        display: grid;
+        gap: 8px;
+        grid-template-columns: 1fr 1fr;
+        margin-top: 12px;
+      }
+
+      .answer {
+        background: #f7f4ec;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 850;
+        min-height: 42px;
+        padding: 12px;
+      }
+
+      .answer.active {
+        background: var(--green-soft);
+        border-color: #b7d2c6;
+        color: var(--green);
+      }
+
+      .code-strip {
+        align-items: center;
+        background: #18221f;
+        border-radius: 8px;
+        color: #f7f2df;
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr auto;
+        margin-top: 12px;
+        padding: 13px;
+      }
+
+      .code-strip strong {
+        display: block;
+        font-size: 13px;
+      }
+
+      .code-strip small {
+        color: #b8c7be;
+        display: block;
+        font-size: 11px;
+        margin-top: 3px;
+      }
+
+      .progress-list {
+        display: grid;
+        gap: 9px;
+      }
+
+      .progress-item {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+      }
+
+      .bar {
+        background: #ece7dc;
+        border-radius: 99px;
+        height: 7px;
+        margin-top: 10px;
+        overflow: hidden;
+      }
+
+      .bar span {
+        background: var(--green);
+        border-radius: inherit;
+        display: block;
+        height: 100%;
+      }
+
+      .nav {
+        background: var(--paper);
+        border-top: 1px solid var(--line);
+        bottom: 10px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        height: 72px;
+        left: 10px;
+        padding: 8px 10px 10px;
+        position: absolute;
+        right: 10px;
+      }
+
+      .nav button {
+        align-items: center;
+        background: transparent;
+        border: 0;
+        color: #7b8781;
+        display: grid;
+        font-size: 11px;
+        font-weight: 850;
+        gap: 4px;
+        justify-items: center;
+        padding: 0;
+      }
+
+      .nav button.active {
+        color: var(--green);
+      }
+
+      .safe-line {
+        background: #1c2622;
+        border-radius: 99px;
+        bottom: 8px;
+        height: 4px;
+        left: 132px;
+        position: absolute;
+        width: 96px;
+        z-index: 3;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="board">
+      <section class="phone-wrap">
+        <div class="caption">首页 / 学习任务流 <span>Home</span></div>
+        <div class="phone">
+          <div class="screen">
+            <div class="statusbar">
+              <span>09:41</span>
+              <span class="status-icons"><i class="signal"></i><i class="dot"></i><i class="battery"></i></span>
+            </div>
+            <div class="content">
+              <header class="top">
+                <div class="brand">
+                  <strong>GESP 练习</strong>
+                  <span>C++ 学习路径</span>
+                </div>
+                <button class="icon-button" aria-label="搜索">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                </button>
+              </header>
+
+              <section class="hero-panel">
+                <div class="hero-label">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5V5a2 2 0 0 1 2-2h11"></path><path d="M8 7h8"></path><path d="M8 11h8"></path><path d="M6 21h13a1 1 0 0 0 1-1V7"></path></svg>
+                  今日建议
+                </div>
+                <h1>先补质因数，再做模拟题</h1>
+                <p>根据最近查看和收藏，优先完成 3 道五级薄弱题，复习路径更短。</p>
+                <div class="hero-actions">
+                  <button class="primary">
+                    开始练习
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+                  </button>
+                  <button class="ghost" aria-label="收藏">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m12 17.5-5.2 2.7 1-5.8-4.2-4.1 5.8-.8L12 4.2l2.6 5.3 5.8.8-4.2 4.1 1 5.8z"></path></svg>
+                  </button>
+                </div>
+              </section>
+
+              <section class="section">
+                <div class="section-head">
+                  <h2>继续学习</h2>
+                  <button>全部</button>
+                </div>
+                <div class="task-card">
+                  <span class="task-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg>
+                  </span>
+                  <div>
+                    <strong>有限小数判断</strong>
+                    <small>五级 · 数论 · 已看题干</small>
+                  </div>
+                  <span class="row-action">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+                  </span>
+                </div>
+              </section>
+
+              <section class="section">
+                <div class="section-head">
+                  <h2>题库入口</h2>
+                  <span>2 个来源</span>
+                </div>
+                <div class="library-grid">
+                  <div class="library-card active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-1.5Z"></path><path d="M8 7h6"></path><path d="M8 11h7"></path></svg>
+                    <span>GESP 全等级</span>
+                    <strong>648 题</strong>
+                  </div>
+                  <div class="library-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10v5a5 5 0 0 1-10 0z"></path><path d="M5 5H3v2a4 4 0 0 0 4 4"></path><path d="M19 5h2v2a4 4 0 0 1-4 4"></path></svg>
+                    <span>AtCoder</span>
+                    <strong>312 题</strong>
+                  </div>
+                </div>
+              </section>
+
+              <section class="section">
+                <div class="section-head">
+                  <h2>知识点进度</h2>
+                  <span>本周</span>
+                </div>
+                <div class="progress-list">
+                  <div class="progress-item">
+                    <strong>循环与模拟</strong>
+                    <small>12 题 · 完成 78%</small>
+                    <div class="bar"><span style="width: 78%"></span></div>
+                  </div>
+                  <div class="progress-item">
+                    <strong>质因数分解</strong>
+                    <small>6 题 · 完成 42%</small>
+                    <div class="bar"><span style="width: 42%"></span></div>
+                  </div>
+                </div>
+              </section>
+            </div>
+            <nav class="nav" aria-label="底部导航">
+              <button class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 10 9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>首页</button>
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-1.5Z"></path></svg>题库</button>
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V5"></path><path d="M8 19v-8"></path><path d="M12 19V7"></path><path d="M16 19v-4"></path><path d="M20 19V9"></path></svg>进度</button>
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>我的</button>
+            </nav>
+            <span class="safe-line"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="phone-wrap">
+        <div class="caption">题库 / 筛选与列表 <span>Catalog</span></div>
+        <div class="phone">
+          <div class="screen">
+            <div class="statusbar">
+              <span>09:41</span>
+              <span class="status-icons"><i class="signal"></i><i class="dot"></i><i class="battery"></i></span>
+            </div>
+            <div class="content">
+              <header class="top">
+                <button class="back-button" aria-label="返回">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m15 18-6-6 6-6"></path></svg>
+                </button>
+                <div class="brand" style="text-align: right">
+                  <strong>全等级题库</strong>
+                  <span>按等级、题型、知识点筛选</span>
+                </div>
+              </header>
+
+              <div class="search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                搜索题名、知识点
+              </div>
+
+              <div class="chips" aria-label="等级筛选">
+                <span class="chip">一级</span>
+                <span class="chip">二级</span>
+                <span class="chip active">五级</span>
+                <span class="chip">六级</span>
+                <span class="chip">AtCoder</span>
+              </div>
+
+              <section class="section">
+                <div class="section-head">
+                  <h2>当前筛选</h2>
+                  <span>36 题</span>
+                </div>
+                <div class="library-grid">
+                  <div class="library-card">
+                    <span>等级</span>
+                    <strong>五级</strong>
+                  </div>
+                  <div class="library-card active">
+                    <span>知识点</span>
+                    <strong>数论</strong>
+                  </div>
+                </div>
+              </section>
+
+              <section class="section">
+                <div class="section-head">
+                  <h2>题型分布</h2>
+                  <button>重置</button>
+                </div>
+                <div class="chips">
+                  <span class="chip active">质因数分解</span>
+                  <span class="chip">贪心</span>
+                  <span class="chip">递推</span>
+                </div>
+              </section>
+
+              <section class="section">
+                <div class="section-head">
+                  <h2>推荐题目</h2>
+                  <span>薄弱优先</span>
+                </div>
+                <div class="problem-list">
+                  <div class="problem-row">
+                    <span class="badge">01</span>
+                    <div>
+                      <strong>有限小数判断</strong>
+                      <small>选择题 · 质因数分解 · 已有解析</small>
+                    </div>
+                    <span class="pill amber">42%</span>
+                  </div>
+                  <div class="problem-row">
+                    <span class="badge">02</span>
+                    <div>
+                      <strong>最大公约数路径</strong>
+                      <small>编程题 · 欧几里得 · 参考代码</small>
+                    </div>
+                    <span class="pill green">76%</span>
+                  </div>
+                  <div class="problem-row">
+                    <span class="badge">03</span>
+                    <div>
+                      <strong>分解质因数</strong>
+                      <small>判断题 · 基础模板 · 待复习</small>
+                    </div>
+                    <span class="pill coral">新</span>
+                  </div>
+                  <div class="problem-row">
+                    <span class="badge">04</span>
+                    <div>
+                      <strong>倍数区间统计</strong>
+                      <small>编程题 · 枚举优化 · 样例完整</small>
+                    </div>
+                    <span class="pill green">81%</span>
+                  </div>
+                </div>
+              </section>
+            </div>
+            <nav class="nav" aria-label="底部导航">
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 10 9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>首页</button>
+              <button class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-1.5Z"></path></svg>题库</button>
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V5"></path><path d="M8 19v-8"></path><path d="M12 19V7"></path><path d="M16 19v-4"></path><path d="M20 19V9"></path></svg>进度</button>
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>我的</button>
+            </nav>
+            <span class="safe-line"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="phone-wrap">
+        <div class="caption">题目 / 阅读与解题 <span>Problem</span></div>
+        <div class="phone">
+          <div class="screen">
+            <div class="statusbar">
+              <span>09:41</span>
+              <span class="status-icons"><i class="signal"></i><i class="dot"></i><i class="battery"></i></span>
+            </div>
+            <div class="content">
+              <header class="top">
+                <button class="back-button" aria-label="返回">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m15 18-6-6 6-6"></path></svg>
+                </button>
+                <button class="icon-button" aria-label="收藏">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m12 17.5-5.2 2.7 1-5.8-4.2-4.1 5.8-.8L12 4.2l2.6 5.3 5.8.8-4.2 4.1 1 5.8z"></path></svg>
+                </button>
+              </header>
+
+              <div class="detail-title">
+                <span class="pill green">C++ 五级 · 选择题</span>
+                <h1>有限小数判断</h1>
+                <p>质因数分解 · 数论基础 · 官方题源对齐</p>
+              </div>
+
+              <section class="statement">
+                <h2>题目</h2>
+                <p>给定一个最简分数 a / b，判断它能否化为有限小数。若分母只包含质因数 2 和 5，则可以化为有限小数。</p>
+                <div class="answer-grid">
+                  <div class="answer">A. 只含 2 或 5</div>
+                  <div class="answer active">B. 只含 2 和 5</div>
+                  <div class="answer">C. 含任意质因数</div>
+                  <div class="answer">D. 分子小于分母</div>
+                </div>
+              </section>
+
+              <section class="section">
+                <div class="section-head">
+                  <h2>解题线索</h2>
+                  <span>3 步</span>
+                </div>
+                <div class="progress-list">
+                  <div class="progress-item">
+                    <strong>1. 先约分到最简形式</strong>
+                    <small>用 gcd 消去分子分母的公共因子。</small>
+                  </div>
+                  <div class="progress-item">
+                    <strong>2. 不断除以 2 和 5</strong>
+                    <small>分母剩余为 1 时，可以表示为有限小数。</small>
+                  </div>
+                </div>
+              </section>
+
+              <div class="code-strip">
+                <div>
+                  <strong>查看参考代码</strong>
+                  <small>C++17 · O(log n)</small>
+                </div>
+                <span class="row-action">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+                </span>
+              </div>
+
+              <section class="section">
+                <div class="section-head">
+                  <h2>关联复习</h2>
+                  <span>弱项</span>
+                </div>
+                <div class="problem-row">
+                  <span class="badge">数</span>
+                  <div>
+                    <strong>质数与因数</strong>
+                    <small>6 道题 · 近 7 天正确率偏低</small>
+                  </div>
+                  <span class="pill amber">复习</span>
+                </div>
+              </section>
+            </div>
+            <nav class="nav" aria-label="底部导航">
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 10 9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>首页</button>
+              <button class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-1.5Z"></path></svg>题库</button>
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V5"></path><path d="M8 19v-8"></path><path d="M12 19V7"></path><path d="M16 19v-4"></path><path d="M20 19V9"></path></svg>进度</button>
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>我的</button>
+            </nav>
+            <span class="safe-line"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="phone-wrap">
+        <div class="caption">进度 / 知识点覆盖 <span>Progress</span></div>
+        <div class="phone">
+          <div class="screen">
+            <div class="statusbar">
+              <span>09:41</span>
+              <span class="status-icons"><i class="signal"></i><i class="dot"></i><i class="battery"></i></span>
+            </div>
+            <div class="content">
+              <header class="top">
+                <div class="brand">
+                  <strong>学习进度</strong>
+                  <span>按知识点看掌握度</span>
+                </div>
+                <button class="icon-button" aria-label="筛选">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16"></path><path d="M7 12h10"></path><path d="M10 17h4"></path></svg>
+                </button>
+              </header>
+
+              <section class="hero-panel">
+                <div class="hero-label">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V5"></path><path d="M8 19v-8"></path><path d="M12 19V7"></path><path d="M16 19v-4"></path><path d="M20 19V9"></path></svg>
+                  本周概览
+                </div>
+                <h1>完成 18 次练习，薄弱点剩 3 个</h1>
+                <p>系统会优先把错误率高、最近没复习的知识点放在前面。</p>
+                <div class="hero-actions">
+                  <button class="primary">
+                    开始复习
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+                  </button>
+                  <button class="ghost" aria-label="刷新">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12a9 9 0 0 1-15 6.7"></path><path d="M3 12a9 9 0 0 1 15-6.7"></path><path d="M18 3v5h-5"></path><path d="M6 21v-5h5"></path></svg>
+                  </button>
+                </div>
+              </section>
+
+              <section class="section">
+                <div class="section-head">
+                  <h2>掌握度</h2>
+                  <span>68%</span>
+                </div>
+                <div class="library-grid">
+                  <div class="library-card active">
+                    <span>已看题目</span>
+                    <strong>42</strong>
+                  </div>
+                  <div class="library-card">
+                    <span>已复习</span>
+                    <strong>16</strong>
+                  </div>
+                </div>
+              </section>
+
+              <section class="section">
+                <div class="section-head">
+                  <h2>薄弱知识点</h2>
+                  <button>查看全部</button>
+                </div>
+                <div class="progress-list">
+                  <div class="progress-item">
+                    <strong>质因数分解</strong>
+                    <small>6 道题 · 建议今天完成 2 道</small>
+                    <div class="bar"><span style="width: 42%"></span></div>
+                  </div>
+                  <div class="progress-item">
+                    <strong>递推关系</strong>
+                    <small>9 道题 · 最近 3 天未复习</small>
+                    <div class="bar"><span style="width: 55%"></span></div>
+                  </div>
+                  <div class="progress-item">
+                    <strong>数组模拟</strong>
+                    <small>12 道题 · 正确率稳定上升</small>
+                    <div class="bar"><span style="width: 78%"></span></div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="section">
+                <div class="section-head">
+                  <h2>最近动作</h2>
+                  <span>数据库同步</span>
+                </div>
+                <div class="problem-row">
+                  <span class="badge">复</span>
+                  <div>
+                    <strong>最大公约数路径</strong>
+                    <small>已加入复习 · 2 小时前</small>
+                  </div>
+                  <span class="pill green">完成</span>
+                </div>
+              </section>
+            </div>
+            <nav class="nav" aria-label="底部导航">
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 10 9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>首页</button>
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-1.5Z"></path></svg>题库</button>
+              <button class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V5"></path><path d="M8 19v-8"></path><path d="M12 19V7"></path><path d="M16 19v-4"></path><path d="M20 19V9"></path></svg>进度</button>
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>我的</button>
+            </nav>
+            <span class="safe-line"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="phone-wrap">
+        <div class="caption">我的 / 学习档案 <span>Profile</span></div>
+        <div class="phone">
+          <div class="screen">
+            <div class="statusbar">
+              <span>09:41</span>
+              <span class="status-icons"><i class="signal"></i><i class="dot"></i><i class="battery"></i></span>
+            </div>
+            <div class="content">
+              <header class="top">
+                <div class="brand">
+                  <strong>我的</strong>
+                  <span>收藏、复习和学习记录</span>
+                </div>
+                <button class="icon-button" aria-label="设置">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"></path><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.2a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.2a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3h.1a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.2a1.6 1.6 0 0 0 1 1.5h.1a1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8v.1a1.6 1.6 0 0 0 1.5 1h.2a2 2 0 1 1 0 4h-.2a1.6 1.6 0 0 0-1.5 1Z"></path></svg>
+                </button>
+              </header>
+
+              <section class="hero-panel">
+                <div class="hero-label">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>
+                  学习档案
+                </div>
+                <h1>本周保持练习，数论还需巩固</h1>
+                <p>收藏夹、弱项和最近查看都沉淀成复习入口，方便下次继续。</p>
+                <div class="hero-actions">
+                  <button class="primary">
+                    打开收藏
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+                  </button>
+                  <button class="ghost" aria-label="分享">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"></path><path d="M12 16V4"></path><path d="m7 9 5-5 5 5"></path></svg>
+                  </button>
+                </div>
+              </section>
+
+              <section class="section">
+                <div class="section-head">
+                  <h2>学习数据</h2>
+                  <span>实时</span>
+                </div>
+                <div class="library-grid">
+                  <div class="library-card active">
+                    <span>收藏题</span>
+                    <strong>14</strong>
+                  </div>
+                  <div class="library-card">
+                    <span>复习中</span>
+                    <strong>8</strong>
+                  </div>
+                </div>
+              </section>
+
+              <section class="section">
+                <div class="section-head">
+                  <h2>收藏夹</h2>
+                  <button>管理</button>
+                </div>
+                <div class="problem-list">
+                  <div class="problem-row">
+                    <span class="badge">收</span>
+                    <div>
+                      <strong>有限小数判断</strong>
+                      <small>五级 · 数论 · 已收藏</small>
+                    </div>
+                    <span class="pill amber">复习</span>
+                  </div>
+                  <div class="problem-row">
+                    <span class="badge">At</span>
+                    <div>
+                      <strong>Grid Walk</strong>
+                      <small>AtCoder · BFS · 已看解析</small>
+                    </div>
+                    <span class="pill green">继续</span>
+                  </div>
+                </div>
+              </section>
+
+              <section class="section">
+                <div class="section-head">
+                  <h2>复习计划</h2>
+                  <span>今日 3 题</span>
+                </div>
+                <div class="progress-list">
+                  <div class="progress-item">
+                    <strong>先做 2 道质因数分解</strong>
+                    <small>预计 12 分钟，完成后进入递推专题。</small>
+                    <div class="bar"><span style="width: 33%"></span></div>
+                  </div>
+                </div>
+              </section>
+            </div>
+            <nav class="nav" aria-label="底部导航">
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 10 9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg>首页</button>
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-1.5Z"></path></svg>题库</button>
+              <button><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19V5"></path><path d="M8 19v-8"></path><path d="M12 19V7"></path><path d="M16 19v-4"></path><path d="M20 19V9"></path></svg>进度</button>
+              <button class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>我的</button>
+            </nav>
+            <span class="safe-line"></span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

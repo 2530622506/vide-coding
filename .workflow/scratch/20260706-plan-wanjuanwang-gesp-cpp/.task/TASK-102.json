@@ -1,0 +1,44 @@
+{
+  "id": "TASK-102",
+  "title": "Normalize artifact into catalog JSON and MySQL upsert flow",
+  "type": "feature",
+  "phase": "wanjuanwang-gesp-cpp",
+  "wave": 2,
+  "status": "completed",
+  "completed_at": "2026-07-07T10:18:00+08:00",
+  "depends_on": [
+    "TASK-101"
+  ],
+  "read_first": [
+    ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05/requirements/REQ-003-persistence-idempotency.md",
+    "infra/mysql/schema.sql",
+    "scripts/seed-mysql-catalog.mjs",
+    "apps/api/src/catalog.service.ts"
+  ],
+  "files": [
+    "scripts/build-wanjuanwang-gesp-cpp-catalog.mjs",
+    "scripts/seed-wanjuanwang-gesp-cpp-mysql.mjs",
+    "data/classification/wanjuanwang-gesp-cpp-problems.json"
+  ],
+  "action": "Convert parsed artifact into existing catalog JSON shapes and upsert records into MySQL with stable IDs and provenance.",
+  "implementation": [
+    "Generate stable `canonical_problem_id` and `official_problem_id`-style IDs for WanJuanWang C++ GESP questions using session, level, question type, question number and WanJuanWang `questionid`.",
+    "Produce classification, detail, answer-guidance placeholder and source-version structures aligned with `CatalogService` expectations.",
+    "Add a MySQL seed/upsert script that writes `classification_records`, `problem_details`, `problem_answer_guidance` and `source_versions` transactionally.",
+    "Keep answer fields empty or `needs_review` when the public page does not expose answers."
+  ],
+  "convergence": {
+    "criteria": [
+      "grep -q 'canonical_problem_id' scripts/build-wanjuanwang-gesp-cpp-catalog.mjs",
+      "grep -q 'source_versions' scripts/build-wanjuanwang-gesp-cpp-catalog.mjs",
+      "grep -q 'problem_details' scripts/seed-wanjuanwang-gesp-cpp-mysql.mjs",
+      "grep -q 'classification_records' scripts/seed-wanjuanwang-gesp-cpp-mysql.mjs",
+      "grep -q 'needs_review' scripts/build-wanjuanwang-gesp-cpp-catalog.mjs"
+    ]
+  },
+  "verification_notes": [
+    "Catalog builder runs successfully and writes 1836 normalized records.",
+    "MySQL seed script compiles and executes successfully.",
+    "Direct MySQL queries confirm 1836 classification records, 1836 detail records, 1836 answer guidance records and 1836 source versions for WanJuanWang data."
+  ]
+}

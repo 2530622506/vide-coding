@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-07T16:34:21.894Z",
+  "generator": "scripts/export-wanjuanwang-gesp-cpp-answer-backlog.mjs",
+  "inputs": {
+    "ingestion": "data/wanjuanwang-ingestion/wanjuanwang-gesp-cpp-exams.json",
+    "catalog": "data/classification/wanjuanwang-gesp-cpp-problems.json"
+  },
+  "summary": {
+    "total_unresolved": 4,
+    "by_question_type": {
+      "selection": 4,
+      "judgment": 0,
+      "programming": 0
+    },
+    "by_theme": {
+      "selection_complexity": 3,
+      "selection_other": 1
+    }
+  },
+  "samples_by_theme": {
+    "selection_complexity": [
+      {
+        "id": "wanjuanwang:2024-12:cxx:level-7:selection:13:hxnulbw9wdkvxhtyt9cf",
+        "level": 7,
+        "title": "上题中程序的时间复杂度为（ ）。"
+      },
+      {
+        "id": "wanjuanwang:2024-09:cxx:level-7:selection:05:8gued6pj2b9a3rqvjiwn",
+        "level": 7,
+        "title": "上题中程序的时间复杂度为（ ）。"
+      },
+      {
+        "id": "wanjuanwang:2024-09:cxx:level-4:selection:11:kbx683oni0h76s50csl1",
+        "level": 4,
+        "title": "上一题算法的时间复杂度为（ ）。"
+      }
+    ],
+    "selection_other": [
+      {
+        "id": "wanjuanwang:2024-03:cxx:level-5:selection:05:w3rgnbizr3hy5ws6cbxu",
+        "level": 5,
+        "title": "假设给定链表为: ，若调用 searchValue(head, 5) ，函数返回值为（ ）。"
+      }
+    ]
+  }
+}

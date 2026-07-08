@@ -1,0 +1,45 @@
+{
+  "id": "TASK-105",
+  "title": "Validate ingestion counts, UI visibility and rollback artifacts",
+  "type": "test",
+  "phase": "wanjuanwang-gesp-cpp",
+  "wave": 4,
+  "status": "completed",
+  "completed_at": "2026-07-07T10:19:00+08:00",
+  "depends_on": [
+    "TASK-102",
+    "TASK-103",
+    "TASK-104"
+  ],
+  "read_first": [
+    ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05/requirements/NFR-OPS-001-observability-dry-run.md",
+    ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05/readiness-report.md",
+    "scripts/validate-official-ingestion.mjs",
+    "scripts/validate-mysql-catalog.mjs"
+  ],
+  "files": [
+    "scripts/validate-wanjuanwang-gesp-cpp.mjs",
+    "data/exports/wanjuanwang-gesp-cpp-rollback-manifest.json",
+    ".workflow/scratch/20260706-plan-wanjuanwang-gesp-cpp/verification.md"
+  ],
+  "action": "Add dry-run and post-write verification for WanJuanWang C++ GESP ingestion and emit rollback metadata for imported records.",
+  "implementation": [
+    "Validate discovered page count, per-level question totals and per-type totals against the source pages or recorded artifact counters.",
+    "Validate required fields for selection options, judgment normalization, programming sample cases and source versions.",
+    "Emit a rollback manifest keyed by run ID and canonical problem IDs.",
+    "Document commands and expected output in verification.md."
+  ],
+  "convergence": {
+    "criteria": [
+      "grep -q 'rollback' scripts/validate-wanjuanwang-gesp-cpp.mjs",
+      "grep -q 'question totals' scripts/validate-wanjuanwang-gesp-cpp.mjs",
+      "grep -q 'source_versions' scripts/validate-wanjuanwang-gesp-cpp.mjs",
+      "grep -q 'PLN-20260706-wanjuanwang-gesp-cpp' .workflow/scratch/20260706-plan-wanjuanwang-gesp-cpp/verification.md"
+    ]
+  },
+  "verification_notes": [
+    "Ingestion validator, catalog validator, integration validator and rollback manifest exporter all exist and pass.",
+    "API-over-HTTP validation against a running Nest server is complete.",
+    "Real MySQL write and DB-backed validation are complete."
+  ]
+}

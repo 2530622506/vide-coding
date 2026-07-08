@@ -81,7 +81,25 @@
     "validate:oj-ingestion": "node scripts/validate-oj-ingestion.mjs",
     "validate:pdf-parser": "node scripts/validate-pdf-parser.mjs",
     "validate:official-ingestion": "node scripts/validate-official-ingestion.mjs",
-    "validate:sources": "node scripts/validate-source-registry.mjs"
+    "validate:sources": "node scripts/validate-source-registry.mjs",
+    "ingest:wanjuanwang:gesp:cxx": "node scripts/ingest-wanjuanwang-gesp-cpp.mjs",
+    "validate:wanjuanwang:gesp:cxx": "node scripts/validate-wanjuanwang-gesp-cpp.mjs",
+    "build:wanjuanwang:gesp:cxx": "node scripts/build-wanjuanwang-gesp-cpp-catalog.mjs",
+    "db:seed:wanjuanwang:gesp:cxx": "node scripts/seed-wanjuanwang-gesp-cpp-mysql.mjs",
+    "classify:wanjuanwang:gesp:cxx": "node scripts/classify-wanjuanwang-gesp-cpp.mjs",
+    "validate:wanjuanwang:gesp:cxx:catalog": "node scripts/validate-wanjuanwang-gesp-cpp-catalog.mjs",
+    "export:wanjuanwang:gesp:cxx:rollback": "node scripts/export-wanjuanwang-gesp-cpp-rollback.mjs",
+    "validate:wanjuanwang:gesp:cxx:integration": "node scripts/validate-wanjuanwang-gesp-cpp-integration.mjs",
+    "generate:wanjuanwang:gesp:cxx:answers": "node scripts/generate-wanjuanwang-gesp-cpp-answers.mjs",
+    "apply:wanjuanwang:gesp:cxx:answers": "node scripts/apply-wanjuanwang-gesp-cpp-generated-answers.mjs",
+    "generate:wanjuanwang:gesp:cxx:programming": "node scripts/generate-wanjuanwang-gesp-cpp-programming-solutions.mjs",
+    "export:wanjuanwang:gesp:cxx:quality": "node scripts/export-wanjuanwang-gesp-cpp-quality-report.mjs",
+    "export:wanjuanwang:gesp:cxx:answer-coverage": "node scripts/export-wanjuanwang-gesp-cpp-answer-coverage.mjs",
+    "export:wanjuanwang:gesp:cxx:answer-backlog": "node scripts/export-wanjuanwang-gesp-cpp-answer-backlog.mjs",
+    "ocr:wanjuanwang:gesp:cxx:image-options": "node scripts/ocr-wanjuanwang-gesp-cpp-image-options.mjs"
+    ,
+    "export:wanjuanwang:gesp:cxx:image-option-review": "node scripts/export-wanjuanwang-gesp-cpp-image-option-review.mjs",
+    "screenshot:wanjuanwang:gesp:cxx:image-options": "node scripts/screenshot-wanjuanwang-gesp-cpp-image-options.mjs"
   },
   "dependencies": {
     "@ant-design/pro-components": "^2.8.10",

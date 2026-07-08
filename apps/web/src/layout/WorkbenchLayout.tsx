@@ -29,6 +29,8 @@ const menuItems: MenuProps["items"] = [
     type: "group",
     children: [
       { key: "/", icon: <LayoutDashboard size={17} />, label: "练习工作台" },
+      { key: "/gesp/selection", icon: <Boxes size={17} />, label: "选择题" },
+      { key: "/gesp/judgment", icon: <BookOpenCheck size={17} />, label: "判断题" },
       { key: "/coverage", icon: <ShieldCheck size={17} />, label: "知识覆盖" },
       { key: "/sources", icon: <FileSearch size={17} />, label: "来源证据" },
       { key: "/maintenance", icon: <Database size={17} />, label: "题目维护" }
@@ -92,6 +94,12 @@ function resolveSelectedKey(routePath: string) {
   }
   if (routePath.startsWith("/coverage")) {
     return "/coverage";
+  }
+  if (routePath.startsWith("/gesp/selection")) {
+    return "/gesp/selection";
+  }
+  if (routePath.startsWith("/gesp/judgment")) {
+    return "/gesp/judgment";
   }
   if (routePath.startsWith("/sources")) {
     return "/sources";

@@ -105,11 +105,14 @@ type AnswerGuidanceData = {
 };
 
 type SupplementalCxxData = {
+  generated_at?: string;
   records: ClassificationRecord[];
   answer_guidance: AnswerGuidance[];
   problem_details: ProblemDetail[];
   source_versions: Array<Record<string, unknown> & { canonical_problem_id: string }>;
 };
+
+type WanJuanwangCatalogData = SupplementalCxxData;
 
 type ProblemDetail = {
   canonical_problem_id: string;
@@ -255,6 +258,8 @@ export class CatalogService {
   private readonly fallbackAnswerGuidance = this.readJson<AnswerGuidanceData>("data/classification/problem-answer-guidance.json");
   private readonly fallbackProblemDetails = this.readJson<ProblemDetailData>("data/classification/problem-details.json");
   private readonly fallbackSupplemental = this.readJson<SupplementalCxxData>("data/classification/supplemental-cxx-problems.json");
+  private readonly fallbackWanJuanwang = this.readOptionalJson<WanJuanwangCatalogData>("data/classification/wanjuanwang-gesp-cpp-problems.json");
+  private readonly fallbackWanJuanwangReviewQueue = this.readOptionalJson<ReviewQueue>("data/classification/wanjuanwang-gesp-cpp-review-queue.json");
 
   async getLevels() {
     const store = await this.loadStore();
@@ -297,9 +302,25 @@ export class CatalogService {
     };
   }
 
-  async getLevelCatalog(level: number) {
+  async getLevelCatalog(level: number, questionType?: string, sourceKind?: string) {
     const store = await this.loadStore();
-    const records = store.records.filter((record) => record.level === level);
+    const normalizedQuestionType = questionType && ["selection", "judgment", "programming"].includes(questionType)
+      ? questionType
+      : null;
+    const normalizedSourceKind = typeof sourceKind === "string" && sourceKind.trim() ? sourceKind.trim() : null;
+    const records = store.records.filter((record) => {
+      if (record.level !== level) {
+        return false;
+      }
+      if (normalizedQuestionType && record.question_type !== normalizedQuestionType) {
+        return false;
+      }
+      if (!normalizedSourceKind) {
+        return true;
+      }
+      const sourceVersions = store.sourceVersionsByProblem.get(record.canonical_problem_id) || [];
+      return sourceVersions.some((source) => source.source_kind === normalizedSourceKind);
+    });
     if (records.length === 0) {
       return null;
     }
@@ -374,6 +395,8 @@ export class CatalogService {
       data_source: store.data_source,
       level,
       language: "C++",
+      question_type: normalizedQuestionType,
+      source_kind: normalizedSourceKind,
       summary: this.levelSummary(records),
       domains: [...domainMap.values()].map((domain) => ({
         domain_id: domain.domain_id,
@@ -1407,18 +1430,33 @@ export class CatalogService {
       }
       sourceVersionsByProblem.get(source.canonical_problem_id)?.push(source);
     }
+    for (const source of this.fallbackWanJuanwang?.source_versions || []) {
+      if (!sourceVersionsByProblem.has(source.canonical_problem_id)) {
+        sourceVersionsByProblem.set(source.canonical_problem_id, []);
+      }
+      sourceVersionsByProblem.get(source.canonical_problem_id)?.push(source);
+    }
     const answerGuidanceByProblem = new Map([
       ...this.fallbackAnswerGuidance.records.map((record) => [record.canonical_problem_id, record] as const),
-      ...this.fallbackSupplemental.answer_guidance.map((record) => [record.canonical_problem_id, record] as const)
+      ...this.fallbackSupplemental.answer_guidance.map((record) => [record.canonical_problem_id, record] as const),
+      ...(this.fallbackWanJuanwang?.answer_guidance || []).map((record) => [record.canonical_problem_id, record] as const)
     ]);
     const problemDetailsByProblem = new Map([
       ...this.fallbackProblemDetails.records.map((record) => [record.canonical_problem_id, record] as const),
-      ...this.fallbackSupplemental.problem_details.map((record) => [record.canonical_problem_id, record] as const)
+      ...this.fallbackSupplemental.problem_details.map((record) => [record.canonical_problem_id, record] as const),
+      ...(this.fallbackWanJuanwang?.problem_details || []).map((record) => [record.canonical_problem_id, record] as const)
     ]);
+    const mergedReviewItems = [
+      ...this.fallbackReviewQueue.items,
+      ...(this.fallbackWanJuanwangReviewQueue?.items || [])
+    ];
     return {
-      generated_at: this.fallbackModel.generated_at,
-      records: [...this.fallbackModel.records, ...this.fallbackSupplemental.records],
-      reviewQueue: this.fallbackReviewQueue,
+      generated_at: this.fallbackWanJuanwang?.generated_at || this.fallbackModel.generated_at,
+      records: [...this.fallbackModel.records, ...this.fallbackSupplemental.records, ...(this.fallbackWanJuanwang?.records || [])],
+      reviewQueue: {
+        summary: this.reviewQueueSummary(mergedReviewItems),
+        items: mergedReviewItems
+      },
       answerGuidanceByProblem,
       problemDetailsByProblem,
       sourceVersionsByProblem,
@@ -1432,6 +1470,14 @@ export class CatalogService {
 
   private readJson<T>(relativePath: string): T {
     return JSON.parse(readFileSync(resolve(process.cwd(), relativePath), "utf8")) as T;
+  }
+
+  private readOptionalJson<T>(relativePath: string): T | null {
+    try {
+      return this.readJson<T>(relativePath);
+    } catch {
+      return null;
+    }
   }
 
   private groupReviewItemsByProblem(reviewQueue: ReviewQueue) {

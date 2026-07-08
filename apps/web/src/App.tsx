@@ -12,6 +12,7 @@ import type { Navigate, OpenIde, ProblemReturnContext } from "./navigation";
 import {
   GespProblemMaintenancePage,
   GespProblemPracticePage,
+  GespQuestionTypePage,
   GespWorkbenchPage,
   KnowledgeCoveragePage,
   SourceEvidencePage
@@ -153,6 +154,12 @@ export default function App() {
               <AtCoderProblemDetailPage navigateTo={navigateTo} onBack={() => navigateBackToReturnContext("/atcoder")} onOpenIde={openAtCoderIde} problemId={router.problemId} />
             ) : router.kind === "gesp-detail" ? (
               <GespProblemPracticePage navigateTo={navigateTo} onBack={() => navigateBackToReturnContext("/")} onOpenIde={openGespIde} problemId={router.problemId} />
+            ) : router.kind === "gesp-question-type" ? (
+              <GespQuestionTypePage
+                navigateTo={navigateTo}
+                questionType={router.questionType}
+                returnContext={pendingReturnContext?.source === "gesp" ? pendingReturnContext : null}
+              />
             ) : router.kind === "atcoder-maintenance" ? (
               <AtCoderMaintenancePage navigateTo={navigateTo} onOpenIde={openAtCoderIde} />
             ) : router.kind === "atcoder" ? (
@@ -296,6 +303,7 @@ type RouteState =
   | { kind: "ide"; problemId: string; source: "gesp" | "atcoder" }
   | { kind: "atcoder-detail"; problemId: string }
   | { kind: "gesp-detail"; problemId: string }
+  | { kind: "gesp-question-type"; questionType: "selection" | "judgment" }
   | { kind: "atcoder-maintenance" }
   | { kind: "atcoder" }
   | { kind: "coverage" }
@@ -351,6 +359,12 @@ function createRouter(routePath: string, isMobileEntrypoint: boolean): RouteStat
   }
   if (routePath.startsWith("/coverage")) {
     return { kind: "coverage" };
+  }
+  if (routePath.startsWith("/gesp/selection")) {
+    return { kind: "gesp-question-type", questionType: "selection" };
+  }
+  if (routePath.startsWith("/gesp/judgment")) {
+    return { kind: "gesp-question-type", questionType: "judgment" };
   }
   if (routePath.startsWith("/sources")) {
     return { kind: "sources" };

@@ -1,0 +1,41 @@
+{
+  "session_id": "BLP-consumer-mobile-redesign-2026-06-20",
+  "type": "blueprint",
+  "title": "C 端移动页重构",
+  "created_at": "2026-06-20T11:43:00+08:00",
+  "problem_statement": "基于 5 屏原型重构 C 端移动页，并补齐 Consumer Mobile API，以支持今日建议、题库筛选、题目动作、进度弱项和我的学习档案。",
+  "requirements": [
+    "REQ-001 首页学习任务流",
+    "REQ-002 题库筛选与推荐列表",
+    "REQ-003 题目阅读与解题动作",
+    "REQ-004 进度页与薄弱知识点",
+    "REQ-005 我的页学习档案",
+    "REQ-006 Consumer Mobile API 合同"
+  ],
+  "constraints": [
+    "GESP 分类目录优先",
+    "GESP 官方来源优先",
+    "AtCoder 独立专区",
+    "React + Nest + MySQL",
+    "不引入登录和在线判题"
+  ],
+  "architecture_decisions": [
+    "ADR-001 页面级聚合模型",
+    "ADR-002 保留并增强现有 REST 接口",
+    "ADR-003 使用事件表驱动进度和复习",
+    "ADR-004 用截图和契约测试约束重构质量"
+  ],
+  "epics": [
+    "EPIC-001 后端页面级模型与 API 修复",
+    "EPIC-002 5 屏移动 UI 重构",
+    "EPIC-003 学习进度、收藏和复习闭环",
+    "EPIC-004 验证、截图和交付收尾"
+  ],
+  "references": [
+    "prototypes/gesp-redesign/c-mobile-redesign-2026.html",
+    "prototypes/gesp-redesign/c-mobile-redesign-2026.png",
+    "apps/web/src/pages/ConsumerMobilePage.tsx",
+    "apps/api/src/consumer-mobile.service.ts"
+  ],
+  "next_recommended_command": "maestro-plan --from blueprint:BLP-consumer-mobile-redesign-2026-06-20"
+}

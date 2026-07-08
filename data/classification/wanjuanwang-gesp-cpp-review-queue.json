@@ -1,0 +1,716 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-07T06:04:33.968Z",
+  "generator": "scripts/classify-wanjuanwang-gesp-cpp.mjs",
+  "summary": {
+    "total_count": 70,
+    "by_priority": {
+      "high": 70
+    },
+    "by_type": {
+      "wanjuanwang_review": 70
+    }
+  },
+  "items": [
+    {
+      "id": "wanjuanwang-review:nyle74dkcyd35kzpd23a:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-5:programming:02:nyle74dkcyd35kzpd23a",
+      "title": "平均分配 时间限制：1 s，内存限制：512 MB 【问题描述】 小 A 有 2n 件物品，小 B 和小 C 想从小 A 手上买走这些物品。对于第 i 件物品，小 B 会以 bi 的价格购买，而小 C 会以 ci 的价格购买。 为了平均分配这 2n 件物品，小 A 决定小 B 和小 C 各自只能买走恰好 n 件物品。你能帮小 A 求出他卖出这 2n 件物品所能获得的最大收入吗？ 【输入描述】 第一行，一个正整数 n。 第二行， 2n 个整数 b1、b2、……、b(2n)。 第三行， 2n 个整数 c1、c2、……、c(2n)。 【输出描述】 一行，一个整数，表示答案。 【样例输入1】 3 1 3 5 6 8 10 2 4 6 7 9 11 【样例输出1】 36 【样例输入2】 2 6 7 9 9 1 2 10 12 【样例输出2】 35 【数据范围】 对于 20% 的测试点，保证 1<=n<=8。 对于另外 20% 的测试点，保证 0<=bi<=1，0<=ci<=1 。 对于所有测试点，保证 0<=n<=10^5，0<=bi<=10^9 ，0<=ci<=10^9 。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:m5ub08uo6js8r9to9thg:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-6:programming:01:m5ub08uo6js8r9to9thg",
+      "title": "环线 时间限制：1 s，内存限制：512 MB 【问题描述】 小 A 喜欢坐地铁。地铁环线有 n 个车站，依次以 1、2、……、n标号。车站 i（1<=i<n ）的下一个车站是车站 i+1。 特殊地，车站 n 的下一个车站是车站 1。 小 A 会从某个车站出发，乘坐地铁环线到某个车站结束行程，这意味着小 A 至少会经过一个车站。小 A 不会经过一个车站多次。 当小 A 乘坐地铁环线经过车站 i 时，小 A 会获得 ai 点快乐值。请你安排小 A 的行程，选择出发车站与结束车站，使得获得的快乐值总和最大。 【输入描述】 第一行，一个正整数 n，表示车站的数量。 第二行， n 个整数 a1、a2、……、an，分别表示经过每个车站时获得的快乐值。 【输出描述】 一行，一个整数，表示小 A 能获得的最大快乐值。 【样例输入1】 4 -1 2 3 0 【样例输出1】 5 【样例输入2】 5 -3 4 -5 1 3 【样例输出2】 5 【数据范围】 对于 20% 的测试点，保证 1<=n<=200。 对于 40% 的测试点，保证 1<=n<=2000。 对于所有测试点，保证 1<=n<=200000， -10^9<=ai<=10^9。 正确答案： 暂无（答题 0次，答对 0次，正确率：0%）",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:gx66h4jc5n9crla1qwys:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-4:programming:01:gx66h4jc5n9crla1qwys",
+      "title": "二阶矩阵 题目描述 小 A 有—个 n行 m列的矩阵 。 小 A 认为—个 2*2的矩阵 D 是好的，当且仅当D1,1 * D2,2 = D1,2 * D2,1。其中 Di,j表⽰矩阵 的第 i行第 j列 的元 素。 小 A 想知道 A中有多少个好的子矩阵。 输入格式 第—行，两个正整数 n和m。 接下来 n行，每行 m 个整数 Ai,1,Ai,2,...,Ai,m 输出格式 —行， —个整数，表⽰ 中好的子矩阵的数量。 输入样例 3 4 1 2 1 0 2 4 2 1 0 3 3 0 输出样例 2 数据范围 对于所有测试点，保证 1 ≤ n ≤ 500 ， 1 ≤ m ≤ 500 ，-100 ≤ Ai,j ≤ 100 。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:ujivgnt7eiohm99v9bw0:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-3:programming:01:ujivgnt7eiohm99v9bw0",
+      "title": "词频统计 题目描述 在文本处理中，统计单词出现的频率是—个常见的任务。现在，给定 n 个单词，你需要找出其中出现次数最多的 单词。在本题中， 忽略单词中字母的大小写（即 Apple 、 apple 、 APPLE 、 aPPle 等均视为同—个单词）。 请你编写—个程序，输入 n 个单词，输出其中出现次数最多的单词。 输入格式 第 1 行：—个整数 n ，表示单词的个数。 接下来 n 行：每行包含—个单词，单词由大小写英文字母组成。 输入保证，出现次数最多的单词只会有一个。 输出格式 输出—行，包含出现次数最多的单词（输出单词为小写形式）。 输入样例 6 Apple banana apple Orange banana apple 输出样例 apple 数据范围 对于所有测试点， 1 ≤ n ≤ 100 ，每个单词的长度不超过 30 ，且仅由大小写英文字母组成。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:itwo3xp47dem821s6dcw:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-2:programming:01:itwo3xp47dem821s6dcw",
+      "title": "等差矩阵 题目描述 小 A 想构造—个 n 行 m 列的矩阵，使得矩阵的每—行与每—列均是等差数列。小 A 发现，在矩阵的第 i 行第 j 列 填入整数 i×j，得到的矩阵能满足要求。你能帮小 A 输出这个矩阵吗？ 输入格式 —行，两个正整数 n,m。 输出格式 共 n 行，每行 m 个由空格分割的整数，表示小 A 需要构造的矩阵。 输入样例 3 4 输出样例 1 2 3 4 2 4 6 8 3 6 9 12 数据范围 对于所有测试点，保证 1 ≤ n ≤ 50 ， 1 ≤ m ≤ 50。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:d15nqpntdzsz82c490ex:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-1:programming:01:d15nqpntdzsz82c490ex",
+      "title": "四舍五入 题目描述 四舍五入是—种常见的近似计算方法。现在，给定 n 个整数，你需要将每个整数四舍五入到最接近的整十数。例 如，43 四舍五入为 40 ，58 四舍五入为 60。 输入格式 共 n+1 行，第—行， —个整数 n，表示接下来输入的整数个数。 接下来 n 行，每行—个整数a1,...,an，表示需要四舍五入的整数。 输出格式 n 行，每行—个整数，表示每个整数四舍五入后的结果。 输入样例 5 43 58 25 67 90 输出样例 40 60 30 70 90 数据范围 对于所有测试点，保证 (1≤n≤100) ，(1≤ai≤10000)。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:s1fsgtdzqz3i2yc1e0a2:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-8:programming:01:s1fsgtdzqz3i2yc1e0a2",
+      "title": "排队 时间限制：1.0 s 内存限制：512.0 MB 题目描述 小杨所在班级共有 n 位同学，依次以 1,2,...,n 标号。这 n 位同学想排成一行队伍，其中有些同学之间关系非常好，在队伍里需要排在相邻的位置。具体来说，有 m 对这样的关系（ m 是一个非负整数）。当 m≥1 时，第 i 对关系 (1≤i≤m) 给出 ai,bi，表示排队时编号为 ai的同学需要排在编号为 bi的同学前面，并且两人在队伍中相邻。 现在小杨想知道总共有多少种排队方式。由于答案可能很大，你只需要求出答案对 109+7 取模的结果。 输入格式 第一行，两个整数 n,m，分别表示同学们的数量与关系数量。 接下来 m 行，每行两个整数 ai,bi，表示一对关系。 输出格式 一行，一个整数，表示答案对 109+7 取模的结果。 输入样例 1 4 2 1 3 2 4 输出样例 1 2 输入样例 2 3 0 输出样例 2 6 输入样例 3 3 2 1 2 2 1 输出样例 3 0 数据范围 对于 20% 的测试数据点，保证 1≤n≤8,0≤m≤10 。 对于另外 20% 的测试数据点，保证 1≤n≤103,0≤m≤1 。 对于所有测试数据点，保证 1≤n≤2×105,0≤m≤2×105。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:yfsnssnhcle5tkowcmni:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-7:programming:02:yfsnssnhcle5tkowcmni",
+      "title": "武器购买 时间限制：1.0 s 内存限制：512.0 MB 题面描述 商店里有 n 个武器，第 i 个武器的强度为 pi，花费为 ci。 小杨想要购买一些武器，满足这些武器的总强度不小于 P ，总花费不超过 Q ，小杨想知道是否存在满足条件的购买方案，如果有，最少花费又是多少。 输入格式 第一行包含一个正整数 t ，代表测试数据组数。 对于每组测试数据，第一行包含三个正整数 n,P,Q，含义如题面所示。 之后 n 行，每行包含两个正整数 pi,ci，代表武器的强度和花费。 输出格式 对于每组测试数据，如果存在满足条件的购买方案，输出最少花费，否则输出 -1。 输入样例 3 3 2 3 1 2 1 2 2 3 3 3 4 1 2 1 2 2 3 3 1000 1000 1 2 1 2 2 3 输出样例 3 -1 -1 对于全部数据，保证有 1≤t≤10,1≤n≤100,1≤pi,ci,P,Q≤5×104。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:rybsmkfkt6xgggq4apad:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-6:programming:01:rybsmkfkt6xgggq4apad",
+      "title": "运送物资 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨管理着 m 辆货车，每辆货车每天需要向 A 市和 B 市运送若干次物资。小杨同时拥有 n 个运输站点，这些站点位于 A 市和 B 市之间。 每次运送物资时，货车从初始运输站点出发，前往 A 市或 B 市，之后返回初始运输站点。A 市、B 市和运输站点的位置可以视作数轴上的三个点，其中 A 市的坐标为 0，B 市的坐标为 x ，运输站点的坐标为 p 且有 0<p<x，货车每次去 A 市运送物资的总行驶路程为 2p，去 B 市运送物资的总行驶路程为 2(x−p)。 对于第 i 个运输站点，其位置为 pi且至多作为 ci辆车的初始运输站点。小杨想知道，在最优分配每辆货车的初始运输站点的情况下，所有货车每天的最短总行驶路程是多少。 输入格式 第一行包含三个正整数 n,m,x，代表运输站点数量，货车数量和两市距离。 之后 n 行，每行包含两个正整数 pi,ci，代表第 i 个运输站点的位置和最多容纳车辆数。 之后 m 行，每行包含两个正整数 ai,bi，代表第 i 辆货车每天需要向 A 市运送 ai次物资，向 B 市运送 bi次物资。 输出格式 输出一个正整数，代表所有货车每天的最短总行驶路程。 输入样例 3 4 10 1 1 2 1 8 3 5 3 7 2 9 0 1 10000 输出样例 40186 样例解释 第 1 辆车的初始运输站点为站点 3，第 2 辆车的初始运输站点为站点 2。第 3 辆车的初始运输站点为站点 1，第 4 辆车的初始运输站点为站点 3。此时总行驶路程最短，为 40186。 对于全部数据，保证有 1≤n,m≤105,2≤x≤108,0<pi<x,1≤ci≤105,0≤ai,bi≤105。数据保证∑ci≥m。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:11oviapa2gbfztalfyj2:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-5:programming:02:11oviapa2gbfztalfyj2",
+      "title": "武器强化 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有 n 种武器和 m 种强化材料。第 i 种强化材料会适配第 pi 种武器，小杨可以花费 ci 金币将该材料对应的适配武器修改为任意武器。 小杨最喜欢第 1 种武器，因此他希望适配该武器的强化材料种类数严格大于其他的武器，请你帮小杨计算为了满足该条件最少需要花费多少金币。 输入格式 第一行包含两个正整数 n,m，含义如题面所示。 之后 m 行，每行包含两个正整数 pi,ci，代表第 i 种强化材料的适配武器和修改花费。 输出格式 输出一个整数，代表能够使适配第 1 种武器的强化材料种类数严格大于其他的武器最少需要花费的金币。 输入样例 4 4 1 1 2 1 3 1 3 2 输出样例 1 样例解释 花费 1，将第三种强化材料的适配武器由 3 改为 1。此时，武器 1 有 2 种强化材料适配，武器 2 和武器 3 都各有 1 种强化材料适配。满足适配第 1 种武器的强化材料种类数严格大于其他的武器。 对于全部数据，保证有 1≤n,m≤1000,1≤pi≤n,1≤ci≤109。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:g56y0pueralsia58a96g:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-3:programming:01:g56y0pueralsia58a96g",
+      "title": "数字替换 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有一个包含 n 个数字的序列 A ，即 A={a1,a2,...,an}，他想将其中大于 k 的数字都替换为序列的最大值，将其中小于 k 的数字都替换为序列的最小值，请你帮他计算出替换后的序列。 输入格式 第一行包含两个正整数 n,k，含义如题面所示。 第二行包含 n 个数字，代表序列 A 。 输出格式 输出 n 个整数，代表替换后的结果。 输入样例 5 0 -2 -1 0 1 2 输出样例 -2 -2 0 2 2 对于全部数据，保证有 1≤n≤105,∣k∣,∣ai∣≤105 。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:7ve86etfk2jp3mtec2dm:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-3:programming:02:7ve86etfk2jp3mtec2dm",
+      "title": "打印数字 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨为数字 0,1,2 和 3 设计了一款表示形式，每个数字占用了5×5 的网格。数字 0,1,2 和 3 的表示形式如下： ..... ****. ..... ..... .***. ****. ****. ****. .***. ****. ..... ..... .***. ****. .**** ****. ..... ****. ..... ..... 小杨想请你将给定的数字 n 转换为对应的表示形式。 输入格式 第一行包含一个正整数代表 n 。 输出格式 输出对应的表示形式。 输入样例 12230 输出样例 ****..................... ****.****.****.****..***. ****.................***. ****..****.********..***. ****..................... 对于全部数据，保证有 0≤n≤106，且 n 仅由数字 0,1,2,3 组成。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:2nak6hhwr8jwstbo4coz:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-2:programming:01:2nak6hhwr8jwstbo4coz",
+      "title": "数位和 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有 n 个正整数，小杨想知道这些正整数的数位和中最大值是多少。 “数位和”指的是一个数字中所有数位的和。例如： 对于数字12345，它的各个数位分别是1,2,3,4,5。将这些数位相加，得到： 1+2+3+4+5=15 因此，12345 的数位和是15。 输入格式 第一行包含一个正整数 n ，代表正整数个数。 之后 n 行，每行包含一个正整数。 输出格式 输出这些正整数的数位和的最大值。 输入样例 3 16 81 10 输入样例 9 对于全部数据，保证有1≤n≤105，每个正整数不超过 1012。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:6y71rtawfk6lswd06khv:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-2:programming:02:6y71rtawfk6lswd06khv",
+      "title": "寻找数字 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有一个正整数 a ，小杨想知道是否存在一个正整数 b 满足 a=b4。 输入格式 第一行包含一个正整数 t ，代表测试数据组数。 对于每组测试数据，第一行包含一个正整数代表 a 。 输出格式 对于每组测试数据，如果存在满足条件的正整数 b ，则输出 b ，否则输出 −1。 输入样例 3 16 81 10 输出样例 2 3 -1 对于全部数据，保证有1≤t≤105,1≤a≤108。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:14mlc80vvukd6mck74v9:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-1:programming:01:14mlc80vvukd6mck74v9",
+      "title": "温度转换 时间限制：1.0 s 内存限制：512.0 MB 题目描述 小杨最近学习了开尔文温度、摄氏温度和华氏温度的转换。令符号 K 表示开尔文温度，符号 C 表示摄氏温度，符号 F 表示华氏温度，这三者的转换公示如下： C=K−273.15 F=C×1.8+32 现在小杨想编写一个程序计算某一开尔文温度对应的摄氏温度和华氏温度，你能帮帮他吗？ 输入格式 一行，一个实数 K ，表示开尔文温度。 输出格式 一行，若输入开尔文温度对应的华氏温度高于 212，输出 Temperature is too high! ; 否则，输出两个空格分隔的实数 C 和 F ，分别表示摄氏温度和华氏度，保留两位小数。 输入样例 1 412.00 输出样例 1 Temperature is too high! 输入样例 2 173.56 输出样例 2 -99.59 -147.26 数据范围 0<K<105",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:9mzda0afx95mrgq4wjnq:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-1:programming:02:9mzda0afx95mrgq4wjnq",
+      "title": "奇数和偶数 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有 n 个正整数，他想知道其中的奇数有多少个，偶数有多少个。 输入格式 第一行包含一个正整数 n ，代表正整数个数。 之后 n 行，每行包含一个正整数。 输出格式 输出两个正整数（用英文空格间隔），代表奇数的个数和偶数的个数。如奇数或偶数的个数为0，则对应输出0。 输入样例 5 1 2 3 4 5 输出样例 3 2 对于全部数据，保证有1≤n≤105且正整数大小不超过105。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:o4llwn4hvs09g0qmd0ci:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-6:programming:01:o4llwn4hvs09g0qmd0ci",
+      "title": "小杨和整数拆分 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有一个正整数n，小杨想将它拆分成若干完全平方数的和，同时小杨希望拆分的数量越少越好。 小杨请你编写程序计算出总和为n 的完全平方数的最少数量。 输入格式 第一行包含一个正整数n，含义如题面所示。 输出格式 输出一个整数，代表总和为n 的完全平方数的最少数量。 输入样例 18 输出样例 2 18=9+9=16+1+1，其中最少需要2 个完全平方数。 对于全部数据，保证有1≤n≤105。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:e9ii8qwu1ksi7426hi5h:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-6:programming:02:e9ii8qwu1ksi7426hi5h",
+      "title": "算法学习 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨计划学习 m 种算法，为此他找了 n 道题目来帮助自己学习，每道题目至多学习一次。 小杨对于 m 种算法的初始掌握程度均为 0 。第 i 道题目有对应的知识点ai，即学习第 i 道题目可以令小杨对第ai种算法的掌握程度提高bi。小杨的学习目标是对 m 种算法的掌握程度均至少为 k 。 小杨认为连续学习两道相同知识点的题目是不好的，小杨想请你编写程序帮他计算出他最少需要学习多少道题目才能使得他在完成学习目标的同时避免连续学习两道相同知识点的题目。 输入格式 第一行三个正整数m,n,k，代表算法种类数，题目数和目标掌握程度。 第二行n个正整数a1,a2,a3,...,an，代表每道题目的知识点。 第二行n个正整数b1,b2,b3,...,bn，代表每道题目提升的掌握程度。 输出格式 输出一个整数，代表小杨最少需要学习题目的数量，如果不存在满足条件的方案，输出 -1。 输入样例1 3 5 10 1 1 2 3 3 9 1 10 10 1 输出样例1 1 输入样例2 2 4 10 1 1 1 2 1 2 7 10 输出样例2 -1 对于样例1，一种最优学习顺序为第一道题，第三道题，第四道题，第二道题。 对于全部数据，保证有1≤m,n≤105,1≤bi,k≤105,1≤ai≤m。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:4djcedxylsacsjopyrpr:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-8:programming:02:4djcedxylsacsjopyrpr",
+      "title": "手套配对 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有 n 对不同的手套，每对手套由左右各一只组成。 小杨想知道从中取出 m 只手套，m 只手套恰好包含 k 对手套的情况有多少种。 小杨认为两种取出的情况不同，当且仅当两种情况取出的手套中存在不同的手套（同一对手套的左右手也视为不同的手套）。 输入格式 第一行包含一个正整数 t ，代表测试用例组数。 接下来是 t 组测试用例。对于每组测试用例，一共一行。 第一行包含三个正整数n,m,k，代表手套数量，取出的手套数和目标对数。 输出格式 对于每组测试数据，输出一个整数，代表可能的情况数量对109+7 取模的结果。 输入样例 2 5 6 2 5 1 5 输出样例 120 0 对于全部数据，保证有1≤t≤105,1≤n≤1000,1≤m≤2×n,1≤k≤n。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:c44ncxqcicz6jv5kxwfk:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-5:programming:01:c44ncxqcicz6jv5kxwfk",
+      "title": "小杨的武器 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有 n 种不同的武器，他对第 i ii 种武器的初始熟练度为ci。 小杨会依次参加 m 场战斗，每场战斗小杨只能且必须选择一种武器使用，假设小杨使用了第 i 种武器参加了第 j 场战斗，战斗前该武器的熟练度为ci′，则战斗后小杨对该武器的熟练度会变为 ci′+aj。需要注意的是，aj可能是正数，0 或负数，这意味着小杨参加战斗后对武器的熟练度可能会提高，也可能会不变，还有可能降低。 小杨想请你编写程序帮他计算出如何选择武器才能使得 m 场战斗后，自己对 n 种武器的熟练度的最大值尽可能大。 输入格式 第一行包含两个正整数 n,m，含义如题面所示。 第二行包含 n 个正整数 c1,c2,...,cn，代表小杨对武器的初始熟练度。 第三行包含 m 个正整数 a1,a2,...,am，代表每场战斗后武器熟练度的变化值。 输出格式 输出一个整数，代表 m 场战斗后小杨对 n 种武器的熟练度的最大值最大是多少。 输入样例 2 2 9 9 1 -1 输出样例 10 一种最优的选择方案为，第一场战斗小杨选择第一种武器，第二场战斗小杨选择第二种武器。 对于全部数据，保证有 1≤n,m≤105,−104≤ci,ai≤104。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:uaamc23luylpqrabpp1m:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-2:programming:01:uaamc23luylpqrabpp1m",
+      "title": "小杨的 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨想要构造一个m×m 的 N 字矩阵（m 为奇数），这个矩阵的从左上角到右下角的对角线、第 1 列和第 m 列都是半角加号 + ，其余都是半角减号 - 。例如，一个5×5 的 N 字矩阵如下： +---+ ++--+ +-+-+ +--++ +---+ 请你帮小杨根据给定的 m mm 打印出对应的 N 字矩阵。 输入格式 第一行包含一个正整数m。 输出格式 输出对应的 N 字矩阵。 输入样例 5 输出样例 +---+ ++--+ +-+-+ +--++ +---+ 对于全部数据，保证有3≤m≤49 且 m 为奇数。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:dnu49lj9si2xbu5dqn7v:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-2:programming:02:dnu49lj9si2xbu5dqn7v",
+      "title": "数位之和 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有 n 个正整数，他认为一个正整数是美丽数字当且仅当该正整数每一位数字的总和是 7 的倍数。 小杨想请你编写一个程序判断 n 个正整数哪些是美丽数字。 输入格式 第一行包含一个正整数 n ，代表正整数个数。 之后 n 行，每行包含一个正整数。 输出格式 对于每个正整数，如果是美丽数字则输出 Yes，否则输出 No。 输入样例 3 7 52 103 输出样例 Yes Yes No 7 的各位数字之和为 7 ，是 7 的倍数。52 的各位数字之和为5+2=7，是 7 的倍数。103 的各位数字之和为1+0+3=4，不是 7 的倍数。 对于全部数据，保证有1≤n≤105,1≤ai≤105。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:up4rkfcsu2a0uceapf28:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-8:programming:01:up4rkfcsu2a0uceapf28",
+      "title": "空间跳跃 题面描述 小杨在二维空间中有n个水平挡板，并且挡板之间彼此不重叠，其中第i个挡板处于水平高度hi，左右端点分别位于li 与 ri。 小杨可以在挡板上左右移动，当小杨移动到右端点时，如果再向右移动会竖直掉落，从而落到下方第一个挡板上，移动到左端点时同理。小杨在挡板上每移动1个单位长度会耗费 1个单位时间，掉落时每掉落1 个单位高度也会耗费 1个单位时间。 小杨想知道，从第 s个挡板上的左端点出发到第t个挡板需要耗费的最少时间是多少？ 注意：可能无法从第 s个挡板到达到第 t个挡板。 输入格式 第一行包含一个正整数n ，代表挡板数量。 第二行包含两个正整数s,t ，含义如题面所示。 之后 n行，每行包含三个正整数li,ri,hi ，代表第 i个挡板的左右端点位置与高度。 输出格式 输出一个整数代表需要耗费的最少时间，如果无法到达则输出 -1。 输入样例 3 3 1 5 6 3 3 5 6 1 4 100000 输出样例 100001 样例范围 耗费时间最少的移动方案为，从第3个挡板左端点移动到右端点，耗费3个单位时间，然后向右移动掉落到第 2个挡板上，耗费 100000-6=99994个单位时间，之后再向右移动1个单位长度，耗费1个单位时间，最后向右移动掉落到第1个挡板上，耗费3个单位时间。共耗费 3+99994+1+3=100001个单位时间。 数据范围 对于全部数据，保证有1≤n≤1000,1≤li≤ri≤105,1≤hi≤105。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:p8os63x5t6ilyqs6bgx5:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-3:programming:01:p8os63x5t6ilyqs6bgx5",
+      "title": "移位 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨学习了加密技术移位，所有大写字母都向后按照一个固定数目进行偏移。偏移过程会将字母表视作首尾相接的环，例如，当偏移量是3的时候，大写字母 A 会替换成 D，大写字母 Z 会替换成 C，总体来看，大写字母表ABCDEFGHIJKLMNOPQRSTUVWXYZ 会被替换成DEFGHIJKLMNOPQRSTUVWXYZABC。 注：当偏移量是26的倍数时，每个大写字母经过偏移后会恰好回到原来的位置，即大写字母表ABCDEFGHIJKLMNOPQRSTUVWXYZ 经过偏移后会保持不变。 输入格式 第一行包含一个正整数n。 输出格式 输出在偏移量为n的情况下，大写字母表 ABCDEFGHIJKLMNOPQRSTUVWXYZ 移位替换后的结果。 输入样例 3 输出样例 DEFGHIJKLMNOPQRSTUVWXYZABC 样例解释 当偏移量是3的时候，大写字母 A 会替换成 D，大写字母 Z 会替换成 C，总体来看，大写字母表ABCDEFGHIJKLMNOPQRSTUVWXYZ 会被替换成 DEFGHIJKLMNOPQRSTUVWXYZABC。 数据范围 对于全部数据，保证有1≤n≤100。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:hrm7jkihixn1javwqbtb:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-3:programming:02:hrm7jkihixn1javwqbtb",
+      "title": "寻找倍数 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有一个包含n个正整数的序列 A = [a1,a2, . . . , an]，他想知道是否存在i(1≤i≤n) 使得ai是序列A中所有数的倍数。 输入格式 第一行包含一个正整数t，代表测试用例组数。 接下来是t组测试用例。 对于每组测试用例，一共两行。其中，第一行包含一个正整数n；第二行包含n个正整数，代表序列A。 输出格式 对于每组测试用例，如果存i(1≤i≤n) 满足对于所有k(1≤k≤n)ai是ak的倍数，输出 Yes，否则输出 No。 输入样例 2 3 1 2 4 5 1 2 3 4 5 输出样例 Yes No 样例解释 对于第一组数据，对于a3=4，满足a3是a1和a2的倍数。 数据范围 对于全部数据，保证有1≤t≤10,1≤n≤105,1≤ai≤109。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:vr513tw9spy61xuaofdf:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-1:programming:01:vr513tw9spy61xuaofdf",
+      "title": "小杨购物 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有 n 元钱用于购物。商品 A 的单价是 a 元，商品 B BB 的单价是 b 元。小杨想购买 相同数量 的商品 A 和商品 B。 请你编写程序帮小杨计算出他最多能够购买多少个商品 A 和商品 B。 输入格式 第一行包含一个正整数 n，代表小杨用于购物的钱的金额。 第二行包含一个正整数 a，代表商品 A 的单价。 第三行包含一个正整数 b，代表商品 B 的单价。 输出格式 输出一行，包含一个整数，代表小杨最多能够购买的商品 A 和商品 B 的数量。 输入样例 12 1 2 输出样例 4 对于样例1，由于需要购买相同数量的两种商品，因此小杨最多能够购买 4 件商品 A 和 4 件商品 B，共花费4×1+4×2=12 元。因此，样例1的答案为 4 44。 输入样例 13 1 2 输出样例 4 对于样例2，由于需要购买相同数量的两种商品，因此小杨最多能够购买 4 件商品 A 和 4 件商品 B ，共花费 4×1+4×2=12 元。如果小杨想购买 5 件商品 A 和 5 件商品 B，则需花费 5×1+5×2=15 元，超过了小杨的预算 13 元。因此，样例2的答案为 4。 对于全部数据，保证有1≤n,a,b≤105。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:m51zzu2e2hywuw1o7zry:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-1:programming:02:m51zzu2e2hywuw1o7zry",
+      "title": "美丽数字 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有 n 个正整数，他认为一个正整数是美丽数字当且仅当该正整数是 9 的倍数但不是 8 的倍数。 小杨想请你编写一个程序计算 n 个正整数中美丽数字的数量。 输入格式 第一行包含一个正整数n，代表正整数个数。 第二行包含 n 个正整数 a1,a2,a3,...,an。 输出格式 输出一个整数，代表其中美丽数字的数量。 输入样例 3 1 9 72 输出样例 1 对于样例： 1 既不是 9 的倍数，也不是 8 的倍数； 9 是 9 的倍数，不是 8 的倍数； 72 既是 9 的倍数，也是 8 的倍数； 因此答案为 1。 对于全部数据，保证有 1≤n≤105,1≤ai≤105。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:zkgy7c1inoajkzrqr1u3:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-5:programming:02:zkgy7c1inoajkzrqr1u3",
+      "title": "小杨的幸运数字 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨认为他的幸运数字应该恰好有两种不同的质因子，例如，12=2×2×3 的质因子有2,3，恰好为两种不同的质因子，因此12是幸运数字，而30=2×3×5 的质因子有2,3,5，不符合要求，不为幸运数字。 小杨现在有n个正整数，他想知道每个正整数是否是他的幸运数字。 输入格式 第一行包含一个正整数n，代表正整数个数。 之后n行，每行一个正整数。 输出格式 输出n行，对于每个正整数，如果是幸运数字，输出1，否则输出0。 输入样例 3 7 12 30 输出样例 0 1 0 样例解释 7的质因子有7，只有一种。 12的质因子有2,3，恰好有两种。 30的质因子有2,3,5，有三种。 数据范围 对于全部数据，保证有1≤n≤104，每个正整数ai满足2≤ai≤106。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:lo18w012fvxvkgi2k1mi:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-4:programming:02:lo18w012fvxvkgi2k1mi",
+      "title": "宝箱 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨发现了n个宝箱，其中第i个宝箱的价值是ai。 小杨可以选择一些宝箱放入背包并带走，但是小杨的背包比较特殊，假设小杨选择的宝箱中最大价值为x，最小价值为y，小杨需要保证x−y≤k，否则小杨的背包会损坏。 小杨想知道背包不损坏的情况下，自己能够带走宝箱的总价值最大是多少。 输入格式 第一行包含两个正整数n,k，含义如题面所示。 第二行包含n个正整数a1,a2,...,an，代表宝箱的价值。 输出格式 输出一个整数，代表带走宝箱的最大总价值。 输入样例 5 1 1 2 3 1 2 输出样例 7 样例解释 在背包不损坏的情况下，小杨可以拿走两个价值为2的宝箱和一个价值为3的宝箱。 数据范围 对于全部数据，保证有1≤n≤1000,0≤k≤1000,1≤ai≤1000。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:x1dvgd0roqquqjllhygr:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-7:programming:01:x1dvgd0roqquqjllhygr",
+      "title": "区间乘积 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有一个包含 n 个正整数的序列A=[a1,a2,...,an]。 小杨想知道有多少对<l,r>(1≤l≤r≤n) 满足al×al+1×...×ar为完全平方数。 一个正整数 x 为完全平方数当且仅当存在一个正整数 y 使得x=y×y。 输入格式 第一行包含一个正整数n，代表正整数个数。 第二行包含 n 个正整数a1,a2,...,an，代表序列A。 输出格式 输出一个整数，代表满足要求的 <l,r>数量。 输入样例 5 3 2 4 3 2 输出样例 2 样例解释 满足条件的 <l,r> 有<3,3> 和<1,5>。 数据范围 对于全部数据，保证有1≤n≤105,1≤ai≤30。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:gruy7drd6x8zb3pspsxj:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-2:programming:01:gruy7drd6x8zb3pspsxj",
+      "title": "计数 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨认为自己的幸运数是正整数k（注：保证1≤k≤9）。小杨想知道，对于从1到n的所有正整数中，k出现了多少次。 输入格式 第一行包含一个正整数n。 第二行包含一个正整数k。 输出格式 输出从1到n的所有正整数中，k出现的次数。 输入样例 25 2 输出样例 9 样例解释 从1到25中，2出现的正整数有2,12,20,21,22,23,24,25，一共出现了9次。 数据范围 对于全部数据，保证有1≤n≤1000,1≤k≤9。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:bl6e5i1wp9m65a189nes:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-2:programming:02:bl6e5i1wp9m65a189nes",
+      "title": "平方之和 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有n个正整数a1,a2,...,an，他想知道对于所有的i(1≤i≤n)，是否存在两个正整数x 和y满足x×x+y×y=ai。 输入格式 第一行包含一个正整数n，代表正整数数量。 之后n行，每行包含一个正整数，代表ai。 输出格式 对于每个正整数ai，如果存在两个正整数x和y满足x×x+y×y=ai，输出 Yes，否则输出 No。 输入样例 2 5 4 输出样例 Yes No 样例解释 对于第一个正整数，存在1×1+2×2=5，因此答案为 Yes。 数据范围 对于全部数据，保证有1≤n≤10,1≤ai≤106。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:3thij8uv5uijrnybd0b0:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-1:programming:01:3thij8uv5uijrnybd0b0",
+      "title": "立方数 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨有一个正整数 n，他想知道n 是否是一个立方数。 一个正整数 n是立方数当且仅当存在一个正整数x 满足x×x×x=n。 输入格式 第一行包含一个正整数n。 输出格式 如果正整数n是一个立方数，输出Yes，否则输出No。 输入样例1 8 输出样例1 Yes 输入样例2 9 输出样例2 No 样例解释 对于样例1，存在正整数2使得8=2×2×2，因此8为立方数。 对于样例2，不存在满足条件的正整数，因此9不为立方数。 数据范围 对于全部数据，保证有1≤n≤1000。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:1yd45lazl4ufmc41wc7n:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-1:programming:02:1yd45lazl4ufmc41wc7n",
+      "title": "休息时间 时间限制：1.0 s 内存限制：512.0 MB 题面描述 小杨计划在某个时刻开始学习，并决定在学习k秒后开始休息。 小杨想知道自己开始休息的时刻是多少。 输入格式 前三行每行包含一个整数，分别表示小杨开始学习时刻的时h、分m、秒s（h,m,s 的值符合1≤h≤12,0≤m≤59,0≤s≤59）。 第四行包含一个整数k，表示小杨学习的总秒数（注：k的值符合1≤k≤3600）。 输出格式 输出一行，包含三个整数，分别表示小杨开始休息时刻的时、分、秒。 输入样例 12 59 59 10 输出样例 13 0 9 样例解释 小杨在时刻 12:59:59 开始学习，学习 10 秒后开始休息，即在 13:0:9 时刻开始休息。 数据范围 对于全部数据，保证有1≤h≤12,0≤m≤59,0≤s≤59,1≤k≤3600。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:w63b78m2gfchb9el0j80:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-2:programming:01:w63b78m2gfchb9el0j80",
+      "title": "乘法问题 问题描述 小 A 最近刚刚学习了乘法，为了帮助他练习，我们给他若干个正整数，并要求他将这些数乘起来。 对于大部分题目，小 A 可以精准地算出答案，不过，如果这些数的乘积超过106，小 A 就不会做了。 请你写一个程序，告诉我们小 A 会如何作答。 输入描述 第一行一个整数n，表示正整数的个数。 接下来n行，每行一个整数a。小 A 需要将所有的a乘起来。 保证n≤50，a≤100。 输出描述 输出一行，如果乘积超过106，则输出 >1000000 ；否则输出所有数的乘积。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 2 3 5 样例输出 1 15 样例输入 2 3 100 100 100 样例输出 2 1000000 样例输入 3 4 100 100 100 2 样例输出 3",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:cwurk3tr7ev2y6tb1xtg:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-1:programming:02:cwurk3tr7ev2y6tb1xtg",
+      "title": "找因数 问题描述 小 A 最近刚刚学习了因数的概念，具体来说，如果一个正整数a可以被另一个正整数b整除，那么我们就说b是a的因数。 请你帮忙写一个程序，从小到大输出正整数a的所有因数。 输入描述 输入一行一个正整数a。保证a≤1000。 输出描述 输出若干行，为a的所有约数，从小到大排列。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 1 样例输出 1 1 样例输入 2 6 样例输出 2 1 2 3 6 样例输入 3 10 样例输出 3 1 2 5 10",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:60zcuuqmt0wdbjzzq4f9:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-3:programming:02:60zcuuqmt0wdbjzzq4f9",
+      "title": "完全平方数 题面描述 小杨同学有一个包含n个非负整数的序列A，他想要知道其中有多少对下标组合<i,j>(1≤i,j≤n,i＜j)，使得Ai+Aj是完全平方数。 如果x是完全平方数，则存在非负整数y使得 y×y=x。 输入格式 第一行一个非负整数n，表示非负整数个数。 第二行包含n个非负整数A1,A2,...,An，表示序列A包含的非负整数。 输出格式 输出一个非负整数，表示和是完全平方数的非负整数对数。 样例输入 5 1 4 3 3 5 样例输出 3 对于全部数据，保证有1≤n≤1000,0≤Ai≤105。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:pxtkukqhq0p108fjtcad:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-4:programming:02:pxtkukqhq0p108fjtcad",
+      "title": "做题 题目描述 小杨同学为了提高自己的实力制定了做题计划，在第k天时，他必须要完成k道题，否则他就会偷懒。 小杨同学现在找到了一个题库，一共有n套题单，每一套题单中有一定数量的题目。但是他十分挑剔，每套题单他 只会使用一次，每一天也只能使用一套题单里的题目，之后那套题单就会被弃之不用。对于每套题单，他不必完成题单内所有的题。 那么问题来了，小杨同学最多会做题几天才偷懒呢？ 输入格式 第一行，1个数为n，表示有多少套题单。 第二行，n个整数a1,a2,...,an，分别表示每套题单有多少道题。 输出格式 输出一行，小杨同学偷懒前最多做题天数。 样例输入 4 3 1 4 1 样例输出 3 对于全部数据，保证有1≤n≤106,1≤ai≤109。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:4u5mghkr8lj71555ax9h:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-8:programming:01:4u5mghkr8lj71555ax9h",
+      "title": "接竹竿 题面描述 小杨同学想用卡牌玩一种叫做“接竹竿”的游戏。 游戏规则是：每张牌上有一个点数v，将给定的牌依次放入一列牌的末端。若放入之前这列牌中已有与这张牌点数相同的牌，则小杨同学会将这张牌和点数相同的牌之间的所有牌全部取出队列（包括这两张牌本身）。 小杨同学现在有一个长度为n的卡牌序列A，其中每张牌的点数为Ai（1≤i≤n）。小杨同学有q次询问。第i次（1≤i≤q）询问时，小杨同学会给出li,ri，小杨同学想知道如果用下标在[li,ri]的所有卡牌按照下标顺序玩“接竹竿”的游戏，最后队列中剩余的牌数。 输入格式 第一行包含一个正整数T，表示测试数据组数。 对于每组测试数据，第一行包含一个正整数n，表示卡牌序列A的长度。 第二行包含n个正整数A1,A2,...An,，表示卡牌的点数A。 第三行包含一个正整数q，表示询问次数。 接下来q行，每行两个正整数li,ri，表示一组询问。 输出格式 对于每组数据，输出q行。第i行（1≤i≤q）输出一个非负整数，表示第i次询问的答案。 样例输入 1 6 1 2 2 3 1 3 4 1 3 1 6 1 5 5 6 样例输入 1 1 0 2 样例解释 对于第一次询问，小杨同学会按照1,2,2的顺序放置卡牌，在放置最后一张卡牌时，两张点数为2的卡牌会被收走，因此最后队列中只剩余一张点数为1的卡牌。 对于第二次询问，队列变化情况为： {}→{1}→{1,2}→{1,2,2}→{1}→{1,3}→{1,3,1}→{}→{3}。因此最后队列中只剩余一张点数为3的卡牌。 数据范围",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:d0anqftr471apn649r0k:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-8:programming:02:d0anqftr471apn649r0k",
+      "title": "公倍数问题 问题描述 小 A 写了一个N×M的矩阵A，我们看不到这个矩阵，但我们可以知道，其中第i行第j列的元素Aij是i和j的公倍数（i=1,...,N，j=1,...,M）。现在有K个小朋友，其中第k个小朋友想知道，矩阵A中最多有多少个元素可以是k(k=1,2,...,K)。请你帮助这些小朋友求解。 注意：每位小朋友的答案互不相关，例如，有些位置既可能是x，又可能是y，则它同可以时满足x,y两名小朋友的要求。 方便起见，你只需要输出 即可，其中ansk表示第k名小朋友感兴趣的答案。 输入描述 第一行三个正整数N,M,K。 输出描述 输出一行，即 。 请注意，这个数可能很大，使用 C++ 语言的选手请酌情使用 long long 等数据类型存储答案。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 2 5 2 样例输出 1 9 样例解释 1 只有A1,1可以是1，其余都不行。 A1,1,A1,2,A2,1,A2,2都可以是2，而其余不行。 因此答案是1×1+2×4=9。 样例输入 2 100 100 100 样例输出 2 185233 数据规模 对于30的测试点，保证N,M,K≤10； 对于60的测试点，保证N,M,K≤500； 对于100的测试点，保证N,M≤105，K≤106。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:pds1xkytt85lp4d7g88y:level5-dp",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-5:selection:08:pds1xkytt85lp4d7g88y",
+      "title": "贪心算法的核心思想是（ ）？",
+      "reason": "五级题目命中了动态规划候选标签，需要按越级规则复核。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:g7h7jrlfaaqdssp2hrxb:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-5:programming:01:g7h7jrlfaaqdssp2hrxb",
+      "title": "B-smooth 数 题面描述 小杨同学想寻找一种名为B-smooth 数的正整数。 如果一个正整数的最大质因子不超过B，则该正整数为B-smooth 数。 小杨同学想知道，对于给定的n和B，有多少个不超过n的B-smooth 数。 输入格式 第一行包含两个正整数n,B，含义如题面所示。 输出格式 输出一个非负整数，表示不超过n的B-smooth 数的数量。 样例输入 10 3 样例输出 7 样例解释 在不超过10的正整数中，3-smooth 数有{1,2,3,4,6,8,9}，共7个。 数据范围 对于全部数据，保证有1≤n≤106，1≤B≤106。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:akgfkj963ts1e2ctsvm7:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-7:programming:01:akgfkj963ts1e2ctsvm7",
+      "title": "交流问题 问题描述 来自2所学校A校、B校的N名同学相聚在一起相互交流，方便起见，我们把这些同学从1至N编号。他们共进行了M次交流，第i次交流中，编号为ui,vi的同学相互探讨了他们感兴趣的话题，并结交成为了新的朋友。 由于这次交流会的目的是促进两校友谊，因此只有不同学校的同学之间会交流，同校同学并不会相互交流。 作为 A 校顾问，你对 B 校的规模非常感兴趣，你希望求出 B 校至少有几名同学、至多有几名同学。 输入描述 第一行两个正整数N,M，表示同学的人数，交流的次数。 接下来M行，每行两个正整数ui,vi，表示一次交流。 题目保证输入合法，即交流一定是跨校开展的。 输出描述 输出一行两个整数，用单个空格隔开，分别表示 B 校至少有几名同学、至多有几名同学。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 4 3 1 2 2 3 4 2 样例输出 1 1 3 样例输入 2 7 5 1 2 2 3 4 2 5 6 6 7 样例输出 2 2 5 数据规模 对于30的测试点，保证N≤17，M≤50； 对于60的测试点，保证N≤500，M≤2000； 对于100的测试点，保证N≤105，M≤2×105。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:1gy2wgzbmz42z3oxlwgr:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-6:programming:02:1gy2wgzbmz42z3oxlwgr",
+      "title": "游戏 题面描述 你有四个正整数n,a,b,c，并准备用它们玩一个简单的小游戏。 在一轮游戏操作中，你可以选择将n减去a，或是将n减去b。游戏将会进行多轮操作，直到当n≤c时游戏结束。 你想知道游戏结束时有多少种不同的游戏操作序列。两种游戏操作序列不同，当且仅当游戏操作轮数不同，或是某一轮游戏操作中，一种操作序列选择将n减去a，而另一种操作序列选择将n减去b。如果a=b，也认为将n减去a与将n减去b是不同的操作。 由于答案可能很大，你只需要求出答案对1000000007取模的结果。 输入格式 一行四个正整数n,a,b,c。保证1≤a,b,c≤n。 输出格式 一行一个整数，表示不同的游戏操作序列数量对1000000007取模的结果。 样例输入1 1 1 1 1 样例输出1 1 样例输入2 114 51 4 1 样例输出2 176 样例输入3 114514 191 9 810 样例输出3 384178446 数据范围 对于20的测试点，保证a=b=c=1，n≤30。 对于40的测试点，保证c=1，n≤103。 对于所有测试点，保证1≤n≤2×105。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:ejdrtk2jh28q7qpssvng:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-2:programming:01:ejdrtk2jh28q7qpssvng",
+      "title": "小杨做题 时间限制：1.0 s 内存限制：128.0 MB 问题描述 为了准备考试，小杨每天都要做题。第 1 天，小杨做了a道题；第 2 天，小杨做了b道题；从第 3 天起，小杨每天做的题目数量是前两天的总和。 此外，小杨还规定，当自己某一天做了大于或等于m题时，接下来的所有日子里，他就再也不做题了。 请问，到了第N天，小杨总共做了多少题呢？ 输入描述 总共 4 行。第一行一个整数 ，第二行一个整数 ，第三行一个整数 ，第四行一个整数 。 保证0≤a,b≤10；a,b＜M≤1000000；3≤N≤364。 输出描述 一行一个整数，表示小杨N天里总共做了多少题目。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 1 2 10 5 样例输出 1 19 样例解释 1 小杨第一天做1题，第二天做2题，第三天做1+2=3题，第四天做2+3=5题，第五天做3+5=8题。因此他总共做了1+2+3+5+8=19题。 样例输入 2 1 1 5 8 样例输出 2 12 样例解释 2 小杨前 5 天分别做了1,1,2,3,5题，由于第 5 天小杨做了5题，而m=5，于是小杨从此以后不再做题。因此小杨总共做了1+1+2+3+5=12题。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:ldkmj0euwqnapzigutsc:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-1:programming:01:ldkmj0euwqnapzigutsc",
+      "title": "小杨报数（2023年12月C++一级） 时间限制：1.0 s 内存限制：128.0 MB 问题描述 小杨需要从1到N报数。在报数过程中，小杨希望跳过M的倍数。例如，如果N=5，M=2，那么小杨就需要依次报出1 、3 、5 。 现在，请你依次输出小杨报的数。 输入描述 输入 2 行，第一行一个整数N（1≤N≤1000）；第二行一个整数M（2≤M≤100）。 输出描述 输出若干行，依次表示小杨报的数。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 5 2 样例输出 1 1 3 5 样例输入 2 10 3 样例输出 2",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:dwboc1g6clov8sfldnz5:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-1:programming:02:dwboc1g6clov8sfldnz5",
+      "title": "小杨的考试 时间限制：1.0 s 内存限制：128.0 MB 问题描述 今天是星期X，小杨还有N天就要考试了，你能推算出小杨考试那天是星期几吗？（本题中使用7表示星期日） 输入描述 输入 2 行，第一行一个整数X（1≤X≤7）；第二行一个整数N（1≤N≤364）。 输出描述 输出一个整数，表示小杨考试那天是星期几。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 1 6 样例输出 1 7 样例解释 1 今天是星期 1，那么 6 天后就是星期日，星期日在本题中用7表示。 样例输入 2 5 3 样例输出 2 1 样例解释 2 今天是星期 5，那么 3 天后就是星期 1。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:0pfw75ju7o2429i7kyzj:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-3:programming:01:0pfw75ju7o2429i7kyzj",
+      "title": "小猫分鱼 时间限制：1.0 s 内存限制：128.0 MB 问题描述 海滩上有一堆鱼，N只小猫来分。第一只小猫把这堆鱼平均分为N份，多了i个(i＜N)，这只小猫把多的i个扔入海中，拿走了一份。第二只小猫接着把剩下的鱼平均分成N份，又多了i个，小猫同样把多的i个扔入海中，拿走了一份。第三、第四、……，第N只小猫仍是最终剩下的鱼分成N份，扔掉多了的i个，并拿走一份。 编写程序，输入小猫的数量N以及每次扔到海里的鱼的数量i，输出海滩上最少的鱼数，使得每只小猫都可吃到鱼。 例如：两只小猫来分鱼N=2，每次扔掉鱼的数量为i=1，为了每只小猫都可吃到鱼，可令第二只小猫需要拿走1条鱼，则此时待分配的有3条鱼。第一只小猫待分配的鱼有3*2+1=7条。 输入描述 总共 2 行。第一行一个整数N，第二行一个整数i。 保证0＜N＜10；i＜N。 输出描述 一行一个整数，表示满足要求的海滩上最少的鱼数。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入1 2 1 样例输出1 7 样例输入2 3 1 样例输出2 25 样例解释2 三只小猫来分鱼N=3，每次扔掉鱼的数量为i=1，为了每只小猫都可吃到鱼，可令第三只小猫需要拿走3条鱼（拿走1条和2条不满足要求），则此时待分配的有10条鱼。第二只小猫待分配的鱼有10×3/2+1=16条。第一只小猫待分配的鱼有16×3/2+1=25条。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:8trkx3y5f5a7w9tvwx04:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-4:programming:01:8trkx3y5f5a7w9tvwx04",
+      "title": "田忌赛马 时间限制：1.0 s 内存限制：128.0 MB 问题描述 你要和田忌赛马。你们各自有N匹马，并且要进行N轮比赛，每轮比赛，你们都要各派出一匹马决出胜负。 你的马匹的速度分别为u1,u2,…,uN，田忌的马匹的速度分别为v1,v2,…,vN。田忌会按顺序派出他的马匹，请问你要如何排兵布阵，才能赢得最多轮次的比赛？巧合的是，你和田忌的所有马匹的速度两两不同，因此不可能出现平局。 输入描述 第一行一个整数 。保证1≤N≤5×104。 接下来一行N个用空格隔开的整数，依次为u1,u2,…,uN，表示你的马匹们的速度。保证1≤ui≤2N。 接下来一行N个用空格隔开的整数，依次为v1,v2,…,vN，表示田忌的马匹们的速度。保证1≤vi≤2N。 输出描述 输出一行，表示你最多能获胜几轮。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 3 1 3 5 2 4 6 样例输出 1 2 样例解释 1 第 1 轮，田忌派出速度为2的马匹，你可以派出速度为3的马匹迎战，本轮你获胜。 第 2 轮，田忌派出速度为4的马匹，你可以派出速度为5的马匹迎战，本轮你获胜。 第 3 轮，田忌派出速度为6的马匹，你可以派出速度为1的马匹迎战，本轮田忌获胜。 如此，你可以赢得 2 轮比赛。 样例输入 2 5 10 3 5 8 7 4 6 1 2 9 样例输出 2",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:56yiipa72vd7czqqr5k6:level5-dp",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-5:selection:08:56yiipa72vd7czqqr5k6",
+      "title": "下面C++代码用于有序 list 的二分查找，有关说法错误的是（ ）。",
+      "reason": "五级题目命中了动态规划候选标签，需要按越级规则复核。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:mtmkz3uktji0eg0jfw1x:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-5:programming:02:mtmkz3uktji0eg0jfw1x",
+      "title": "小杨的幸运数 时间限制：1.0 s 内存限制：128.0 MB 问题描述 小杨认为，所有大于等于 的完全平方数都是他的超级幸运数。 小杨还认为，所有超级幸运数的倍数都是他的幸运数。自然地，小杨的所有超级幸运数也都是幸运数。 对于一个非幸运数，小杨规定，可以将它一直+1，直到它变成一个幸运数。我们把这个过程叫做幸运化。例如，如果a=4，那么4是最小的幸运数，而1不是，但我们可以连续对1做3次+1操作，使其变为4，所以我们可以说，1幸运化后的结果是4。 现在，小杨给出N个数，请你首先判断它们是不是幸运数；接着，对于非幸运数，请你将它们幸运化。 输入描述 第一行 2 个正整数a,N。 接下来N行，每行一个正整数x，表示需要判断（幸运化）的数。 输出描述 输出N行，对于每个给定的x，如果它是幸运数，请输出 lucky ，否则请输出将其幸运化后的结果。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 2 4 1 4 5 9 样例输出 1 4 lucky 8 lucky 样例解释 1 1虽然是完全平方数，但它小于a，因此它并不是超级幸运数，也不是幸运数。将其进行3次+1操作后，最终得到幸运数 。 4是幸运数，因此直接输出 lucky 。 5不是幸运数，将其进行3次+1操作后，最终得到幸运数8。 9是幸运数，因此直接输出 lucky 。 样例输入 2 16 11 1 2 4 8 16 32 64 128 256 512 1024 样例输出 2 16 16 16 16 lucky lucky lucky lucky lucky lucky lucky 数据规模 对于30%的测试点，保证a,x≤100，N≤100。 对于60%的测试点，保证a,x≤106。 对于所有测试点，保证a≤1000001；保证N≤2×105；保证1≤x≤1000001。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:1h0o8d9bnc7260o5qlo5:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-7:programming:01:1h0o8d9bnc7260o5qlo5",
+      "title": "商品交易 时间限制：1.0 s 内存限制：128.0 MB 问题描述 市场上共有N种商品，编号从0至N-1，其中，第i种商品价值vi元。 现在共有M个商人，编号从0至M-1。在第j个商人这，你可以使用第xj种商品交换第yj种商品。每个商人都会按照商品价值进行交易，具体来说，如果vxj＞vyj，他将会付给你vyj-vxj元钱；否则，那么你需要付给商人vxj-vyj元钱。除此之外，每次交易商人还会收取1元作为手续费，不论交易商品的价值孰高孰低。 你现在拥有商品a，并希望通过一些交换来获得商品b。请问你至少要花费多少钱？（当然，这个最小花费也可能是负数，这表示你可以在完成目标的同时赚取一些钱。） 输入描述 第一行四个整数N,M,a,b，分别表示商品的数量、商人的数量、你持有的商品以及你希望获得的商品。保证0≤a,b＜N，保证 a≠b。 第二行N个用单个空格隔开的正整数v0,v1,…,vN-1，依次表示每种商品的价值。保证1≤vi≤109。 接下来M行，每行两个整数xj,yj，表示第j个商人愿意使用第xj种商品交换第yj种商品。保证0≤xj,yj＜N，保证xj≠yj。 输出描述 输出一行一个整数，表示最少的花费。特别地，如果无法通过交换换取商品b，请输出 No solution 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 3 5 0 2 1 2 4 1 0 2 0 0 1 2 1 1 2 样例输出 1 5 样例解释 1 可以先找2号商人，花2-1=1元的差价以及1元手续费换得商品1，再找4号商人，花4-2=2元的差价以及1元手续费换得商品 。总计花费1+1+2+1=5元。 样例输入 2 3 3 0 2 100 2 4 0 1 1 2 0 2 样例输出 2 -95 样例解释 2 可以找2号商人，直接换得商品2的同时，赚取100-4=96元差价，再支付1元手续费，净赚95元。 也可以先找0号商人换取商品1，再找1号商人换取商品2，不过这样只能赚94元。 样例输入 3 4 4 3 0 1 2 3 4 1 0 0 1 3 2 2 3 样例输出 3 No solution 数据规模 对于30%的测试点，保证N≤10，M≤20。 对于70%的测试点，保证N≤103，M≤104。 对于100%的测试点，保证N≤105，M≤2×105。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:mols8fykmpc33njry9v1:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-7:programming:02:mols8fykmpc33njry9v1",
+      "title": "试题名称：纸牌游戏 时间限制：1.0 s 内存限制：128.0 MB 问题描述 你和小杨在玩一个纸牌游戏。 你和小杨各有 3 张牌，分别是 0、1、2。你们要进行N轮游戏，每轮游戏双方都要出一张牌，并按 1 战胜 0，2 战胜1，0 战胜 2 的规则决出胜负。第i轮的胜者可以获得2ai分，败者不得分，如果双方出牌相同，则算平局，二人都可获得ai分（i=1,2,…,N ）。 玩了一会后，你们觉得这样太过于单调，于是双方给自己制定了不同的新规则。小杨会在整局游戏开始前确定自己全部n轮的出牌，并将他的全部计划告诉你；而你从第 2 轮开始，要么继续出上一轮出的牌，要么记一次“换牌”。 游戏结束时，你换了t次牌，就要额外扣b1+…+bt分。 请计算出你最多能获得多少分。 输入描述 第一行一个整数N，表示游戏轮数。 第二行N个用单个空格隔开的非负整数a1,……,aN，意义见题目描述。 第三行N-1个用单个空格隔开的非负整数b1,…,bN-1，表示换牌的罚分，具体含义见题目描述。由于游戏进行N轮，所以你至多可以换N-1次牌。 第四行N个用单个空格隔开的整数c1,…,cN-1，依次表示小杨从第 轮至第 轮出的牌。保证ci∈0,1,2。 输出描述 一行一个整数，表示你最多获得的分数。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 4 1 2 10 100 1 100 1 1 1 2 0 样例输出 1 219 样例解释 1 你可以第1轮出 0，并在第2,3轮保持不变，如此输掉第1,2轮，但在第3轮中取胜，获得2×10=20分；随后，你可以在第4轮中以扣1分为代价改出 1，并在第4轮中取得胜利，获得2×100=200分。如此，你可以获得最高的总分20+200-1=219 。 样例输入 2 6 3 7 2 8 9 4 1 3 9 27 81 0 1 2 1 2 0 样例输出 2 56 数据规模 对于30%的测试点，保证N≤15。 对于60%的测试点，保证N≤100。 对于所有测试点，保证N≤1000；保证0≤ai,bi≤106。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:bfg1tkwwcnvjsr27um44:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-6:programming:01:bfg1tkwwcnvjsr27um44",
+      "title": "工作沟通 时间限制：1.0 s 内存限制：128.0 MB 问题描述 某公司有N名员工，编号从0至N-1。其中，除了0号员工是老板，其余每名员工都有一个直接领导。我们假设编号为i的员工的直接领导是fi。 该公司有严格的管理制度，每位员工只能受到本人或本人直接领导或间接领导的管理。具体来说，规定员工x可以管理员工y，当且仅当x=y，或f=fy，或x可以管理fy。特别地，0号员工老板只能自我管理，无法由其他任何员工管理。 现在，有一些同事要开展合作，他们希望找到一位同事来主持这场合作，这位同事必须能够管理参与合作的所有同事。如果有多名满足这一条件的员工，他们希望找到编号最大的员工。你能帮帮他们吗？ 输入描述 第一行一个整数N，表示员工的数量。 第二行N-1个用空格隔开的正整数，依次为f1,f2…,fN-1。 第三行一个整数Q，表示共有Q场合作需要安排。 接下来Q行，每行描述一场合作：开头是一个整数m（2≤m≤N），表示参与本次合作的员工数量；接着是m个整数，依次表示参与本次合作的员工编号（保证编号合法且不重复）。 保证公司结构合法，即不存在任意一名员工，其本人是自己的直接或间接领导。 输出描述 输出Q行，每行一个整数，依次为每场合作的主持人选。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 5 0 0 2 2 3 2 3 4 3 2 3 4 2 1 4 样例输出 1 2 2 0 样例解释 1 对于第一场合作，员工3,4有共同领导2，可以主持合作。 对于第二场合作，员工2本人即可以管理所有参与者。 对于第三场合作，只有0号老板才能管理所有员工。 样例输入 2 7 0 1 0 2 1 2 5 2 4 6 2 4 5 3 4 5 6 4 2 4 5 6 2 3 4 样例输出 2 2 1 1 1 0 数据规模 对于50%的测试点，保证N≤50。 对于所有测试点，保证3≤N≤300；Q≤100 。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:g1dhltyatpbcu8huk9vl:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-8:programming:01:g1dhltyatpbcu8huk9vl",
+      "title": "奖品分配 时间限制：1.0 s 内存限制：128.0 MB 问题描述 班上有N名同学，学号从0到N-1。有 种奖品要分给这些同学，其中，第M种奖品总共有ai个（i=0,1,…,M-1）。巧合的是，奖品的数量不多不少，每位同学都可以恰好分到一个奖品，且最后剩余的奖品不超过1个（即：N≤a0+a1+…+aM-1≤N+1）。 现在，请你求出每个班级礼物分配的方案数，所谓方案，指的是为每位同学都分配一个种类的奖品。只要有一位同学获得了不同种类的奖品，即视为不同的方案。方便起见，你只需要输出方案数对109+7取模后的结果即可。 共有T个班级都面临着奖品分配的问题，你需要依次为他们解答。 输入描述 第一行一个整数T，表示班级数量。 接下来 行，每行若干用单个空格隔开的正整数。首先是两个正整数N,M，接着是M个正整数a0,a1,…,aM-1。 保证N≤a0+a1+…+aM-1≤N+1。 输出描述 输出T行，每行一个整数，表示该班级分配奖品的方案数对109+7取模的结果。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 3 3 2 1 2 3 2 1 3 5 3 3 1 1 样例输出 1 3 4 20 样例解释 1 对于第 1 个班级，学号为0,1,2的同学可以依次分别获得奖品0,1,1，也可以依次分别获得奖品1,0,1，也可以依次分别获得奖品1,1,0，因此共有3种方案。 对于第 2 个班级，学号为0,1,2的同学可以依次分别获得奖品0,1,1，也可以依次分别获得奖品1,0,1，也可以依次分别获得奖品1,1,0，也可以依次分别获得奖品1,1,1，因此共有4种方案。 对于第 3 个班级，可以把编号为1的奖品分配给5名同学中的任意一名，共有5种方案；再把编号为2的奖品分配给剩余4名同学中的任意一名，共有4种方案；最后给剩余3名同学自然获得0号奖品。因此，方案数为5×4=20。 样例输入 2 5 100 1 100 100 1 101 20 2 12 8 123 4 80 20 21 3 999 5 101 234 499 66 99 样例输出 2 1 1 125970 895031741 307187590 数据规模 对于30%的测试点，保证N≤10。 对于另外30%的测试点，保证M=2。 对于所有测试点，保证N≤1000；保证T≤1000；保证M≤1000。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:px427dpl0j35826uvz0n:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-8:programming:02:px427dpl0j35826uvz0n",
+      "title": "大量的工作沟通 时间限制：2.0 s 内存限制：128.0 MB 问题描述 某公司有N名员工，编号从0至N-1。其中，除了0号员工是老板，其余每名员工都有一个直接领导。我们假设编号为i的员工的直接领导是fi。 该公司有严格的管理制度，每位员工只能受到本人或直接领导或间接领导的管理。具体来说，规定员工x可以管理员工y，当且仅当x=y，或f=fy，或x可以管理fy。特别地，0号员工老板只能自我管理，无法由其他任何员工管理。 现在，有一些同事要开展合作，他们希望找到一位同事来主持这场合作，这位同事必须能够管理参与合作的所有同事。如果有多名满足这一条件的员工，他们希望找到编号最大的员工。你能帮帮他们吗？ 输入描述 第一行一个整数N，表示员工的数量。 第二行N-1个用空格隔开的正整数，依次为f1,f2…,fN-1。 第三行一个整数Q，表示共有Q场合作需要安排。 接下来Q行，每行描述一场合作：开头是一个整数m（2≤m≤N），表示参与本次合作的员工数量；接着是m个整数，依次表示参与本次合作的员工编号（保证编号合法且不重复）。 保证公司结构合法，即不存在任意一名员工，其本人是自己的直接或间接领导。 输出描述 输出Q行，每行一个整数，依次为每场合作的主持人选。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 5 0 0 2 2 3 2 3 4 3 2 3 4 2 1 4 样例输出 1 2 2 0 样例解释 1 对于第一场合作，员工3,4有共同领导2，可以主持合作。 对于第二场合作，员工2本人即可以管理所有参与者。 对于第三场合作，只有0号老板才能管理所有员工。 样例输入 2 7 0 1 0 2 1 2 5 2 4 6 2 4 5 3 4 5 6 4 2 4 5 6 2 3 4 样例输出 2 2 1 1 1 0 数据规模 对于25%的测试点，保证N≤50。 对于50%的测试点，保证N≤300。 对于所有测试点，保证3≤N≤105；保证Q≤100，保证m≤104。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:kehmte0rgxf4lix22xvq:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-3:programming:02:kehmte0rgxf4lix22xvq",
+      "title": "小杨的储蓄 时间限制：1.0 s 内存限制：128.0 MB 问题描述 小杨共有N个储蓄罐，编号从0到N-1。从第 1 天开始，小杨每天都会往存钱罐里存钱。具体来说，第i天他会挑选一个存钱罐ai，并存入i元钱。过了D天后，他已经忘记每个储蓄罐里都存了多少钱了，你能帮帮他吗？ 输入描述 输入 2 行，第一行两个整数N,D；第二行D个整数，其中第i个整数为ai（保证0≤ai≤N-1 ）。 每行的各个整数之间用单个空格分隔。 保证 1≤N≤1000，1≤D≤1000； 输出描述 输出 个用单个空格隔开的整数，其中第 个整数表示编号为i-1的存钱罐中有多少钱（i=1,...,N）。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 2 3 0 1 0 样例输出 1 4 2 样例解释 1 小杨在第1天、第2天、第3天分别向0号、1号、0号存钱罐存了1元钱、2元钱、3元钱，因此0号存钱罐有1+3=4元钱，而1号存钱罐有2元钱。 样例输入 2 3 5 0 0 0 2 0 样例输出 2 11 0 4",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:usq2ii2o1hej508ewhhw:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-4:programming:01:usq2ii2o1hej508ewhhw",
+      "title": "变长编码（2023年9月C++四级） 时间限制：1.0 s 内存限制：128.0 MB 问题描述 小明刚刚学习了三种整数编码方式：原码、反码、补码，并了解到计算机存储整数通常使用补码。但他总是觉得，生活中很少用到2 31 -1这么大的数，生活中常用的0~100这种数也同样需要用4个字节的补码表示，太浪费了些。 热爱学习的小明通过搜索，发现了一种正整数的变长编码方式。这种编码方式的规则如下： 1. 对于给定的正整数，首先将其表达为二进制形式。例如，(0) {10}=(0) {2}，(926) {10}=(1110011110) {2} 。 2. 将二进制数从低位到高位切分成每组7bit，不足 bit的在高位用0填补。例如， (0) {2}变为0000000的一组，(1110011110) {2}变为0011110和0000111的两组。 3. 由代表低位的组开始，为其加入最高位。如果这组是最后一组，则在最高位填上0，否则在最高位填上1。于是，0的变长编码为00000000一个字节，926的变长编码为10011110和00000111两个字节。 这种编码方式可以用更少的字节表达比较小的数，也可以用很多的字节表达非常大的数。例如，987654321012345678的二进制为(0001101 1011010 0110110 1001011 1110100 0100110 1001000 0010110 1001110) {2}，于是它的变长编码为（十六进制表示） CE 96 C8 A6 F4 CB B6 DA 0D ，共9个字节。 你能通过编写程序，找到一个正整数的变长编码吗？ 输入描述 输入第一行，包含一个正整数N。约定 0≤N≤10 18 。 输出描述 输出一行，输出N对应的变长编码的每个字节，每个字节均以2位十六进制表示（其中，A-F使用大写字母表示），两个字节间以空格分隔。 样例输入1 0 样例输出1 00 样例输入2 926 样例输出2 9E 07 样例输入3 987654321012345678 样例输出3 CE 96 C8 A6 F4 CB B6 DA 0D",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:dpa84wj17dfmkrd76zsi:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-2:programming:02:dpa84wj17dfmkrd76zsi",
+      "title": "数字黑洞 时间限制：1.0 s 内存限制：128.0 MB 问题描述 给定一个三位数，要求各位不能相同。例如，352是符合要求的，112是不符合要求的。将这个三位数的三个数字重新排列，得到的最大的数，减去得到的最小的数，形成一个新的三位数。对这个新的三位数可以重复上述过程。神奇的是，最终一定会得到495！ 试试看，重新排列352，得到的最大数为532，最小数为235，它们的差是297；变换297，得到972-279=693；变换693，963-369=594；变换594，954-459=495。因此， 经过4次变换得到了 。 现在，输入的三位数，你能通过编程得出，这个三位数经过多少次变换能够得到495吗？ 输入描述 输入一行，包含一个符合要求的三位数N。 输出描述 输出一行，包含一个整数C，表示经过C次变换得到495。 样例输入1 352 样例输出1 4",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:bwome9dm900lxdr0tnl7:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-1:programming:01:bwome9dm900lxdr0tnl7",
+      "title": "小明的幸运数（2023年9月C++一级） 时间限制：1.0 s 内存限制：128.0 MB 问题描述 所有个位数为k的正整数，以及所有k的倍数，都被小明称为“k幸运数”。小明想知道正整数L和R之间（包括L和R）所有k幸运数的和，你能帮帮他吗？ 输入描述 输入3行。第一行包含一个正整数k，第二行包含一个正整数L，第三行包含一个正整数R。约定2≤k≤9，1≤L≤R≤1000。 输出描述 输出1行，符合题意的幸运数之和。 样例输入1 7 1 10 样例输出1 7 样例解释1 1和10之间共有1个7幸运数：7。因为7既是7的倍数，个位数又为7。因此，结果为7。 样例输入2 7 10 20 样例输出2 31 样例解释2 10和20之间共有2个7幸运数：14和17。14是7的倍数，17的个位数为7。因此，结果为31。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:eel6xc50vglse73oauf7:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-1:programming:02:eel6xc50vglse73oauf7",
+      "title": "买文具 时间限制：1.0 s 内存限制：128.0 MB 问题描述 开学了，小明来到文具店选购文具。签字笔2元一支，他需要X支；记事本5元一本，他需要Y本；直尺3元一把，他需要Z把。小明手里有Q元钱。请你通过编程帮小明算算，他手里的钱是否够买他需要的文具。 输入描述 输入4行。 第一行包含一个正整数X，是小明购买签字笔的数量。约定1≤X≤10。 第二行包含一个正整数Y，是小明购买记事本的数量。约定1≤Y≤10。 第三行包含一个正整数Z，是小明购买直尺的数量。约定1≤Z≤10。 第四行包含一个正整数Q，是小明手里的钱数（单位：元）。 输出描述 输出2行。如果小明手里的钱够买他需要的文具，则第一行输出\"Yes\"，第二行输出小明会剩下的钱数（单位：元）； 否则，第一行输出\"No\"，第二行输出小明缺少的钱数（单位：元）。 样例输入1 1 1 1 20 样例输出1 Yes 10 样例输入2 1 1 1 5 样例输出2 No 5",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:oju8c57ywk4fmxizsas6:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-5:programming:02:oju8c57ywk4fmxizsas6",
+      "title": "巧夺大奖（2023.9C++五级） 时间限制：1.0 s 内存限制：128.0 MB 问题描述 小明参加了一个巧夺大奖的游戏节目。主持人宣布了游戏规则： 1、游戏分为n个时间段，参加者每个时间段可以选择一个小游戏。 2、游戏中共有n个小游戏可供选择。 3、每个小游戏有规定的时限和奖励。对于第i个小游戏，参加者必须在第T i 个时间段结束前完成才能得到奖励R i 。 小明发现，这些小游戏都很简单，不管选择哪个小游戏，他都能在一个时间段内完成。关键问题在于，如何安排每个时间段分别选择哪个小游戏，才能使得总奖励最高？ 输入描述 输入第一行，包含一个正整数n。 既是游戏时间段的个数，也是小游戏的个数。约定1≤n≤500。 输入第二行，包含n个正整数。第i个正整数为T i ，即第i个小游戏的完成期限。约定1≤T i ≤n。 输入第三行，包含n个正整数。第i个正整数为R i ，即第i个小游戏的完成奖励。约定1≤R i ≤1000。 输出描述 输出一行，包含一个正整数C，为最高可获得的奖励。 样例输入1 7 4 2 4 3 1 4 6 70 60 50 40 30 20 10 样例输出1 230 样例解释1 7个时间段可分别安排完成第4、2、3、1、6、7、5个小游戏，其中第4、2、3、1、7个小游戏在期限内完成。因此，可以获得总计40+60+50+70+10=230的奖励。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:r3o3sgzm7vd2q2pti6lw:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-6:programming:02:r3o3sgzm7vd2q2pti6lw",
+      "title": "小杨买饮料（2023.9C++六级） 时间限制：1.0 s 内存限制：128.0 MB 问题描述 小杨来到了一家商店，打算购买一些饮料。这家商店总共出售N种饮料，编号从0至N-1，其中编号为i的饮料售价c i 元，容量l i 毫升。 小杨的需求有如下几点： 1. 小杨想要尽可能尝试不同种类的饮料，因此他希望每种饮料至多购买 1 瓶； 2. 小杨很渴，所以他想要购买总容量不低于L的饮料； 3. 小杨勤俭节约，所以在 1 和 2 的前提下，他希望使用尽可能少的费用。 方便起见，你只需要输出最少花费的费用即可。特别地，如果不能满足小杨的要求，则输出 no solution 。 输入描述 第一行两个整数N,L。 接下来N行，依次描述第i=0,1,...,N-1种饮料：每行两个整数ci,li。 输出描述 输出一行一个整数，表示最少需要花费多少钱，才能满足小杨的要求。特别地，如果不能满足要求，则输出 no solution 。 特别提醒 在常规程序中，输入、输出时提供提示是好习惯。但在本场考试中，由于系统限定，请不要在输入、输出中附带任何提示信息。 样例输入 1 5 100 100 2000 2 50 4 40 5 30 3 20 样例输出 1 9 样例解释 1 小杨可以购买1,2,4号饮料，总计获得50+40+20=110毫升饮料，花费2+4+3=9元。 如果只考虑前两项需求，小杨也可以购买1,2,4号饮料，它们的容量总和为50+30+20=100毫升，恰好可以满足需求。但遗憾的是，这个方案需要花费2+5+3=10元。 样例输入 2 5 141 100 2000 2 50 4 40 5 30 3 20 样例输出 2 100 样例解释 2 1,2,3,4号饮料总计140毫升，如每种饮料至多购买 1 瓶，则恰好无法满足需求，因此只能花费100元购买0号饮料。 样例输入 3 4 141 2 50 4 40 5 30 3 20 样例输出 3 no solution 数据规模 对于40%的测试点，保证N≤20 ；1≤L≤100 ；l i ≤100。 对于70%的测试点，保证l i ≤100。 对于所有测试点，保证1≤N≤500 ；1≤L≤2000 ；1≤c i ,l i ≤10 6 。",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:nuw5welz4j21iozrvg1s:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-06:cxx:level-1:programming:01:nuw5welz4j21iozrvg1s",
+      "title": "累计相加 【问题描述】 输入一个正整数n，求形如：1+(1+2)+(1+2+3)+(1+2+3+4)+…⋯(1+2+3+4+5+…⋯n)累计相加。 【输入描述】 输入一个正整数。约定 1 ≤n≤ 100。 【输出描述】 输出累计相加的结果。 【样例输入 1】 3 【样例输出 1】 10 【样例输入 2】 4 【样例输出 2】 20 【样例输入 3】 10 【样例输出 3】 220",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:bmv29j2oyf21wrtrgh17:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-06:cxx:level-1:programming:02:bmv29j2oyf21wrtrgh17",
+      "title": "时间规划 【问题描述】 小明在为自己规划学习时间。现在他想知道两个时刻之间有多少分钟，你能通过编程帮他做到吗？ 【输入描述】 输入 4 行，第一行为开始时刻的小时，第二行为开始时刻的分钟，第三行为结束时刻的小时，第四行为结束时刻的分钟。 输入保证两个时刻是同一天，开始时刻一定在结束时刻之前。时刻使用 24小时制，即小时在 0 到 23 之间，分钟在 0 到 59 之间。 【输出描述】 输出一行，包含一个整数，从开始时刻到结束时刻之间有多少分钟。 【样例输入 1】 9 5 9 6 【样例输出 1】 1 【样例输入 2】 9 5 10 0 【样例输出 2】 55",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:d5ve1sldlwazkbbd3hkk:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-06:cxx:level-2:programming:02:d5ve1sldlwazkbbd3hkk",
+      "title": "自幂数判断 【问题描述】 自幂数是指，一个N位数，满足各位数字N次方之和是本身。例如，153 是 3位数，其每位数的 3 次方之和，13 + 53 + 33 = 153，因此 153 是自幂数；1634是 4 位数，其每位数的 4 次方之和，14 + 64 + 34 + 44 = 1634，因此 1634 是自幂数。 现在，输入若干个正整数，请判断它们是否是自幂数。 【输入描述】 输入第一行是一个正整数M，表示有M个待判断的正整数。约定 1≤M≤100。 从第 2 行开始的M行，每行一个待判断的正整数。约定这些正整数均小于108。 【输出描述】 输出M行，如果对应的待判断正整数为自幂数，则输出英文大写字母'T'，否则输出英文大写字母'F'。 提示：不需要等到所有输入结束在依次输出，可以输入一个数就判断一个数并输出，再输入下一个数。 【样例输入 1】 3 152 111 153 【样例输出 1】 F F T 【样例输入 2】 5 8208 548834 88593477 12345 5432 【样例输出 2】 T T T F F",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:1bjfsydegdxox09cj6f3:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-06:cxx:level-3:programming:02:1bjfsydegdxox09cj6f3",
+      "title": "春游 【问题描述】 老师带领同学们春游。已知班上有N位同学，每位同学有从 0 到N− 1 的唯一编号。到了集合时间，老师确认是否所有同学都到达了集合地点，就让同学们报出自己的编号。到达的同学都会报出的编号，不会报出别人的编号，但有的同学很顽皮，会多次报出。你能帮老师找出有哪些同学没有到达吗？ 【输入描述】 输入包含 2 行。第一行包含两个整数N和M，表示班级有N位同学，同学们共有M次报出编号。约定 2 ≤N, M ≤ 1000。 第二行包含M个整数，分别为M次报出的编号。约定所有编号都在合理范围内。 【输出描述】 输出一行。如果所有同学都到达，则输出N；否则由小到大输出所有未到达的同学编号，空格分隔。 【样例输入 1】 3 3 0 2 1 【样例输出 1】 3 【样例输入 2】 3 5 0 0 0 0 0 【样例输出 2】 1 2",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:ur1r1l0zfv2sc6xtcigx:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-06:cxx:level-4:programming:01:ur1r1l0zfv2sc6xtcigx",
+      "title": "幸运数 【问题描述】 小明发明了一种“幸运数”。一个正整数，其偶数位不变（个位为第 1 位，十位为第 2 位，以此类推），奇数位做如下变换：将数字乘以 7，如果不大于 9则作为变换结果，否则把结果的各位数相加，如果结果不大于 9 则作为变换结果，否则（结果仍大于 9）继续把各位数相加，直到结果不大于 9，作为变换结果。变换结束后，把变换结果的各位数相加，如果得到的和是 8 的倍数，则称一开始的正整数为幸运数。 例如，16347：第 1 位为 7，乘以 7 结果为 49，大于 9，各位数相加为 13，仍大于 9，继续各位数相加，最后结果为 4；第 3 位为 3，变换结果为 3；第 5位为 1，变换结果为 7。最后变化结果为 76344，对于结果 76344 其各位数之和为 24，是 8 的倍数。因此 16347 是幸运数。 【输入描述】 输入第一行为正整数N，表示有N个待判断的正整数。约定 1 ≤N≤ 20。 从第 2 行开始的N行，每行一个正整数，为待判断的正整数。约定这些正整数小于1012。 【输出描述】 输出N行，对应N个正整数是否为幸运数，如是则输出'T'，否则输出'F'。 提示：不需要等到所有输入结束在依次输出，可以输入一个数就判断一个数并输出，再输入下一个数。 【样例输入 1】 2 16347 76344 【样例输出 1】 T F",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:cn7knly65yc7htotc1nz:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-03:cxx:level-2:programming:01:cn7knly65yc7htotc1nz",
+      "title": "百鸡问题 【问题描述】 “百鸡问题”是出自我国古代《张丘建算经》的著名数学问题。大意为：“每只公鸡 5 元，每只母鸡 3 元，每 3 只小鸡 1 元；现在有 100 元，买了 100 只鸡，共有多少种方案？” 小明很喜欢这个故事，他决定对这个问题进行扩展，并使用编程解决：如果每只公鸡 x 元，每只母鸡 y 元，每 z 只小鸡 1 元；现在有 n 元，买了 m 只鸡，共有多少种方案？ 【输入描述】 输入一行，包含五个整数，分别为问题描述中的 x、y、z、n、m。约定 1≤x, y, z ≤10，1≤ n, m ≤1000。 【输出描述】 输出一行，包含一个整数 C，表示有 C 种方案。 【样例输入 1】 5 3 3 100 100 【样例输出 1】 4 【样例解释 1】 这就是问题描述中的“百鸡问题”。4 种方案分别为：公鸡 0 只、母鸡 25 只、小鸡 75 只；公鸡 4 只、母鸡 18 只、小鸡 78 只；公鸡 8 只、母鸡 11 只、小鸡 81只；公鸡 12 只、母鸡 4 只、小鸡 84 只。 【样例输入 2】 1 1 1 100 100 【样例输出 2】 5151",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    },
+    {
+      "id": "wanjuanwang-review:bqqig3f2zgd8ja6rtt5n:unclassified-programming",
+      "type": "wanjuanwang_review",
+      "priority": "high",
+      "status": "open",
+      "canonical_problem_id": "wanjuanwang:2023-03:cxx:level-1:programming:01:bqqig3f2zgd8ja6rtt5n",
+      "title": "长方形面积 【问题描述】 小明刚刚学习了如何计算长方形面积。他发现，如果一个长方形的长和宽都是整数，它的面积一定也是整数。现在，小明想知道如果给定长方形的面积，有多少种可能的长方形，满足长和宽都是整数？ 如果两个长方形的长相等、宽也相等，则认为是同一种长方形。约定长方形的长大于等于宽。正方形是长方形的特例，即长方形的长和宽可以相等。 【输入描述】 输入一行，包含一个整数",
+      "reason": "编程题未能自动归类到现有算法范畴。",
+      "final_confidence": null
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "session_id": "BLP-consumer-mobile-redesign-2026-06-20",
+  "session_type": "blueprint",
+  "status": "sealed",
+  "sealed_at": "2026-06-20T11:44:00+08:00",
+  "gate": "pass",
+  "score": 88,
+  "outputs": [
+    "blueprint-config.json",
+    "product-brief.md",
+    "requirements/",
+    "architecture/",
+    "epics/",
+    "readiness-report.md",
+    "blueprint-summary.md",
+    "context-package.json"
+  ]
+}

@@ -1,0 +1,1644 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-07T16:34:00.033Z",
+  "generator": "scripts/generate-wanjuanwang-gesp-cpp-programming-solutions.mjs",
+  "input": "data/wanjuanwang-ingestion/wanjuanwang-gesp-cpp-exams.json",
+  "summary": {
+    "record_count": 136,
+    "sample_passed_count": 136
+  },
+  "records": [
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-7:programming:01:jjspdzdsru0fy11r9w6m",
+      "title": "线图",
+      "algorithm": "统计每个点贡献的边对数",
+      "complexity": "O(n + m)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vector<long long> deg(n + 1, 0);\n    for (int i = 0; i < m; ++i) {\n        int u, v;\n        cin >> u >> v;\n        ++deg[u];\n        ++deg[v];\n    }\n    long long answer = 0;\n    for (int i = 1; i <= n; ++i) {\n        answer += deg[i] * (deg[i] - 1) / 2;\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:31:52.089Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-7:programming:02:3ybpdk39qr5y7nympbrn",
+      "title": "调味平衡",
+      "algorithm": "差值动态规划",
+      "complexity": "O(n * sum)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    const int OFFSET = 50000;\n    const int NEG = -1e9;\n    vector<int> dp(OFFSET * 2 + 1, NEG), nextDp;\n    dp[OFFSET] = 0;\n    for (int i = 0; i < n; ++i) {\n        int a, b;\n        cin >> a >> b;\n        nextDp = dp;\n        int diff = a - b;\n        int gain = a + b;\n        for (int j = 0; j < (int)dp.size(); ++j) {\n            if (dp[j] == NEG) continue;\n            int nj = j + diff;\n            if (0 <= nj && nj < (int)dp.size()) {\n                nextDp[nj] = max(nextDp[nj], dp[j] + gain);\n            }\n        }\n        dp.swap(nextDp);\n    }\n    cout << max(0, dp[OFFSET]) << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:31:53.771Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-8:programming:01:nhw6xyl3lvg2ymljjfc7",
+      "title": "遍历计数",
+      "algorithm": "树上 DFS 序计数公式",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nconst long long MOD = 1000000000LL;\nint main() {\n    int n;\n    cin >> n;\n    vector<int> deg(n + 1, 0);\n    for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        cin >> u >> v;\n        ++deg[u];\n        ++deg[v];\n    }\n    long long answer = 1;\n    for (int i = 1; i <= n; ++i) {\n        for (int x = 1; x <= deg[i] - 1; ++x) {\n            answer = (answer * x) % MOD;\n        }\n    }\n    answer = (answer * (2LL * (n - 1) % MOD)) % MOD;\n    cout << answer % MOD << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:31:54.945Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-8:programming:02:q37uyylt05sc3krbqmd2",
+      "title": "树上旅行",
+      "algorithm": "父链与最小儿子链二进制跳跃",
+      "complexity": "O((n + q + Σk) log n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, q;\n    cin >> n >> q;\n    vector<int> parent(n + 1, 1), minChild(n + 1, 0);\n    for (int i = 2; i <= n; ++i) {\n        cin >> parent[i];\n        if (minChild[parent[i]] == 0 || i < minChild[parent[i]]) {\n            minChild[parent[i]] = i;\n        }\n    }\n    const int LOG = 18;\n    vector<vector<int>> up(LOG, vector<int>(n + 1, 1));\n    vector<vector<int>> down(LOG, vector<int>(n + 1, 1));\n    for (int i = 1; i <= n; ++i) {\n        up[0][i] = (i == 1 ? 1 : parent[i]);\n        down[0][i] = (minChild[i] == 0 ? i : minChild[i]);\n    }\n    for (int j = 1; j < LOG; ++j) {\n        for (int i = 1; i <= n; ++i) {\n            up[j][i] = up[j - 1][up[j - 1][i]];\n            down[j][i] = down[j - 1][down[j - 1][i]];\n        }\n    }\n    auto jump = [&](int node, int steps, const vector<vector<int>>& table) {\n        for (int j = 0; j < LOG; ++j) {\n            if (steps & (1 << j)) node = table[j][node];\n        }\n        return node;\n    };\n    while (q--) {\n        int s, k;\n        cin >> s >> k;\n        int cur = s;\n        for (int i = 0; i < k; ++i) {\n            int move;\n            cin >> move;\n            if (move > 0) cur = jump(cur, move, up);\n            else cur = jump(cur, -move, down);\n        }\n        cout << cur << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:31:56.076Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-4:programming:01:auizd9mo6bcpgbo6jc9g",
+      "title": "排序",
+      "algorithm": "排序后统计逆序对",
+      "complexity": "O(n^2)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nstruct Student {\n    long long height;\n    long long weight;\n    int original;\n};\nint main() {\n    int n;\n    cin >> n;\n    vector<Student> students(n);\n    for (int i = 0; i < n; ++i) {\n        cin >> students[i].height >> students[i].weight;\n        students[i].original = i;\n    }\n    sort(students.begin(), students.end(), [](const Student& a, const Student& b) {\n        if (a.height != b.height) return a.height > b.height;\n        if (a.weight != b.weight) return a.weight > b.weight;\n        return a.original < b.original;\n    });\n    long long answer = 0;\n    for (int i = 0; i < n; ++i) {\n        for (int j = i + 1; j < n; ++j) {\n            if (students[i].original > students[j].original) ++answer;\n        }\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:31:57.544Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-4:programming:02:s7nobrx2dufd3i9styc0",
+      "title": "画布裁剪",
+      "algorithm": "按边界截取子矩阵",
+      "complexity": "O(hw)",
+      "code": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int h, w, x1, x2, y1, y2;\n    cin >> h >> w >> x1 >> x2 >> y1 >> y2;\n    for (int i = 1; i <= h; ++i) {\n        string row;\n        cin >> row;\n        if (i >= x1 && i <= x2) {\n            cout << row.substr(y1 - 1, y2 - y1 + 1) << \"\\n\";\n        }\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:31:58.744Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-6:programming:01:ddczp52jpd7s2vuj10as",
+      "title": "学习小组",
+      "algorithm": "动态规划",
+      "complexity": "O(n^2)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> activity(n + 1), dp(n + 1, 0);\n    for (int i = 1; i <= n; ++i) cin >> activity[i];\n    for (int i = 1; i <= n; ++i) {\n        for (int size = 1; size <= i; ++size) {\n            dp[i] = max(dp[i], dp[i - size] + activity[size]);\n        }\n    }\n    cout << dp[n] << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:31:59.758Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-6:programming:02:gpxy8w0r8dcrh52rlb34",
+      "title": "最大因数",
+      "algorithm": "不断除以最小质因子并求 LCA 距离",
+      "complexity": "O(q sqrt(V))",
+      "code": "#include <iostream>\nusing namespace std;\nlong long parentNode(long long x) {\n    if (x <= 1) return 0;\n    for (long long p = 2; p * p <= x; ++p) {\n        if (x % p == 0) return x / p;\n    }\n    return 1;\n}\nint depthNode(long long x) {\n    int depth = 0;\n    while (x > 1) {\n        x = parentNode(x);\n        ++depth;\n    }\n    return depth;\n}\nint main() {\n    int q;\n    cin >> q;\n    while (q--) {\n        long long x, y;\n        cin >> x >> y;\n        int dx = depthNode(x);\n        int dy = depthNode(y);\n        int answer = 0;\n        while (dx > dy) {\n            x = parentNode(x);\n            --dx;\n            ++answer;\n        }\n        while (dy > dx) {\n            y = parentNode(y);\n            --dy;\n            ++answer;\n        }\n        while (x != y) {\n            x = parentNode(x);\n            y = parentNode(y);\n            answer += 2;\n        }\n        cout << answer << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:00.838Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-5:programming:01:igjucpj8xpaqw194v8mq",
+      "title": "奖品兑换",
+      "algorithm": "二分答案",
+      "complexity": "O(log(n+m))",
+      "code": "#include <algorithm>\n#include <iostream>\nusing namespace std;\nbool can(long long total, long long n, long long m, long long a, long long b) {\n    if (a == b) return total * a <= min(n, m);\n    long long diff = a - b;\n    if (diff < 0) {\n        swap(n, m);\n        swap(a, b);\n        diff = -diff;\n    }\n    long long left = max(0LL, (a * total - m + diff - 1) / diff);\n    long long right = min(total, (n - b * total) / diff);\n    return left <= right;\n}\nint main() {\n    long long n, m, a, b;\n    cin >> n >> m >> a >> b;\n    long long left = 0, right = (n + m) / (a + b), answer = 0;\n    while (left <= right) {\n        long long mid = (left + right) / 2;\n        if (can(mid, n, m, a, b)) {\n            answer = mid;\n            left = mid + 1;\n        } else {\n            right = mid - 1;\n        }\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:01.851Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-5:programming:02:k3yol5zaqy607efpq7s4",
+      "title": "最大公因数",
+      "algorithm": "差分 gcd",
+      "complexity": "O(n log V + q log V)",
+      "code": "#include <iostream>\n#include <numeric>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, q;\n    cin >> n >> q;\n    vector<long long> a(n);\n    for (int i = 0; i < n; ++i) cin >> a[i];\n    long long g = 0;\n    for (int i = 1; i < n; ++i) g = gcd(g, a[i] - a[0]);\n    for (int i = 1; i <= q; ++i) {\n        cout << gcd(a[0] + i, g) << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:02.949Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-2:programming:01:tt2lzd9ydzi38xav0585",
+      "title": "数三角形",
+      "algorithm": "枚举统计",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    long long odd = (n + 1) / 2;\n    long long total = n * (n + 1) / 2;\n    long long bothOdd = odd * (odd + 1) / 2;\n    cout << total - bothOdd << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:04.232Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-2:programming:02:m73vwhtbi9rahc7qaowz",
+      "title": "幂和数",
+      "algorithm": "枚举 2 的幂并去重",
+      "complexity": "O(log^2 r)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long l, r;\n    cin >> l >> r;\n    bool seen[10001] = {false};\n    for (long long a = 1; a <= r; a <<= 1) {\n        for (long long b = 1; a + b <= r; b <<= 1) {\n            if (a + b >= l) seen[a + b] = true;\n        }\n    }\n    long long ans = 0;\n    for (long long x = l; x <= r; ++x) ans += seen[x];\n    cout << ans << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:05.258Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-3:programming:01:dg8iimljynxm6wh5zsrh",
+      "title": "分糖果",
+      "algorithm": "贪心",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long previous = 0;\n    long long answer = 0;\n    for (int i = 0; i < n; ++i) {\n        long long need;\n        cin >> need;\n        long long current = need;\n        if (current <= previous) current = previous + 1;\n        answer += current;\n        previous = current;\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:06.447Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-3:programming:02:hfmv4j202fy194ay1nfz",
+      "title": "奇偶校验",
+      "algorithm": "位计数",
+      "complexity": "O(n log V)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int total = 0;\n    for (int i = 0; i < n; ++i) {\n        int x;\n        cin >> x;\n        while (x) {\n            total += x & 1;\n            x >>= 1;\n        }\n    }\n    cout << total << \" \" << (total % 2) << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:07.503Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-8:programming:01:c1goi1p5ku8vo1q87w5f",
+      "title": "上学",
+      "algorithm": "Dijkstra 最短路",
+      "complexity": "O((n+m) log n)",
+      "code": "#include <functional>\n#include <iostream>\n#include <queue>\n#include <utility>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, m, s, q;\n    cin >> n >> m >> s >> q;\n    vector<vector<pair<int, int>>> graph(n + 1);\n    for (int i = 0; i < m; ++i) {\n        int u, v, w;\n        cin >> u >> v >> w;\n        graph[u].push_back({v, w});\n        graph[v].push_back({u, w});\n    }\n    const long long INF = (1LL << 62);\n    vector<long long> dist(n + 1, INF);\n    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> pq;\n    dist[s] = 0;\n    pq.push({0, s});\n    while (!pq.empty()) {\n        auto [d, u] = pq.top();\n        pq.pop();\n        if (d != dist[u]) continue;\n        for (auto [v, w] : graph[u]) {\n            if (dist[v] > d + w) {\n                dist[v] = d + w;\n                pq.push({dist[v], v});\n            }\n        }\n    }\n    while (q--) {\n        int h;\n        cin >> h;\n        cout << dist[h] << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:08.473Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-8:programming:02:yscw0a7hxfr6fn0b68xy",
+      "title": "割裂",
+      "algorithm": "LCA + 树上差分统计路径覆盖",
+      "complexity": "O((n + a) log n)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, a;\n    cin >> n >> a;\n    vector<vector<int>> graph(n + 1);\n    for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        cin >> u >> v;\n        graph[u].push_back(v);\n        graph[v].push_back(u);\n    }\n    const int LOG = 18;\n    vector<int> depth(n + 1, 0), parent(n + 1, 0), order;\n    vector<vector<int>> up(LOG, vector<int>(n + 1, 0));\n    order.reserve(n);\n    order.push_back(1);\n    parent[1] = 0;\n    for (int i = 0; i < (int)order.size(); ++i) {\n        int u = order[i];\n        for (int v : graph[u]) {\n            if (v == parent[u]) continue;\n            parent[v] = u;\n            depth[v] = depth[u] + 1;\n            order.push_back(v);\n        }\n    }\n    for (int i = 1; i <= n; ++i) up[0][i] = parent[i];\n    for (int j = 1; j < LOG; ++j) {\n        for (int i = 1; i <= n; ++i) {\n            up[j][i] = up[j - 1][i] ? up[j - 1][up[j - 1][i]] : 0;\n        }\n    }\n    auto lca = [&](int u, int v) {\n        if (depth[u] < depth[v]) swap(u, v);\n        int diff = depth[u] - depth[v];\n        for (int j = 0; j < LOG; ++j) {\n            if (diff & (1 << j)) u = up[j][u];\n        }\n        if (u == v) return u;\n        for (int j = LOG - 1; j >= 0; --j) {\n            if (up[j][u] != up[j][v]) {\n                u = up[j][u];\n                v = up[j][v];\n            }\n        }\n        return parent[u];\n    };\n    vector<long long> diff(n + 1, 0);\n    for (int i = 0; i < a; ++i) {\n        int u, v;\n        cin >> u >> v;\n        int w = lca(u, v);\n        diff[u] += 1;\n        diff[v] += 1;\n        diff[w] -= 1;\n        if (parent[w]) diff[parent[w]] -= 1;\n    }\n    int bu, bv;\n    cin >> bu >> bv;\n    vector<long long> cover = diff;\n    for (int i = n - 1; i >= 1; --i) {\n        int u = order[i];\n        cover[parent[u]] += cover[u];\n    }\n    int w = lca(bu, bv);\n    int answer = 0;\n    int u = bu;\n    while (u != w) {\n        if (cover[u] == 0) ++answer;\n        u = parent[u];\n    }\n    vector<int> path;\n    u = bv;\n    while (u != w) {\n        path.push_back(u);\n        u = parent[u];\n    }\n    if (cover[w] == 0) ++answer;\n    for (int i = (int)path.size() - 1; i >= 0; --i) {\n        if (cover[path[i]] == 0) ++answer;\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:09.033Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-1:programming:01:iaml0x1tvsi8qh7ycmch",
+      "title": "假期阅读",
+      "algorithm": "直接计算",
+      "complexity": "O(1)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, k, t;\n    cin >> n >> k >> t;\n    long long ans = k * t;\n    if (ans > n) ans = n;\n    cout << ans << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:09.911Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-06:cxx:level-1:programming:02:qkris3b9wz9dnky8x5o9",
+      "title": "值日",
+      "algorithm": "最大公约数 / 最小公倍数",
+      "complexity": "O(log(min(m, n)))",
+      "code": "#include <iostream>\nusing namespace std;\nlong long gcdll(long long a, long long b) {\n    while (b != 0) {\n        long long t = a % b;\n        a = b;\n        b = t;\n    }\n    return a;\n}\nint main() {\n    long long m, n;\n    cin >> m >> n;\n    cout << m / gcdll(m, n) * n << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:11.278Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-5:programming:01:mlmyusjef1deqx72ol2e",
+      "title": "原根判断",
+      "algorithm": "快速幂 + 分解 p-1",
+      "complexity": "O(Tsqrt(p))",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nlong long modPow(long long a, long long e, long long mod) {\n    long long result = 1 % mod;\n    while (e > 0) {\n        if (e & 1) result = result * a % mod;\n        a = a * a % mod;\n        e >>= 1;\n    }\n    return result;\n}\nint main() {\n    int T;\n    cin >> T;\n    while (T--) {\n        long long a, p;\n        cin >> a >> p;\n        long long phi = p - 1;\n        vector<long long> factors;\n        long long x = phi;\n        for (long long d = 2; d * d <= x; ++d) {\n            if (x % d != 0) continue;\n            factors.push_back(d);\n            while (x % d == 0) x /= d;\n        }\n        if (x > 1) factors.push_back(x);\n        bool ok = true;\n        for (long long q : factors) {\n            if (modPow(a, phi / q, p) == 1) {\n                ok = false;\n                break;\n            }\n        }\n        cout << (ok ? \"Yes\" : \"No\") << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:11.771Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-5:programming:02:nyle74dkcyd35kzpd23a",
+      "title": "平均分配",
+      "algorithm": "贪心排序",
+      "complexity": "O(n log n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int total = 2 * n;\n    vector<long long> b(total), c(total), delta(total);\n    for (int i = 0; i < total; ++i) cin >> b[i];\n    long long answer = 0;\n    for (int i = 0; i < total; ++i) {\n        cin >> c[i];\n        answer += c[i];\n        delta[i] = b[i] - c[i];\n    }\n    sort(delta.begin(), delta.end(), greater<long long>());\n    for (int i = 0; i < n; ++i) answer += delta[i];\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:12.273Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-7:programming:01:0kibm8hufycrcv8wrvh6",
+      "title": "等价消除",
+      "algorithm": "前缀奇偶状态计数",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\n#include <string>\n#include <unordered_map>\nusing namespace std;\nint main() {\n    int n;\n    string s;\n    cin >> n >> s;\n    unordered_map<int, long long> freq;\n    freq.reserve(n * 2 + 1);\n    int mask = 0;\n    long long answer = 0;\n    freq[0] = 1;\n    for (char ch : s) {\n        mask ^= 1 << (ch - 'a');\n        answer += freq[mask];\n        ++freq[mask];\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:13.649Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-7:programming:02:dbb8ludic84e5e6b5e6e",
+      "title": "图上移动",
+      "algorithm": "bitset 动态转移",
+      "complexity": "O(k * n^3 / 64)",
+      "code": "#include <bitset>\n#include <iostream>\n#include <vector>\nusing namespace std;\nconst int MAXN = 505;\nint main() {\n    int n, m, k;\n    cin >> n >> m >> k;\n    vector<bitset<MAXN>> incoming(n + 1);\n    for (int i = 0; i < m; ++i) {\n        int u, v;\n        cin >> u >> v;\n        incoming[v].set(u);\n        incoming[u].set(v);\n    }\n    vector<bitset<MAXN>> current(n + 1), nextState(n + 1);\n    vector<vector<int>> answer(n + 1, vector<int>(k + 1, 0));\n    for (int i = 1; i <= n; ++i) current[i].set(i);\n    for (int step = 1; step <= k; ++step) {\n        for (int s = 1; s <= n; ++s) {\n            nextState[s].reset();\n            for (int v = 1; v <= n; ++v) {\n                if ((current[s] & incoming[v]).any()) {\n                    nextState[s].set(v);\n                }\n            }\n            answer[s][step] = static_cast<int>(nextState[s].count());\n        }\n        current.swap(nextState);\n    }\n    for (int s = 1; s <= n; ++s) {\n        for (int step = 1; step <= k; ++step) {\n            if (step > 1) cout << ' ';\n            cout << answer[s][step];\n        }\n        cout << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:14.797Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-6:programming:01:m5ub08uo6js8r9to9thg",
+      "title": "环线",
+      "algorithm": "环形最大子段和",
+      "complexity": "O(n)",
+      "code": "#include <algorithm>\n#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long total = 0;\n    long long maxEnding = 0, maxSum = -(1LL << 60);\n    long long minEnding = 0, minSum = (1LL << 60);\n    long long bestSingle = -(1LL << 60);\n    for (int i = 0; i < n; ++i) {\n        long long x;\n        cin >> x;\n        total += x;\n        bestSingle = max(bestSingle, x);\n        maxEnding = max(x, maxEnding + x);\n        maxSum = max(maxSum, maxEnding);\n        minEnding = min(x, minEnding + x);\n        minSum = min(minSum, minEnding);\n    }\n    if (bestSingle < 0) cout << bestSingle << \"\\n\";\n    else cout << max(maxSum, total - minSum) << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:15.373Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-6:programming:02:p1fof06neyohj4pkmeqf",
+      "title": "树上漫步",
+      "algorithm": "树染色统计二分图大小",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<vector<int>> graph(n + 1);\n    for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        cin >> u >> v;\n        graph[u].push_back(v);\n        graph[v].push_back(u);\n    }\n    vector<int> color(n + 1, -1);\n    vector<int> stack = {1};\n    color[1] = 0;\n    long long cnt[2] = {1, 0};\n    for (int idx = 0; idx < (int)stack.size(); ++idx) {\n        int u = stack[idx];\n        for (int v : graph[u]) {\n            if (color[v] != -1) continue;\n            color[v] = color[u] ^ 1;\n            ++cnt[color[v]];\n            stack.push_back(v);\n        }\n    }\n    for (int i = 1; i <= n; ++i) {\n        if (i > 1) cout << ' ';\n        cout << cnt[color[i]];\n    }\n    cout << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:16.347Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-4:programming:01:gx66h4jc5n9crla1qwys",
+      "title": "二阶矩阵",
+      "algorithm": "枚举 2x2 子矩阵",
+      "complexity": "O(nm)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vector<vector<long long>> a(n, vector<long long>(m));\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < m; ++j) cin >> a[i][j];\n    }\n    long long answer = 0;\n    for (int i = 0; i + 1 < n; ++i) {\n        for (int j = 0; j + 1 < m; ++j) {\n            if (a[i][j] * a[i + 1][j + 1] == a[i][j + 1] * a[i + 1][j]) ++answer;\n        }\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:17.544Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-4:programming:02:xhmb46iq94git5wsjji9",
+      "title": "荒地开垦",
+      "algorithm": "局部增量评估",
+      "complexity": "O(nm)",
+      "code": "#include <iostream>\n#include <set>\n#include <string>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vector<string> grid(n);\n    for (int i = 0; i < n; ++i) cin >> grid[i];\n    const int dx[5] = {0, -1, 1, 0, 0};\n    const int dy[5] = {0, 0, 0, -1, 1};\n    auto inside = [&](int x, int y) {\n        return x >= 0 && x < n && y >= 0 && y < m;\n    };\n    auto cultivable = [&](int x, int y, int rx, int ry) {\n        for (int dir = 0; dir < 5; ++dir) {\n            int nx = x + dx[dir];\n            int ny = y + dy[dir];\n            if (!inside(nx, ny)) continue;\n            if (grid[nx][ny] == '#' && !(nx == rx && ny == ry)) return false;\n        }\n        return true;\n    };\n    vector<vector<int>> base(n, vector<int>(m, 0));\n    int baseTotal = 0;\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < m; ++j) {\n            if (grid[i][j] == '.' && cultivable(i, j, -1, -1)) {\n                base[i][j] = 1;\n                ++baseTotal;\n            }\n        }\n    }\n    int answer = baseTotal;\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < m; ++j) {\n            if (grid[i][j] != '#') continue;\n            set<pair<int, int>> affected;\n            affected.insert({i, j});\n            for (int dir = 1; dir < 5; ++dir) {\n                int nx = i + dx[dir];\n                int ny = j + dy[dir];\n                if (inside(nx, ny)) affected.insert({nx, ny});\n            }\n            int current = baseTotal;\n            for (auto [x, y] : affected) current -= base[x][y];\n            for (auto [x, y] : affected) {\n                if (cultivable(x, y, i, j)) ++current;\n            }\n            if (current > answer) answer = current;\n        }\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:18.162Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-3:programming:01:ujivgnt7eiohm99v9bw0",
+      "title": "词频统计",
+      "algorithm": "哈希计数",
+      "complexity": "O(nL)",
+      "code": "#include <cctype>\n#include <iostream>\n#include <string>\n#include <unordered_map>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    unordered_map<string, int> freq;\n    string best = \"\";\n    int bestCount = -1;\n    for (int i = 0; i < n; ++i) {\n        string s;\n        cin >> s;\n        for (char &ch : s) ch = static_cast<char>(tolower(static_cast<unsigned char>(ch)));\n        int current = ++freq[s];\n        if (current > bestCount) {\n            bestCount = current;\n            best = s;\n        }\n    }\n    cout << best << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:18.744Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-3:programming:02:bxbswp4cqfjyt9udzloo",
+      "title": "2025",
+      "algorithm": "按位恒等式",
+      "complexity": "O(1)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int x;\n    cin >> x;\n    int y = 2025 - x;\n    if (y > 0) cout << y << \"\\n\";\n    else cout << -1 << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:19.297Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-2:programming:01:itwo3xp47dem821s6dcw",
+      "title": "等差矩阵",
+      "algorithm": "直接构造",
+      "complexity": "O(nm)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, m;\n    cin >> n >> m;\n    for (int i = 1; i <= n; ++i) {\n        for (int j = 1; j <= m; ++j) {\n            if (j > 1) cout << ' ';\n            cout << 1LL * i * j;\n        }\n        cout << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:19.751Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-2:programming:02:jhl63g11psdz12gzv206",
+      "title": "时间跨越",
+      "algorithm": "模拟",
+      "complexity": "O(k/24)",
+      "code": "#include <iostream>\nusing namespace std;\nbool isLeap(int year) {\n    return (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);\n}\nint daysInMonth(int year, int month) {\n    static const int days[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};\n    if (month == 2 && isLeap(year)) return 29;\n    return days[month];\n}\nint main() {\n    int y, m, d, h, k;\n    cin >> y >> m >> d >> h >> k;\n    h += k;\n    while (h >= 24) {\n        h -= 24;\n        ++d;\n        if (d > daysInMonth(y, m)) {\n            d = 1;\n            ++m;\n            if (m > 12) {\n                m = 1;\n                ++y;\n            }\n        }\n    }\n    cout << y << \"\\n\" << m << \"\\n\" << d << \"\\n\" << h << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:20.253Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-1:programming:01:d15nqpntdzsz82c490ex",
+      "title": "四舍五入",
+      "algorithm": "直接计算",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; ++i) {\n        int x;\n        cin >> x;\n        cout << ((x + 5) / 10) * 10 << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:20.741Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2025-03:cxx:level-1:programming:02:9lq5dydmrxwogxb7dzu0",
+      "title": "图书馆里的老鼠",
+      "algorithm": "直接计算",
+      "complexity": "O(1)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, x, y;\n    cin >> n >> x >> y;\n    cout << n - (y + x - 1) / x << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:21.287Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-8:programming:01:s1fsgtdzqz3i2yc1e0a2",
+      "title": "排队",
+      "algorithm": "链式组件计数",
+      "complexity": "O(n + m)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nconst long long MOD = 1000000007LL;\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vector<int> out(n + 1, 0), in(n + 1, 0), parent(n + 1);\n    vector<int> degree(n + 1, 0);\n    for (int i = 1; i <= n; ++i) parent[i] = i;\n    auto find = [&](int x) {\n        int r = x;\n        while (parent[r] != r) r = parent[r];\n        while (parent[x] != x) {\n            int p = parent[x];\n            parent[x] = r;\n            x = p;\n        }\n        return r;\n    };\n    auto unite = [&](int a, int b) {\n        a = find(a);\n        b = find(b);\n        if (a != b) parent[a] = b;\n    };\n    bool ok = true;\n    for (int i = 0; i < m; ++i) {\n        int a, b;\n        cin >> a >> b;\n        if (out[a] || in[b]) ok = false;\n        out[a] = b;\n        in[b] = a;\n        ++degree[a];\n        ++degree[b];\n        if (degree[a] > 2 || degree[b] > 2) ok = false;\n        unite(a, b);\n    }\n    if (ok) {\n        vector<int> nodeCount(n + 1, 0), headCount(n + 1, 0);\n        for (int i = 1; i <= n; ++i) {\n            int r = find(i);\n            ++nodeCount[r];\n            if (in[i] == 0) ++headCount[r];\n        }\n        for (int i = 1; i <= n; ++i) {\n            if (nodeCount[i] > 1 && headCount[i] != 1) ok = false;\n        }\n    }\n    if (!ok) {\n        cout << 0 << \"\\n\";\n        return 0;\n    }\n    int components = 0;\n    vector<int> seen(n + 1, 0);\n    for (int i = 1; i <= n; ++i) {\n        int r = find(i);\n        if (!seen[r]) {\n            seen[r] = 1;\n            ++components;\n        }\n    }\n    long long answer = 1;\n    for (int i = 2; i <= components; ++i) answer = answer * i % MOD;\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 3,
+        "verified_at": "2026-07-07T16:32:22.344Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-8:programming:02:8k63f1vsibnh27e7sf3y",
+      "title": "树上移动",
+      "algorithm": "枚举起点 DFS 统计路径黑点数",
+      "complexity": "O(n^2)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint n, k;\nvector<int> color;\nvector<vector<int>> graph;\nint answer = 0;\nvoid dfs(int u, int parent, int blackCount, int length) {\n    if (blackCount <= k && length > answer) answer = length;\n    for (int v : graph[u]) {\n        if (v == parent) continue;\n        dfs(v, u, blackCount + color[v], length + 1);\n    }\n}\nint main() {\n    cin >> n >> k;\n    color.assign(n + 1, 0);\n    for (int i = 1; i <= n; ++i) cin >> color[i];\n    graph.assign(n + 1, {});\n    for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        cin >> u >> v;\n        graph[u].push_back(v);\n        graph[v].push_back(u);\n    }\n    for (int s = 1; s <= n; ++s) {\n        dfs(s, 0, color[s], 1);\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:24.595Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-7:programming:01:t41y23uu3wkzbb64aqi4",
+      "title": "燃烧",
+      "algorithm": "按权值升序的树上 DAG 动态规划",
+      "complexity": "O(n log n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<int> a(n + 1);\n    for (int i = 1; i <= n; ++i) cin >> a[i];\n    vector<vector<int>> graph(n + 1);\n    for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        cin >> u >> v;\n        graph[u].push_back(v);\n        graph[v].push_back(u);\n    }\n    vector<int> order(n);\n    for (int i = 0; i < n; ++i) order[i] = i + 1;\n    sort(order.begin(), order.end(), [&](int lhs, int rhs) {\n        if (a[lhs] != a[rhs]) return a[lhs] < a[rhs];\n        return lhs < rhs;\n    });\n    vector<int> dp(n + 1, 1);\n    int answer = 1;\n    for (int u : order) {\n        for (int v : graph[u]) {\n            if (a[u] > a[v]) dp[u] += dp[v];\n        }\n        answer = max(answer, dp[u]);\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:25.240Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-7:programming:02:yfsnssnhcle5tkowcmni",
+      "title": "武器购买",
+      "algorithm": "0/1 背包",
+      "complexity": "O(t * n * Q)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        int n, P, Q;\n        cin >> n >> P >> Q;\n        vector<int> dp(Q + 1, 0);\n        for (int i = 0; i < n; ++i) {\n            int power, cost;\n            cin >> power >> cost;\n            for (int c = Q; c >= cost; --c) {\n                dp[c] = max(dp[c], dp[c - cost] + power);\n            }\n        }\n        int answer = -1;\n        for (int c = 0; c <= Q; ++c) {\n            if (dp[c] >= P) {\n                answer = c;\n                break;\n            }\n        }\n        cout << answer << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:25.950Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-6:programming:01:rybsmkfkt6xgggq4apad",
+      "title": "运送物资",
+      "algorithm": "排序 + 重排不等式",
+      "complexity": "O((n+m)log(n+m))",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, m;\n    long long x;\n    cin >> n >> m >> x;\n    vector<pair<long long, int>> stations;\n    stations.reserve(n);\n    for (int i = 0; i < n; ++i) {\n        long long p;\n        int c;\n        cin >> p >> c;\n        stations.push_back({p, c});\n    }\n    vector<long long> weights;\n    weights.reserve(m);\n    long long answer = 0;\n    for (int i = 0; i < m; ++i) {\n        long long a, b;\n        cin >> a >> b;\n        answer += 2LL * b * x;\n        weights.push_back(a - b);\n    }\n    sort(stations.begin(), stations.end(), [](const auto& lhs, const auto& rhs) {\n        return lhs.first < rhs.first;\n    });\n    sort(weights.begin(), weights.end(), greater<long long>());\n    int idx = 0;\n    for (const auto& [p, c] : stations) {\n        for (int cnt = 0; cnt < c && idx < m; ++cnt) {\n            answer += 2LL * weights[idx] * p;\n            ++idx;\n        }\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:26.778Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-6:programming:02:0kn3z9r83wq5qovj7kc5",
+      "title": "树上游走",
+      "algorithm": "直接模拟",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    long long n, s;\n    string ops;\n    cin >> n >> s >> ops;\n    for (char op : ops) {\n        if (op == 'U') {\n            if (s > 1) s /= 2;\n        } else if (op == 'L') {\n            s *= 2;\n        } else {\n            s = s * 2 + 1;\n        }\n    }\n    cout << s << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:27.517Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-4:programming:01:si3hnthtv7qlk4zmvct1",
+      "title": "Recamán",
+      "algorithm": "模拟 + 去重",
+      "complexity": "O(n log n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <set>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    set<int> used;\n    a[0] = 1;\n    used.insert(1);\n    for (int k = 2; k <= n; ++k) {\n        int candidate = a[k - 2] - k;\n        if (candidate > 0 && !used.count(candidate)) a[k - 1] = candidate;\n        else a[k - 1] = a[k - 2] + k;\n        used.insert(a[k - 1]);\n    }\n    sort(a.begin(), a.end());\n    for (int i = 0; i < n; ++i) {\n        if (i) cout << ' ';\n        cout << a[i];\n    }\n    cout << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:28.013Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-4:programming:02:tskjskgztj776tdid9md",
+      "title": "字符排序",
+      "algorithm": "区间排序判定",
+      "complexity": "O(总字符数 + n log n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <string>\n#include <vector>\nusing namespace std;\nbool nondecreasing(const string& s) {\n    for (int i = 1; i < (int)s.size(); ++i) {\n        if (s[i - 1] > s[i]) return false;\n    }\n    return true;\n}\nint main() {\n    int T;\n    cin >> T;\n    while (T--) {\n        int n;\n        cin >> n;\n        vector<string> a(n);\n        bool ok = true;\n        for (int i = 0; i < n; ++i) {\n            cin >> a[i];\n            if (!nondecreasing(a[i])) ok = false;\n        }\n        sort(a.begin(), a.end(), [](const string& lhs, const string& rhs) {\n            if (lhs.front() != rhs.front()) return lhs.front() < rhs.front();\n            return lhs.back() < rhs.back();\n        });\n        for (int i = 1; i < n; ++i) {\n            if (a[i - 1].back() > a[i].front()) ok = false;\n        }\n        cout << (ok ? 1 : 0) << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:29.323Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-5:programming:01:qic1swvc05zjn54appss",
+      "title": "奇妙数字",
+      "algorithm": "质因数分解 + 三角数贪心",
+      "complexity": "O(sqrt(n))",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    long long answer = 0;\n    for (long long p = 2; p * p <= n; ++p) {\n        if (n % p != 0) continue;\n        int exponent = 0;\n        while (n % p == 0) {\n            n /= p;\n            ++exponent;\n        }\n        int k = 0;\n        while ((k + 1) * (k + 2) / 2 <= exponent) ++k;\n        answer += k;\n    }\n    if (n > 1) ++answer;\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:29.896Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-5:programming:02:11oviapa2gbfztalfyj2",
+      "title": "武器强化",
+      "algorithm": "枚举目标票数 + 贪心转移",
+      "complexity": "O(m^2 log m)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <limits>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vector<vector<long long>> costByWeapon(n + 1);\n    vector<int> cnt(n + 1, 0);\n    for (int i = 0; i < m; ++i) {\n        int p;\n        long long c;\n        cin >> p >> c;\n        costByWeapon[p].push_back(c);\n        ++cnt[p];\n    }\n    for (int i = 1; i <= n; ++i) sort(costByWeapon[i].begin(), costByWeapon[i].end());\n    long long answer = numeric_limits<long long>::max();\n    for (int target = cnt[1]; target <= m; ++target) {\n        long long cost = 0;\n        int have = cnt[1];\n        vector<long long> optional;\n        for (int weapon = 2; weapon <= n; ++weapon) {\n            int extra = max(0, cnt[weapon] - (target - 1));\n            for (int i = 0; i < extra; ++i) {\n                cost += costByWeapon[weapon][i];\n                ++have;\n            }\n            for (int i = extra; i < cnt[weapon]; ++i) optional.push_back(costByWeapon[weapon][i]);\n        }\n        if (have < target) {\n            sort(optional.begin(), optional.end());\n            for (int i = 0; i < target - have; ++i) cost += optional[i];\n        }\n        answer = min(answer, cost);\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:30.654Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-3:programming:01:g56y0pueralsia58a96g",
+      "title": "数字替换",
+      "algorithm": "扫描替换",
+      "complexity": "O(n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) cin >> a[i];\n    int mn = *min_element(a.begin(), a.end());\n    int mx = *max_element(a.begin(), a.end());\n    for (int i = 0; i < n; ++i) {\n        if (a[i] > k) a[i] = mx;\n        else if (a[i] < k) a[i] = mn;\n    }\n    for (int i = 0; i < n; ++i) {\n        if (i) cout << ' ';\n        cout << a[i];\n    }\n    cout << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:31.206Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-3:programming:02:7ve86etfk2jp3mtec2dm",
+      "title": "打印数字",
+      "algorithm": "按模板输出",
+      "complexity": "O(len)",
+      "code": "#include <iostream>\n#include <string>\n#include <vector>\nusing namespace std;\nint main() {\n    string s;\n    cin >> s;\n    vector<vector<string>> pattern = {\n        {\".....\", \".***.\", \".***.\", \".***.\", \".....\"},\n        {\"****.\", \"****.\", \"****.\", \"****.\", \"****.\"},\n        {\".....\", \"****.\", \".....\", \".****\", \".....\"},\n        {\".....\", \"****.\", \".....\", \"****.\", \".....\"}\n    };\n    for (int row = 0; row < 5; ++row) {\n        for (char ch : s) cout << pattern[ch - '0'][row];\n        cout << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:31.716Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-2:programming:01:2nak6hhwr8jwstbo4coz",
+      "title": "数位和",
+      "algorithm": "枚举数位",
+      "complexity": "O(n log V)",
+      "code": "#include <iostream>\nusing namespace std;\nint digitSum(long long x) {\n    int sum = 0;\n    while (x > 0) {\n        sum += x % 10;\n        x /= 10;\n    }\n    return sum;\n}\nint main() {\n    int n;\n    cin >> n;\n    int answer = 0;\n    for (int i = 0; i < n; ++i) {\n        long long x;\n        cin >> x;\n        answer = max(answer, digitSum(x));\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:32.263Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-2:programming:02:6y71rtawfk6lswd06khv",
+      "title": "寻找数字",
+      "algorithm": "整数四次根判定",
+      "complexity": "O(t)",
+      "code": "#include <iostream>\nusing namespace std;\nlong long pow4(long long x) {\n    return x * x * x * x;\n}\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        long long a;\n        cin >> a;\n        long long left = 1, right = 100;\n        while (left <= right) {\n            long long mid = (left + right) / 2;\n            long long value = pow4(mid);\n            if (value == a) {\n                cout << mid << \"\\n\";\n                goto done;\n            }\n            if (value < a) left = mid + 1;\n            else right = mid - 1;\n        }\n        cout << -1 << \"\\n\";\ndone:\n        ;\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:32.783Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-1:programming:01:14mlc80vvukd6mck74v9",
+      "title": "温度转换",
+      "algorithm": "公式计算",
+      "complexity": "O(1)",
+      "code": "#include <iomanip>\n#include <iostream>\nusing namespace std;\nint main() {\n    double K;\n    cin >> K;\n    double C = K - 273.15;\n    double F = C * 1.8 + 32.0;\n    if (F > 212.0) {\n        cout << \"Temperature is too high!\\n\";\n    } else {\n        cout << fixed << setprecision(2) << C << \" \" << F << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:33.468Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-12:cxx:level-1:programming:02:9mzda0afx95mrgq4wjnq",
+      "title": "奇数和偶数",
+      "algorithm": "计数",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int odd = 0, even = 0;\n    for (int i = 0; i < n; ++i) {\n        long long x;\n        cin >> x;\n        if (x & 1) ++odd;\n        else ++even;\n    }\n    cout << odd << \" \" << even << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:34.448Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-6:programming:01:o4llwn4hvs09g0qmd0ci",
+      "title": "小杨和整数拆分",
+      "algorithm": "完全背包动态规划",
+      "complexity": "O(nsqrt(n))",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    const int INF = 1e9;\n    vector<int> dp(n + 1, INF);\n    dp[0] = 0;\n    for (int i = 1; i * i <= n; ++i) {\n        int sq = i * i;\n        for (int j = sq; j <= n; ++j) {\n            dp[j] = min(dp[j], dp[j - sq] + 1);\n        }\n    }\n    cout << dp[n] << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:34.927Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-6:programming:02:e9ii8qwu1ksi7426hi5h",
+      "title": "算法学习",
+      "algorithm": "分组贪心 + 可重排判定",
+      "complexity": "O(n log n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int m, n, k;\n    cin >> m >> n >> k;\n    vector<int> topic(n), gain(n);\n    for (int i = 0; i < n; ++i) cin >> topic[i];\n    for (int i = 0; i < n; ++i) cin >> gain[i];\n    vector<vector<int>> groups(m + 1);\n    for (int i = 0; i < n; ++i) groups[topic[i]].push_back(gain[i]);\n    vector<int> counts;\n    long long total = 0;\n    int maxCount = 0;\n    for (int t = 1; t <= m; ++t) {\n        auto &g = groups[t];\n        sort(g.begin(), g.end(), greater<int>());\n        long long sum = 0;\n        int used = 0;\n        while (used < (int)g.size() && sum < k) {\n            sum += g[used];\n            ++used;\n        }\n        if (sum < k) {\n            cout << -1 << \"\\n\";\n            return 0;\n        }\n        counts.push_back(used);\n        total += used;\n        maxCount = max(maxCount, used);\n    }\n    if (maxCount > total - maxCount + 1) {\n        cout << -1 << \"\\n\";\n    } else {\n        cout << total << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:35.494Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-8:programming:01:ghjz2abqdvdd9xm5mf6p",
+      "title": "试题名称：美丽路径",
+      "algorithm": "删边后求森林直径",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\n#include <queue>\n#include <utility>\n#include <vector>\nusing namespace std;\npair<int, int> farthest(int start, const vector<vector<int>>& graph, vector<int>& seen, vector<int>* component) {\n    queue<int> q;\n    q.push(start);\n    seen[start] = 1;\n    vector<int> dist(graph.size(), -1);\n    dist[start] = 0;\n    int bestNode = start;\n    while (!q.empty()) {\n        int u = q.front();\n        q.pop();\n        if (component) component->push_back(u);\n        if (dist[u] > dist[bestNode]) bestNode = u;\n        for (int v : graph[u]) {\n            if (dist[v] != -1) continue;\n            dist[v] = dist[u] + 1;\n            seen[v] = 1;\n            q.push(v);\n        }\n    }\n    return {bestNode, dist[bestNode] + 1};\n}\nint main() {\n    int n;\n    cin >> n;\n    vector<int> color(n + 1);\n    for (int i = 1; i <= n; ++i) cin >> color[i];\n    vector<vector<int>> graph(n + 1);\n    for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        cin >> u >> v;\n        if (color[u] != color[v]) {\n            graph[u].push_back(v);\n            graph[v].push_back(u);\n        }\n    }\n    vector<int> seen(n + 1, 0);\n    int answer = 1;\n    for (int i = 1; i <= n; ++i) {\n        if (seen[i]) continue;\n        vector<int> component;\n        auto [endpoint, _] = farthest(i, graph, seen, &component);\n        vector<int> dummySeen(n + 1, 0);\n        auto [__, diameter] = farthest(endpoint, graph, dummySeen, nullptr);\n        answer = max(answer, diameter);\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:36.608Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-8:programming:02:4djcedxylsacsjopyrpr",
+      "title": "手套配对",
+      "algorithm": "组合计数",
+      "complexity": "O(N + T)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nconst long long MOD = 1000000007LL;\nconst int LIMIT = 2005;\n\nlong long modPow(long long base, long long exp) {\n    long long result = 1;\n    while (exp > 0) {\n        if (exp & 1LL) result = result * base % MOD;\n        base = base * base % MOD;\n        exp >>= 1LL;\n    }\n    return result;\n}\n\nint main() {\n    vector<long long> fact(LIMIT), invFact(LIMIT), pow2(LIMIT);\n    fact[0] = 1;\n    pow2[0] = 1;\n    for (int i = 1; i < LIMIT; ++i) {\n        fact[i] = fact[i - 1] * i % MOD;\n        pow2[i] = pow2[i - 1] * 2 % MOD;\n    }\n    invFact[LIMIT - 1] = modPow(fact[LIMIT - 1], MOD - 2);\n    for (int i = LIMIT - 2; i >= 0; --i) invFact[i] = invFact[i + 1] * (i + 1) % MOD;\n\n    auto comb = [&](int n, int r) -> long long {\n        if (r < 0 || r > n) return 0;\n        return fact[n] * invFact[r] % MOD * invFact[n - r] % MOD;\n    };\n\n    int t;\n    cin >> t;\n    while (t--) {\n        int n, m, k;\n        cin >> n >> m >> k;\n        int single = m - 2 * k;\n        if (single < 0 || single > n - k) {\n            cout << 0 << \"\\n\";\n            continue;\n        }\n        long long answer = comb(n, k) * comb(n - k, single) % MOD * pow2[single] % MOD;\n        cout << answer << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:38.511Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-7:programming:01:lw4ldy2i5ak7229w2cxq",
+      "title": "矩阵移动",
+      "algorithm": "网格路径动态规划",
+      "complexity": "O(t * n * m * x)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <string>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int tests;\n    cin >> tests;\n    const int NEG = -1000000000;\n    while (tests--) {\n        int n, m, limit;\n        cin >> n >> m >> limit;\n        vector<string> grid(n);\n        for (int i = 0; i < n; ++i) cin >> grid[i];\n\n        vector<vector<int>> dp(m, vector<int>(limit + 1, NEG));\n        for (int r = 0; r < n; ++r) {\n            vector<vector<int>> nextRow(m, vector<int>(limit + 1, NEG));\n            for (int c = 0; c < m; ++c) {\n                vector<int> best(limit + 1, NEG);\n                if (r == 0 && c == 0) best[0] = 0;\n                if (r > 0) {\n                    for (int k = 0; k <= limit; ++k) best[k] = max(best[k], dp[c][k]);\n                }\n                if (c > 0) {\n                    for (int k = 0; k <= limit; ++k) best[k] = max(best[k], nextRow[c - 1][k]);\n                }\n                for (int k = 0; k <= limit; ++k) {\n                    if (best[k] == NEG) continue;\n                    if (grid[r][c] == '1') {\n                        nextRow[c][k] = max(nextRow[c][k], best[k] + 1);\n                    } else if (grid[r][c] == '?') {\n                        nextRow[c][k] = max(nextRow[c][k], best[k]);\n                        if (k < limit) nextRow[c][k + 1] = max(nextRow[c][k + 1], best[k] + 1);\n                    } else {\n                        nextRow[c][k] = max(nextRow[c][k], best[k]);\n                    }\n                }\n            }\n            dp.swap(nextRow);\n        }\n\n        int answer = 0;\n        for (int k = 0; k <= limit; ++k) answer = max(answer, dp[m - 1][k]);\n        cout << answer << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:39.625Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-7:programming:02:kzgs658mi108dshd4ah8",
+      "title": "小杨寻宝",
+      "algorithm": "树上关键子树判定",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int T;\n    cin >> T;\n    while (T--) {\n        int n;\n        cin >> n;\n        vector<int> treasure(n + 1);\n        int totalTreasure = 0;\n        for (int i = 1; i <= n; ++i) {\n            cin >> treasure[i];\n            totalTreasure += treasure[i];\n        }\n        vector<vector<int>> graph(n + 1);\n        for (int i = 0; i < n - 1; ++i) {\n            int u, v;\n            cin >> u >> v;\n            graph[u].push_back(v);\n            graph[v].push_back(u);\n        }\n        vector<int> parent(n + 1, 0), order;\n        order.reserve(n);\n        order.push_back(1);\n        for (int i = 0; i < (int)order.size(); ++i) {\n            int u = order[i];\n            for (int v : graph[u]) {\n                if (v == parent[u]) continue;\n                parent[v] = u;\n                order.push_back(v);\n            }\n        }\n        vector<int> need(n + 1, 0);\n        for (int i = n - 1; i >= 0; --i) {\n            int u = order[i];\n            need[u] = treasure[u];\n            for (int v : graph[u]) {\n                if (parent[v] == u) need[u] += need[v];\n            }\n        }\n        bool ok = true;\n        for (int u = 1; u <= n && ok; ++u) {\n            if (need[u] == 0) continue;\n            int degreeInSteiner = 0;\n            if (parent[u] != 0 && need[u] < totalTreasure) ++degreeInSteiner;\n            for (int v : graph[u]) {\n                if (parent[v] == u && need[v] > 0) ++degreeInSteiner;\n            }\n            if (degreeInSteiner > 2) ok = false;\n        }\n        cout << (ok ? \"Yes\" : \"No\") << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:40.336Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-5:programming:01:c44ncxqcicz6jv5kxwfk",
+      "title": "小杨的武器",
+      "algorithm": "贪心分配战斗",
+      "complexity": "O(n + m)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vector<long long> c(n);\n    for (int i = 0; i < n; ++i) cin >> c[i];\n    long long best = *max_element(c.begin(), c.end());\n    long long totalPositive = 0;\n    long long totalChange = 0;\n    for (int i = 0; i < m; ++i) {\n        long long x;\n        cin >> x;\n        totalChange += x;\n        if (x > 0) totalPositive += x;\n    }\n    if (n == 1) cout << c[0] + totalChange << \"\\n\";\n    else cout << best + totalPositive << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:41.716Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-5:programming:02:69955z10j78nciw5see0",
+      "title": "挑战怪物",
+      "algorithm": "平方和 + 质数判定",
+      "complexity": "O(tsqrt(h))",
+      "code": "#include <cmath>\n#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    if (x < 2) return false;\n    for (int i = 2; i * i <= x; ++i) {\n        if (x % i == 0) return false;\n    }\n    return true;\n}\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        int h;\n        cin >> h;\n        int answer = -1;\n        for (int k = 0; 1LL * k * k <= h; ++k) {\n            int remain = h - k * k;\n            if (remain == 0) {\n                answer = k;\n                break;\n            }\n            if (isPrime(remain)) {\n                answer = k + 1;\n                break;\n            }\n        }\n        cout << answer << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:42.488Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-4:programming:01:uqdfoygyqbfd4co7ufkd",
+      "title": "区间排序",
+      "algorithm": "直接模拟",
+      "complexity": "O(qn log n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) cin >> a[i];\n    int q;\n    cin >> q;\n    while (q--) {\n        int l, r;\n        cin >> l >> r;\n        sort(a.begin() + (l - 1), a.begin() + r);\n    }\n    for (int i = 0; i < n; ++i) {\n        if (i) cout << ' ';\n        cout << a[i];\n    }\n    cout << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:43.085Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-4:programming:02:ntlwbvmtzy5tuqlux4bg",
+      "title": "黑白方块",
+      "algorithm": "枚举所有 4x4 子矩形",
+      "complexity": "O(t * n * m)",
+      "code": "#include <iostream>\n#include <string>\n#include <vector>\nusing namespace std;\nint main() {\n    int T;\n    cin >> T;\n    while (T--) {\n        int n, m;\n        cin >> n >> m;\n        vector<string> grid(n);\n        for (int i = 0; i < n; ++i) cin >> grid[i];\n        bool ok = false;\n        for (int i = 0; i + 3 < n && !ok; ++i) {\n            for (int j = 0; j + 3 < m && !ok; ++j) {\n                bool match = true;\n                for (int c = 0; c < 4; ++c) {\n                    if (grid[i][j + c] != '0') match = false;\n                    if (grid[i + 3][j + c] != '0') match = false;\n                }\n                if (grid[i + 1][j] != '0' || grid[i + 1][j + 1] != '1' || grid[i + 1][j + 2] != '1' || grid[i + 1][j + 3] != '0') {\n                    match = false;\n                }\n                if (grid[i + 2][j] != '0' || grid[i + 2][j + 1] != '1' || grid[i + 2][j + 2] != '1' || grid[i + 2][j + 3] != '0') {\n                    match = false;\n                }\n                if (match) ok = true;\n            }\n        }\n        cout << (ok ? \"Yes\" : \"No\") << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:43.654Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-3:programming:01:96zuzw5bnzeerpcflh45",
+      "title": "回文拼接",
+      "algorithm": "枚举分割点",
+      "complexity": "O(nL^2)",
+      "code": "#include <iostream>\n#include <string>\nusing namespace std;\nbool isPalindrome(const string& s, int l, int r) {\n    while (l < r) {\n        if (s[l] != s[r]) return false;\n        ++l;\n        --r;\n    }\n    return true;\n}\nint main() {\n    int n;\n    cin >> n;\n    while (n--) {\n        string s;\n        cin >> s;\n        bool ok = false;\n        for (int cut = 2; cut <= (int)s.size() - 2; ++cut) {\n            if (isPalindrome(s, 0, cut - 1) && isPalindrome(s, cut, (int)s.size() - 1)) {\n                ok = true;\n                break;\n            }\n        }\n        cout << (ok ? \"Yes\" : \"No\") << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:44.236Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-3:programming:02:n1k61lfubo5k48kqfnfl",
+      "title": "平衡序列",
+      "algorithm": "前缀和",
+      "complexity": "O(总 n)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int t;\n    cin >> t;\n    while (t--) {\n        int n;\n        cin >> n;\n        vector<long long> a(n);\n        long long total = 0;\n        for (int i = 0; i < n; ++i) {\n            cin >> a[i];\n            total += a[i];\n        }\n        long long prefix = 0;\n        bool ok = false;\n        for (int i = 0; i + 1 < n; ++i) {\n            prefix += a[i];\n            if (prefix * 2 == total) {\n                ok = true;\n                break;\n            }\n        }\n        cout << (ok ? \"Yes\" : \"No\") << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:44.759Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-2:programming:01:uaamc23luylpqrabpp1m",
+      "title": "小杨的",
+      "algorithm": "直接构造",
+      "complexity": "O(m^2)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int m;\n    cin >> m;\n    for (int i = 0; i < m; ++i) {\n        for (int j = 0; j < m; ++j) {\n            if (j == 0 || j == m - 1 || i == j) cout << '+';\n            else cout << '-';\n        }\n        cout << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:45.305Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-2:programming:02:dnu49lj9si2xbu5dqn7v",
+      "title": "数位之和",
+      "algorithm": "数位和判断",
+      "complexity": "O(n log V)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    while (n--) {\n        int x;\n        cin >> x;\n        int sum = 0;\n        while (x > 0) {\n            sum += x % 10;\n            x /= 10;\n        }\n        cout << (sum % 7 == 0 ? \"Yes\" : \"No\") << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:45.826Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-8:programming:01:up4rkfcsu2a0uceapf28",
+      "title": "空间跳跃",
+      "algorithm": "建图最短路",
+      "complexity": "O(n^2 log n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <limits>\n#include <queue>\n#include <vector>\nusing namespace std;\nstruct Board {\n    long long l, r, h;\n};\nint main() {\n    int n, s, t;\n    cin >> n >> s >> t;\n    vector<Board> a(n + 1);\n    for (int i = 1; i <= n; ++i) cin >> a[i].l >> a[i].r >> a[i].h;\n    vector<vector<pair<int, long long>>> graph(2 * n + 1);\n    auto leftId = [&](int i) { return 2 * i - 1; };\n    auto rightId = [&](int i) { return 2 * i; };\n    for (int i = 1; i <= n; ++i) {\n        long long len = a[i].r - a[i].l;\n        graph[leftId(i)].push_back({rightId(i), len});\n        graph[rightId(i)].push_back({leftId(i), len});\n    }\n    for (int i = 1; i <= n; ++i) {\n        int belowLeft = -1, belowRight = -1;\n        long long bestLeftH = -1, bestRightH = -1;\n        for (int j = 1; j <= n; ++j) {\n            if (a[j].h >= a[i].h) continue;\n            if (a[j].l <= a[i].l && a[i].l <= a[j].r && a[j].h > bestLeftH) {\n                bestLeftH = a[j].h;\n                belowLeft = j;\n            }\n            if (a[j].l <= a[i].r && a[i].r <= a[j].r && a[j].h > bestRightH) {\n                bestRightH = a[j].h;\n                belowRight = j;\n            }\n        }\n        if (belowLeft != -1) {\n            long long drop = a[i].h - a[belowLeft].h;\n            graph[leftId(i)].push_back({leftId(belowLeft), drop + (a[i].l - a[belowLeft].l)});\n            graph[leftId(i)].push_back({rightId(belowLeft), drop + (a[belowLeft].r - a[i].l)});\n        }\n        if (belowRight != -1) {\n            long long drop = a[i].h - a[belowRight].h;\n            graph[rightId(i)].push_back({leftId(belowRight), drop + (a[i].r - a[belowRight].l)});\n            graph[rightId(i)].push_back({rightId(belowRight), drop + (a[belowRight].r - a[i].r)});\n        }\n    }\n    const long long INF = numeric_limits<long long>::max() / 4;\n    vector<long long> dist(2 * n + 1, INF);\n    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> pq;\n    dist[leftId(s)] = 0;\n    pq.push({0, leftId(s)});\n    while (!pq.empty()) {\n        auto [d, u] = pq.top();\n        pq.pop();\n        if (d != dist[u]) continue;\n        for (auto [v, w] : graph[u]) {\n            if (dist[v] > d + w) {\n                dist[v] = d + w;\n                pq.push({dist[v], v});\n            }\n        }\n    }\n    long long answer = min(dist[leftId(t)], dist[rightId(t)]);\n    if (answer >= INF / 2) cout << -1 << \"\\n\";\n    else cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:46.323Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-8:programming:02:g1zu4d8izz9cw4lxjugt",
+      "title": "最远点对",
+      "algorithm": "树形 DP 求每点到两种颜色的最远距离",
+      "complexity": "O(n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nconst int NEG = -1000000000;\nint main() {\n    int n;\n    cin >> n;\n    vector<int> color(n + 1);\n    for (int i = 1; i <= n; ++i) cin >> color[i];\n    vector<vector<int>> graph(n + 1);\n    for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        cin >> u >> v;\n        graph[u].push_back(v);\n        graph[v].push_back(u);\n    }\n    vector<int> parent(n + 1, 0), order;\n    order.reserve(n);\n    order.push_back(1);\n    for (int i = 0; i < (int)order.size(); ++i) {\n        int u = order[i];\n        for (int v : graph[u]) {\n            if (v == parent[u]) continue;\n            parent[v] = u;\n            order.push_back(v);\n        }\n    }\n    vector<array<int, 2>> down(n + 1, {NEG, NEG}), up(n + 1, {NEG, NEG});\n    for (int i = n - 1; i >= 0; --i) {\n        int u = order[i];\n        down[u][color[u]] = 0;\n        for (int v : graph[u]) {\n            if (parent[v] != u) continue;\n            for (int c = 0; c < 2; ++c) {\n                if (down[v][c] != NEG) {\n                    down[u][c] = max(down[u][c], down[v][c] + 1);\n                }\n            }\n        }\n    }\n    for (int u : order) {\n        array<int, 2> best1 = {NEG, NEG}, best2 = {NEG, NEG};\n        vector<array<int, 2>> contribs;\n        contribs.reserve(graph[u].size() + 1);\n        contribs.push_back({color[u] == 0 ? 0 : NEG, color[u] == 1 ? 0 : NEG});\n        if (up[u][0] != NEG || up[u][1] != NEG) contribs.push_back(up[u]);\n        for (int v : graph[u]) {\n            if (parent[v] != u) continue;\n            array<int, 2> cur = {NEG, NEG};\n            for (int c = 0; c < 2; ++c) {\n                if (down[v][c] != NEG) cur[c] = down[v][c] + 1;\n            }\n            contribs.push_back(cur);\n        }\n        for (const auto& cur : contribs) {\n            for (int c = 0; c < 2; ++c) {\n                if (cur[c] > best1[c]) {\n                    best2[c] = best1[c];\n                    best1[c] = cur[c];\n                } else if (cur[c] > best2[c]) {\n                    best2[c] = cur[c];\n                }\n            }\n        }\n        for (int v : graph[u]) {\n            if (parent[v] != u) continue;\n            array<int, 2> cur = {NEG, NEG};\n            for (int c = 0; c < 2; ++c) {\n                if (down[v][c] != NEG) cur[c] = down[v][c] + 1;\n            }\n            for (int c = 0; c < 2; ++c) {\n                int use = best1[c];\n                if (cur[c] == best1[c]) use = best2[c];\n                up[v][c] = (use == NEG ? NEG : use + 1);\n            }\n        }\n    }\n    int answer = 0;\n    for (int u = 1; u <= n; ++u) {\n        int other = color[u] ^ 1;\n        answer = max(answer, max(down[u][other], up[u][other]));\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:46.885Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-3:programming:01:p8os63x5t6ilyqs6bgx5",
+      "title": "移位",
+      "algorithm": "直接构造",
+      "complexity": "O(26)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    n %= 26;\n    for (int i = 0; i < 26; ++i) {\n        char ch = char('A' + (i + n) % 26);\n        cout << ch;\n    }\n    cout << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:47.420Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-3:programming:02:hrm7jkihixn1javwqbtb",
+      "title": "寻找倍数",
+      "algorithm": "取最大值后整除校验",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int T;\n    cin >> T;\n    while (T--) {\n        int n;\n        cin >> n;\n        vector<long long> a(n);\n        long long mx = 0;\n        for (int i = 0; i < n; ++i) {\n            cin >> a[i];\n            if (a[i] > mx) mx = a[i];\n        }\n        bool ok = true;\n        for (int i = 0; i < n; ++i) {\n            if (mx % a[i] != 0) {\n                ok = false;\n                break;\n            }\n        }\n        cout << (ok ? \"Yes\" : \"No\") << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:48.070Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-1:programming:01:vr513tw9spy61xuaofdf",
+      "title": "小杨购物",
+      "algorithm": "直接计算",
+      "complexity": "O(1)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long n, a, b;\n    cin >> n >> a >> b;\n    cout << n / (a + b) << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:48.618Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-09:cxx:level-1:programming:02:m51zzu2e2hywuw1o7zry",
+      "title": "美丽数字",
+      "algorithm": "遍历统计",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int answer = 0;\n    for (int i = 0; i < n; ++i) {\n        long long x;\n        cin >> x;\n        if (x % 9 == 0 && x % 8 != 0) ++answer;\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:49.605Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-5:programming:01:cchxdwjcutisq6kggczc",
+      "title": "黑白格",
+      "algorithm": "二维前缀和枚举子矩形",
+      "complexity": "O(n^2 * m^2)",
+      "code": "#include <iostream>\n#include <string>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, m, k;\n    cin >> n >> m >> k;\n    vector<string> grid(n + 1);\n    for (int i = 1; i <= n; ++i) {\n        string row;\n        cin >> row;\n        grid[i] = \" \" + row;\n    }\n    vector<vector<int>> prefix(n + 1, vector<int>(m + 1, 0));\n    for (int i = 1; i <= n; ++i) {\n        for (int j = 1; j <= m; ++j) {\n            prefix[i][j] = prefix[i - 1][j] + prefix[i][j - 1] - prefix[i - 1][j - 1] + (grid[i][j] == '1');\n        }\n    }\n    auto rectSum = [&](int r1, int c1, int r2, int c2) {\n        return prefix[r2][c2] - prefix[r1 - 1][c2] - prefix[r2][c1 - 1] + prefix[r1 - 1][c1 - 1];\n    };\n    int answer = 0;\n    bool found = false;\n    for (int r1 = 1; r1 <= n; ++r1) {\n        for (int r2 = r1; r2 <= n; ++r2) {\n            for (int c1 = 1; c1 <= m; ++c1) {\n                for (int c2 = c1; c2 <= m; ++c2) {\n                    if (rectSum(r1, c1, r2, c2) >= k) {\n                        int area = (r2 - r1 + 1) * (c2 - c1 + 1);\n                        if (!found || area < answer) answer = area;\n                        found = true;\n                    }\n                }\n            }\n        }\n    }\n    cout << (found ? answer : 0) << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:50.087Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-5:programming:02:zkgy7c1inoajkzrqr1u3",
+      "title": "小杨的幸运数字",
+      "algorithm": "试除统计不同质因子",
+      "complexity": "O(n sqrt(V))",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    while (n--) {\n        int x;\n        cin >> x;\n        int distinct = 0;\n        for (int p = 2; 1LL * p * p <= x; ++p) {\n            if (x % p != 0) continue;\n            ++distinct;\n            while (x % p == 0) x /= p;\n        }\n        if (x > 1) ++distinct;\n        cout << (distinct == 2 ? 1 : 0) << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:50.616Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-4:programming:01:5zkpgd9le8nihh8j1rnq",
+      "title": "黑白方块",
+      "algorithm": "二维前缀和暴力枚举子矩形",
+      "complexity": "O(n^2 * m^2)",
+      "code": "#include <iostream>\n#include <string>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vector<string> grid(n + 1);\n    for (int i = 1; i <= n; ++i) {\n        string row;\n        cin >> row;\n        grid[i] = \" \" + row;\n    }\n    vector<vector<int>> prefix(n + 1, vector<int>(m + 1, 0));\n    for (int i = 1; i <= n; ++i) {\n        for (int j = 1; j <= m; ++j) {\n            int value = (grid[i][j] == '1' ? 1 : -1);\n            prefix[i][j] = prefix[i - 1][j] + prefix[i][j - 1] - prefix[i - 1][j - 1] + value;\n        }\n    }\n    auto rectSum = [&](int r1, int c1, int r2, int c2) {\n        return prefix[r2][c2] - prefix[r1 - 1][c2] - prefix[r2][c1 - 1] + prefix[r1 - 1][c1 - 1];\n    };\n    int answer = 0;\n    for (int r1 = 1; r1 <= n; ++r1) {\n        for (int r2 = r1; r2 <= n; ++r2) {\n            for (int c1 = 1; c1 <= m; ++c1) {\n                for (int c2 = c1; c2 <= m; ++c2) {\n                    if (rectSum(r1, c1, r2, c2) == 0) {\n                        int area = (r2 - r1 + 1) * (c2 - c1 + 1);\n                        if (area > answer) answer = area;\n                    }\n                }\n            }\n        }\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:51.130Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-4:programming:02:lo18w012fvxvkgi2k1mi",
+      "title": "宝箱",
+      "algorithm": "排序 + 滑动窗口",
+      "complexity": "O(n log n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) cin >> a[i];\n    sort(a.begin(), a.end());\n    long long answer = 0, window = 0;\n    int left = 0;\n    for (int right = 0; right < n; ++right) {\n        window += a[right];\n        while (a[right] - a[left] > k) {\n            window -= a[left];\n            ++left;\n        }\n        answer = max(answer, window);\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:51.646Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-6:programming:01:0a5qoe5iiifv6d138g3a",
+      "title": "计算得分",
+      "algorithm": "动态规划 + 模式匹配",
+      "complexity": "O(mn)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <string>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> score(n + 1);\n    for (int i = 1; i <= n; ++i) cin >> score[i];\n    int m;\n    string s;\n    cin >> m >> s;\n    vector<long long> dp(m + 1, 0);\n    for (int i = 0; i < m; ++i) {\n        dp[i + 1] = max(dp[i + 1], dp[i]);\n        int maxK = 0;\n        while (i + 3 * (maxK + 1) <= m) {\n            int start = i + 3 * maxK;\n            if (s[start] == 'a' && s[start + 1] == 'b' && s[start + 2] == 'c') ++maxK;\n            else break;\n        }\n        for (int k = 1; k <= maxK && k <= n; ++k) {\n            dp[i + 3 * k] = max(dp[i + 3 * k], dp[i] + score[k]);\n        }\n    }\n    cout << dp[m] << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:52.137Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-6:programming:02:3fj0ub6xjqoecovk2p6p",
+      "title": "二叉树",
+      "algorithm": "树上差分 + DFS 传递翻转奇偶",
+      "complexity": "O(n + q)",
+      "code": "#include <iostream>\n#include <string>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<vector<int>> children(n + 1);\n    for (int node = 2; node <= n; ++node) {\n        int parent;\n        cin >> parent;\n        children[parent].push_back(node);\n    }\n    string color;\n    cin >> color;\n    int q;\n    cin >> q;\n    vector<int> flip(n + 1, 0);\n    for (int i = 0; i < q; ++i) {\n        int x;\n        cin >> x;\n        flip[x] ^= 1;\n    }\n    vector<int> stack = {1};\n    vector<int> carry(n + 1, 0);\n    while (!stack.empty()) {\n        int u = stack.back();\n        stack.pop_back();\n        int current = flip[u] ^ carry[u];\n        if (current) {\n            color[u - 1] = (color[u - 1] == '0' ? '1' : '0');\n        }\n        for (int v : children[u]) {\n            carry[v] = current;\n            stack.push_back(v);\n        }\n    }\n    cout << color << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:52.594Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-7:programming:01:x1dvgd0roqquqjllhygr",
+      "title": "区间乘积",
+      "algorithm": "前缀奇偶质因子状态压缩",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\n#include <unordered_map>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int masks[31] = {};\n    int primes[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};\n    for (int x = 1; x <= 30; ++x) {\n        int value = x;\n        int mask = 0;\n        for (int i = 0; i < 10; ++i) {\n            int count = 0;\n            while (value % primes[i] == 0) {\n                value /= primes[i];\n                count ^= 1;\n            }\n            if (count) mask |= (1 << i);\n        }\n        masks[x] = mask;\n    }\n    unordered_map<int, long long> freq;\n    freq.reserve(n * 2 + 1);\n    freq[0] = 1;\n    long long answer = 0;\n    int prefix = 0;\n    for (int i = 0; i < n; ++i) {\n        int x;\n        cin >> x;\n        prefix ^= masks[x];\n        answer += freq[prefix];\n        ++freq[prefix];\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:53.192Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-7:programming:02:y485au2qduxay25rzy7w",
+      "title": "黑白翻转",
+      "algorithm": "统计黑点关键子树大小",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<int> color(n + 1);\n    int blackCount = 0;\n    for (int i = 1; i <= n; ++i) {\n        cin >> color[i];\n        blackCount += color[i];\n    }\n    vector<vector<int>> graph(n + 1);\n    for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        cin >> u >> v;\n        graph[u].push_back(v);\n        graph[v].push_back(u);\n    }\n    if (blackCount == 0) {\n        cout << 1 << \"\\n\";\n        return 0;\n    }\n    vector<int> parent(n + 1, 0), order;\n    order.reserve(n);\n    order.push_back(1);\n    for (int i = 0; i < (int)order.size(); ++i) {\n        int u = order[i];\n        for (int v : graph[u]) {\n            if (v == parent[u]) continue;\n            parent[v] = u;\n            order.push_back(v);\n        }\n    }\n    vector<int> need(n + 1, 0);\n    int steinerSize = 0;\n    for (int i = n - 1; i >= 0; --i) {\n        int u = order[i];\n        need[u] = color[u];\n        for (int v : graph[u]) {\n            if (parent[v] == u) need[u] += need[v];\n        }\n        if (need[u] > 0) ++steinerSize;\n    }\n    cout << steinerSize - blackCount << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:53.688Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-2:programming:01:gruy7drd6x8zb3pspsxj",
+      "title": "计数",
+      "algorithm": "枚举并统计数位",
+      "complexity": "O(n log n)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, k;\n    cin >> n >> k;\n    int answer = 0;\n    for (int x = 1; x <= n; ++x) {\n        int value = x;\n        while (value > 0) {\n            if (value % 10 == k) ++answer;\n            value /= 10;\n        }\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:54.188Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-2:programming:02:bl6e5i1wp9m65a189nes",
+      "title": "平方之和",
+      "algorithm": "枚举平方数",
+      "complexity": "O(n sqrt(V))",
+      "code": "#include <cmath>\n#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    while (n--) {\n        int a;\n        cin >> a;\n        bool ok = false;\n        for (int x = 1; 1LL * x * x < a && !ok; ++x) {\n            int remain = a - x * x;\n            int y = static_cast<int>(sqrt(remain));\n            if (y > 0 && y * y == remain) ok = true;\n        }\n        cout << (ok ? \"Yes\" : \"No\") << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:55.259Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-1:programming:01:3thij8uv5uijrnybd0b0",
+      "title": "立方数",
+      "algorithm": "枚举立方根",
+      "complexity": "O(cuberoot(n))",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    bool ok = false;\n    for (int x = 1; x * x * x <= n; ++x) {\n        if (x * x * x == n) {\n            ok = true;\n            break;\n        }\n    }\n    cout << (ok ? \"Yes\" : \"No\") << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:55.809Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-06:cxx:level-1:programming:02:1yd45lazl4ufmc41wc7n",
+      "title": "休息时间",
+      "algorithm": "时间进位模拟",
+      "complexity": "O(1)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int h, m, s, k;\n    cin >> h >> m >> s >> k;\n    int total = h * 3600 + m * 60 + s + k;\n    cout << total / 3600 << \" \" << (total % 3600) / 60 << \" \" << total % 60 << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:56.915Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-2:programming:01:w63b78m2gfchb9el0j80",
+      "title": "乘法问题",
+      "algorithm": "乘法模拟 + 上限截断",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long product = 1;\n    bool overflow = false;\n    for (int i = 0; i < n; ++i) {\n        long long x;\n        cin >> x;\n        if (!overflow) {\n            product *= x;\n            if (product > 1000000) overflow = true;\n        }\n    }\n    if (overflow) cout << \">1000000\\n\";\n    else cout << product << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 3,
+        "verified_at": "2026-07-07T16:32:57.392Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-2:programming:02:150x328rbmdazx7hqhmm",
+      "title": "小杨的日字矩阵",
+      "algorithm": "直接构造",
+      "complexity": "O(n^2)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int mid = (n + 1) / 2;\n    for (int i = 1; i <= n; ++i) {\n        cout << '|';\n        for (int j = 2; j <= n - 1; ++j) {\n            if (i == 1 || i == n || i == mid) cout << '-';\n            else cout << 'x';\n        }\n        cout << '|' << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:32:58.953Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-1:programming:01:dsgvbq4unepcn1fg9o93",
+      "title": "小杨买书",
+      "algorithm": "整除与取余",
+      "complexity": "O(1)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int m;\n    cin >> m;\n    cout << m / 13 << \"\\n\" << m % 13 << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:32:59.496Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-1:programming:02:cwurk3tr7ev2y6tb1xtg",
+      "title": "找因数",
+      "algorithm": "枚举因数",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int a;\n    cin >> a;\n    for (int i = 1; i <= a; ++i) {\n        if (a % i == 0) cout << i << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 3,
+        "verified_at": "2026-07-07T16:33:00.962Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-3:programming:01:76eu76f0ynflexul1pdj",
+      "title": "字母求和",
+      "algorithm": "按字符映射求和",
+      "complexity": "O(n)",
+      "code": "#include <cctype>\n#include <iostream>\n#include <string>\nusing namespace std;\nint main() {\n    int n;\n    string s;\n    cin >> n >> s;\n    long long answer = 0;\n    for (char ch : s) {\n        if (islower(static_cast<unsigned char>(ch))) answer += ch - 'a' + 1;\n        else answer -= static_cast<int>(ch);\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:33:02.909Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-3:programming:02:60zcuuqmt0wdbjzzq4f9",
+      "title": "完全平方数",
+      "algorithm": "枚举完全平方和",
+      "complexity": "O(n^2 + n sqrt(V))",
+      "code": "#include <cmath>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    int maxValue = 0;\n    for (int i = 0; i < n; ++i) {\n        cin >> a[i];\n        if (a[i] > maxValue) maxValue = a[i];\n    }\n    vector<int> squares;\n    for (int x = 0; 1LL * x * x <= 2LL * maxValue; ++x) {\n        squares.push_back(x * x);\n    }\n    long long answer = 0;\n    for (int i = 0; i < n; ++i) {\n        for (int j = i + 1; j < n; ++j) {\n            int sum = a[i] + a[j];\n            int root = static_cast<int>(sqrt(sum));\n            if (root * root == sum) ++answer;\n        }\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:33:03.452Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-4:programming:01:9kw2bxukjlp0ksrn3uu9",
+      "title": "相似字符串",
+      "algorithm": "分类讨论 + 双指针",
+      "complexity": "O(TL)",
+      "code": "#include <cmath>\n#include <iostream>\n#include <string>\nusing namespace std;\nbool oneEditInsert(const string& shorter, const string& longer) {\n    int i = 0, j = 0;\n    bool used = false;\n    while (i < (int)shorter.size() && j < (int)longer.size()) {\n        if (shorter[i] == longer[j]) {\n            ++i;\n            ++j;\n        } else {\n            if (used) return false;\n            used = true;\n            ++j;\n        }\n    }\n    return true;\n}\nbool similar(const string& a, const string& b) {\n    if (a == b) return true;\n    if (abs((int)a.size() - (int)b.size()) > 1) return false;\n    if (a.size() == b.size()) {\n        int diff = 0;\n        for (int i = 0; i < (int)a.size(); ++i) diff += (a[i] != b[i]);\n        return diff <= 1;\n    }\n    if (a.size() + 1 == b.size()) return oneEditInsert(a, b);\n    if (b.size() + 1 == a.size()) return oneEditInsert(b, a);\n    return false;\n}\nint main() {\n    int T;\n    cin >> T;\n    while (T--) {\n        string a, b;\n        cin >> a >> b;\n        cout << (similar(a, b) ? \"similar\" : \"not similar\") << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:33:03.987Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-4:programming:02:pxtkukqhq0p108fjtcad",
+      "title": "做题",
+      "algorithm": "排序后贪心",
+      "complexity": "O(n log n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n);\n    for (int i = 0; i < n; ++i) cin >> a[i];\n    sort(a.begin(), a.end());\n    long long day = 0;\n    for (long long x : a) {\n        if (x > day) ++day;\n    }\n    cout << day << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:33:04.544Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-8:programming:01:4u5mghkr8lj71555ax9h",
+      "title": "接竹竿",
+      "algorithm": "区间栈模拟",
+      "complexity": "O(q * (r - l + 1) * 13)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int tests;\n    cin >> tests;\n    while (tests--) {\n        int n;\n        cin >> n;\n        vector<int> cards(n + 1);\n        for (int i = 1; i <= n; ++i) cin >> cards[i];\n\n        int q;\n        cin >> q;\n        while (q--) {\n            int left, right;\n            cin >> left >> right;\n            vector<int> deck;\n            for (int i = left; i <= right; ++i) {\n                int same = -1;\n                for (int j = 0; j < static_cast<int>(deck.size()); ++j) {\n                    if (deck[j] == cards[i]) same = j;\n                }\n                if (same == -1) {\n                    deck.push_back(cards[i]);\n                } else {\n                    deck.resize(same);\n                }\n            }\n            cout << deck.size() << \"\\n\";\n        }\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:33:05.050Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-8:programming:02:d0anqftr471apn649r0k",
+      "title": "公倍数问题",
+      "algorithm": "因子筛计数",
+      "complexity": "O(K log K)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n, m, k;\n    cin >> n >> m >> k;\n\n    vector<int> divisorsN(k + 1, 0), divisorsM(k + 1, 0);\n    for (int d = 1; d <= n && d <= k; ++d) {\n        for (int multiple = d; multiple <= k; multiple += d) ++divisorsN[multiple];\n    }\n    for (int d = 1; d <= m && d <= k; ++d) {\n        for (int multiple = d; multiple <= k; multiple += d) ++divisorsM[multiple];\n    }\n\n    long long answer = 0;\n    for (int value = 1; value <= k; ++value) {\n        answer += 1LL * value * divisorsN[value] * divisorsM[value];\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:05.837Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-5:programming:01:g7h7jrlfaaqdssp2hrxb",
+      "title": "B-smooth 数",
+      "algorithm": "最小质因子筛",
+      "complexity": "O(n log log n)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, B;\n    cin >> n >> B;\n    vector<int> spf(n + 1, 0);\n    vector<int> primes;\n    for (int i = 2; i <= n; ++i) {\n        if (spf[i] == 0) {\n            spf[i] = i;\n            primes.push_back(i);\n        }\n        for (int p : primes) {\n            if (p > spf[i] || 1LL * i * p > n) break;\n            spf[i * p] = p;\n        }\n    }\n    int answer = 1;\n    for (int x = 2; x <= n; ++x) {\n        int value = x;\n        int maxPrime = 1;\n        while (value > 1) {\n            int p = spf[value];\n            maxPrime = p;\n            while (value % p == 0) value /= p;\n        }\n        if (maxPrime <= B) ++answer;\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:33:07.137Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-5:programming:02:6p7kn6fnaux1kibo8v8x",
+      "title": "成绩排序",
+      "algorithm": "排序 + 并列排名",
+      "complexity": "O(n log n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nstruct Student {\n    int c, m, e, idx;\n};\nbool sameRank(const Student& a, const Student& b) {\n    return a.c + a.m + a.e == b.c + b.m + b.e &&\n           a.c + a.m == b.c + b.m &&\n           max(a.c, a.m) == max(b.c, b.m);\n}\nint main() {\n    int n;\n    cin >> n;\n    vector<Student> students(n);\n    for (int i = 0; i < n; ++i) {\n        cin >> students[i].c >> students[i].m >> students[i].e;\n        students[i].idx = i;\n    }\n    vector<Student> order = students;\n    sort(order.begin(), order.end(), [](const Student& a, const Student& b) {\n        int sa = a.c + a.m + a.e;\n        int sb = b.c + b.m + b.e;\n        if (sa != sb) return sa > sb;\n        int ca = a.c + a.m;\n        int cb = b.c + b.m;\n        if (ca != cb) return ca > cb;\n        int ma = max(a.c, a.m);\n        int mb = max(b.c, b.m);\n        if (ma != mb) return ma > mb;\n        return a.idx < b.idx;\n    });\n    vector<int> rank(n);\n    int currentRank = 1;\n    for (int i = 0; i < n; ++i) {\n        if (i > 0 && !sameRank(order[i], order[i - 1])) currentRank = i + 1;\n        rank[order[i].idx] = currentRank;\n    }\n    for (int i = 0; i < n; ++i) cout << rank[i] << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:33:07.651Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-7:programming:01:akgfkj963ts1e2ctsvm7",
+      "title": "交流问题",
+      "algorithm": "二分图染色 + 连通块统计",
+      "complexity": "O(n + m)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vector<vector<int>> graph(n + 1);\n    for (int i = 0; i < m; ++i) {\n        int u, v;\n        cin >> u >> v;\n        graph[u].push_back(v);\n        graph[v].push_back(u);\n    }\n    vector<int> color(n + 1, -1);\n    long long minB = 0;\n    long long maxB = 0;\n    for (int i = 1; i <= n; ++i) {\n        if (color[i] != -1) continue;\n        if (graph[i].empty()) {\n            minB += 0;\n            maxB += 1;\n            color[i] = 0;\n            continue;\n        }\n        vector<int> stack = {i};\n        color[i] = 0;\n        long long cnt[2] = {1, 0};\n        for (int p = 0; p < (int)stack.size(); ++p) {\n            int u = stack[p];\n            for (int v : graph[u]) {\n                if (color[v] != -1) continue;\n                color[v] = color[u] ^ 1;\n                ++cnt[color[v]];\n                stack.push_back(v);\n            }\n        }\n        minB += min(cnt[0], cnt[1]);\n        maxB += max(cnt[0], cnt[1]);\n    }\n    cout << minB << \" \" << maxB << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:08.550Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-7:programming:02:rbg8vw9uit4sfot1peoy",
+      "title": "俄罗斯方块",
+      "algorithm": "连通块归一化",
+      "complexity": "O(nm log(nm))",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <queue>\n#include <set>\n#include <utility>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vector<vector<int>> color(n, vector<int>(m));\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < m; ++j) cin >> color[i][j];\n    }\n\n    vector<vector<int>> visited(n, vector<int>(m, 0));\n    set<vector<pair<int, int>>> shapes;\n    const int dr[4] = {1, -1, 0, 0};\n    const int dc[4] = {0, 0, 1, -1};\n\n    for (int r = 0; r < n; ++r) {\n        for (int c = 0; c < m; ++c) {\n            if (visited[r][c]) continue;\n            int currentColor = color[r][c];\n            queue<pair<int, int>> q;\n            vector<pair<int, int>> cells;\n            visited[r][c] = 1;\n            q.push({r, c});\n            while (!q.empty()) {\n                auto [x, y] = q.front();\n                q.pop();\n                cells.push_back({x, y});\n                for (int dir = 0; dir < 4; ++dir) {\n                    int nx = x + dr[dir];\n                    int ny = y + dc[dir];\n                    if (nx < 0 || nx >= n || ny < 0 || ny >= m) continue;\n                    if (visited[nx][ny] || color[nx][ny] != currentColor) continue;\n                    visited[nx][ny] = 1;\n                    q.push({nx, ny});\n                }\n            }\n\n            int minRow = n, minCol = m;\n            for (auto [x, y] : cells) {\n                minRow = min(minRow, x);\n                minCol = min(minCol, y);\n            }\n            vector<pair<int, int>> normalized;\n            normalized.reserve(cells.size());\n            for (auto [x, y] : cells) normalized.push_back({x - minRow, y - minCol});\n            sort(normalized.begin(), normalized.end());\n            shapes.insert(normalized);\n        }\n    }\n\n    cout << shapes.size() << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:33:09.695Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-6:programming:01:j4yld1zlyahaj9j8ljrg",
+      "title": "好斗的牛",
+      "algorithm": "枚举排列 + 二分答案",
+      "complexity": "O(2^N * N^2 * log V)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int N;\n    cin >> N;\n    vector<int> a(N), b(N);\n    for (int i = 0; i < N; ++i) cin >> a[i];\n    for (int i = 0; i < N; ++i) cin >> b[i];\n    vector<int> idx(N);\n    for (int i = 0; i < N; ++i) idx[i] = i;\n    auto can = [&](int len) {\n        vector<int> p = idx;\n        do {\n            long long need = 1;\n            for (int i = 0; i + 1 < N; ++i) {\n                need += max(b[p[i]], a[p[i + 1]]) + 1LL;\n            }\n            if (need <= len) return true;\n        } while (next_permutation(p.begin(), p.end()));\n        return false;\n    };\n    int left = N, right = 20000, answer = right;\n    while (left <= right) {\n        int mid = (left + right) / 2;\n        if (can(mid)) {\n            answer = mid;\n            right = mid - 1;\n        } else {\n            left = mid + 1;\n        }\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:10.544Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2024-03:cxx:level-6:programming:02:1gy2wgzbmz42z3oxlwgr",
+      "title": "游戏",
+      "algorithm": "动态规划",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nconst long long MOD = 1000000007LL;\nint main() {\n    int n, a, b, c;\n    cin >> n >> a >> b >> c;\n    vector<long long> dp(n + 1, 0);\n    for (int x = 1; x <= c; ++x) dp[x] = 1;\n    for (int x = c + 1; x <= n; ++x) {\n        if (x - a >= 1) dp[x] = (dp[x] + dp[x - a]) % MOD;\n        else dp[x] = (dp[x] + 1) % MOD;\n        if (x - b >= 1) dp[x] = (dp[x] + dp[x - b]) % MOD;\n        else dp[x] = (dp[x] + 1) % MOD;\n    }\n    cout << dp[n] % MOD << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 3,
+        "verified_at": "2026-07-07T16:33:11.814Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-2:programming:01:ejdrtk2jh28q7qpssvng",
+      "title": "小杨做题",
+      "algorithm": "斐波那契模拟 + 截断",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long a, b, m, n;\n    cin >> a >> b >> m >> n;\n    if (n == 1) {\n        cout << a << \"\\n\";\n        return 0;\n    }\n    if (n == 2) {\n        cout << a + b << \"\\n\";\n        return 0;\n    }\n    long long sum = a + b;\n    long long prev = a, curr = b;\n    bool stopped = (a >= m || b >= m);\n    for (int day = 3; day <= n; ++day) {\n        long long today = 0;\n        if (!stopped) {\n            today = prev + curr;\n            if (today >= m) stopped = true;\n            prev = curr;\n            curr = today;\n        }\n        sum += today;\n    }\n    cout << sum << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:13.445Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-2:programming:02:oz8snitilu9cdptvdapz",
+      "title": "小杨的 H 字矩阵",
+      "algorithm": "直接构造",
+      "complexity": "O(n^2)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int mid = (n + 1) / 2;\n    for (int i = 1; i <= n; ++i) {\n        cout << '|';\n        for (int j = 2; j <= n - 1; ++j) {\n            cout << (i == mid ? '-' : 'a');\n        }\n        cout << '|' << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:33:14.497Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-1:programming:01:ldkmj0euwqnapzigutsc",
+      "title": "小杨报数（2023年12月C++一级）",
+      "algorithm": "直接枚举",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n, m;\n    cin >> n >> m;\n    for (int i = 1; i <= n; ++i) {\n        if (i % m != 0) cout << i << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:15.400Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-1:programming:02:dwboc1g6clov8sfldnz5",
+      "title": "小杨的考试",
+      "algorithm": "取模计算",
+      "complexity": "O(1)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int x, n;\n    cin >> x >> n;\n    int ans = (x - 1 + n) % 7 + 1;\n    cout << ans << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:16.404Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-3:programming:01:0pfw75ju7o2429i7kyzj",
+      "title": "小猫分鱼",
+      "algorithm": "枚举最后一轮份数并反推",
+      "complexity": "O(answer)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    long long N, extra;\n    cin >> N >> extra;\n    for (long long t = 1;; ++t) {\n        long long current = t * (N - 1);\n        bool ok = true;\n        for (int cat = 0; cat < N; ++cat) {\n            if (current % (N - 1) != 0) {\n                ok = false;\n                break;\n            }\n            current = current / (N - 1) * N + extra;\n        }\n        if (ok) {\n            cout << current << \"\\n\";\n            return 0;\n        }\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:17.316Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-3:programming:02:r8t2fy6bt1pdvxhij0d3",
+      "title": "单位转换（2023年12月C++三级）",
+      "algorithm": "字符串解析 + 单位映射",
+      "complexity": "O(nL)",
+      "code": "#include <iostream>\n#include <string>\nusing namespace std;\nlong long unitValue(const string& unit) {\n    if (unit == \"km\" || unit == \"kg\") return 1000000;\n    if (unit == \"m\" || unit == \"g\") return 1000;\n    return 1;\n}\nint main() {\n    int n;\n    cin >> n;\n    while (n--) {\n        string expr;\n        cin >> expr;\n        size_t posEq = expr.find('=');\n        size_t posQ = expr.find('?');\n        string left = expr.substr(0, posEq);\n        string rightUnit = expr.substr(posQ + 1);\n        int idx = 0;\n        while (idx < (int)left.size() && isdigit(static_cast<unsigned char>(left[idx]))) ++idx;\n        long long value = stoll(left.substr(0, idx));\n        string leftUnit = left.substr(idx);\n        long long base = value * unitValue(leftUnit);\n        long long answer = base / unitValue(rightUnit);\n        cout << left << \"=\" << answer << rightUnit << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:18.315Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-4:programming:01:8trkx3y5f5a7w9tvwx04",
+      "title": "田忌赛马",
+      "algorithm": "有序集合贪心",
+      "complexity": "O(n log n)",
+      "code": "#include <iostream>\n#include <set>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    multiset<int> mine;\n    for (int i = 0; i < n; ++i) {\n        int x;\n        cin >> x;\n        mine.insert(x);\n    }\n    int answer = 0;\n    for (int i = 0; i < n; ++i) {\n        int v;\n        cin >> v;\n        auto it = mine.upper_bound(v);\n        if (it != mine.end()) {\n            ++answer;\n            mine.erase(it);\n        } else {\n            mine.erase(mine.begin());\n        }\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:19.548Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-4:programming:02:9pnkyq0gplec331oov2r",
+      "title": "小杨的字典",
+      "algorithm": "哈希表 + 逐字符解析",
+      "complexity": "O(|S|)",
+      "code": "#include <cctype>\n#include <iostream>\n#include <string>\n#include <unordered_map>\nusing namespace std;\nbool isLetter(char ch) {\n    return ch >= 'a' && ch <= 'z';\n}\nint main() {\n    int n;\n    cin >> n;\n    unordered_map<string, string> dict;\n    for (int i = 0; i < n; ++i) {\n        string a, b;\n        cin >> a >> b;\n        dict[a] = b;\n    }\n    string s;\n    cin >> s;\n    string current = \"\";\n    for (char ch : s) {\n        if (isLetter(ch)) {\n            current += ch;\n        } else {\n            if (!current.empty()) {\n                auto it = dict.find(current);\n                cout << (it == dict.end() ? \"UNK\" : it->second);\n                current.clear();\n            }\n            cout << ch;\n        }\n    }\n    if (!current.empty()) {\n        auto it = dict.find(current);\n        cout << (it == dict.end() ? \"UNK\" : it->second);\n    }\n    cout << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:20.640Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-5:programming:01:ooo1s8lemcokpzicd26b",
+      "title": "烹饪问题",
+      "algorithm": "维护按位最大候选",
+      "complexity": "O(n * 31)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    vector<int> best(31, -1);\n    int answer = 0;\n    for (int i = 0; i < n; ++i) {\n        int x;\n        cin >> x;\n        for (int b = 0; b <= 30; ++b) {\n            if (best[b] != -1) answer = max(answer, best[b] & x);\n        }\n        for (int b = 0; b <= 30; ++b) {\n            if ((x >> b) & 1) best[b] = max(best[b], x);\n        }\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:21.992Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-5:programming:02:mtmkz3uktji0eg0jfw1x",
+      "title": "小杨的幸运数",
+      "algorithm": "枚举超级幸运数倍数",
+      "complexity": "O(M log M)",
+      "code": "#include <cmath>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int a, n;\n    cin >> a >> n;\n    const int MAXV = 1000001;\n    vector<char> lucky(MAXV + 2, 0);\n    int start = static_cast<int>(ceil(sqrt(static_cast<double>(a))));\n    for (long long s = 1LL * start * start; s <= MAXV; ++s) {\n        long long base = static_cast<long long>(sqrt(static_cast<double>(s)));\n        if (base * base != s) continue;\n        for (long long multiple = s; multiple <= MAXV; multiple += s) lucky[multiple] = 1;\n    }\n    int nextLucky = 0;\n    vector<int> nextValue(MAXV + 3, 0);\n    for (int x = MAXV; x >= 1; --x) {\n        if (lucky[x]) nextLucky = x;\n        nextValue[x] = nextLucky;\n    }\n    while (n--) {\n        int x;\n        cin >> x;\n        if (lucky[x]) cout << \"lucky\\n\";\n        else cout << nextValue[x] << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:23.001Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-7:programming:01:1h0o8d9bnc7260o5qlo5",
+      "title": "商品交易",
+      "algorithm": "最短路",
+      "complexity": "O((N+M)logN)",
+      "code": "#include <iostream>\n#include <limits>\n#include <queue>\n#include <vector>\nusing namespace std;\nint main() {\n    int N, M, a, b;\n    cin >> N >> M >> a >> b;\n    vector<long long> value(N);\n    for (int i = 0; i < N; ++i) cin >> value[i];\n    vector<vector<pair<int, long long>>> graph(N);\n    for (int i = 0; i < M; ++i) {\n        int x, y;\n        cin >> x >> y;\n        long long cost = value[y] - value[x] + 1;\n        graph[x].push_back({y, cost});\n    }\n    const long long INF = numeric_limits<long long>::max() / 4;\n    vector<long long> dist(N, INF);\n    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> pq;\n    dist[a] = 0;\n    pq.push({0, a});\n    while (!pq.empty()) {\n        auto [d, u] = pq.top();\n        pq.pop();\n        if (d != dist[u]) continue;\n        for (auto [v, w] : graph[u]) {\n            if (dist[v] > d + w) {\n                dist[v] = d + w;\n                pq.push({dist[v], v});\n            }\n        }\n    }\n    if (dist[b] == INF) cout << \"No solution\\n\";\n    else cout << dist[b] << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 3,
+        "verified_at": "2026-07-07T16:33:24.015Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-7:programming:02:mols8fykmpc33njry9v1",
+      "title": "试题名称：纸牌游戏",
+      "algorithm": "动态规划",
+      "complexity": "O(n^2)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nlong long gain(int mine, int other, long long score) {\n    if (mine == other) return score;\n    if ((mine == 1 && other == 0) || (mine == 2 && other == 1) || (mine == 0 && other == 2)) {\n        return score * 2;\n    }\n    return 0;\n}\nint main() {\n    int n;\n    cin >> n;\n    vector<long long> a(n + 1), penalty(n, 0), prefix(n, 0);\n    vector<int> c(n + 1);\n    for (int i = 1; i <= n; ++i) cin >> a[i];\n    for (int i = 1; i < n; ++i) cin >> penalty[i];\n    for (int i = 1; i <= n; ++i) cin >> c[i];\n    for (int i = 1; i < n; ++i) prefix[i] = prefix[i - 1] + penalty[i];\n    const long long NEG = -(1LL << 60);\n    vector<vector<long long>> dp(3, vector<long long>(n, NEG));\n    for (int card = 0; card < 3; ++card) dp[card][0] = gain(card, c[1], a[1]);\n    for (int round = 2; round <= n; ++round) {\n        vector<vector<long long>> next(3, vector<long long>(n, NEG));\n        for (int last = 0; last < 3; ++last) {\n            for (int changes = 0; changes <= round - 2; ++changes) {\n                if (dp[last][changes] == NEG) continue;\n                next[last][changes] = max(next[last][changes], dp[last][changes] + gain(last, c[round], a[round]));\n                for (int card = 0; card < 3; ++card) {\n                    if (card == last) continue;\n                    next[card][changes + 1] = max(next[card][changes + 1], dp[last][changes] + gain(card, c[round], a[round]));\n                }\n            }\n        }\n        dp.swap(next);\n    }\n    long long answer = 0;\n    for (int card = 0; card < 3; ++card) {\n        for (int changes = 0; changes < n; ++changes) {\n            if (dp[card][changes] == NEG) continue;\n            answer = max(answer, dp[card][changes] - prefix[changes]);\n        }\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:25.719Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-6:programming:01:bfg1tkwwcnvjsr27um44",
+      "title": "工作沟通",
+      "algorithm": "LCA 加路径最大编号",
+      "complexity": "O((n + qm) log n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> parent(n, 0), depth(n, 0);\n    for (int i = 1; i < n; ++i) cin >> parent[i];\n    for (int i = 1; i < n; ++i) depth[i] = depth[parent[i]] + 1;\n\n    int lg = 1;\n    while ((1 << lg) <= n) ++lg;\n    vector<vector<int>> up(lg, vector<int>(n, 0));\n    vector<vector<int>> best(lg, vector<int>(n, 0));\n    for (int v = 0; v < n; ++v) {\n        up[0][v] = parent[v];\n        best[0][v] = max(v, parent[v]);\n    }\n    best[0][0] = 0;\n    for (int j = 1; j < lg; ++j) {\n        for (int v = 0; v < n; ++v) {\n            up[j][v] = up[j - 1][up[j - 1][v]];\n            best[j][v] = max(best[j - 1][v], best[j - 1][up[j - 1][v]]);\n        }\n    }\n\n    auto lca = [&](int a, int b) {\n        if (depth[a] < depth[b]) swap(a, b);\n        int diff = depth[a] - depth[b];\n        for (int j = 0; j < lg; ++j) {\n            if ((diff >> j) & 1) a = up[j][a];\n        }\n        if (a == b) return a;\n        for (int j = lg - 1; j >= 0; --j) {\n            if (up[j][a] != up[j][b]) {\n                a = up[j][a];\n                b = up[j][b];\n            }\n        }\n        return parent[a];\n    };\n\n    auto maxOnPathToRoot = [&](int v) {\n        int answer = v;\n        int diff = depth[v];\n        for (int j = lg - 1; j >= 0; --j) {\n            if ((diff >> j) & 1) {\n                answer = max(answer, best[j][v]);\n                v = up[j][v];\n            }\n        }\n        return answer;\n    };\n\n    int q;\n    cin >> q;\n    while (q--) {\n        int m;\n        cin >> m;\n        int root;\n        cin >> root;\n        for (int i = 1; i < m; ++i) {\n            int x;\n            cin >> x;\n            root = lca(root, x);\n        }\n        cout << maxOnPathToRoot(root) << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:26.900Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-6:programming:02:vkl587l53jcjsa4owvi5",
+      "title": "闯关游戏",
+      "algorithm": "动态规划",
+      "complexity": "O(nm)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vector<int> a(m);\n    for (int i = 0; i < m; ++i) cin >> a[i];\n    vector<long long> b(n);\n    for (int i = 0; i < n; ++i) cin >> b[i];\n    vector<long long> dp(n + 1, 0);\n    for (int i = n - 1; i >= 0; --i) {\n        long long best = -(1LL << 60);\n        for (int step : a) {\n            int next = i + step;\n            if (next > n) next = n;\n            best = max(best, dp[next]);\n        }\n        dp[i] = b[i] + best;\n    }\n    cout << dp[0] << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:27.928Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-8:programming:01:g1dhltyatpbcu8huk9vl",
+      "title": "奖品分配",
+      "algorithm": "组合计数",
+      "complexity": "O(T * M + N)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nconst long long MOD = 1000000007LL;\n\nlong long modPow(long long a, long long e) {\n    long long r = 1;\n    while (e > 0) {\n        if (e & 1LL) r = r * a % MOD;\n        a = a * a % MOD;\n        e >>= 1LL;\n    }\n    return r;\n}\n\nint main() {\n    int T;\n    cin >> T;\n    vector<int> ns(T), ms(T);\n    vector<vector<int>> all(T);\n    int maxN = 0;\n    for (int t = 0; t < T; ++t) {\n        cin >> ns[t] >> ms[t];\n        all[t].resize(ms[t]);\n        for (int i = 0; i < ms[t]; ++i) cin >> all[t][i];\n        if (ns[t] + 1 > maxN) maxN = ns[t] + 1;\n    }\n\n    vector<long long> fact(maxN + 1, 1), invFact(maxN + 1, 1);\n    for (int i = 1; i <= maxN; ++i) fact[i] = fact[i - 1] * i % MOD;\n    invFact[maxN] = modPow(fact[maxN], MOD - 2);\n    for (int i = maxN; i >= 1; --i) invFact[i - 1] = invFact[i] * i % MOD;\n\n    for (int t = 0; t < T; ++t) {\n        long long answer = fact[ns[t]];\n        int total = 0;\n        for (int x : all[t]) {\n            answer = answer * invFact[x] % MOD;\n            total += x;\n        }\n        if (total == ns[t] + 1) answer = answer * (ns[t] + 1LL) % MOD;\n        cout << answer << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:29.178Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-12:cxx:level-8:programming:02:px427dpl0j35826uvz0n",
+      "title": "大量的工作沟通",
+      "algorithm": "LCA 加路径最大编号",
+      "complexity": "O((n + qm) log n)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> parent(n, 0), depth(n, 0);\n    for (int i = 1; i < n; ++i) cin >> parent[i];\n    for (int i = 1; i < n; ++i) depth[i] = depth[parent[i]] + 1;\n\n    int lg = 1;\n    while ((1 << lg) <= n) ++lg;\n    vector<vector<int>> up(lg, vector<int>(n, 0));\n    vector<vector<int>> best(lg, vector<int>(n, 0));\n    for (int v = 0; v < n; ++v) {\n        up[0][v] = parent[v];\n        best[0][v] = max(v, parent[v]);\n    }\n    best[0][0] = 0;\n    for (int j = 1; j < lg; ++j) {\n        for (int v = 0; v < n; ++v) {\n            up[j][v] = up[j - 1][up[j - 1][v]];\n            best[j][v] = max(best[j - 1][v], best[j - 1][up[j - 1][v]]);\n        }\n    }\n\n    auto lca = [&](int a, int b) {\n        if (depth[a] < depth[b]) swap(a, b);\n        int diff = depth[a] - depth[b];\n        for (int j = 0; j < lg; ++j) {\n            if ((diff >> j) & 1) a = up[j][a];\n        }\n        if (a == b) return a;\n        for (int j = lg - 1; j >= 0; --j) {\n            if (up[j][a] != up[j][b]) {\n                a = up[j][a];\n                b = up[j][b];\n            }\n        }\n        return parent[a];\n    };\n\n    auto maxOnPathToRoot = [&](int v) {\n        int answer = v;\n        int diff = depth[v];\n        for (int j = lg - 1; j >= 0; --j) {\n            if ((diff >> j) & 1) {\n                answer = max(answer, best[j][v]);\n                v = up[j][v];\n            }\n        }\n        return answer;\n    };\n\n    int q;\n    cin >> q;\n    while (q--) {\n        int m;\n        cin >> m;\n        int root;\n        cin >> root;\n        for (int i = 1; i < m; ++i) {\n            int x;\n            cin >> x;\n            root = lca(root, x);\n        }\n        cout << maxOnPathToRoot(root) << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:30.174Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-3:programming:01:whglsvzkznd5jdtg3eui",
+      "title": "进制判断",
+      "algorithm": "扫描字符最大值",
+      "complexity": "O(total_length)",
+      "code": "#include <iostream>\n#include <string>\nusing namespace std;\nint valueOf(char ch) {\n    if (ch >= '0' && ch <= '9') return ch - '0';\n    if (ch >= 'A' && ch <= 'F') return ch - 'A' + 10;\n    return 100;\n}\nint main() {\n    int n;\n    cin >> n;\n    while (n--) {\n        string s;\n        cin >> s;\n        int maxValue = 0;\n        for (char ch : s) {\n            int value = valueOf(ch);\n            if (value > maxValue) maxValue = value;\n        }\n        cout << (maxValue < 2 ? 1 : 0) << ' '\n             << (maxValue < 8 ? 1 : 0) << ' '\n             << (maxValue < 10 ? 1 : 0) << ' '\n             << (maxValue < 16 ? 1 : 0) << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:31.640Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-3:programming:02:kehmte0rgxf4lix22xvq",
+      "title": "小杨的储蓄",
+      "algorithm": "直接模拟",
+      "complexity": "O(D)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, d;\n    cin >> n >> d;\n    vector<long long> sum(n, 0);\n    for (int day = 1; day <= d; ++day) {\n        int a;\n        cin >> a;\n        sum[a] += day;\n    }\n    for (int i = 0; i < n; ++i) {\n        if (i) cout << ' ';\n        cout << sum[i];\n    }\n    cout << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:32.670Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-4:programming:01:usq2ii2o1hej508ewhhw",
+      "title": "变长编码（2023年9月C++四级）",
+      "algorithm": "按 7 bit 分组模拟",
+      "complexity": "O(log N)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nchar toHexDigit(int x) {\n    return x < 10 ? static_cast<char>('0' + x) : static_cast<char>('A' + x - 10);\n}\n\nint main() {\n    unsigned long long n;\n    cin >> n;\n    vector<int> bytes;\n    do {\n        bytes.push_back(static_cast<int>(n & 127ULL));\n        n >>= 7ULL;\n    } while (n > 0);\n    for (int i = 0; i < static_cast<int>(bytes.size()); ++i) {\n        int value = bytes[i];\n        if (i + 1 < static_cast<int>(bytes.size())) value += 128;\n        if (i > 0) cout << ' ';\n        cout << toHexDigit(value / 16) << toHexDigit(value % 16);\n    }\n    cout << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 3,
+        "verified_at": "2026-07-07T16:33:33.699Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-4:programming:02:gk9dufzvizq7xgi06jbq",
+      "title": "进制转换（2023年9月C++四级））",
+      "algorithm": "按位展开",
+      "complexity": "O(总位数)",
+      "code": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint digitValue(char ch) {\n    if (ch >= '0' && ch <= '9') return ch - '0';\n    return ch - 'A' + 10;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    while (n--) {\n        long long base;\n        string s;\n        cin >> base >> s;\n        long long value = 0;\n        for (char ch : s) value = value * base + digitValue(ch);\n        cout << value << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:35.313Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-2:programming:01:rsxrupj1lc55ilky73es",
+      "title": "小杨的 X 字矩阵",
+      "algorithm": "按位置直接构造",
+      "complexity": "O(n^2)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            cout << ((j == i || j == n - 1 - i) ? '+' : '-');\n        }\n        cout << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:36.706Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-2:programming:02:dpa84wj17dfmkrd76zsi",
+      "title": "数字黑洞",
+      "algorithm": "模拟",
+      "complexity": "O(1)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <string>\nusing namespace std;\n\nint transform(int x) {\n    string s = to_string(x);\n    while (s.size() < 3) s = \"0\" + s;\n    string asc = s;\n    sort(asc.begin(), asc.end());\n    string desc = asc;\n    reverse(desc.begin(), desc.end());\n    return stoi(desc) - stoi(asc);\n}\n\nint main() {\n    int n;\n    cin >> n;\n    int count = 0;\n    while (n != 495) {\n        n = transform(n);\n        ++count;\n    }\n    cout << count << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:33:37.685Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-1:programming:01:bwome9dm900lxdr0tnl7",
+      "title": "小明的幸运数（2023年9月C++一级）",
+      "algorithm": "区间枚举",
+      "complexity": "O(r - l + 1)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int k, l, r;\n    cin >> k >> l >> r;\n    long long answer = 0;\n    for (int x = l; x <= r; ++x) {\n        if (x % k == 0 || x % 10 == k) answer += x;\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:38.380Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-1:programming:02:eel6xc50vglse73oauf7",
+      "title": "买文具",
+      "algorithm": "直接计算",
+      "complexity": "O(1)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int x, y, z, q;\n    cin >> x >> y >> z >> q;\n    int need = x * 2 + y * 5 + z * 3;\n    if (q >= need) {\n        cout << \"Yes\\n\" << q - need << \"\\n\";\n    } else {\n        cout << \"No\\n\" << need - q << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:39.340Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-5:programming:01:kso9opx86odmdo02024t",
+      "title": "因数分解（2023.9C++五级）",
+      "algorithm": "试除分解",
+      "complexity": "O(sqrt(n))",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    long long n;\n    cin >> n;\n    vector<pair<long long, int>> factors;\n    for (long long p = 2; p * p <= n; ++p) {\n        if (n % p != 0) continue;\n        int cnt = 0;\n        while (n % p == 0) {\n            n /= p;\n            ++cnt;\n        }\n        factors.push_back({p, cnt});\n    }\n    if (n > 1) factors.push_back({n, 1});\n    for (int i = 0; i < (int)factors.size(); ++i) {\n        if (i) cout << \" * \";\n        cout << factors[i].first;\n        if (factors[i].second > 1) cout << \"^\" << factors[i].second;\n    }\n    cout << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 3,
+        "verified_at": "2026-07-07T16:33:40.326Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-5:programming:02:oju8c57ywk4fmxizsas6",
+      "title": "巧夺大奖（2023.9C++五级）",
+      "algorithm": "按截止时间贪心加小根堆",
+      "complexity": "O(n log n)",
+      "code": "#include <algorithm>\n#include <functional>\n#include <iostream>\n#include <queue>\n#include <vector>\nusing namespace std;\n\nstruct Game {\n    int deadline;\n    int reward;\n};\n\nint main() {\n    int n;\n    cin >> n;\n    vector<Game> games(n);\n    for (int i = 0; i < n; ++i) cin >> games[i].deadline;\n    for (int i = 0; i < n; ++i) cin >> games[i].reward;\n    sort(games.begin(), games.end(), [](const Game& a, const Game& b) {\n        if (a.deadline != b.deadline) return a.deadline < b.deadline;\n        return a.reward > b.reward;\n    });\n    priority_queue<int, vector<int>, greater<int>> chosen;\n    for (const auto& game : games) {\n        chosen.push(game.reward);\n        if (static_cast<int>(chosen.size()) > game.deadline) chosen.pop();\n    }\n    long long answer = 0;\n    while (!chosen.empty()) {\n        answer += chosen.top();\n        chosen.pop();\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:33:42.047Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-6:programming:01:occq7g5m9nhfve2kpc48",
+      "title": "小杨的握手问题（2023.9C++六级）",
+      "algorithm": "树状数组统计前缀较小值个数",
+      "complexity": "O(n log n)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nstruct Fenwick {\n    int n;\n    vector<int> tree;\n    explicit Fenwick(int n) : n(n), tree(n + 1, 0) {}\n    void add(int index, int delta) {\n        ++index;\n        while (index <= n) {\n            tree[index] += delta;\n            index += index & -index;\n        }\n    }\n    int sumPrefix(int index) const {\n        ++index;\n        int result = 0;\n        while (index > 0) {\n            result += tree[index];\n            index -= index & -index;\n        }\n        return result;\n    }\n};\n\nint main() {\n    int n;\n    cin >> n;\n    Fenwick bit(n);\n    long long answer = 0;\n    for (int i = 0; i < n; ++i) {\n        int x;\n        cin >> x;\n        answer += bit.sumPrefix(x - 1);\n        bit.add(x, 1);\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:42.637Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-09:cxx:level-6:programming:02:r3o3sgzm7vd2q2pti6lw",
+      "title": "小杨买饮料（2023.9C++六级）",
+      "algorithm": "0/1 背包",
+      "complexity": "O(NL)",
+      "code": "#include <algorithm>\n#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int N, L;\n    cin >> N >> L;\n    const long long INF = (1LL << 60);\n    vector<long long> dp(L + 1, INF);\n    dp[0] = 0;\n    for (int i = 0; i < N; ++i) {\n        int c, l;\n        cin >> c >> l;\n        vector<long long> next = dp;\n        for (int j = 0; j <= L; ++j) {\n            if (dp[j] == INF) continue;\n            int nj = min(L, j + l);\n            next[nj] = min(next[nj], dp[j] + c);\n        }\n        dp.swap(next);\n    }\n    if (dp[L] == INF) cout << \"no solution\\n\";\n    else cout << dp[L] << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 3,
+        "verified_at": "2026-07-07T16:33:43.665Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-06:cxx:level-1:programming:01:nuw5welz4j21iozrvg1s",
+      "title": "累计相加",
+      "algorithm": "前缀和累加",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    long long prefix = 0;\n    long long answer = 0;\n    for (int i = 1; i <= n; ++i) {\n        prefix += i;\n        answer += prefix;\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 3,
+        "verified_at": "2026-07-07T16:33:45.145Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-06:cxx:level-1:programming:02:bmv29j2oyf21wrtrgh17",
+      "title": "时间规划",
+      "algorithm": "转分钟相减",
+      "complexity": "O(1)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int h1, m1, h2, m2;\n    cin >> h1 >> m1 >> h2 >> m2;\n    cout << (h2 * 60 + m2) - (h1 * 60 + m1) << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:46.721Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-06:cxx:level-2:programming:01:wso7skbttrilm5xcb30n",
+      "title": "找素数",
+      "algorithm": "试除判素数",
+      "complexity": "O((b-a+1)sqrt(b))",
+      "code": "#include <iostream>\nusing namespace std;\nbool isPrime(int x) {\n    if (x < 2) return false;\n    for (int i = 2; i * i <= x; ++i) {\n        if (x % i == 0) return false;\n    }\n    return true;\n}\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int count = 0;\n    for (int x = a; x <= b; ++x) {\n        if (isPrime(x)) ++count;\n    }\n    cout << count << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:47.728Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-06:cxx:level-2:programming:02:d5ve1sldlwazkbbd3hkk",
+      "title": "自幂数判断",
+      "algorithm": "按位拆分并求幂和",
+      "complexity": "O(M * digits)",
+      "code": "#include <iostream>\n#include <string>\nusing namespace std;\nlong long powerll(int base, int exp) {\n    long long result = 1;\n    while (exp--) result *= base;\n    return result;\n}\nint main() {\n    int m;\n    cin >> m;\n    while (m--) {\n        string s;\n        cin >> s;\n        int digits = static_cast<int>(s.size());\n        long long sum = 0;\n        for (char ch : s) {\n            sum += powerll(ch - '0', digits);\n        }\n        long long value = stoll(s);\n        cout << (sum == value ? 'T' : 'F') << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:49.078Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-06:cxx:level-3:programming:01:i19fyuhmdcx5ni6cbzgd",
+      "title": "密码合规检测",
+      "algorithm": "字符串校验",
+      "complexity": "O(n)",
+      "code": "#include <iostream>\n#include <string>\nusing namespace std;\n\nbool valid(const string& s) {\n    if (s.size() < 6 || s.size() > 12) return false;\n    bool hasLower = false, hasUpper = false, hasDigit = false, hasSpecial = false;\n    for (char ch : s) {\n        if (ch >= 'a' && ch <= 'z') hasLower = true;\n        else if (ch >= 'A' && ch <= 'Z') hasUpper = true;\n        else if (ch >= '0' && ch <= '9') hasDigit = true;\n        else if (ch == '!' || ch == '@' || ch == '#' || ch == '$') hasSpecial = true;\n        else return false;\n    }\n    int kinds = static_cast<int>(hasLower) + static_cast<int>(hasUpper) + static_cast<int>(hasDigit);\n    return kinds >= 2 && hasSpecial;\n}\n\nint main() {\n    string line;\n    cin >> line;\n    string current;\n    bool first = true;\n    for (int i = 0; i <= static_cast<int>(line.size()); ++i) {\n        if (i == static_cast<int>(line.size()) || line[i] == ',') {\n            if (valid(current)) {\n                if (!first) cout << \"\\n\";\n                cout << current;\n                first = false;\n            }\n            current.clear();\n        } else {\n            current += line[i];\n        }\n    }\n    if (!first) cout << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:33:50.038Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-06:cxx:level-3:programming:02:1bjfsydegdxox09cj6f3",
+      "title": "春游",
+      "algorithm": "布尔标记统计",
+      "complexity": "O(N + M)",
+      "code": "#include <iostream>\n#include <vector>\nusing namespace std;\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vector<int> seen(n, 0);\n    for (int i = 0; i < m; ++i) {\n        int x;\n        cin >> x;\n        seen[x] = 1;\n    }\n    bool allArrived = true;\n    for (int i = 0; i < n; ++i) {\n        if (!seen[i]) {\n            allArrived = false;\n            break;\n        }\n    }\n    if (allArrived) {\n        cout << n << \"\\n\";\n        return 0;\n    }\n    bool first = true;\n    for (int i = 0; i < n; ++i) {\n        if (!seen[i]) {\n            if (!first) cout << ' ';\n            cout << i;\n            first = false;\n        }\n    }\n    cout << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:50.518Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-06:cxx:level-4:programming:01:ur1r1l0zfv2sc6xtcigx",
+      "title": "幸运数",
+      "algorithm": "按位模拟",
+      "complexity": "O(n * d)",
+      "code": "#include <iostream>\nusing namespace std;\n\nint compressDigit(int x) {\n    x *= 7;\n    while (x > 9) {\n        int sum = 0;\n        while (x > 0) {\n            sum += x % 10;\n            x /= 10;\n        }\n        x = sum;\n    }\n    return x;\n}\n\nbool isLucky(long long x) {\n    int position = 1;\n    int total = 0;\n    while (x > 0) {\n        int digit = static_cast<int>(x % 10);\n        if (position % 2 == 1) total += compressDigit(digit);\n        else total += digit;\n        x /= 10;\n        ++position;\n    }\n    return total % 8 == 0;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    while (n--) {\n        long long x;\n        cin >> x;\n        cout << (isLucky(x) ? 'T' : 'F') << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:33:51.727Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-06:cxx:level-4:programming:02:wjxgxieh37v61tbrzwot",
+      "title": "图像压缩",
+      "algorithm": "频次统计加最近值映射",
+      "complexity": "O(nm + 256 log 256)",
+      "code": "#include <algorithm>\n#include <cmath>\n#include <iostream>\n#include <string>\n#include <vector>\nusing namespace std;\n\nint hexValue(char ch) {\n    if (ch >= '0' && ch <= '9') return ch - '0';\n    if (ch >= 'A' && ch <= 'F') return ch - 'A' + 10;\n    return ch - 'a' + 10;\n}\n\nchar toHexDigit(int x) {\n    return x < 10 ? static_cast<char>('0' + x) : static_cast<char>('A' + x - 10);\n}\n\nstring toHexByte(int x) {\n    string s;\n    s += toHexDigit(x / 16);\n    s += toHexDigit(x % 16);\n    return s;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    vector<vector<int>> image(n);\n    vector<int> freq(256, 0);\n    for (int i = 0; i < n; ++i) {\n        string row;\n        cin >> row;\n        int m = static_cast<int>(row.size()) / 2;\n        image[i].resize(m);\n        for (int j = 0; j < m; ++j) {\n            int value = hexValue(row[2 * j]) * 16 + hexValue(row[2 * j + 1]);\n            image[i][j] = value;\n            ++freq[value];\n        }\n    }\n\n    vector<int> values(256);\n    for (int i = 0; i < 256; ++i) values[i] = i;\n    sort(values.begin(), values.end(), [&](int a, int b) {\n        if (freq[a] != freq[b]) return freq[a] > freq[b];\n        return a < b;\n    });\n\n    vector<int> keep(values.begin(), values.begin() + 16);\n    for (int x : keep) cout << toHexByte(x);\n    cout << \"\\n\";\n\n    vector<int> rankOf(256, -1);\n    for (int i = 0; i < 16; ++i) rankOf[keep[i]] = i;\n\n    for (const auto& row : image) {\n        for (int pixel : row) {\n            int bestIndex = 0;\n            int bestDiff = abs(pixel - keep[0]);\n            for (int i = 1; i < 16; ++i) {\n                int diff = abs(pixel - keep[i]);\n                if (diff < bestDiff || (diff == bestDiff && i < bestIndex)) {\n                    bestDiff = diff;\n                    bestIndex = i;\n                }\n            }\n            cout << toHexDigit(bestIndex);\n        }\n        cout << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 1,
+        "verified_at": "2026-07-07T16:33:52.217Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-03:cxx:level-2:programming:01:cn7knly65yc7htotc1nz",
+      "title": "百鸡问题",
+      "algorithm": "枚举公鸡数和母鸡数",
+      "complexity": "O(m^2)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int x, y, z, n, m;\n    cin >> x >> y >> z >> n >> m;\n    int answer = 0;\n    for (int rooster = 0; rooster <= m; ++rooster) {\n        for (int hen = 0; rooster + hen <= m; ++hen) {\n            int chick = m - rooster - hen;\n            if (chick % z != 0) continue;\n            if (rooster * x + hen * y + chick / z == n) {\n                ++answer;\n            }\n        }\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:52.804Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-03:cxx:level-2:programming:02:eshp4smw94tfn9dyz0pb",
+      "title": "画三角形",
+      "algorithm": "直接模拟",
+      "complexity": "O(n^2)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int n;\n    cin >> n;\n    int cur = 0;\n    for (int i = 1; i <= n; ++i) {\n        for (int j = 0; j < i; ++j) {\n            cout << char('A' + cur);\n            cur = (cur + 1) % 26;\n        }\n        cout << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:54.086Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-03:cxx:level-1:programming:01:bqqig3f2zgd8ja6rtt5n",
+      "title": "长方形面积",
+      "algorithm": "枚举因子",
+      "complexity": "O(sqrt(A))",
+      "code": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int area;\n    cin >> area;\n    int answer = 0;\n    for (int width = 1; 1LL * width * width <= area; ++width) {\n        if (area % width == 0) ++answer;\n    }\n    cout << answer << \"\\n\";\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:57.104Z"
+      }
+    },
+    {
+      "canonical_problem_id": "wanjuanwang:2023-03:cxx:level-1:programming:02:e27ibiwnig4za492lkg7",
+      "title": "每月天数",
+      "algorithm": "按月份分类并判断闰年",
+      "complexity": "O(1)",
+      "code": "#include <iostream>\nusing namespace std;\nint main() {\n    int year, month;\n    cin >> year >> month;\n    if (month == 2) {\n        bool leap = (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);\n        cout << (leap ? 29 : 28) << \"\\n\";\n    } else if (month == 4 || month == 6 || month == 9 || month == 11) {\n        cout << 30 << \"\\n\";\n    } else {\n        cout << 31 << \"\\n\";\n    }\n    return 0;\n}",
+      "verification": {
+        "status": "sample_passed",
+        "sample_count": 2,
+        "verified_at": "2026-07-07T16:33:58.811Z"
+      }
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "id": "PLN-20260706-wanjuanwang-gesp-cpp",
+  "created_at": "2026-07-06T00:00:00+08:00",
+  "scope": "standalone",
+  "topic": "WanJuanWang GESP C++ ingestion and UI integration",
+  "source": {
+    "blueprint": ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05",
+    "context_package": ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05/context-package.json"
+  },
+  "summary": "Implement a C++-only GESP ingestion flow for public WanJuanWang exam pages, persist question records into the existing catalog, classify programming questions into workbench domains, and add selection/judgment navigation views without breaking the current classification-first IA.",
+  "approach": [
+    "Add a WanJuanWang-specific C++ GESP discovery and parsing script that outputs a replayable JSON artifact before any DB write.",
+    "Normalize parsed questions into existing catalog JSON shapes and upsert them into MySQL with review-required provenance.",
+    "Extend classification for C++ GESP questions using existing knowledge/domain seeds and explicit third-party source confidence rules.",
+    "Add filtered GESP routes and navigation entries for selection and judgment, while leaving programming questions inside the algorithm workbench flow.",
+    "Validate page counts, field completeness, and DB/API/UI visibility through dry-run and post-write checks."
+  ],
+  "task_ids": [
+    "TASK-101",
+    "TASK-102",
+    "TASK-103",
+    "TASK-104",
+    "TASK-105"
+  ],
+  "waves": [
+    {
+      "wave": 1,
+      "phase_label": "crawler-and-artifact",
+      "tasks": [
+        "TASK-101"
+      ]
+    },
+    {
+      "wave": 2,
+      "phase_label": "persistence-and-classification",
+      "tasks": [
+        "TASK-102",
+        "TASK-103"
+      ]
+    },
+    {
+      "wave": 3,
+      "phase_label": "frontend-integration",
+      "tasks": [
+        "TASK-104"
+      ]
+    },
+    {
+      "wave": 4,
+      "phase_label": "verification-and-rollback",
+      "tasks": [
+        "TASK-105"
+      ]
+    }
+  ],
+  "confidence": {
+    "overall": 0.89,
+    "readiness_gate": "pass",
+    "factors": {
+      "requirements_clarity": 0.94,
+      "codebase_alignment": 0.91,
+      "implementation_surface_known": 0.88,
+      "external_dependency_risk": 0.74,
+      "verification_strength": 0.90
+    },
+    "pressure_pass": "Highest-complexity task is parser plus normalization because upstream HTML structure and third-party provenance rules interact. Existing `problem_details` and `CatalogService` reduce model risk, but parser resilience and image handling remain the main execution pressure point."
+  },
+  "collision_detection": {
+    "status": "non_blocking_clear",
+    "notes": [
+      "No existing standalone plan artifact was found for WanJuanWang GESP C++ ingestion.",
+      "Existing phase plans cover official ingestion, PDF parsing, OJ ingestion, classification and review, but not this third-party source feature."
+    ]
+  },
+  "notes": [
+    "C++ only. No Python, 图形化, Scratch or AtCoder-only scope is included.",
+    "Answers and analysis hidden behind login remain out of scope for scraping.",
+    "WanJuanWang classifications remain `candidate` or `needs_review` unless strengthened by trusted official evidence."
+  ]
+}

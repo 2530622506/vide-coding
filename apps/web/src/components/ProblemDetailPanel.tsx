@@ -7,6 +7,7 @@ import type { ProblemDetailResponse } from "../types";
 import { AnswerBadge, typeLabel } from "./catalogLabels";
 import { HighlightedCppCode } from "./HighlightedCppCode";
 import { ImagePreviewOverlay, type PreviewAsset } from "./ImagePreviewOverlay";
+import { normalizeQuestionMarkdown } from "../utils/questionMarkdown";
 
 const statementMarkdown = new MarkdownIt({
   breaks: true,
@@ -115,7 +116,29 @@ export function ProblemDetailPanel({ loading, problem, onClose, onOpenIde }: {
               renderItem={(option) => (
                 <List.Item className="optionItem">
                   <Tag color="blue">{option.key}</Tag>
-                  <Typography.Text>{option.text}</Typography.Text>
+                  {isImageUrl(option.text) ? (
+                    <Space direction="vertical" size={6}>
+                      <Button
+                        className="optionImageButton actionButton actionButton--detail"
+                        onClick={() => setPreviewAsset({
+                          id: `option-${problem.id}-${option.key}`,
+                          asset_url: toRenderableAssetUrl(option.text),
+                          alt_text: `${problem.title} 选项 ${option.key}`,
+                          source_url: detail.statement.source_url,
+                          source_page: detail.statement.source_page
+                        })}
+                        type="text"
+                      >
+                        <Image alt={`${problem.title} 选项 ${option.key}`} preview={false} src={toRenderableAssetUrl(option.text)} />
+                      </Button>
+                      {option.ocr_text ? <Typography.Text type="secondary">OCR：{option.ocr_text}</Typography.Text> : null}
+                      {option.ocr_error ? <Typography.Text type="secondary">OCR 失败：{option.ocr_error}</Typography.Text> : null}
+                    </Space>
+                  ) : (
+                    <div className="optionMarkdown">
+                      <MarkdownText value={option.text} />
+                    </div>
+                  )}
                 </List.Item>
               )}
             />
@@ -130,8 +153,12 @@ export function ProblemDetailPanel({ loading, problem, onClose, onOpenIde }: {
           <Space className="assetList" direction="vertical" size={10}>
             {detail.visual_assets.assets.map((asset) => (
               <Card className="assetItem" key={asset.id} size="small">
-                <Button className="assetPreviewButton actionButton actionButton--detail" onClick={() => setPreviewAsset(asset)} type="text">
-                  <Image alt={asset.alt_text} preview={false} src={asset.asset_url} />
+                <Button
+                  className="assetPreviewButton actionButton actionButton--detail"
+                  onClick={() => setPreviewAsset({ ...asset, asset_url: toRenderableAssetUrl(asset.asset_url) })}
+                  type="text"
+                >
+                  <Image alt={asset.alt_text} preview={false} src={toRenderableAssetUrl(asset.asset_url)} />
                 </Button>
                 <Typography.Text type="secondary">{asset.alt_text}</Typography.Text>
               </Card>
@@ -199,6 +226,23 @@ function uniqueSourceLinks<T extends { url?: string | null; source_url?: string 
   });
 }
 
+function isImageUrl(value: string) {
+  const text = String(value || "");
+  return /^https?:\/\/.+\.(png|jpe?g|gif|webp|svg|image)(?:\?.*)?$/i.test(text)
+    || /^https?:\/\/image\.wanjuanwang\.com\/images\/.+/i.test(text);
+}
+
+function toRenderableAssetUrl(value: string) {
+  const text = String(value || "").trim();
+  if (!isImageUrl(text)) {
+    return text;
+  }
+  if (/^https?:\/\/(?:www\.)?wanjuanwang\.com\//i.test(text) || /^https?:\/\/image\.wanjuanwang\.com\//i.test(text)) {
+    return `/api/catalog/assets/remote?url=${encodeURIComponent(text)}`;
+  }
+  return text;
+}
+
 function DetailSection({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) {
   return (
     <section className="detailSection">
@@ -238,11 +282,12 @@ function StatementBlock({ detail }: { detail: NonNullable<ProblemDetailResponse[
 
 function MarkdownText({ value }: { value: string }) {
   const html = useMemo(() => {
-    const normalized = value
-      .replace(/^:::[^\n]*(?:\n|$)/gm, "")
-      .replace(/^:::$/gm, "")
-      .trim();
-    return statementMarkdown.render(normalized);
+    const normalized = normalizeQuestionMarkdown(value);
+    const proxied = normalized.replace(
+      /!\[([^\]]*)]\((https?:\/\/image\.wanjuanwang\.com\/images\/\S+|https?:\/\/\S+\.(?:png|jpe?g|gif|webp|svg|image)(?:\?\S*)?)\)/gim,
+      (_match, alt, url) => `![${alt}](${toRenderableAssetUrl(url)})`
+    );
+    return statementMarkdown.render(proxied);
   }, [value]);
 
   return <div className="markdownBody" dangerouslySetInnerHTML={{ __html: html }} />;

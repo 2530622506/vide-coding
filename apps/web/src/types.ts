@@ -61,7 +61,7 @@ export type ProblemDetail = {
   };
   choice_options: {
     status: "pending_collection" | "source_extracted" | "needs_review" | "standard_binary" | "not_applicable";
-    options: Array<{ key: string; text: string; source_status: string }>;
+    options: Array<{ key: string; text: string; source_status: string; ocr_text?: string; ocr_error?: string | null }>;
     extraction_method?: string;
     notes: string[];
   };
@@ -187,6 +187,8 @@ export type LevelCatalog = {
   generated_at: string;
   level: number;
   language: "C++";
+  question_type?: "selection" | "judgment" | "programming" | null;
+  source_kind?: string | null;
   summary: {
     problem_count: number;
     status_counts: StatusCounts;

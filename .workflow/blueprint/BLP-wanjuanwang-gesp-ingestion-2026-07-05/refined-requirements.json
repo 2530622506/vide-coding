@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "session_id": "BLP-wanjuanwang-gesp-ingestion-2026-07-05",
+  "generated_at": "2026-07-05T00:00:00+08:00",
+  "confirmed_features": [
+    {
+      "id": "F-001",
+      "name": "万卷网 GESP C++ 1-8 级试卷发现",
+      "summary": "从用户给定页面和相关试卷区发现 2025 年 6 月 C++ 1-8 级试卷页面，并支持显式 URL 白名单配置。"
+    },
+    {
+      "id": "F-002",
+      "name": "按试卷题型解析题目",
+      "summary": "按单选题、判断题、编程题章节解析题号、题干、代码块、选项、样例、图片、详情链接和页面知识点。"
+    },
+    {
+      "id": "F-003",
+      "name": "结构化入库与幂等更新",
+      "summary": "将采集结果转为 classification_records、problem_details、problem_answer_guidance、source_versions 和审计元数据。"
+    },
+    {
+      "id": "F-004",
+      "name": "知识点与算法位置映射",
+      "summary": "基于题干、样例、现有分类 seed 和官方大纲进行候选算法范畴、题型、知识点标注，保留证据和复核状态。"
+    },
+    {
+      "id": "F-005",
+      "name": "前端题型导航",
+      "summary": "左侧 GESP 导航新增选择题、判断题；编程题继续在练习工作台按算法范畴展示，并可进入 IDE。"
+    },
+    {
+      "id": "F-006",
+      "name": "合规和回滚",
+      "summary": "不绕过登录权限，不采集不可公开答案解析；所有第三方来源内容可审计、可复核、可按 source_id 回滚。"
+    }
+  ],
+  "non_functional_requirements": [
+    "爬虫 MUST 支持 dry-run，输出计数、重复率、缺字段、图片下载状态和入库预览。",
+    "入库 MUST 幂等：同一 session、level、question_type、question_number、wanjuan questionid 重复运行不得产生重复题。",
+    "所有来源数据 MUST 带 source_url、source_id、fetched_at、content_hash、trust_level、review_status。",
+    "前端新增入口 MUST 与当前 WorkbenchLayout、App 路由和返回上下文兼容。",
+    "数据库失败时 SHOULD 保留 JSON artifact 供后续 seed 或排查。"
+  ],
+  "boundaries": {
+    "in_scope": [
+      "GESP C++ 1-8 级、单选题、判断题、编程题",
+      "公开 HTML 内容中的题干、选项、代码块、样例、图片链接和页面知识点",
+      "MySQL 入库与 JSON 中间产物",
+      "选择题/判断题导航与编程题工作台归类",
+      "来源审计、复核队列和回滚清单"
+    ],
+    "out_of_scope": [
+      "绕过登录、付费、次数限制或权限提示采集答案解析",
+      "抓取非 GESP C++ 或非用户指定考试周期的海量页面",
+      "自动确认第三方题目为官方真题",
+      "自动生成或公开未经复核的标准答案"
+    ]
+  },
+  "assumptions": [
+    "用户给定页面及其相关试卷链接包含 2025 年 6 月 GESP C++ 1-8 级。",
+    "万卷网页面 HTML 结构在本次采集周期内基本稳定。",
+    "现有 MySQL schema 可承载主要字段；如需要可通过 JSON 字段先兼容新增元数据。",
+    "选择题和判断题入口是题型过滤视图，而不是新建独立题库。"
+  ]
+}

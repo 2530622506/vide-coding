@@ -29,8 +29,16 @@ export function fetchLevels() {
   return fetchJson<{ levels: LevelSummary[] }>("/catalog/levels");
 }
 
-export function fetchLevelCatalog(level: number) {
-  return fetchJson<LevelCatalog>(`/catalog/levels/${level}`);
+export function fetchLevelCatalog(level: number, questionType?: "selection" | "judgment" | "programming", sourceKind?: string) {
+  const params = new URLSearchParams();
+  if (questionType) {
+    params.set("question_type", questionType);
+  }
+  if (sourceKind) {
+    params.set("source_kind", sourceKind);
+  }
+  const search = params.size ? `?${params.toString()}` : "";
+  return fetchJson<LevelCatalog>(`/catalog/levels/${level}${search}`);
 }
 
 export function fetchProblem(problemId: string) {

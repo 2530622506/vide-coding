@@ -1,0 +1,16 @@
+{
+  "plans": [
+    {
+      "id": "PLN-20260706-wanjuanwang-gesp-cpp",
+      "scope": "standalone",
+      "topic": "WanJuanWang GESP C++ ingestion and UI integration",
+      "plan_path": ".workflow/scratch/20260706-plan-wanjuanwang-gesp-cpp/plan.json",
+      "task_dir": ".workflow/scratch/20260706-plan-wanjuanwang-gesp-cpp/.task",
+      "task_count": 5,
+      "created_at": "2026-07-06T00:00:00+08:00",
+      "execution_status": "pending",
+      "completed_task_count": 0,
+      "context_package": ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05/context-package.json"
+    }
+  ]
+}

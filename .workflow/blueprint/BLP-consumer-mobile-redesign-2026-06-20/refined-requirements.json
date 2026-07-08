@@ -1,0 +1,44 @@
+{
+  "session_id": "BLP-consumer-mobile-redesign-2026-06-20",
+  "confirmed_features": [
+    "基于 5 屏 PNG/HTML 原型重构 C 端移动页面",
+    "首页展示今日建议、继续学习、题库入口、知识点进度",
+    "题库页支持 GESP 等级、知识点/算法范畴、题型筛选和推荐题目列表",
+    "题目页展示题干、选项/样例、解题线索、参考代码入口、收藏动作",
+    "进度页展示本周概览、掌握度、薄弱知识点、最近动作",
+    "我的页展示学习档案、收藏夹、复习计划",
+    "后端提供页面级聚合接口和明确的进度/收藏/复习事件模型",
+    "修复当前接口字段不足或语义不稳定的问题"
+  ],
+  "non_functional_requirements": [
+    "移动端 390px 宽度无横向滚动，底部导航不遮挡核心内容",
+    "接口响应在本地数据量下 P95 小于 800ms",
+    "进度事件写入幂等，MySQL 不可用时可降级但要显式标记 data_source",
+    "用户 key 不包含敏感信息，并限制为安全字符",
+    "所有新 API 合同有验证脚本或单元测试覆盖"
+  ],
+  "boundaries": {
+    "must_keep": [
+      "现有 GESP 分类目录主线",
+      "AtCoder 独立专区",
+      "现有移动入口探测逻辑",
+      "本地 anonymous/user-key 进度模型"
+    ],
+    "may_change": [
+      "ConsumerMobilePage 组件结构",
+      "ConsumerMobileViews 页面拆分",
+      "ConsumerMobileData 类型",
+      "consumer-mobile service 返回模型"
+    ],
+    "must_not_change": [
+      "管理端页面主信息架构",
+      "已完成的官方来源/分类数据语义"
+    ]
+  },
+  "assumptions": [
+    "本次重构优先服务移动浏览器，不要求桌面 C 端宽屏适配。",
+    "用户暂时通过 localStorage 生成的 x-consumer-user-key 识别，不引入登录。",
+    "复习计划可由后端规则生成，不需要 LLM 实时生成。",
+    "参考代码入口继续复用现有 code view 或 IDE 入口，不新增在线判题。"
+  ]
+}

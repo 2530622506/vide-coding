@@ -1,0 +1,5 @@
+id,result_status,findings,files_modified,error
+"1","completed","Existing scripts and detail JSON support question stems, options, assets, samples and source links; new work should extend scripts/ rather than add a parallel subsystem.","",""
+"2","completed","CatalogService and seed scripts already accept level 1-8, selection/judgment/programming and MySQL-first upsert patterns via shared JSON shapes.","",""
+"3","completed","WorkbenchLayout and App routing are the insertion points; filtered GESP views can reuse existing list/detail patterns without replacing the algorithm-domain workbench.","",""
+"4","completed","Plan generated as standalone implementation sequence for C++ GESP only.",".workflow/scratch/20260706-plan-wanjuanwang-gesp-cpp/plan.json;.workflow/scratch/20260706-plan-wanjuanwang-gesp-cpp/.task/TASK-101.json;.workflow/scratch/20260706-plan-wanjuanwang-gesp-cpp/.task/TASK-102.json;.workflow/scratch/20260706-plan-wanjuanwang-gesp-cpp/.task/TASK-103.json;.workflow/scratch/20260706-plan-wanjuanwang-gesp-cpp/.task/TASK-104.json;.workflow/scratch/20260706-plan-wanjuanwang-gesp-cpp/.task/TASK-105.json",""

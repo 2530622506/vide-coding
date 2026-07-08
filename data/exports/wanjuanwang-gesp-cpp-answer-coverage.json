@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-07T16:34:13.683Z",
+  "generator": "scripts/export-wanjuanwang-gesp-cpp-answer-coverage.mjs",
+  "inputs": {
+    "catalog": "data/classification/wanjuanwang-gesp-cpp-problems.json"
+  },
+  "summary": {
+    "total_questions": 1836,
+    "generated_answer_count": 1832,
+    "generated_answer_rate": 0.9978,
+    "by_question_type": {
+      "selection": {
+        "total": 1020,
+        "generated": 1016,
+        "rate": 0.9961
+      },
+      "judgment": {
+        "total": 680,
+        "generated": 680,
+        "rate": 1
+      },
+      "programming": {
+        "total": 136,
+        "generated": 136,
+        "rate": 1
+      }
+    }
+  }
+}

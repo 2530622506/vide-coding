@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "session_id": "BLP-wanjuanwang-gesp-ingestion-2026-07-05",
+  "terms": [
+    {
+      "canonical": "万卷网题源",
+      "aliases": ["WanJuanWang Source", "wanjuanwang"],
+      "category": "technical",
+      "definition": "从 wanjuanwang.com 公开 HTML 页面采集的第三方 GESP 试卷来源，默认 trust_level 为 needs_review 或 secondary。"
+    },
+    {
+      "canonical": "试卷章节",
+      "aliases": ["section", "题型章节"],
+      "category": "core",
+      "definition": "万卷网页面中按单选题、判断题、编程题划分的题目容器，用于映射 question_type。"
+    },
+    {
+      "canonical": "题目详情",
+      "aliases": ["ProblemDetail", "detail_json"],
+      "category": "technical",
+      "definition": "系统中承载题干、选项、图片、样例、编程题解和来源链接的结构化 JSON。"
+    },
+    {
+      "canonical": "知识点标签",
+      "aliases": ["knowledge point", "resolved_knowledge_point_tags"],
+      "category": "core",
+      "definition": "题目涉及的语言、算法或数据结构概念，必须带来源证据、置信度和复核状态。"
+    },
+    {
+      "canonical": "算法范畴",
+      "aliases": ["algorithm domain", "resolved_algorithm_domains"],
+      "category": "core",
+      "definition": "练习工作台左侧域内分类的算法领域，例如基础程序设计、字符串、图论、动态规划等。"
+    },
+    {
+      "canonical": "幂等入库",
+      "aliases": ["idempotent ingestion"],
+      "category": "technical",
+      "definition": "同一来源题目重复采集和落库时只更新同一 canonical_problem_id，不产生重复记录。"
+    },
+    {
+      "canonical": "来源版本",
+      "aliases": ["source_versions"],
+      "category": "technical",
+      "definition": "题目与外部来源之间的证据记录，包含 source_kind、source_id、source_url、hash、抓取时间和审核状态。"
+    },
+    {
+      "canonical": "题型导航",
+      "aliases": ["question type navigation"],
+      "category": "business",
+      "definition": "左侧导航中按选择题、判断题快速进入对应过滤视图的入口，补充但不替代分类目录优先结构。"
+    }
+  ]
+}

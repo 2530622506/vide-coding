@@ -1,0 +1,118 @@
+{
+  "session_id": "BLP-wanjuanwang-gesp-ingestion-2026-07-05",
+  "seed_input": "爬取 https://www.wanjuanwang.com/kjjs/mdlv4f9xobi8thv2uy1o.html 及相关 GESP C++ 1-8 级试卷，按单选题、判断题、编程题结构化入库；选择题/判断题新增左侧导航入口；编程题回填到 GESP 练习工作台对应算法位置。",
+  "input_type": "text",
+  "timestamp": "2026-07-05T00:00:00+08:00",
+  "mode": "auto",
+  "complexity": "complex",
+  "depth": "comprehensive",
+  "focus_areas": [
+    "wanjuanwang HTML crawler",
+    "GESP level 1-8 structured ingestion",
+    "question type navigation",
+    "knowledge point classification",
+    "MySQL persistence",
+    "source provenance and copyright guardrails"
+  ],
+  "spec_type": "platform",
+  "iteration_count": 0,
+  "iteration_history": [],
+  "seed_analysis": {
+    "problem_statement": "现有 GESP 练习工作台已有等级、算法范畴、题型、知识点和 MySQL 落库链路，但来自万卷网的 2025 年 6 月 GESP C++ 1-8 级试卷尚未作为结构化题源接入。系统需要采集公开可见的题干、选项、样例、图片和知识点，按等级与试卷题型入库，并在前端把选择题、判断题与编程题呈现在符合用户预期的位置。",
+    "target_users": [
+      "GESP 备考学生",
+      "GESP 教学老师",
+      "题库内容维护者"
+    ],
+    "domain": "GESP C++ 题库采集、分类、练习工作台",
+    "constraints": [
+      "GESP 等级与官方知识点范围优先以官方大纲、官方真题和官方样题为准；万卷网属于辅助题源或镜像来源，不能覆盖官方结论。",
+      "万卷网答案解析对未登录用户不可见，爬虫 MUST 不绕过登录、付费、次数或权限限制。",
+      "题面、图片和样例的保存 MUST 带来源、hash、抓取时间和版权复核状态。",
+      "新增功能 MUST 兼容现有 classification_records、problem_details、problem_answer_guidance、source_versions 表和 JSON fallback 数据结构。",
+      "左侧导航新增选择题、判断题入口时 MUST 保留当前 GESP 分类目录优先的信息架构。"
+    ],
+    "dimensions": [
+      "采集范围与来源发现",
+      "HTML 解析与资产处理",
+      "知识点与算法分类",
+      "数据库入库与幂等更新",
+      "前端导航与练习工作台集成",
+      "合规、审计和回滚"
+    ]
+  },
+  "has_codebase": true,
+  "external_research": {
+    "target_url": "https://www.wanjuanwang.com/kjjs/mdlv4f9xobi8thv2uy1o.html",
+    "observed_title": "2025年6月CCF—GESP（C++七级）编程能力等级认证试卷-万卷网",
+    "observed_structure": {
+      "server_rendered_html": true,
+      "sections": [
+        "一、单选题",
+        "判断题",
+        "编程题"
+      ],
+      "question_node_selector": ".tk-quest-item[questionid]",
+      "content_selector": ".exam-item__cnt",
+      "options_selector": "table[name='optionsTable']",
+      "knowledge_selector": ".knowledge-name",
+      "detail_link_selector": ".show-btn[href^='/tiku/']",
+      "image_host": "image.wanjuanwang.com",
+      "answer_access": "未登录不可见"
+    },
+    "related_level_links_observed": [
+      "https://www.wanjuanwang.com/kjjs/f3to1m2mof4awjqjbp5f.html",
+      "https://www.wanjuanwang.com/kjjs/s7dxbha6ourru8dfzf7n.html",
+      "https://www.wanjuanwang.com/kjjs/ai7pgdm7oufs4zwd0qlv.html",
+      "https://www.wanjuanwang.com/kjjs/brxqpqw5ok22s1tb0rig.html",
+      "https://www.wanjuanwang.com/kjjs/ib43z6knokctht280nsu.html",
+      "https://www.wanjuanwang.com/kjjs/zjwz7wtuoks577nuumr9.html",
+      "https://www.wanjuanwang.com/kjjs/mdlv4f9xobi8thv2uy1o.html",
+      "https://www.wanjuanwang.com/kjjs/ee42euqtobtl1f6zubkx.html"
+    ]
+  },
+  "phasesCompleted": [
+    {
+      "phase": 1,
+      "name": "discovery",
+      "output_file": "blueprint-config.json",
+      "completed_at": "2026-07-05T00:00:00+08:00"
+    },
+    {
+      "phase": 1.5,
+      "name": "requirement-expansion",
+      "output_file": "refined-requirements.json",
+      "completed_at": "2026-07-05T00:00:00+08:00"
+    },
+    {
+      "phase": 2,
+      "name": "product-brief",
+      "output_file": "product-brief.md",
+      "completed_at": "2026-07-05T00:00:00+08:00"
+    },
+    {
+      "phase": 3,
+      "name": "requirements",
+      "output_file": "requirements/_index.md",
+      "completed_at": "2026-07-05T00:00:00+08:00"
+    },
+    {
+      "phase": 4,
+      "name": "architecture",
+      "output_file": "architecture/_index.md",
+      "completed_at": "2026-07-05T00:00:00+08:00"
+    },
+    {
+      "phase": 5,
+      "name": "epics",
+      "output_file": "epics/_index.md",
+      "completed_at": "2026-07-05T00:00:00+08:00"
+    },
+    {
+      "phase": 6,
+      "name": "readiness",
+      "output_file": "readiness-report.md",
+      "completed_at": "2026-07-05T00:00:00+08:00"
+    }
+  ]
+}

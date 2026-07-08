@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "session_id": "BLP-wanjuanwang-gesp-ingestion-2026-07-05",
+  "generated_at": "2026-07-05T00:00:00+08:00",
+  "relevant_files": [
+    {
+      "path": "infra/mysql/schema.sql",
+      "reason": "现有 MySQL 表包含 classification_records、problem_details、problem_answer_guidance、source_versions，可作为万卷网题目落库主路径。"
+    },
+    {
+      "path": "scripts/seed-mysql-catalog.mjs",
+      "reason": "现有 seed 脚本展示了分类记录、详情、答案指导、来源版本的批量入库模式。"
+    },
+    {
+      "path": "scripts/build-problem-details.mjs",
+      "reason": "现有题面、选项、图片、样例、编程题解字段模型可复用。"
+    },
+    {
+      "path": "scripts/extract-problem-types-knowledge.mjs",
+      "reason": "现有知识点与题型抽取采用 seed + override + evidence，可承接万卷网 HTML 题干。"
+    },
+    {
+      "path": "apps/api/src/catalog.service.ts",
+      "reason": "后端已支持 1-8 级、selection/judgment/programming、MySQL 优先和 JSON fallback。"
+    },
+    {
+      "path": "apps/web/src/layout/WorkbenchLayout.tsx",
+      "reason": "左侧导航当前包含练习工作台、知识覆盖、来源证据、题目维护，需要新增选择题和判断题入口。"
+    },
+    {
+      "path": "apps/web/src/pages/gesp/GespPages.tsx",
+      "reason": "GESP 工作台当前按等级、算法范畴、题型、知识点展示，编程题可进入 IDE。"
+    },
+    {
+      "path": "apps/web/src/App.tsx",
+      "reason": "路由当前覆盖 /、/coverage、/sources、/maintenance、/gesp/problems/:id 和 /ide/:id，需要扩展题型入口。"
+    },
+    {
+      "path": "apps/web/src/types.ts",
+      "reason": "前端类型已表达 ProblemDetail、choice_options、visual_assets、sample_cases。"
+    }
+  ],
+  "existing_patterns": [
+    "分类目录优先：level -> algorithm domain -> problem type -> problems -> knowledge points。",
+    "来源可信度分层：官方优先，第三方镜像或训练题源只能作为辅助证据。",
+    "MySQL 为主、JSON fallback 为备。",
+    "问题详情使用 detail_json 承载题面 sections、选项、图片资产、样例和编程题解。",
+    "人工维护内容默认 needs_review，不直接升级为 confirmed。"
+  ],
+  "target_site_observations": [
+    "目标页面为服务端渲染 HTML，公开页面可直接抓取题干、选项、样例、图片 URL、题目详情链接和页面知识点。",
+    "页面标题和 breadcrumb 可推断 session、language、level。",
+    "右侧相关试卷列出同一考试周期 1-8 级页面链接，可作为发现入口，但必须允许配置白名单以避免误抓。",
+    "题目节点带 questionid，可作为第三方来源 ID 和幂等键的一部分。",
+    "答案解析区域未登录显示权限提示，MUST 不绕过权限。"
+  ],
+  "tech_stack": {
+    "frontend": "React + Ant Design + lucide-react",
+    "backend": "NestJS",
+    "database": "MySQL",
+    "crawler": "Node.js fetch + HTML parser; Python may be fallback if Node parser fails",
+    "assets": "file/object storage style metadata; avoid raw BLOB storage"
+  },
+  "risks": [
+    "第三方站点版权和用户上传来源不确定，完整题面展示需要来源状态标注和可回滚策略。",
+    "答案解析不可公开访问，入库字段不能把答案设为必填。",
+    "万卷网知识点当前较粗，通常只有 CCF-GESP C++七级等等级标签，需要结合现有分类器和官方大纲推断算法知识点。",
+    "编程题归类若涉及 DP 等越级知识点，需要遵循现有 syllabus_fit 与 review_queue 机制。"
+  ]
+}

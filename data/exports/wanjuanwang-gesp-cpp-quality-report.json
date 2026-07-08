@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-07T08:01:29.474Z",
+  "generator": "scripts/export-wanjuanwang-gesp-cpp-quality-report.mjs",
+  "inputs": {
+    "ingestion": "data/wanjuanwang-ingestion/wanjuanwang-gesp-cpp-exams.json",
+    "catalog": "data/classification/wanjuanwang-gesp-cpp-problems.json"
+  },
+  "expected_question_shape": {
+    "total": 27,
+    "selection": 15,
+    "judgment": 10,
+    "programming": 2
+  },
+  "summary": {
+    "total_pages": 68,
+    "total_questions": 1836,
+    "selection_questions": 1020,
+    "judgment_questions": 680,
+    "programming_questions": 136,
+    "catalog_records": 1836,
+    "catalog_problem_details": 1836,
+    "catalog_answer_guidance": 1836,
+    "catalog_source_versions": 1836,
+    "page_shape_issue_count": 0,
+    "missing_catalog_record_count": 0,
+    "missing_stem_count": 0,
+    "empty_renderable_statement_count": 0,
+    "selection_missing_options_count": 0,
+    "selection_incomplete_options_count": 0,
+    "selection_empty_option_count": 0,
+    "selection_bad_key_count": 0,
+    "judgment_bad_option_count": 0,
+    "judgment_empty_option_count": 0,
+    "programming_missing_samples_count": 1,
+    "programming_missing_sections_count": 0,
+    "programming_empty_section_count": 0,
+    "image_option_count": 67,
+    "markdown_image_statement_count": 0
+  },
+  "completeness_gate": "fail",
+  "issue_samples": [
+    {
+      "kind": "programming_missing_samples",
+      "id": "wanjuanwang:2023-03:cxx:level-1:programming:01:bqqig3f2zgd8ja6rtt5n",
+      "source_url": "https://www.wanjuanwang.com/kjjs/2ut8obe5osdpzd6vn9bk.html",
+      "summary": "编程题缺少样例输入输出。",
+      "evidence": {
+        "detail_url": "https://www.wanjuanwang.com/tiku/bqqig3f2zgd8ja6rtt5n.html",
+        "screenshot_path": "data/exports/wanjuanwang-source-screenshots/wanjuanwang-2023-03-level1-programming-truncated-source.png",
+        "note": "万卷网公开详情页本身截断，页面只显示到“输入一行，包含一个整数”。"
+      }
+    }
+  ]
+}

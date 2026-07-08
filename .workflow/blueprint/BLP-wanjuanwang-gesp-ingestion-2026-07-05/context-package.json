@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "session_id": "BLP-wanjuanwang-gesp-ingestion-2026-07-05",
+  "type": "blueprint",
+  "created_at": "2026-07-05T00:00:00+08:00",
+  "summary": "WanJuanWang GESP C++ 1-8 level ingestion, persistence and UI integration blueprint.",
+  "requirements": [
+    "Discover and crawl WanJuanWang GESP C++ level 1-8 pages for the configured session.",
+    "Parse selection, judgment and programming sections into structured question records.",
+    "Persist records into existing MySQL catalog tables with source provenance and idempotency.",
+    "Infer candidate knowledge points and algorithm domains without overriding official sources.",
+    "Add left navigation for selection and judgment questions.",
+    "Place programming questions in the existing GESP workbench algorithm positions."
+  ],
+  "constraints": [
+    "Do not bypass login, payment, quota or permission controls.",
+    "WanJuanWang is third-party and review-required.",
+    "Official GESP sources remain authoritative.",
+    "Reuse existing catalog architecture where possible."
+  ],
+  "references": [
+    ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05/product-brief.md",
+    ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05/requirements/_index.md",
+    ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05/architecture/_index.md",
+    ".workflow/blueprint/BLP-wanjuanwang-gesp-ingestion-2026-07-05/epics/_index.md"
+  ],
+  "handoff": {
+    "recommended_next": "maestro-plan",
+    "suggested_command": "maestro-plan --from blueprint:BLP-wanjuanwang-gesp-ingestion-2026-07-05"
+  }
+}

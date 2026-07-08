@@ -1,0 +1,53 @@
+{
+  "session_id": "BLP-consumer-mobile-redesign-2026-06-20",
+  "terms": [
+    {
+      "canonical": "C 端移动页",
+      "definition": "面向学习者的移动端浏览体验，由首页、题库、题目、进度、我的五个主要状态组成。",
+      "aliases": ["Consumer Mobile", "移动 C 端"],
+      "category": "core"
+    },
+    {
+      "canonical": "今日建议",
+      "definition": "首页的主任务卡，根据薄弱知识点、最近浏览和收藏复习事件推荐下一步学习动作。",
+      "aliases": ["Today Recommendation", "今日任务"],
+      "category": "business"
+    },
+    {
+      "canonical": "薄弱知识点",
+      "definition": "根据题库分类覆盖、学习事件和复习状态计算出的低掌握度知识点队列。",
+      "aliases": ["Weak Point", "弱项"],
+      "category": "business"
+    },
+    {
+      "canonical": "复习计划",
+      "definition": "由收藏、最近查看和薄弱知识点生成的短期复习任务列表。",
+      "aliases": ["Review Plan", "复习清单"],
+      "category": "core"
+    },
+    {
+      "canonical": "学习事件",
+      "definition": "用户对题目的 view、favorite、review 等行为记录，用于驱动进度和复习体验。",
+      "aliases": ["Progress Event", "行为事件"],
+      "category": "technical"
+    },
+    {
+      "canonical": "页面级聚合模型",
+      "definition": "后端为某个 C 端页面直接返回的稳定数据结构，减少前端散装拼接。",
+      "aliases": ["Page Model", "View Model"],
+      "category": "technical"
+    },
+    {
+      "canonical": "GESP 分类目录",
+      "definition": "以 level -> algorithm domain -> problem type -> problems -> knowledge points 为主线的官方优先题库结构。",
+      "aliases": ["GESP Catalog", "分类目录"],
+      "category": "core"
+    },
+    {
+      "canonical": "AtCoder 独立专区",
+      "definition": "独立于 GESP 等级体系的算法训练题库入口，按难度和算法标签组织。",
+      "aliases": ["AtCoder Track", "AtCoder 题库"],
+      "category": "core"
+    }
+  ]
+}
