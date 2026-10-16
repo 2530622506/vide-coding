@@ -1,0 +1,32 @@
+{
+  "id": "overseas-shopping-web-app",
+  "name": "overseas-shopping-web-app",
+  "title": "面向海外消费者的商品选购 Web 应用技术选型",
+  "description": "规划面向美国消费者的家居与日常生活精选商品选购 Web 应用，确定 React 前端技术栈、MVP 体验与实施/验证方案；当前不开始实现。",
+  "status": "in_progress",
+  "dev_type": null,
+  "scope": null,
+  "package": null,
+  "priority": "P2",
+  "creator": "wjd",
+  "assignee": "wjd",
+  "createdAt": "2026-10-16",
+  "completedAt": null,
+  "branch": null,
+  "base_branch": "main",
+  "worktree_path": null,
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [],
+  "parent": null,
+  "relatedFiles": [
+    "面试题.md",
+    ".trellis/tasks/10-16-overseas-shopping-web-app/prd.md",
+    ".trellis/tasks/10-16-overseas-shopping-web-app/design.md",
+    ".trellis/tasks/10-16-overseas-shopping-web-app/implement.md",
+    ".trellis/tasks/10-16-overseas-shopping-web-app/research/market-ux.md"
+  ],
+  "notes": "",
+  "meta": {}
+}
