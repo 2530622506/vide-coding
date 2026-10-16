@@ -92,7 +92,7 @@ export function CartPage() {
                 return (
                   <motion.div
                     key={`${item.productId}-${item.variantId || 'default'}`}
-                    className="bg-white rounded-xl p-4 md:p-6 flex gap-4 shadow-sm hover:shadow-md transition-shadow"
+                    className="bg-white rounded-xl p-3 md:p-6 flex gap-3 md:gap-4 shadow-sm hover:shadow-md transition-shadow"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 20, height: 0, marginBottom: 0 }}
@@ -102,7 +102,7 @@ export function CartPage() {
                     {/* Product Image */}
                     <Link
                       to={`/products/${product.slug}`}
-                      className="flex-shrink-0 w-24 h-24 md:w-32 md:h-32 bg-neutral-100 rounded-lg overflow-hidden"
+                      className="flex-shrink-0 w-20 h-20 md:w-32 md:h-32 bg-neutral-100 rounded-lg overflow-hidden"
                     >
                       <motion.img
                         src={product.images[0]}
@@ -117,19 +117,19 @@ export function CartPage() {
                     </Link>
 
                     {/* Product Info */}
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 flex flex-col">
                       <Link
                         to={`/products/${product.slug}`}
-                        className="font-medium text-neutral-900 hover:text-primary-600 transition-colors"
+                        className="font-medium text-sm md:text-base text-neutral-900 hover:text-primary-600 transition-colors line-clamp-2"
                       >
                         {product.name}
                       </Link>
-                      <p className="text-sm text-neutral-600 mt-1">
+                      <p className="text-xs md:text-sm text-neutral-600 mt-1">
                         {formatPrice(product.price)}
                       </p>
 
                       {/* Quantity Controls */}
-                      <div className="flex items-center gap-4 mt-4">
+                      <div className="flex items-center gap-2 md:gap-4 mt-3 md:mt-4">
                         <div className="flex items-center border border-neutral-300 rounded-lg overflow-hidden">
                           <motion.button
                             onClick={() =>
@@ -139,7 +139,7 @@ export function CartPage() {
                                 item.variantId
                               )
                             }
-                            className="px-3 py-2 text-neutral-700 hover:bg-neutral-100 transition-colors"
+                            className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-base md:text-lg text-neutral-700 hover:bg-neutral-100 transition-colors active:bg-neutral-200"
                             aria-label="Decrease quantity"
                             whileHover={{ backgroundColor: '#f5f5f4' }}
                             whileTap={{ scale: 0.9 }}
@@ -147,7 +147,7 @@ export function CartPage() {
                             −
                           </motion.button>
                           <motion.span
-                            className="px-4 py-2 text-sm font-medium"
+                            className="min-w-[2rem] md:min-w-[2.5rem] px-2 text-center text-sm md:text-base font-medium"
                             key={item.quantity}
                             initial={{ scale: 1.2, color: '#bfa094' }}
                             animate={{ scale: 1, color: '#000' }}
@@ -163,7 +163,7 @@ export function CartPage() {
                                 item.variantId
                               )
                             }
-                            className="px-3 py-2 text-neutral-700 hover:bg-neutral-100 transition-colors"
+                            className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-base md:text-lg text-neutral-700 hover:bg-neutral-100 transition-colors active:bg-neutral-200"
                             aria-label="Increase quantity"
                             whileHover={{ backgroundColor: '#f5f5f4' }}
                             whileTap={{ scale: 0.9 }}
@@ -174,7 +174,7 @@ export function CartPage() {
 
                         <motion.button
                           onClick={() => removeItem(item.productId, item.variantId)}
-                          className="text-sm text-red-600 hover:text-red-700 transition-colors"
+                          className="text-xs md:text-sm text-red-600 hover:text-red-700 transition-colors whitespace-nowrap"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
@@ -184,9 +184,9 @@ export function CartPage() {
                     </div>
 
                     {/* Item Total */}
-                    <div className="text-right">
+                    <div className="text-right flex-shrink-0">
                       <motion.p
-                        className="font-semibold text-neutral-900"
+                        className="text-sm md:text-base font-semibold text-neutral-900"
                         key={item.quantity}
                         initial={{ scale: 1.1, color: '#bfa094' }}
                         animate={{ scale: 1, color: '#1c1917' }}
