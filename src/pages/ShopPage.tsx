@@ -59,17 +59,27 @@ export function ShopPage() {
 
         <div className="lg:grid lg:grid-cols-4 lg:gap-8">
           {/* Filters Sidebar - Desktop */}
-          <aside className="hidden lg:block lg:col-span-1">
+          <motion.aside
+            className="hidden lg:block lg:col-span-1"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <FilterPanel
               currentFilters={currentFilters}
               updateFilters={updateFilters}
               clearFilters={clearFilters}
               hasActiveFilters={hasActiveFilters}
             />
-          </aside>
+          </motion.aside>
 
           {/* Main Content */}
-          <div className="lg:col-span-3">
+          <motion.div
+            className="lg:col-span-3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
             {/* Mobile Filter Toggle */}
             <div className="flex items-center justify-between mb-6 lg:hidden">
               <Button
@@ -82,16 +92,24 @@ export function ShopPage() {
             </div>
 
             {/* Mobile Filters */}
-            {showFilters && (
-              <div className="lg:hidden mb-6 p-4 bg-white rounded-lg border border-neutral-200">
-                <FilterPanel
-                  currentFilters={currentFilters}
-                  updateFilters={updateFilters}
-                  clearFilters={clearFilters}
-                  hasActiveFilters={hasActiveFilters}
-                />
-              </div>
-            )}
+            <AnimatePresence>
+              {showFilters && (
+                <motion.div
+                  className="lg:hidden mb-6 p-4 bg-white rounded-lg border border-neutral-200"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <FilterPanel
+                    currentFilters={currentFilters}
+                    updateFilters={updateFilters}
+                    clearFilters={clearFilters}
+                    hasActiveFilters={hasActiveFilters}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Search & Sort Bar */}
             <div className="flex flex-col sm:flex-row gap-4 mb-6">
@@ -126,20 +144,37 @@ export function ShopPage() {
 
             {/* Product Grid */}
             {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+              <motion.div
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                {filteredProducts.map((product, index) => (
+                  <motion.div
+                    key={product.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                  >
+                    <ProductCard product={product} />
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             ) : (
-              <div className="text-center py-16">
+              <motion.div
+                className="text-center py-16"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+              >
                 <p className="text-lg text-neutral-600 mb-4">No products found</p>
                 {hasActiveFilters && (
                   <Button onClick={clearFilters}>Clear all filters</Button>
                 )}
-              </div>
+              </motion.div>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
