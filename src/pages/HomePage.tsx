@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button'
 import { products } from '@/data/products'
 import { categories } from '@/data/categories'
 import { formatPrice } from '@/lib/format'
+import { CustomCursor } from '@/components/effects/CustomCursor'
 
 export function HomePage() {
   // Get featured products
@@ -14,6 +15,9 @@ export function HomePage() {
 
   return (
     <div className="min-h-screen">
+      {/* Custom Cursor Effect */}
+      <CustomCursor />
+
       {/* Hero Section with Background */}
       <section className="relative py-32 md:py-48 overflow-hidden">
         {/* Background Image with Parallax Effect */}
