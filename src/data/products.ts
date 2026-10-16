@@ -85,7 +85,7 @@ export const products: Product[] = [
     name: 'Dining Chair Set (4 pieces)',
     category: 'kitchen-dining',
     price: 54900,
-    images: ['https://images.pexels.com/photos/1350778/pexels-photo-1350778.jpeg?auto=compress&cs=tinysrgb&w=800'],
+    images: ['https://images.pexels.com/photos/6489071/pexels-photo-6489071.jpeg?auto=compress&cs=tinysrgb&w=800'],
     shortDescription: 'Comfortable upholstered dining chairs with wooden legs',
     material: 'Fabric',
     colors: ['Charcoal', 'Cream', 'Sage Green'],
