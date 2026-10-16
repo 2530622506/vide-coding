@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { SiteHeader } from '@/components/SiteHeader'
 import { SiteFooter } from '@/components/SiteFooter'
+import { ScrollToTop } from '@/components/ScrollToTop'
 import { HomePage } from '@/pages/HomePage'
 import { ShopPage } from '@/pages/ShopPage'
 import { ProductPage } from '@/pages/ProductPage'
@@ -26,6 +27,7 @@ export function App() {
 
   return (
     <BrowserRouter basename={basename}>
+      <ScrollToTop />
       <div className="flex flex-col min-h-screen">
         <SiteHeader />
         <main className="flex-1">
