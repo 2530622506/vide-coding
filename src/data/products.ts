@@ -2,7 +2,7 @@ import type { Product } from '@/types/product'
 
 /**
  * Mock product data for demonstration
- * Images are placeholder paths - will be replaced with actual Pexels licensed images
+ * Images from Pexels (free stock photos)
  */
 export const products: Product[] = [
   {
@@ -11,7 +11,7 @@ export const products: Product[] = [
     name: 'Modern Fabric Sofa',
     category: 'living-room',
     price: 89900, // $899.00
-    images: ['/images/products/sofa-1.jpg'],
+    images: ['https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg?auto=compress&cs=tinysrgb&w=800'],
     shortDescription: 'Comfortable 3-seater sofa with clean lines and neutral tones',
     description: 'A modern sofa designed for comfort and style. Perfect for contemporary living spaces.',
     material: 'Fabric',
@@ -27,7 +27,7 @@ export const products: Product[] = [
     name: 'Wooden Coffee Table',
     category: 'living-room',
     price: 34900,
-    images: ['/images/products/table-1.jpg'],
+    images: ['https://images.pexels.com/photos/1866149/pexels-photo-1866149.jpeg?auto=compress&cs=tinysrgb&w=800'],
     shortDescription: 'Solid wood coffee table with minimalist design',
     material: 'Wood',
     colors: ['Natural Oak', 'Walnut'],
@@ -42,7 +42,7 @@ export const products: Product[] = [
     name: 'Ceramic Table Lamp',
     category: 'lighting',
     price: 12900,
-    images: ['/images/products/lamp-1.jpg'],
+    images: ['https://images.pexels.com/photos/1112598/pexels-photo-1112598.jpeg?auto=compress&cs=tinysrgb&w=800'],
     shortDescription: 'Elegant ceramic base with linen shade',
     material: 'Ceramic',
     colors: ['White', 'Terracotta'],
@@ -57,7 +57,7 @@ export const products: Product[] = [
     name: 'Cotton Bed Sheets Set',
     category: 'bedroom',
     price: 7900,
-    images: ['/images/products/sheets-1.jpg'],
+    images: ['https://images.pexels.com/photos/1034584/pexels-photo-1034584.jpeg?auto=compress&cs=tinysrgb&w=800'],
     shortDescription: '100% organic cotton, queen size bedding set',
     material: 'Cotton',
     colors: ['White', 'Ivory', 'Light Gray'],
@@ -71,7 +71,7 @@ export const products: Product[] = [
     name: 'Wall Mounted Shelf',
     category: 'home-decor',
     price: 5900,
-    images: ['/images/products/shelf-1.jpg'],
+    images: ['https://images.pexels.com/photos/1457841/pexels-photo-1457841.jpeg?auto=compress&cs=tinysrgb&w=800'],
     shortDescription: 'Floating wooden shelf, perfect for books and decor',
     material: 'Wood',
     colors: ['Natural', 'Black', 'White'],
@@ -85,7 +85,7 @@ export const products: Product[] = [
     name: 'Dining Chair Set (4 pieces)',
     category: 'kitchen-dining',
     price: 54900,
-    images: ['/images/products/chairs-1.jpg'],
+    images: ['https://images.pexels.com/photos/1350778/pexels-photo-1350778.jpeg?auto=compress&cs=tinysrgb&w=800'],
     shortDescription: 'Comfortable upholstered dining chairs with wooden legs',
     material: 'Fabric',
     colors: ['Charcoal', 'Cream', 'Sage Green'],
@@ -99,7 +99,7 @@ export const products: Product[] = [
     name: 'Handcrafted Ceramic Vase',
     category: 'home-decor',
     price: 4900,
-    images: ['/images/products/vase-1.jpg'],
+    images: ['https://images.pexels.com/photos/1358900/pexels-photo-1358900.jpeg?auto=compress&cs=tinysrgb&w=800'],
     shortDescription: 'Artisan ceramic vase with organic shape',
     material: 'Ceramic',
     colors: ['White', 'Terracotta', 'Black'],
@@ -114,7 +114,7 @@ export const products: Product[] = [
     name: 'Luxury Bath Towel Set',
     category: 'bath',
     price: 6900,
-    images: ['/images/products/towels-1.jpg'],
+    images: ['https://images.pexels.com/photos/6585760/pexels-photo-6585760.jpeg?auto=compress&cs=tinysrgb&w=800'],
     shortDescription: 'Premium cotton towels, ultra-absorbent and soft',
     material: 'Cotton',
     colors: ['White', 'Gray', 'Navy'],

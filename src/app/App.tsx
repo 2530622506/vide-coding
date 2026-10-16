@@ -21,8 +21,11 @@ function NotFoundPage() {
 }
 
 export function App() {
+  // 使用环境变量来设置 basename，生产环境使用仓库名
+  const basename = import.meta.env.MODE === 'production' ? '/vide-coding' : '/'
+
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <div className="flex flex-col min-h-screen">
         <SiteHeader />
         <main className="flex-1">
